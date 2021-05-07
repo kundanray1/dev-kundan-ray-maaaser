@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, View, TextInput, Dimensions } from "react-native";
+import React,{useState} from "react";
+import { StyleSheet, View, TextInput, Dimensions,TouchableOpacity } from "react-native";
 import Text from "./Text";
 import * as theme from "../constants/theme";
-
+import * as Icon from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 
 export default Input = ({
@@ -16,7 +16,9 @@ export default Input = ({
   style,
   ...props
 }) => {
-  const inputStyles = [styles.input, full && styles.full, style];
+  const[toggleSecure,setToggleSecure]=useState(false)
+  const isSecure = toggleSecure ? false : password;
+  const inputStyles = [styles.input, full && styles.full,style];
 
   const inputType = email
     ? "email-address"
@@ -26,46 +28,66 @@ export default Input = ({
     ? "phone-pad"
     : "default";
 
+ const renderToggle=()=>{
+        if (!password) return null;
+        return (
+            <TouchableOpacity
+            style={styles.toggle}
+            onPress={() => setToggleSecure(!toggleSecure)}
+            >
+        {password && (
+                <Icon.Ionicons
+                color={theme.colors.solidGray}
+                size={theme.sizes.font * 1.5}
+                name={toggleSecure ? "md-eye" : "md-eye-off"}
+                />
+                )}
+      </TouchableOpacity>
+        );
+    }
   return (
-    <View>
+    <View style={{marginTop:4}}>
       <View style={styles.labelContainer}>
-        <Text caption medium style={styles.label}>
+        <Text bold style={{fontSize:18}}>
           {label}
         </Text>
-        {rightLabel}
       </View>
       <TextInput
         style={inputStyles}
-        secureTextEntry={password}
+        secureTextEntry={isSecure}
         autoCapitalize="none"
         autoCorrect={false}
         keyboardType={inputType}
+        returnKeyType='next'
         {...props}
       />
+      {renderToggle()}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: theme.colors.input,
-    borderWidth: 0.5,
-    borderColor: theme.colors.border,
-    borderRadius: 5,
-    fontSize: theme.sizes.font,
-    color: theme.colors.black,
-    height: 45,
-    paddingVertical: 11,
-    paddingHorizontal: 16,
+    backgroundColor: theme.colors.white,
+    borderColor: theme.colors.solidGray,
+    borderBottomWidth: 1.5,
+    fontSize: theme.sizes.inputFont,
+    color: theme.colors.solidGray,
+    height: 40,
   },
-  label: {
-    textTransform: "uppercase",
-  },
+  
   labelContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8,
   },
+   toggle: {
+        position: "absolute",
+        alignItems: "flex-end",
+        width: theme.sizes.base * 2,
+        height: theme.sizes.base * 1,
+        top: theme.sizes.base * 2,
+        right:0
+    },
   full: {
     width: width - 50,
   },

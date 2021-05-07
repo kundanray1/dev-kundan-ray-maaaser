@@ -1,31 +1,37 @@
 import React from "react";
 import { StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import * as theme from "../constants/theme";
-
+import { LinearGradient } from 'expo-linear-gradient';
 const { width } = Dimensions.get("window");
 
 export default OutlinedButton = ({ style, full, opacity, children, ...props }) => {
   const buttonStyles = [styles.button, full && styles.full, style];
 
   return (
-    <TouchableOpacity
-      style={buttonStyles}
+
+    <LinearGradient colors={[theme.colors.primary1, theme.colors.primary2]} style={buttonStyles}>
+       <TouchableOpacity
       activeOpacity={opacity || 0.8}
+      style={styles.outlinedStyles}
       {...props}
     >
-      {children}
-    </TouchableOpacity>
+       {children}
+       </TouchableOpacity>
+  </LinearGradient>
+    
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: theme.colors.white,
-    borderColor:theme.colors.maroon,
-    borderWidth:1.5,
     borderRadius: 4,
     height: 55,
-    paddingVertical: 11,
+    padding:2,
+  },
+  outlinedStyles: {
+    backgroundColor: theme.colors.white,
+    height: '100%',
+    width: '100%',
     alignItems: "center",
     justifyContent: "center",
   },

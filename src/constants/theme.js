@@ -1,6 +1,8 @@
 const colors = {
-  primary: "#6C63FF",
+  primary1: "#068DD3",
+  primary2: "#0BB3F3",
   blue: "#2E5BFF",
+  solidGray:"#767676",
   lightblue: "#488eff",
   maroon: "#8B0000",
   lightmaroon: "#9b111e",
@@ -18,7 +20,7 @@ const colors = {
   gray2: "#F4F6FC",
   gray3: "#EEF3F5",
   caption: "#B0BAC9",
-  input: "rgba(224, 231, 255, 0.20)", // '#E0E7FF' 20%
+  input: "#333333", // '#E0E7FF' 20%
   border: "#D6DDF6",
   card: "rgba(46,91,255,0.08)",
   shadow: "rgba(46,91,255,0.07)",
@@ -26,6 +28,7 @@ const colors = {
 
 const sizes = {
   font: 15,
+  inputFont:18,
   h1: 48,
   h2: 34,
   h3: 28,
@@ -33,6 +36,7 @@ const sizes = {
   paragraph: 15,
   caption: 13,
   captionMedium: 12,
+  base: 16,
 };
 
 const fonts = {

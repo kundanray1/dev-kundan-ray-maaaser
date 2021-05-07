@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
   Image,
+  KeyboardAvoidingView,
   ActivityIndicator,
   TouchableWithoutFeedback,
-  TouchableOpacity,
   Keyboard,
+  Dimensions
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -17,50 +18,49 @@ import {
   Text,
   Input,
   ErrorMessage,
-  CustomPicker
 } from "../../components/Index.js";
 
 const validationSchema = Yup.object().shape({
-  emailOrPhone: Yup.string().required().label("Email address / Phone Number"),
   password: Yup.string().required().min(6).max(50).label("Password"),
   confirmPassword: Yup.string().required().min(6).max(50).oneOf([Yup.ref('password'), null], 'Both passwords must match').label("Confirm Password"),
 });
 
-export default Register = ({ navigation }) => {
+const {height} = Dimensions.get('window');
+export default CreateNewPassword = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
-  const [emailOrPhoneFocus, setEmailOrPhoneFocus] = useState(false);
-  const [passwordFocus, setPasswordFocus] = useState(false);
+ const [passwordFocus, setPasswordFocus] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
-  onSubmitRegister = async (values) => {
-    console.log(values);
-  };
   return (
-    <KeyboardAwareScrollView
-    
+     <KeyboardAwareScrollView
+      style={{ marginVertical: 10 }}
+      showsVerticalScrollIndicator={false}
     >
-          <Block center middle>
+       <Block center middle>
             <Block style={{ marginTop: 20 }}>
+            <Block center >
               <Image
                 source={require("../../assets/icons/logo.png")}
                 style={{ height: 100, width: 100 }}
               />
-               <Text h3 style={{ marginTop: 6 }} color={theme.colors.black}>
-               Sign Up
+               <Text h3 center style={{ marginTop: 6 }} color={theme.colors.black}>
+                   Create new Password              
               </Text>
+              <Text center style={{ marginTop: 6, padding:5 }} color={theme.colors.gray}>
+                  Your new password must be different from previous used password.</Text>
+              </Block>
             </Block>
-            
             <Block flex={2.5} center>
-              <Block center style={{ marginTop: 44 }}>
+            
+              <Block center middle style={{ marginTop: 44 }}>
                 <Formik
                   initialValues={{
-                    emailOrPhone: "",
                     password: "",
-                    confirmPassword:""
+                    confirmPassword: "",
+
                   }}
                   onSubmit={(values) => {
                     setLoading(!loading);
-                    onSubmitRegister(values);
                   }}
                   validationSchema={validationSchema}
                 >
@@ -73,25 +73,7 @@ export default Register = ({ navigation }) => {
                     errors,
                   }) => (
                     <Block>
-                    <CustomPicker label="Choose Account Type" /> 
-                      <Input
-                        full
-                        label="Email address / Phone Number"
-                        style={{ marginBottom: 5 }}
-                        onChangeText={handleChange("emailOrPhone")}
-                        onBlur={() =>{
-                         setFieldTouched("emailOrPhone") 
-                         setEmailOrPhoneFocus(false)
-                        }}
-                        onFocus={()=>setEmailOrPhoneFocus(true)}
-                        value={values.emailOrPhone}
-                        style={{borderBottomColor:emailOrPhoneFocus?theme.colors.primary2:(touched.emailOrPhone&&errors.emailOrPhone)?theme.colors.red:theme.colors.solidGray}}
-                      />
-                      <ErrorMessage
-                        error={errors.emailOrPhone}
-                        visible={touched.emailOrPhone}
-                      />
-                      <Input
+                       <Input
                         full
                         password
                         label="Password"
@@ -130,9 +112,8 @@ export default Register = ({ navigation }) => {
                         visible={touched.confirmPassword}
                       />
                       {
-                      !errors.emailOrPhone &&
                       !errors.confirmPassword &&
-                      !errors.password ? (
+                      !errors.password ?(
                         <Button
                           full
                           style={{
@@ -147,7 +128,7 @@ export default Register = ({ navigation }) => {
                               color={theme.colors.white}
                             />
                           ) : (
-                            <Text button style={{fontSize:18}}>Sign Up</Text>
+                            <Text button style={{fontSize:18}}>Send</Text>
                           )}
                         </Button>
                       ) : (
@@ -156,23 +137,12 @@ export default Register = ({ navigation }) => {
                           style={{
                             marginTop: 12,
                             marginBottom: 12,
+                            backgroundColor: theme.colors.gray,
                           }}
                         >
-                          <Text button style={{fontSize:18}}>Sign Up</Text>
+                          <Text button style={{fontSize:18}}>Send</Text>
                         </Button>
                       )}
-
-                      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                        <Text h4 color="black">
-                          Already have an account?{" "}
-                          <Text
-                            h4
-                            color={theme.colors.primary2}
-                          >
-                            Log In
-                          </Text>
-                        </Text>
-                      </TouchableOpacity>
                     </Block>
                   )}
                 </Formik>

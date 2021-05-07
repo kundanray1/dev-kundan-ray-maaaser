@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif-light",
     fontSize: theme.sizes.font,
     color: theme.colors.black,
-    textTransform: "capitalize",
   },
   bold: { fontFamily: "sans-serif" },
   light: { fontFamily: "sans-serif-light" },
