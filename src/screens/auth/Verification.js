@@ -7,8 +7,6 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 } from "react-native";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import * as theme from "../../constants/theme.js";
 import { Button, Block, Text, ErrorMessage } from "../../components/Index.js";
 import { TextInput } from "react-native-gesture-handler";
@@ -57,7 +55,7 @@ export default Verification = ({ navigation }) => {
 			>
 				<TextInput
 					ref={(input) => (textInput = input)}
-					onChangeText={onChangeText}
+					onChange={onChangeText}
 					autoFocus={true}
 					style={{ width: 0, height: 0 }}
 					value={internalValue}
@@ -65,7 +63,11 @@ export default Verification = ({ navigation }) => {
 					returnKeyType="done"
 					keyboardType="numeric"
 				/>
-				<TouchableOpacity style={styles.containerInput} onPress={handlePress} activeOpacity={1}>
+				<TouchableOpacity
+					style={styles.containerInput}
+					onPress={handlePress}
+					activeOpacity={1}
+				>
 					{Array(lengthInput)
 						.fill()
 						.map((data, index) => (

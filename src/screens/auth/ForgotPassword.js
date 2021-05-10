@@ -10,7 +10,7 @@ import {
   Dimensions
 } from "react-native";
 import { Formik } from "formik";
-import * as Yup from "yup";
+import {validationSchema} from "./../../utility/ValidationSchema.js";
 import * as theme from "../../constants/theme.js";
 import {
   Button,
@@ -19,10 +19,6 @@ import {
   Input,
   ErrorMessage,
 } from "../../components/Index.js";
-
-const validationSchema = Yup.object().shape({
-  emailOrPhone: Yup.string().required().label("Email address / Phone Number"),
-});
 
 const {height} = Dimensions.get('window');
 export default ForgotPassword = ({ navigation }) => {

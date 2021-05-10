@@ -8,6 +8,8 @@ import Register from "../screens/auth/Register";
 import ForgotPassword from "../screens/auth/ForgotPassword";
 import Verification from "../screens/auth/Verification";
 import CreateNewPassword from "../screens/auth/CreateNewPassword";
+import ReduxDemo from "../screens/auth/ReduxDemo";
+
 
 const MyTheme = {
   ...DefaultTheme,
@@ -22,7 +24,7 @@ const Stack = createStackNavigator();
 export default App = () => {
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Redux Demo">
         <Stack.Screen
           name="Welcome"
           options={{ headerShown: false }}
@@ -53,6 +55,11 @@ export default App = () => {
           options={{ headerShown: true }}
           component={CreateNewPassword}
         />
+         {<Stack.Screen
+          name="Redux Demo"
+          options={{ headerShown: true }}
+          component={ReduxDemo}
+        />}
       </Stack.Navigator>
       <OfflineNotice/>
     </NavigationContainer>

@@ -9,8 +9,8 @@ import {
   Keyboard,
 } from "react-native";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import * as theme from "../../constants/theme.js";
+import {validationSchema} from "./../../utility/ValidationSchema.js";
 import {
   Button,
   Block,
@@ -20,24 +20,23 @@ import {
   CustomPicker
 } from "../../components/Index.js";
 
-const validationSchema = Yup.object().shape({
-  emailOrPhone: Yup.string().required().label("Email address / Phone Number"),
-  password: Yup.string().required().min(6).max(50).label("Password"),
-  confirmPassword: Yup.string().required().min(6).max(50).oneOf([Yup.ref('password'), null], 'Both passwords must match').label("Confirm Password"),
-});
 
 export default Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [emailOrPhoneFocus, setEmailOrPhoneFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  onSubmitRegister = async (values) => {
+  const changeModeVisibility = (bool) => {
+    setModalVisible(bool);
+  };
+
+  const onSubmitRegister = async (values) => {
     console.log(values);
   };
   return (
     <KeyboardAwareScrollView
-    
     >
           <Block center middle>
             <Block style={{ marginTop: 20 }}>

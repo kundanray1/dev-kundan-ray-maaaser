@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
-import * as Yup from "yup";
+import {validationSchema} from "./../../utility/ValidationSchema.js";
 import * as theme from "../../constants/theme.js";
 import {
   Button,
@@ -22,10 +22,6 @@ import {
   CheckBox,
 } from "../../components/Index.js";
 
-const validationSchema = Yup.object().shape({
-  emailOrPhone: Yup.string().required().label("Email address / Phone Number"),
-  password: Yup.string().required().min(6).max(50).label("Password"),
-});
 
 const { height } = Dimensions.get("window");
 export default Login = ({ navigation }) => {
@@ -154,7 +150,7 @@ export default Login = ({ navigation }) => {
                       style={{
                         alignItems: "flex-end",
                       }}
-                      onPress={() => navigation.navigate("Verification")}
+                      onPress={() => navigation.navigate("Forgot Password")}
                     >
                       <Text
                         bold

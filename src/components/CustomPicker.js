@@ -18,6 +18,7 @@ const WIDTH = Dimensions.get("window").width;
 export default CustomPicker = ({ label, style, ...props }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedData, setSelectedData] = useState("Select");
+
   const changeModeVisibility = (bool) => {
     setModalVisible(bool);
   };
@@ -33,7 +34,7 @@ export default CustomPicker = ({ label, style, ...props }) => {
       style={{ marginVertical: 2 }}
     >
    
-      <Text bold style={{ paddingVertical: 4, fontSize: 18, color: theme.colors.solidGray}}>
+      <Text bold style={{ paddingVertical: 4, fontSize: 18}}>
         {option}
       </Text>
     </TouchableOpacity>
@@ -48,6 +49,7 @@ export default CustomPicker = ({ label, style, ...props }) => {
       <TouchableOpacity
         style={styles.customPicker}
         onPress={() => changeModeVisibility(true)}
+        {...props}
       >
         <Block>
           <Text bold style={{ fontSize: 18 , color: theme.colors.solidGray}}>
@@ -62,7 +64,7 @@ export default CustomPicker = ({ label, style, ...props }) => {
       <Modal
         visible={isModalVisible}
         transparent={true}
-        nRequestClose={() => changeModeVisibility(false)}
+        nRequestClose={() => changeModeVisibility(true)}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 40, height: 90 }]}>

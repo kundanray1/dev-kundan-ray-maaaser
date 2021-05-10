@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,StatusBar } from 'react-native';
+import store  from './src/store/ConfigureStore'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
 import Navigation from "./src/navigators/Index.js";
 export default function App() {
   return (
-      <Navigation />
+       <SafeAreaProvider style={{ backgroundColor: "black" }}>
+            <StatusBar barStyle="light-content" backgroundColor='transparent' translucent={true} />
+            <Provider store={store}>
+               <Navigation />
+            </Provider>
+        </SafeAreaProvider>
+      
   );
 }
 
