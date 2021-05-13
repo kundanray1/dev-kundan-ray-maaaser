@@ -10,7 +10,7 @@ import {
   Dimensions
 } from "react-native";
 import { Formik } from "formik";
-import {validationSchema} from "./../../utility/ValidationSchema.js";
+import {ForgotPasswordValidationSchema} from "./../../utility/ValidationSchema.js";
 import * as theme from "../../constants/theme.js";
 import {
   Button,
@@ -55,7 +55,7 @@ export default ForgotPassword = ({ navigation }) => {
                   onSubmit={(values) => {
                     setLoading(!loading);
                   }}
-                  validationSchema={validationSchema}
+                  validationSchema={ForgotPasswordValidationSchema}
                 >
                   {({
                     handleChange,

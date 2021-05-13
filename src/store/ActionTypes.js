@@ -1,5 +1,11 @@
 
 // define all the action types required for the posts
+export const Auth = {
+  fetchAuth: 'FETCH_AUTH',
+  fetchAuthSuccess: 'FETCH_AUTH_SUCCESS',
+  fetchAuthError: 'FETCH_AUTH_ERROR'
+}
+
 export const Posts = {
   fetchPosts: 'FETCH_POSTS',
   fetchPostsSuccess: 'FETCH_POSTS_SUCCESS',

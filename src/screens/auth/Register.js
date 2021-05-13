@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as theme from "../../constants/theme.js";
-import {validationSchema} from "./../../utility/ValidationSchema.js";
+import {RegisterValidationSchema} from "./../../utility/ValidationSchema.js";
 import {
   Button,
   Block,
@@ -61,7 +61,7 @@ export default Register = ({ navigation }) => {
                     setLoading(!loading);
                     onSubmitRegister(values);
                   }}
-                  validationSchema={validationSchema}
+                  validationSchema={RegisterValidationSchema}
                 >
                   {({
                     handleChange,

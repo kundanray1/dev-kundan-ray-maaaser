@@ -1,16 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
 	StyleSheet,
 	Image,
 	KeyboardAvoidingView,
 	ActivityIndicator,
-	TouchableWithoutFeedback,
 	Keyboard,
-	Dimensions,
 } from "react-native";
 import { Formik } from "formik";
-import { CreateNewPasswordValidationSchema } from "./../../utility/ValidationSchema.js";
+import { descriptionValidationSchema } from "./../../utility/ValidationSchema.js";
 import * as theme from "../../constants/theme.js";
 import {
 	Button,
@@ -19,13 +17,19 @@ import {
 	Input,
 	ErrorMessage,
 } from "../../components/Index.js";
+import { addPost } from "./../../store/actions/PostsActions";
+import { connect, useDispatch } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-const { height } = Dimensions.get("window");
-export default CreateNewPassword = ({ navigation }) => {
-	const [loading, setLoading] = useState(false);
-	const [passwordFocus, setPasswordFocus] = useState(false);
-	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+const Adddescription = ({ navigation, posts }) => {
+	const dispatch = useDispatch();
+	const [descriptionFocus, setDescriptionFocus] = useState(false);
 
+	const onSubmitRegister = ({ description }) => {
+		console.log("=====================================");
+		console.log("inside onSubmitRegister");
+		dispatch(addPost({ description }));
+	};
 	return (
 		<KeyboardAwareScrollView
 			style={{ marginVertical: 10 }}
@@ -44,15 +48,16 @@ export default CreateNewPassword = ({ navigation }) => {
 							style={{ marginTop: 6 }}
 							color={theme.colors.black}
 						>
-							Create new Password
+							Forgot Password?
 						</Text>
 						<Text
 							center
 							style={{ marginTop: 6, padding: 5 }}
 							color={theme.colors.gray}
 						>
-							Your new password must be different from previous
-							used password.
+							Enter your email address or phone number and we’ll
+							send you instructions on how to change your
+							password.
 						</Text>
 					</Block>
 				</Block>
@@ -60,13 +65,12 @@ export default CreateNewPassword = ({ navigation }) => {
 					<Block center middle style={{ marginTop: 44 }}>
 						<Formik
 							initialValues={{
-								password: "",
-								confirmPassword: "",
+								description: "",
 							}}
 							onSubmit={(values) => {
-								setLoading(!loading);
+								onSubmitRegister(values);
 							}}
-							validationSchema={CreateNewPasswordValidationSchema}
+							validationSchema={descriptionValidationSchema}
 						>
 							{({
 								handleChange,
@@ -79,62 +83,34 @@ export default CreateNewPassword = ({ navigation }) => {
 								<Block>
 									<Input
 										full
-										password
-										label="Password"
-										style={{ marginBottom: 5 }}
-										onChangeText={handleChange("password")}
-										onBlur={() => {
-											setFieldTouched("password");
-											setPasswordFocus(false);
-										}}
-										onFocus={() => {
-											setPasswordFocus(true);
-										}}
-										value={values.password}
-										style={{
-											borderBottomColor: passwordFocus
-												? theme.colors.primary2
-												: touched.password &&
-												  errors.password
-												? theme.colors.red
-												: theme.colors.solidGray,
-										}}
-									/>
-									<ErrorMessage
-										error={errors.password}
-										visible={touched.password}
-									/>
-									<Input
-										full
-										password
-										label="Confirm Password"
+										label="Description"
 										style={{ marginBottom: 5 }}
 										onChangeText={handleChange(
-											"confirmPassword"
+											"description"
 										)}
 										onBlur={() => {
-											setFieldTouched("confirmPassword");
-											setConfirmPasswordFocus(false);
+											setFieldTouched("description");
+											setDescriptionFocus(false);
 										}}
 										onFocus={() =>
-											setConfirmPasswordFocus(true)
+											setDescriptionFocus(true)
 										}
-										value={values.confirmPassword}
+										value={values.description}
 										style={{
-											borderBottomColor: confirmPasswordFocus
+											borderBottomColor: descriptionFocus
 												? theme.colors.primary2
-												: touched.confirmPassword &&
-												  errors.confirmPassword
+												: touched.description &&
+												  errors.description
 												? theme.colors.red
 												: theme.colors.solidGray,
 										}}
 									/>
 									<ErrorMessage
-										error={errors.confirmPassword}
-										visible={touched.confirmPassword}
+										error={errors.description}
+										visible={touched.description}
 									/>
-									{!errors.confirmPassword &&
-									!errors.password ? (
+
+									{!errors.description ? (
 										<Button
 											full
 											style={{
@@ -143,19 +119,14 @@ export default CreateNewPassword = ({ navigation }) => {
 											}}
 											onPress={handleSubmit}
 										>
-											{loading ? (
-												<ActivityIndicator
-													size="small"
-													color={theme.colors.white}
-												/>
-											) : (
+											
 												<Text
 													button
 													style={{ fontSize: 18 }}
 												>
-													Send
+													Add Notification
 												</Text>
-											)}
+											
 										</Button>
 									) : (
 										<Button
@@ -171,7 +142,7 @@ export default CreateNewPassword = ({ navigation }) => {
 												button
 												style={{ fontSize: 18 }}
 											>
-												Send
+												Add Notification
 											</Text>
 										</Button>
 									)}
@@ -189,3 +160,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 });
+
+const structuredSelector = createStructuredSelector({
+	posts: (state) => state.posts,
+});
+
+const mapDispatchToProps = { addPost };
+export default connect(structuredSelector, mapDispatchToProps)(Adddescription);

@@ -6,23 +6,24 @@ import {
   SafeAreaView,
 } from "react-native";
 import * as theme from "./../../constants/theme.js";
-import { Block, Text, Empty,Button } from "./../../components/Index.js";
+import { Block, Text, Empty, Button } from "./../../components/Index.js";
 import { Entypo } from "@expo/vector-icons";
-import { fetchPosts } from "./../../store/actions/PostsActions";
-import { connect } from "react-redux";
+import { getPosts } from "./../../store/actions/PostsActions";
+import { logoutStart } from "./../../store/actions/AuthActions";
+import { connect, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-const ReduxDemo = ({ fetchPosts, data }) => {
-
+const ReduxDemo = ({ navigation, posts, auth }) => {
+  const dispatch = useDispatch();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    fetchPosts();
+    dispatch(getPosts());
     setRefreshing(false);
   });
-  console.log(data.status)
+ console.log(posts)
   useEffect(() => {
-     if(data.status=='loading')fetchPosts();
+    dispatch(getPosts());
   }, []);
 
   const Item = ({ description, dateCreated }) => {
@@ -68,37 +69,52 @@ const ReduxDemo = ({ fetchPosts, data }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {data.status=='loading' ? (
+      {posts.isloading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.maroon} />
         </Block>
       ) : (
-        <FlatList
-          data={data.posts}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => {
-            return item.id.toString();
-          }}
-          ListEmptyComponent={() => <Empty title="notifications" />}
-          refreshControl={
-            <RefreshControl
-              colors={[theme.colors.maroon]}
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-          renderItem={(post) => (
-            <Item description={post.item.description} dateCreated={post.item.created_at} />
-          )}
-        />
+        <>
+          <Text
+            bold
+            h2
+            color={theme.colors.black}
+            onPress={() => navigation.navigate("Add Notification")}
+          >
+            Add New Notification
+          </Text>
+
+          <FlatList
+            data={posts.posts}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => {
+              return item.id.toString();
+            }}
+            ListEmptyComponent={() => <Empty title="notifications" />}
+            refreshControl={
+              <RefreshControl
+                colors={[theme.colors.maroon]}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+            renderItem={(post) => (
+              <Item
+                description={post.item.description}
+                dateCreated={post.item.created_at}
+              />
+            )}
+          />
+        </>
       )}
     </SafeAreaView>
   );
 };
 
 const structuredSelector = createStructuredSelector({
-  data: (state) => state.posts,
+  posts: (state) => state.posts,
+  auth: (state) => state.auth,
 });
 
-const mapDispatchToProps = { fetchPosts };
+const mapDispatchToProps = { getPosts, logoutStart };
 export default connect(structuredSelector, mapDispatchToProps)(ReduxDemo);

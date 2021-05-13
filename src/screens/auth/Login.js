@@ -1,17 +1,15 @@
-import React, { useState, useContext } from "react";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useState, useEffect } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
   Image,
   ActivityIndicator,
-  TouchableWithoutFeedback,
   Keyboard,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
-import {validationSchema} from "./../../utility/ValidationSchema.js";
+import { LoginValidationSchema } from "./../../utility/ValidationSchema.js";
 import * as theme from "../../constants/theme.js";
 import {
   Button,
@@ -21,18 +19,17 @@ import {
   ErrorMessage,
   CheckBox,
 } from "../../components/Index.js";
+import { authStart } from "./../../store/actions/AuthActions";
+import { connect, useDispatch } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-
-const { height } = Dimensions.get("window");
-export default Login = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
-  const [emailOrPhoneFocus, setEmailOrPhoneFocus] = useState(false);
+const Login = ({ navigation, data }) => {
+  const dispatch = useDispatch();
+  const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [checked, setChecked] = useState(false);
-
-  onSubmitRegister = async (values) => {
-    console.log(values);
-    console.log(checked);
+  const onSubmitRegister = (values) => {
+    dispatch(authStart(values));
   };
   return (
     <KeyboardAwareScrollView
@@ -53,14 +50,13 @@ export default Login = ({ navigation }) => {
           <Block center style={{ marginTop: 44 }}>
             <Formik
               initialValues={{
-                emailOrPhone: "",
-                password: "",
+                identifier: "mobile@gmail.com",
+                password: "Mobile@123",
               }}
               onSubmit={(values) => {
-                setLoading(!loading);
                 onSubmitRegister(values);
               }}
-              validationSchema={validationSchema}
+              validationSchema={LoginValidationSchema}
             >
               {({
                 handleChange,
@@ -75,24 +71,24 @@ export default Login = ({ navigation }) => {
                     full
                     label="Email address / Phone Number"
                     style={{ marginBottom: 5 }}
-                    onChangeText={handleChange("emailOrPhone")}
+                    onChangeText={handleChange("identifier")}
                     onBlur={() => {
-                      setFieldTouched("emailOrPhone");
-                      setEmailOrPhoneFocus(false);
+                      setFieldTouched("identifier");
+                      setIdentifierFocus(false);
                     }}
-                    onFocus={() => setEmailOrPhoneFocus(true)}
-                    value={values.emailOrPhone}
+                    onFocus={() => setIdentifierFocus(true)}
+                    value={values.identifier}
                     style={{
-                      borderBottomColor: emailOrPhoneFocus
+                      borderBottomColor: identifierFocus
                         ? theme.colors.primary2
-                        : (touched.emailOrPhone && errors.emailOrPhone)
+                        : touched.identifier && errors.identifier
                         ? theme.colors.red
                         : theme.colors.solidGray,
                     }}
                   />
                   <ErrorMessage
-                    error={errors.emailOrPhone}
-                    visible={touched.emailOrPhone}
+                    error={errors.identifier}
+                    visible={touched.identifier}
                   />
                   <Input
                     full
@@ -111,7 +107,7 @@ export default Login = ({ navigation }) => {
                     style={{
                       borderBottomColor: passwordFocus
                         ? theme.colors.primary2
-                        : (touched.password && errors.password)
+                        : touched.password && errors.password
                         ? theme.colors.red
                         : theme.colors.solidGray,
                     }}
@@ -152,16 +148,13 @@ export default Login = ({ navigation }) => {
                       }}
                       onPress={() => navigation.navigate("Forgot Password")}
                     >
-                      <Text
-                        bold
-                        color={theme.colors.primary2}
-                      >
+                      <Text bold color={theme.colors.primary2}>
                         Forgot Password?
                       </Text>
                     </TouchableOpacity>
                   </Block>
 
-                  {!errors.emailOrPhone && !errors.password ? (
+                  {!errors.identifier && !errors.password ? (
                     <Button
                       full
                       style={{
@@ -170,7 +163,7 @@ export default Login = ({ navigation }) => {
                       }}
                       onPress={handleSubmit}
                     >
-                      {loading ? (
+                      {data.isLoading ? (
                         <ActivityIndicator
                           size="small"
                           color={theme.colors.white}
@@ -196,13 +189,12 @@ export default Login = ({ navigation }) => {
                     </Button>
                   )}
 
-                  <TouchableOpacity onPress={() => navigation.navigate("Register")}  >
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Register")}
+                  >
                     <Text h4 color="black">
                       Don't have an account?{" "}
-                      <Text
-                        h4
-                        color={theme.colors.primary2}
-                      >
+                      <Text h4 color={theme.colors.primary2}>
                         Sign Up
                       </Text>
                     </Text>
@@ -221,3 +213,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const structuredSelector = createStructuredSelector({
+  data: (state) => state.auth,
+});
+
+const mapDispatchToProps = { authStart };
+export default connect(structuredSelector, mapDispatchToProps)(Login);
