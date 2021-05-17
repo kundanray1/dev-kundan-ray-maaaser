@@ -16,7 +16,6 @@ export default Verification = ({ navigation }) => {
 	const [internalValue, setInternalValue] = useState("");
 	let textInput = useRef(null);
 	const lengthInput = 6;
-
 	const onChangeText = (value) => {
 		setInternalValue(value);
 	};

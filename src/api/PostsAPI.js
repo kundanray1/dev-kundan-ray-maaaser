@@ -1,5 +1,5 @@
 import axios from "axios";
-import {NOTIFICATIONS_URL} from './../constants/URL'
+import {NOTIFICATIONS_URL} from './../constants/APIConstants'
 export class PostsAPI {
   getPosts = async () => {
     try {

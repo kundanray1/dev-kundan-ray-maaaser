@@ -18,7 +18,7 @@ export default Welcome = ({ navigation }) => {
 
       <Block center middle style={{ flex: 1.5 }}>
         <Block>
-          <Button full onPress={() => navigation.navigate("Register")}>
+          <Button full onPress={() => navigation.navigate("SignUp")}>
             <Text button style={{fontSize:18}}>Sign Up as Donor</Text>
           </Button>
 
@@ -34,8 +34,7 @@ export default Welcome = ({ navigation }) => {
               style={{ height: 1, backgroundColor: theme.colors.black }}
             />
           </Block>
-
-          <OutlinedButton full onPress={() => navigation.navigate("Register")}>
+          <OutlinedButton full onPress={() => navigation.navigate("SignUp")}>
             <Text outlinedButton style={{color:theme.colors.primary1,fontSize:18}}>Sign Up as Receiver</Text>
           </OutlinedButton>
 

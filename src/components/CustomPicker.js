@@ -10,7 +10,6 @@ import {
 import Text from "./Text";
 import * as theme from "../constants/theme";
 import { AntDesign } from "@expo/vector-icons";
-// import Modal from "react-native-modal";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -22,18 +21,20 @@ export default CustomPicker = ({ label, style, ...props }) => {
   const changeModeVisibility = (bool) => {
     setModalVisible(bool);
   };
+  
   const options = ["Individual", "Organization"];
+  
   const onPressItem = (option) => {
     setSelectedData(option);
     changeModeVisibility(false);
   };
+
   const renderOptions = options.map((option, index) => (
     <TouchableOpacity
       key={index}
       onPress={() => onPressItem(option)}
       style={{ marginVertical: 2 }}
     >
-   
       <Text bold style={{ paddingVertical: 4, fontSize: 18}}>
         {option}
       </Text>
@@ -42,6 +43,7 @@ export default CustomPicker = ({ label, style, ...props }) => {
 
   return (
     <SafeAreaView>
+          
       <Text bold style={{ fontSize: 18 }}>
         {label}
       </Text>
@@ -66,12 +68,15 @@ export default CustomPicker = ({ label, style, ...props }) => {
         transparent={true}
         nRequestClose={() => changeModeVisibility(true)}
       >
+        
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 40, height: 90 }]}>
             {renderOptions}
           </View>
         </View>
+
       </Modal>
+
     </SafeAreaView>
   );
 };

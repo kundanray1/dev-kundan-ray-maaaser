@@ -7,7 +7,7 @@ import {
 	addPostFailed,
 	addPostSuccess,
 } from "./../actions/PostsActions";
-import { PostsAPI } from "./../../services/PostsAPI";
+import { PostsAPI } from "./../../api/PostsAPI";
 const postsApi = new PostsAPI();
 
 function* getPostsSaga() {

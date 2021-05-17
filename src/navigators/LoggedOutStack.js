@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Welcome from "../screens/auth/Welcome";
-import Login from "../screens/auth/Login";
-import Register from "../screens/auth/Register";
+import Login from "../screens/auth/Login/index";
+import SignUp from "../screens/auth/SignUp/index";
 import ForgotPassword from "../screens/auth/ForgotPassword";
 import Verification from "../screens/auth/Verification";
 import CreateNewPassword from "../screens/auth/CreateNewPassword";
@@ -22,9 +22,9 @@ export default LoggedOutStack = () => {
           component={Login}
         />
         <AuthStack.Screen
-          name="Register"
+          name="SignUp"
           options={{ headerShown: true }}
-          component={Register}
+          component={SignUp}
         />
         <AuthStack.Screen
           name="Forgot Password"

@@ -29,7 +29,7 @@ const App = ({data}) => {
 
 
 const structuredSelector = createStructuredSelector({
-  data: (state) => state.auth,
+  data: (state) => state.login,
 });
 
 export default connect(structuredSelector)(App);

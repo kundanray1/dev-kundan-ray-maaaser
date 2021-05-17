@@ -17,7 +17,7 @@ import {
 	AUTH_START,
 	LOGOUT_START
 } from "./../actions/AuthActions";
-import { AuthAPI } from './../../services/AuthAPI';
+import { AuthAPI } from './../../api/AuthAPI';
 const authApi = new AuthAPI;
 
 

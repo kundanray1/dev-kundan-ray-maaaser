@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
-import { LoginValidationSchema } from "./../../utility/ValidationSchema.js";
-import * as theme from "../../constants/theme.js";
+import { LoginValidationSchema } from "./../../../utility/ValidationSchema.js";
+import * as theme from "./../../../constants/theme.js";
 import {
   Button,
   Block,
@@ -18,21 +18,13 @@ import {
   Input,
   ErrorMessage,
   CheckBox,
-} from "../../components/Index.js";
-import { authStart } from "./../../store/actions/AuthActions";
-import { connect, useDispatch } from "react-redux";
-import { createStructuredSelector } from "reselect";
+} from "./../../../components/Index.js";
 
-const Login = ({ navigation, data }) => {
-  const dispatch = useDispatch();
+const Login = ({ navigation, data, login }) => {
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [checked, setChecked] = useState(false);
 
-  const onSubmitRegister = (values) => {
-    dispatch(authStart(values));
-  };
-  
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -41,7 +33,7 @@ const Login = ({ navigation, data }) => {
       <Block center middle>
         <Block style={{ marginTop: 20 }}>
           <Image
-            source={require("../../assets/icons/logo.png")}
+            source={require("../../../assets/icons/logo.png")}
             style={{ height: 100, width: 100 }}
           />
           <Text h3 center style={{ marginTop: 6 }} color={theme.colors.black}>
@@ -56,7 +48,7 @@ const Login = ({ navigation, data }) => {
                 password: "Mobile@123",
               }}
               onSubmit={(values) => {
-                onSubmitRegister(values);
+                login(values);
               }}
               validationSchema={LoginValidationSchema}
             >
@@ -211,10 +203,4 @@ const Login = ({ navigation, data }) => {
   );
 };
 
-const structuredSelector = createStructuredSelector({
-  data: (state) => state.auth,
-});
-
-const mapDispatchToProps = { authStart };
-
-export default connect(structuredSelector, mapDispatchToProps)(Login);
+export default Login

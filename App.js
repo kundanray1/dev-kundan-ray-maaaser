@@ -7,7 +7,7 @@ import Navigation from "./src/navigators/Index.js";
 export default function App() {
   return (
        <SafeAreaProvider style={{ backgroundColor: "black" }}>
-            <StatusBar barStyle="light-content" backgroundColor='transparent' translucent={true} />
+            <StatusBar barStyle="light-content"  translucent={true} />
             <Provider store={store}>
                <Navigation />
             </Provider>

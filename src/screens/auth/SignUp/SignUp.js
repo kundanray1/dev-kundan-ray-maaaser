@@ -1,16 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
-  StyleSheet,
   Image,
   ActivityIndicator,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  Keyboard,
 } from "react-native";
 import { Formik } from "formik";
-import * as theme from "../../constants/theme.js";
-import {RegisterValidationSchema} from "./../../utility/ValidationSchema.js";
+import * as theme from "./../../../constants/theme.js";
+import {RegisterValidationSchema} from "./../../../utility/ValidationSchema.js";
 import {
   Button,
   Block,
@@ -18,33 +15,24 @@ import {
   Input,
   ErrorMessage,
   CustomPicker
-} from "../../components/Index.js";
+} from "../../../components/Index.js";
+export default SignUp = ({ navigation,data,signUp }) => {
 
-
-export default Register = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
   const [emailOrPhoneFocus, setEmailOrPhoneFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const changeModeVisibility = (bool) => {
-    setModalVisible(bool);
-  };
-
-  const onSubmitRegister = async (values) => {
-    console.log(values);
-  };
   return (
     <KeyboardAwareScrollView
     >
           <Block center middle>
             <Block style={{ marginTop: 20 }}>
               <Image
-                source={require("../../assets/icons/logo.png")}
+                source={require("../../../assets/icons/logo.png")}
                 style={{ height: 100, width: 100 }}
               />
-               <Text h3 style={{ marginTop: 6 }} color={theme.colors.black}>
+               <Text h3 style={{ marginTop: 6 }}>
                Sign Up
               </Text>
             </Block>
@@ -53,13 +41,12 @@ export default Register = ({ navigation }) => {
               <Block center style={{ marginTop: 44 }}>
                 <Formik
                   initialValues={{
-                    emailOrPhone: "",
-                    password: "",
-                    confirmPassword:""
+                    emailOrPhone: "joshan@gmail.com",
+                    password: "Joshan@123",
+                    confirmPassword:"Joshan@123"
                   }}
                   onSubmit={(values) => {
-                    setLoading(!loading);
-                    onSubmitRegister(values);
+                    signUp(values);
                   }}
                   validationSchema={RegisterValidationSchema}
                 >
@@ -140,7 +127,7 @@ export default Register = ({ navigation }) => {
                           }}
                           onPress={handleSubmit}
                         >
-                          {loading ? (
+                          {data.isLoading ? (
                             <ActivityIndicator
                               size="small"
                               color={theme.colors.white}
@@ -181,8 +168,3 @@ export default Register = ({ navigation }) => {
       </KeyboardAwareScrollView>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
