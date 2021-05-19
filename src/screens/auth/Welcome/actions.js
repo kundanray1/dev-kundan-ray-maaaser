@@ -1,18 +1,18 @@
-export const CREATE_NEW_PASSWORD_START = "CREATE_NEW_PASSWORD_START";
-export const CREATE_NEW_PASSWORD_SUCCESS = "CREATE_NEW_PASSWORD_SUCCESS";
-export const CREATE_NEW_PASSWORD_FAIL = "CREATE_NEW_PASSWORD_FAIL";
+export const WELCOME_START = "WELCOME_START";
+export const WELCOME_SUCCESS = "WELCOME_SUCCESS";
+export const WELCOME_FAIL = "WELCOME_FAIL";
 
-export const createNewPasswordStart = (payload) => {
+export const welcomeStart = (payload) => {
 	return {
-		type: CREATE_NEW_PASSWORD_START,
+		type: WELCOME_START,
 		payload,
 	};
 };
-export const createNewPasswordSuccess = (payload) => ({
-	type: CREATE_NEW_PASSWORD_SUCCESS,
+export const welcomeSuccess = (payload) => ({
+	type: WELCOME_SUCCESS,
 	payload,
 });
-export const createNewPasswordFail = (payload) => ({
-	type: CREATE_NEW_PASSWORD_FAIL,
+export const welcomeFail = (payload) => ({
+	type: WELCOME_FAIL,
 	payload,
 });

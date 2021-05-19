@@ -3,9 +3,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import {
 	StyleSheet,
 	Image,
-	KeyboardAvoidingView,
 	ActivityIndicator,
-	Keyboard,
 } from "react-native";
 import { Formik } from "formik";
 import { descriptionValidationSchema } from "./../../utility/ValidationSchema.js";
@@ -24,7 +22,6 @@ import { createStructuredSelector } from "reselect";
 const Adddescription = ({ navigation, posts }) => {
 	const dispatch = useDispatch();
 	const [descriptionFocus, setDescriptionFocus] = useState(false);
-
 	const onSubmitRegister = ({ description }) => {
 		console.log("=====================================");
 		console.log("inside onSubmitRegister");

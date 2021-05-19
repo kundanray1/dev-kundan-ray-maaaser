@@ -1,29 +1,29 @@
 import {
-  CREATE_NEW_PASSWORD_FAIL,
-  CREATE_NEW_PASSWORD_START,
-  CREATE_NEW_PASSWORD_SUCCESS,
+  VERIFICATION_FAIL,
+  VERIFICATION_START,
+  VERIFICATION_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  createNewPassword: '',
+  verification: '',
   error: null,
 };
 
-export const createNewPasswordReducer=(state = initialState, { type, payload }) => {
+export const verificationReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case CREATE_NEW_PASSWORD_START:
+    case VERIFICATION_START:
     return {
         ...state,
         isLoading: true,
       };
-    case CREATE_NEW_PASSWORD_SUCCESS:
+    case VERIFICATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        createNewPassword: payload,
+        verification: payload,
       };
-    case CREATE_NEW_PASSWORD_FAIL:
+    case VERIFICATION_FAIL:
       return {
         ...state,
         isLoading: false,

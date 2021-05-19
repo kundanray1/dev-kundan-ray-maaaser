@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Welcome from "../screens/auth/Welcome";
+import Welcome from "../screens/auth/Welcome/index";
 import Login from "../screens/auth/Login/index";
 import SignUp from "../screens/auth/SignUp/index";
-import ForgotPassword from "../screens/auth/ForgotPassword";
-import Verification from "../screens/auth/Verification";
-import CreateNewPassword from "../screens/auth/CreateNewPassword";
+import ForgotPassword from "../screens/auth/ForgotPassword/index";
+import Verification from "../screens/auth/Verification/index";
+import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
 
 const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {

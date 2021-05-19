@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  createNewPassword: '',
+  forgotPassword: '',
   error: null,
 };
 
@@ -21,7 +21,7 @@ export const forgotPasswordReducer=(state = initialState, { type, payload }) => 
       return {
         ...state,
         isLoading: false,
-        createNewPassword: payload,
+        forgotPassword: payload,
       };
     case FORGOT_PASSWORD_FAIL:
       return {

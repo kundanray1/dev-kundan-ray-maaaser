@@ -7,13 +7,14 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 } from "react-native";
-import * as theme from "../../constants/theme.js";
-import { Button, Block, Text, ErrorMessage } from "../../components/Index.js";
+import * as theme from "./../../../constants/theme.js";
+import { Button, Block, Text } from "./../../../components/Index.js";
 import { TextInput } from "react-native-gesture-handler";
 
 export default Verification = ({ navigation }) => {
 	const [loading, setLoading] = useState(false);
 	const [internalValue, setInternalValue] = useState("");
+	
 	let textInput = useRef(null);
 	const lengthInput = 6;
 	const onChangeText = (value) => {
@@ -32,7 +33,7 @@ export default Verification = ({ navigation }) => {
 	return (
 		<Block center style={{ marginTop: 20 }}>
 			<Image
-				source={require("../../assets/icons/logo.png")}
+				source={require("../../../assets/icons/logo.png")}
 				style={{ height: 100, width: 100 }}
 			/>
 			<Text h3 center style={{ marginTop: 6 }} color={theme.colors.black}>
@@ -130,6 +131,7 @@ export default Verification = ({ navigation }) => {
 		</Block>
 	);
 };
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

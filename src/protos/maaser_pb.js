@@ -73,7 +73,8 @@ proto.brilltech.maaser.entities.AddressType = {
   HOME_ADDRESS: 3,
   MERCHANT_ADDRESS: 4,
   STOCK_ADDRESS: 5,
-  OPERATING_ADDRESS: 6
+  OPERATING_ADDRESS: 6,
+  COMPANY_ADDRESS: 7
 };
 
 /**

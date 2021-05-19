@@ -4,18 +4,18 @@ import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import reducer from "./reducer";
 import saga from "./saga";
-import CreateNewPassword from "./CreateNewPassword";
-import { createNewPasswordStart } from "./actions";
+import Welcome from "./Welcome";
+import { welcomeStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.CreateNewPassword,
+	data: (state) => state.welcome,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		createNewPassword: (values) => dispatch(createNewPasswordStart(values)),
+		welcome: (values) => dispatch(welcomeStart(values)),
 	};
 };
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo)(CreateNewPassword);
+export default compose(withConnect, memo)(Welcome);

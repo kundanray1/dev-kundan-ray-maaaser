@@ -5,15 +5,15 @@ import {
 	ActivityIndicator,
 } from "react-native";
 import { Formik } from "formik";
-import { CreateNewPasswordValidationSchema } from "./../../utility/ValidationSchema.js";
-import * as theme from "../../constants/theme.js";
+import { CreateNewPasswordValidationSchema } from "../../../utility/ValidationSchema.js";
+import * as theme from "../../../constants/theme.js";
 import {
 	Button,
 	Block,
 	Text,
 	Input,
 	ErrorMessage,
-} from "../../components/Index.js";
+} from "../../../components/Index.js";
 
 export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 	const [passwordFocus, setPasswordFocus] = useState(false);
@@ -27,7 +27,7 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 				<Block style={{ marginTop: 20 }}>
 					<Block center>
 						<Image
-							source={require("../../assets/icons/logo.png")}
+							source={require("../../../assets/icons/logo.png")}
 							style={{ height: 100, width: 100 }}
 						/>
 						<Text

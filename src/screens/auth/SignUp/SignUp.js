@@ -1,12 +1,20 @@
+
+
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Dimensions,
+  Modal,
   Image,
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
 import { Formik } from "formik";
 import * as theme from "./../../../constants/theme.js";
+import { AntDesign } from "@expo/vector-icons";
 import {RegisterValidationSchema} from "./../../../utility/ValidationSchema.js";
 import {
   Button,
@@ -16,12 +24,86 @@ import {
   ErrorMessage,
   CustomPicker
 } from "../../../components/Index.js";
-export default SignUp = ({ navigation,data,signUp }) => {
+const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
 
+export default SignUp = ({ navigation,data,signUp }) => {
   const [emailOrPhoneFocus, setEmailOrPhoneFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [accountTypeModalVisible, setAccountTypeModalVisible] = useState(false);
+  const [countryCodeModalVisible, setCountryCodeModalVisible] = useState(false);
+  const [accountType, setAccountType] = useState("Select");
+  const [countryCode, setCountryCode] = useState("Select");
+
+  const accountTypeOptions = ["Individual", "Organization"];
+  const countryCodeOptions = ["Individual", "Organization"];
+
+  const onPressAccountTypeItem = (option) => {
+    setAccountType(option);
+    setAccountTypeModalVisible(false);
+  };
+  const onCountryCodeItem = (option) => {
+    setCountryCode(option);
+    setCountryCodeModalVisible(false);
+  };
+
+  const renderAccountTypeOptions = accountTypeOptions.map((option, index) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => onPressItem(option)}
+      style={{ marginVertical: 2 }}
+    >
+      <Text bold style={{ paddingVertical: 4, fontSize: 18}}>
+        {option}
+      </Text>
+    </TouchableOpacity>
+  ));
+
+    const renderCountryCodeOptions = countryCodeOptions.map((option, index) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => onPressItem(option)}
+      style={{ marginVertical: 2 }}
+    >
+      <Text bold style={{ paddingVertical: 4, fontSize: 18}}>
+        {option}
+      </Text>
+    </TouchableOpacity>
+  ));
+
+const selectAccountType=()=>(
+ <SafeAreaView>
+      <Text bold style={{ fontSize: 18 }}>
+        Select account type
+      </Text>
+      <TouchableOpacity
+        style={styles.customPicker}
+        onPress={() => setAccountTypeModalVisible(!accountTypeModalVisible)}
+      >
+        <Block>
+          <Text bold style={{ fontSize: 18 , color: theme.colors.solidGray}}>
+            {accountType}
+          </Text>
+        </Block>
+        <Block style={{ alignItems: "flex-end" }}>
+          <AntDesign name="caretdown" size={18} color="black" />
+        </Block>
+      </TouchableOpacity>
+      <Modal
+        visible={accountTypeModalVisible}
+        transparent={true}
+        nRequestClose={() => setAccountTypeModalVisible(!accountTypeModalVisible)}
+      >
+        <View style={styles.container}>
+          <View style={[styles.modal, { width: WIDTH - 40, height: 90 }]}>
+            {renderAccountTypeOptions}
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
+)
+
 
   return (
     <KeyboardAwareScrollView
@@ -59,7 +141,35 @@ export default SignUp = ({ navigation,data,signUp }) => {
                     errors,
                   }) => (
                     <Block>
-                    <CustomPicker label="Choose Account Type" /> 
+                    <SafeAreaView>
+      <Text bold style={{ fontSize: 18 }}>
+        Select account type
+      </Text>
+      <TouchableOpacity
+        style={styles.customPicker}
+        onPress={() => setAccountTypeModalVisible(!accountTypeModalVisible)}
+      >
+        <Block>
+          <Text bold style={{ fontSize: 18 , color: theme.colors.solidGray}}>
+            {accountType}
+          </Text>
+        </Block>
+        <Block style={{ alignItems: "flex-end" }}>
+          <AntDesign name="caretdown" size={18} color="black" />
+        </Block>
+      </TouchableOpacity>
+      <Modal
+        visible={accountTypeModalVisible}
+        transparent={true}
+        nRequestClose={() => setAccountTypeModalVisible(!accountTypeModalVisible)}
+      >
+        <View style={styles.container}>
+          <View style={[styles.modal, { width: WIDTH - 40, height: 90 }]}>
+            {renderAccountTypeOptions}
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
                       <Input
                         full
                         label="Email address / Phone Number"
@@ -168,3 +278,31 @@ export default SignUp = ({ navigation,data,signUp }) => {
       </KeyboardAwareScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modal: {
+    borderLeftWidth: 1,
+    borderTopWidth:1,
+    borderBottomWidth: 2,
+    borderRightWidth: 2,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    borderRadius: 10,
+    padding: 10,
+  },
+  option: {
+    alignItems: "flex-start",
+  },
+  customPicker: {
+    height: 40,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderColor: theme.colors.solidGray,
+    borderBottomWidth: 1.5,
+  },
+});

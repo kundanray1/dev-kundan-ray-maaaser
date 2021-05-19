@@ -2,11 +2,8 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/rootSaga'
 import rootReducer from './reducers/rootReducer'
-
 // we need an initialState otherwise , store will freak out
-const initialState = {
-  auth: {}
-}
+const initialState = {}
 const sagaMiddleware = createSagaMiddleware()
 // redux sagas is a middleware that we apply to the store
 const store = createStore(
@@ -14,8 +11,8 @@ const store = createStore(
   initialState,
   applyMiddleware(sagaMiddleware)
 )
-sagaMiddleware.run(rootSaga)
 
+sagaMiddleware.run(rootSaga)
 export default store;
 
 

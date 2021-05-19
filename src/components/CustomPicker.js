@@ -17,18 +17,11 @@ const WIDTH = Dimensions.get("window").width;
 export default CustomPicker = ({ label, style, ...props }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedData, setSelectedData] = useState("Select");
-
-  const changeModeVisibility = (bool) => {
-    setModalVisible(bool);
-  };
-  
   const options = ["Individual", "Organization"];
-  
   const onPressItem = (option) => {
     setSelectedData(option);
-    changeModeVisibility(false);
+    setModalVisible(false);
   };
-
   const renderOptions = options.map((option, index) => (
     <TouchableOpacity
       key={index}
@@ -50,7 +43,7 @@ export default CustomPicker = ({ label, style, ...props }) => {
 
       <TouchableOpacity
         style={styles.customPicker}
-        onPress={() => changeModeVisibility(true)}
+        onPress={() => setModalVisible(!isModalVisible)}
         {...props}
       >
         <Block>
@@ -66,7 +59,7 @@ export default CustomPicker = ({ label, style, ...props }) => {
       <Modal
         visible={isModalVisible}
         transparent={true}
-        nRequestClose={() => changeModeVisibility(true)}
+        nRequestClose={() => setModalVisible(!isModalVisible)}
       >
         
         <View style={styles.container}>

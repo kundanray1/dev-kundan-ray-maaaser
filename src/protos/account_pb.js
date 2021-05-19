@@ -1022,8 +1022,8 @@ proto.brilltech.maaser.entities.Client.toObject = function(includeInstance, msg)
   var f, obj = {
     clientid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     profilepic: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    clienttype: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    organizationtype: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    bio: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    clienttype: jspb.Message.getFieldWithDefault(msg, 4, 0),
     addressesList: jspb.Message.toObjectList(msg.getAddressesList(),
     address_pb.Address.toObject, includeInstance),
     contactsList: jspb.Message.toObjectList(msg.getContactsList(),
@@ -1074,12 +1074,12 @@ proto.brilltech.maaser.entities.Client.deserializeBinaryFromReader = function(ms
       msg.setProfilepic(value);
       break;
     case 3:
-      var value = /** @type {!proto.brilltech.maaser.entities.ClientType} */ (reader.readEnum());
-      msg.setClienttype(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setBio(value);
       break;
     case 4:
-      var value = /** @type {!proto.brilltech.maaser.entities.OrganizationType} */ (reader.readEnum());
-      msg.setOrganizationtype(value);
+      var value = /** @type {!proto.brilltech.maaser.entities.ClientType} */ (reader.readEnum());
+      msg.setClienttype(value);
       break;
     case 5:
       var value = new address_pb.Address;
@@ -1139,14 +1139,14 @@ proto.brilltech.maaser.entities.Client.serializeBinaryToWriter = function(messag
       f
     );
   }
-  f = message.getClienttype();
-  if (f !== 0.0) {
-    writer.writeEnum(
+  f = message.getBio();
+  if (f.length > 0) {
+    writer.writeString(
       3,
       f
     );
   }
-  f = message.getOrganizationtype();
+  f = message.getClienttype();
   if (f !== 0.0) {
     writer.writeEnum(
       4,
@@ -1211,31 +1211,31 @@ proto.brilltech.maaser.entities.Client.prototype.setProfilepic = function(value)
 
 
 /**
- * optional ClientType clientType = 3;
+ * optional string bio = 3;
+ * @return {string}
+ */
+proto.brilltech.maaser.entities.Client.prototype.getBio = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.brilltech.maaser.entities.Client.prototype.setBio = function(value) {
+  jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional ClientType clientType = 4;
  * @return {!proto.brilltech.maaser.entities.ClientType}
  */
 proto.brilltech.maaser.entities.Client.prototype.getClienttype = function() {
-  return /** @type {!proto.brilltech.maaser.entities.ClientType} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+  return /** @type {!proto.brilltech.maaser.entities.ClientType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /** @param {!proto.brilltech.maaser.entities.ClientType} value */
 proto.brilltech.maaser.entities.Client.prototype.setClienttype = function(value) {
-  jspb.Message.setProto3EnumField(this, 3, value);
-};
-
-
-/**
- * optional OrganizationType organizationType = 4;
- * @return {!proto.brilltech.maaser.entities.OrganizationType}
- */
-proto.brilltech.maaser.entities.Client.prototype.getOrganizationtype = function() {
-  return /** @type {!proto.brilltech.maaser.entities.OrganizationType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
-};
-
-
-/** @param {!proto.brilltech.maaser.entities.OrganizationType} value */
-proto.brilltech.maaser.entities.Client.prototype.setOrganizationtype = function(value) {
   jspb.Message.setProto3EnumField(this, 4, value);
 };
 

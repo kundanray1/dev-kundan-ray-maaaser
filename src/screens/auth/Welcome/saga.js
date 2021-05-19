@@ -1,19 +1,18 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CREATE_NEW_PASSWORD_START } from "./actions";
+import { WELCOME_START } from "./actions";
 import { AuthAPI } from "./../../../api/AuthAPI";
-import { createNewPasswordSuccess, createNewPasswordFail } from "./actions";
+import { welcomeSuccess, welcomeFail } from "./actions";
 const authApi = new AuthAPI();
-
-export function* createNewPassword({ payload }) {
+export function* welcome({ payload }) {
 	try {
-		const response = yield call(authApi.createNewPassword, payload);
-		yield put(createNewPasswordSuccess(response));
+		const response = yield call(authApi.welcome, payload);
+		yield put(welcomeSuccess(response));
 	} catch (error) {
-		yield put(createNewPasswordFail(error));
+		yield put(welcomeFail(error));
 	}
 }
 
 // Individual exports for testing
-export default function* createNewPasswordSaga() {
-	yield takeLatest(CREATE_NEW_PASSWORD_START, createNewPassword);
+export default function* welcomeSaga() {
+	yield takeLatest(WELCOME_START, welcome);
 }

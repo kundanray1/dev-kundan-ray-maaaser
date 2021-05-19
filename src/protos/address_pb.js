@@ -61,16 +61,15 @@ proto.brilltech.maaser.entities.Address.prototype.toObject = function(opt_includ
 proto.brilltech.maaser.entities.Address.toObject = function(includeInstance, msg) {
   var f, obj = {
     addressid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    refid: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    address1: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    address2: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    city: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    state: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    zip5: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    zip4: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    addresstype: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    createdat: jspb.Message.getFieldWithDefault(msg, 10, 0),
-    updatedat: jspb.Message.getFieldWithDefault(msg, 11, 0)
+    street1: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    street2: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    city: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    state: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    zip: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    refid: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    addresstype: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    createdat: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    updatedat: jspb.Message.getFieldWithDefault(msg, 10, 0)
   };
 
   if (includeInstance) {
@@ -113,41 +112,37 @@ proto.brilltech.maaser.entities.Address.deserializeBinaryFromReader = function(m
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setRefid(value);
+      msg.setStreet1(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAddress1(value);
+      msg.setStreet2(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAddress2(value);
+      msg.setCity(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCity(value);
+      msg.setState(value);
       break;
     case 6:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setState(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setZip(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setZip5(value);
+      msg.setRefid(value);
       break;
     case 8:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setZip4(value);
-      break;
-    case 9:
       var value = /** @type {!proto.brilltech.maaser.entities.AddressType} */ (reader.readEnum());
       msg.setAddresstype(value);
       break;
-    case 10:
+    case 9:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setCreatedat(value);
       break;
-    case 11:
+    case 10:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setUpdatedat(value);
       break;
@@ -187,73 +182,66 @@ proto.brilltech.maaser.entities.Address.serializeBinaryToWriter = function(messa
       f
     );
   }
-  f = message.getRefid();
+  f = message.getStreet1();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getAddress1();
+  f = message.getStreet2();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getAddress2();
+  f = message.getCity();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getCity();
+  f = message.getState();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getState();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getZip();
+  if (f !== 0) {
+    writer.writeInt32(
       6,
       f
     );
   }
-  f = message.getZip5();
+  f = message.getRefid();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getZip4();
-  if (f.length > 0) {
-    writer.writeString(
-      8,
-      f
-    );
-  }
   f = message.getAddresstype();
   if (f !== 0.0) {
     writer.writeEnum(
-      9,
+      8,
       f
     );
   }
   f = message.getCreatedat();
   if (f !== 0) {
     writer.writeInt64(
-      10,
+      9,
       f
     );
   }
   f = message.getUpdatedat();
   if (f !== 0) {
     writer.writeInt64(
-      11,
+      10,
       f
     );
   }
@@ -276,152 +264,137 @@ proto.brilltech.maaser.entities.Address.prototype.setAddressid = function(value)
 
 
 /**
- * optional string refId = 2;
+ * optional string street1 = 2;
  * @return {string}
  */
-proto.brilltech.maaser.entities.Address.prototype.getRefid = function() {
+proto.brilltech.maaser.entities.Address.prototype.getStreet1 = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setRefid = function(value) {
+proto.brilltech.maaser.entities.Address.prototype.setStreet1 = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string address1 = 3;
+ * optional string street2 = 3;
  * @return {string}
  */
-proto.brilltech.maaser.entities.Address.prototype.getAddress1 = function() {
+proto.brilltech.maaser.entities.Address.prototype.getStreet2 = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setAddress1 = function(value) {
+proto.brilltech.maaser.entities.Address.prototype.setStreet2 = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string address2 = 4;
+ * optional string city = 4;
  * @return {string}
  */
-proto.brilltech.maaser.entities.Address.prototype.getAddress2 = function() {
+proto.brilltech.maaser.entities.Address.prototype.getCity = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setAddress2 = function(value) {
+proto.brilltech.maaser.entities.Address.prototype.setCity = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string city = 5;
+ * optional string state = 5;
  * @return {string}
  */
-proto.brilltech.maaser.entities.Address.prototype.getCity = function() {
+proto.brilltech.maaser.entities.Address.prototype.getState = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setCity = function(value) {
+proto.brilltech.maaser.entities.Address.prototype.setState = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional string state = 6;
- * @return {string}
+ * optional int32 zip = 6;
+ * @return {number}
  */
-proto.brilltech.maaser.entities.Address.prototype.getState = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+proto.brilltech.maaser.entities.Address.prototype.getZip = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
-/** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setState = function(value) {
-  jspb.Message.setProto3StringField(this, 6, value);
+/** @param {number} value */
+proto.brilltech.maaser.entities.Address.prototype.setZip = function(value) {
+  jspb.Message.setProto3IntField(this, 6, value);
 };
 
 
 /**
- * optional string zip5 = 7;
+ * optional string refId = 7;
  * @return {string}
  */
-proto.brilltech.maaser.entities.Address.prototype.getZip5 = function() {
+proto.brilltech.maaser.entities.Address.prototype.getRefid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setZip5 = function(value) {
+proto.brilltech.maaser.entities.Address.prototype.setRefid = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional string zip4 = 8;
- * @return {string}
- */
-proto.brilltech.maaser.entities.Address.prototype.getZip4 = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
-};
-
-
-/** @param {string} value */
-proto.brilltech.maaser.entities.Address.prototype.setZip4 = function(value) {
-  jspb.Message.setProto3StringField(this, 8, value);
-};
-
-
-/**
- * optional AddressType addressType = 9;
+ * optional AddressType addressType = 8;
  * @return {!proto.brilltech.maaser.entities.AddressType}
  */
 proto.brilltech.maaser.entities.Address.prototype.getAddresstype = function() {
-  return /** @type {!proto.brilltech.maaser.entities.AddressType} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+  return /** @type {!proto.brilltech.maaser.entities.AddressType} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
 };
 
 
 /** @param {!proto.brilltech.maaser.entities.AddressType} value */
 proto.brilltech.maaser.entities.Address.prototype.setAddresstype = function(value) {
-  jspb.Message.setProto3EnumField(this, 9, value);
+  jspb.Message.setProto3EnumField(this, 8, value);
 };
 
 
 /**
- * optional int64 createdAt = 10;
+ * optional int64 createdAt = 9;
  * @return {number}
  */
 proto.brilltech.maaser.entities.Address.prototype.getCreatedat = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
 /** @param {number} value */
 proto.brilltech.maaser.entities.Address.prototype.setCreatedat = function(value) {
-  jspb.Message.setProto3IntField(this, 10, value);
+  jspb.Message.setProto3IntField(this, 9, value);
 };
 
 
 /**
- * optional int64 updatedAt = 11;
+ * optional int64 updatedAt = 10;
  * @return {number}
  */
 proto.brilltech.maaser.entities.Address.prototype.getUpdatedat = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
 
 /** @param {number} value */
 proto.brilltech.maaser.entities.Address.prototype.setUpdatedat = function(value) {
-  jspb.Message.setProto3IntField(this, 11, value);
+  jspb.Message.setProto3IntField(this, 10, value);
 };
 
 

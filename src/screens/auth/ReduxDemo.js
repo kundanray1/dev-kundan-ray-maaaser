@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  StyleSheet,
   RefreshControl,
   ActivityIndicator,
   FlatList,
@@ -9,7 +10,6 @@ import * as theme from "./../../constants/theme.js";
 import { Block, Text, Empty, Button } from "./../../components/Index.js";
 import { Entypo } from "@expo/vector-icons";
 import { getPosts } from "./../../store/actions/PostsActions";
-import { logoutStart } from "./../../store/actions/AuthActions";
 import { connect, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
@@ -116,5 +116,5 @@ const structuredSelector = createStructuredSelector({
   auth: (state) => state.auth,
 });
 
-const mapDispatchToProps = { getPosts, logoutStart };
+const mapDispatchToProps = { getPosts };
 export default connect(structuredSelector, mapDispatchToProps)(ReduxDemo);

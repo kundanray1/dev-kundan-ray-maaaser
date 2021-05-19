@@ -20,6 +20,7 @@ import {
   CheckBox,
 } from "./../../../components/Index.js";
 
+
 const Login = ({ navigation, data, login }) => {
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -44,8 +45,8 @@ const Login = ({ navigation, data, login }) => {
           <Block center style={{ marginTop: 44 }}>
             <Formik
               initialValues={{
-                identifier: "mobile@gmail.com",
-                password: "Mobile@123",
+                identifier: "@t4reeleaf.ai",
+                password: "mango123",
               }}
               onSubmit={(values) => {
                 login(values);

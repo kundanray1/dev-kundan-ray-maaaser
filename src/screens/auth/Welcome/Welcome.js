@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Image } from "react-native";
-import { Button, OutlinedButton, Block, Text } from "../../components/Index.js";
-import * as theme from "../../constants/theme.js";
+import { Button, OutlinedButton, Block, Text } from "./../../../components/Index.js";
+import * as theme from "./../../../constants/theme.js";
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default Welcome = ({ navigation }) => {
@@ -10,7 +10,7 @@ export default Welcome = ({ navigation }) => {
       <Block style={{ flex: 2.5 }}>
         <Block center middle>
           <Image
-            source={require("../../assets/icons/logo.png")}
+            source={require("../../../assets/icons/logo.png")}
             style={{ height: 150, width: 150 }}
           />
         </Block>
