@@ -24,8 +24,8 @@ export default OutlinedButton = ({ style, full, opacity, children, ...props }) =
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
-    height: 55,
+    borderRadius: 2,
+    height: 46,
     padding:2,
   },
   outlinedStyles: {

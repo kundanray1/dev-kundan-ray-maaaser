@@ -18,12 +18,12 @@ const ReduxDemo = ({ navigation, posts, auth }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    dispatch(getPosts());
+    // dispatch(getPosts());
     setRefreshing(false);
   });
  console.log(posts)
   useEffect(() => {
-    dispatch(getPosts());
+    // dispatch(getPosts());
   }, []);
 
   const Item = ({ description, dateCreated }) => {

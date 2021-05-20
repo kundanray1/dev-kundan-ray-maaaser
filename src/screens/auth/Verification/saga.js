@@ -1,9 +1,7 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { VERIFICATION_START } from "./actions";
-import { AuthAPI } from "./../../../api/AuthAPI";
 import { verificationSuccess, verificationFail } from "./actions";
 
-const authApi = new AuthAPI();
 export function* verification({ payload }) {
 	try {
 		const response = yield call(authApi.verification, payload);

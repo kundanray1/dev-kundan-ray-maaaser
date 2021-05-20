@@ -24,3 +24,22 @@ export const CreateNewPasswordValidationSchema = Yup.object().shape({
 export const NotificationValidationSchema = Yup.object().shape({
   notification: Yup.string().required().min(6).label("Notification")
   });
+
+export const LetsGetStartedDonorValidationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Name"),
+  street: Yup.string().required().label("Street"),
+  state: Yup.string().required().label("State"),
+  city: Yup.string().required().label("City"),
+  zipCode: Yup.string().required().label("Zip Code"),
+  });
+
+
+export const LetsGetStartedReceiverValidationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Name"),
+  street: Yup.string().required().label("Street"),
+  state: Yup.string().required().label("State"),
+  city: Yup.string().required().label("City"),
+  zipCode: Yup.string().required().label("Zip Code"),
+  bio: Yup.string().required().label("Bio"),
+  });
+

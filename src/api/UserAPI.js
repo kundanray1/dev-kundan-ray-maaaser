@@ -113,6 +113,7 @@ class UserAPI extends API {
         })
     };
     
+
     onRegister = (userInfo, callback) => {
         return fetch(APIEndPoints.REGISTER, {
             method: 'POST',
@@ -131,6 +132,10 @@ class UserAPI extends API {
                 callback(null, null);
             })
     }
+
+
+
+    
 }
 
 export default new UserAPI();

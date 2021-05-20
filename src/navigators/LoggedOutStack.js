@@ -6,6 +6,9 @@ import SignUp from "../screens/auth/SignUp/index";
 import ForgotPassword from "../screens/auth/ForgotPassword/index";
 import Verification from "../screens/auth/Verification/index";
 import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
+import LetsGetStartedDonor from "../screens/auth/LetsGetStartedDonor/index";
+import LetsGetStartedReceiver from "../screens/auth/LetsGetStartedReceiver/index";
+
 
 const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {
@@ -40,6 +43,16 @@ export default LoggedOutStack = () => {
           name="Create New Password"
           options={{ headerShown: true }}
           component={CreateNewPassword}
+        />
+        <AuthStack.Screen
+          name="Lets Get Started Donor"
+          options={{ headerShown: false }}
+          component={LetsGetStartedDonor}
+        />
+         <AuthStack.Screen
+          name="Lets Get Started Receiver"
+          options={{ headerShown: false }}
+          component={LetsGetStartedReceiver}
         />
          
       </AuthStack.Navigator>

@@ -5,7 +5,7 @@ export const LOGIN_URL=`${BASE_URL}/auth/local`
 export const SIGNUP_URL=`${BASE_URL}/auth/local/register`
 export const NOTIFICATIONS_URL=`${BASE_URL}/notifications`
 
-const MainAPI = 'https://e21c67ff40ff.ngrok.io';
+const MainAPI = 'https://455325babfe7.ngrok.io';
 
 const APIEndPoints = {
     LOGIN: MainAPI + '/login',

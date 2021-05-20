@@ -1,8 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { FORGOT_PASSWORD_START } from "./actions";
-import { AuthAPI } from "./../../../api/AuthAPI";
 import { forgotPasswordSuccess, forgotPasswordFail } from "./actions";
-const authApi = new AuthAPI();
 
 export function* forgotPassword({ payload }) {
 	try {

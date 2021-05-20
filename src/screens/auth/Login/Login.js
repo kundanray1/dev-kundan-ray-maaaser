@@ -19,13 +19,31 @@ import {
   ErrorMessage,
   CheckBox,
 } from "./../../../components/Index.js";
-
-
+import LoginProto from "./../../../protos/auth_pb";
+import { showMessage } from "react-native-flash-message";
 const Login = ({ navigation, data, login }) => {
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  const onSubmitLogin = (values) => {
+    const loginData = new LoginProto.LoginRequest();
+    loginData.setEmailphone(values.identifier);
+    loginData.setPassword(values.password);
+    const res = login(loginData);
+    console.log(res);
+    if (res.error) {
+      showMessage({
+        message: res.msg,
+        type: "danger",
+      });
+    } else {
+      showMessage({
+        message: "Lgged In successfully",
+        type: "success",
+      });
+    }
+  };
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -37,7 +55,7 @@ const Login = ({ navigation, data, login }) => {
             source={require("../../../assets/icons/logo.png")}
             style={{ height: 100, width: 100 }}
           />
-          <Text h3 center style={{ marginTop: 6 }} color={theme.colors.black}>
+          <Text bold center style={{ marginTop: 6, fontSize: 18 }}>
             Log In
           </Text>
         </Block>
@@ -45,11 +63,12 @@ const Login = ({ navigation, data, login }) => {
           <Block center style={{ marginTop: 44 }}>
             <Formik
               initialValues={{
-                identifier: "@t4reeleaf.ai",
-                password: "mango123",
+                identifier: "",
+                password: "Joshan@123",
               }}
               onSubmit={(values) => {
-                login(values);
+                onSubmitLogin(values);
+                // navigation.navigate("Lets Get Started")
               }}
               validationSchema={LoginValidationSchema}
             >
@@ -65,7 +84,7 @@ const Login = ({ navigation, data, login }) => {
                   <Input
                     full
                     label="Email address / Phone Number"
-                    style={{ marginBottom: 5 }}
+                    focus={identifierFocus}
                     onChangeText={handleChange("identifier")}
                     onBlur={() => {
                       setFieldTouched("identifier");
@@ -89,7 +108,7 @@ const Login = ({ navigation, data, login }) => {
                     full
                     password
                     label="Password"
-                    style={{ marginBottom: 5 }}
+                    focus={passwordFocus}
                     onChangeText={handleChange("password")}
                     onBlur={() => {
                       setFieldTouched("password");
@@ -113,10 +132,11 @@ const Login = ({ navigation, data, login }) => {
                   />
 
                   <Block row style={{ marginTop: 10 }}>
-                    <Block row>
+                    <Block>
                       <TouchableOpacity
                         activeOpacity={0.8}
                         onPress={() => setChecked(!checked)}
+                        style={{ flexDirection: "row" }}
                       >
                         {checked ? (
                           <MaterialCommunityIcons
@@ -131,15 +151,18 @@ const Login = ({ navigation, data, login }) => {
                             color={theme.colors.black}
                           />
                         )}
+                        <Text
+                          bold
+                          style={{ paddingHorizontal: 8, marginTop: 4 }}
+                        >
+                          Remember Me
+                        </Text>
                       </TouchableOpacity>
-
-                      <Text bold style={{ paddingHorizontal: 8 }}>
-                        Remember Me
-                      </Text>
                     </Block>
                     <TouchableOpacity
                       style={{
                         alignItems: "flex-end",
+                        marginTop: 4,
                       }}
                       onPress={() => navigation.navigate("Forgot Password")}
                     >
@@ -185,9 +208,9 @@ const Login = ({ navigation, data, login }) => {
                   )}
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("Register")}
+                    onPress={() => navigation.navigate("SignUp")}
                   >
-                    <Text h4 color="black">
+                    <Text h4 color={theme.colors.solidGray}>
                       Don't have an account?{" "}
                       <Text h4 color={theme.colors.primary2}>
                         Sign Up
@@ -204,4 +227,4 @@ const Login = ({ navigation, data, login }) => {
   );
 };
 
-export default Login
+export default Login;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
 	Image,
 	View,
@@ -7,14 +7,13 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 } from "react-native";
-import * as theme from "./../../../constants/theme.js";
-import { Button, Block, Text } from "./../../../components/Index.js";
+import * as theme from "../../../constants/theme.js";
+import { Button, Block, Text, ErrorMessage } from "../../../components/Index.js";
 import { TextInput } from "react-native-gesture-handler";
 
 export default Verification = ({ navigation }) => {
 	const [loading, setLoading] = useState(false);
 	const [internalValue, setInternalValue] = useState("");
-	
 	let textInput = useRef(null);
 	const lengthInput = 6;
 	const onChangeText = (value) => {
@@ -22,21 +21,15 @@ export default Verification = ({ navigation }) => {
 	};
 	const handleSubmit = () => {
 		setLoading(!loading);
-		console.log(internalValue);
 	};
-	const handlePress = () => {
-		textInput.focus();
-	};
-	useEffect(() => {
-		textInput.focus();
-	}, []);
+	
 	return (
 		<Block center style={{ marginTop: 20 }}>
 			<Image
 				source={require("../../../assets/icons/logo.png")}
 				style={{ height: 100, width: 100 }}
 			/>
-			<Text h3 center style={{ marginTop: 6 }} color={theme.colors.black}>
+			<Text bold center style={{ marginTop: 6, fontSize:18 }} color={theme.colors.black}>
 				Verification
 			</Text>
 			<Text
@@ -54,8 +47,8 @@ export default Verification = ({ navigation }) => {
 				style={styles.containerAvoidingView}
 			>
 				<TextInput
-					ref={(input) => (textInput = input)}
-					onChange={onChangeText}
+					ref={(input) => textInput = input}
+					onChangeText={onChangeText}
 					autoFocus={true}
 					style={{ width: 0, height: 0 }}
 					value={internalValue}
@@ -63,9 +56,10 @@ export default Verification = ({ navigation }) => {
 					returnKeyType="done"
 					keyboardType="numeric"
 				/>
+
 				<TouchableOpacity
 					style={styles.containerInput}
-					onPress={handlePress}
+					onPress={() => textInput.focus()} 
 					activeOpacity={1}
 				>
 					{Array(lengthInput)
@@ -83,7 +77,7 @@ export default Verification = ({ navigation }) => {
 									},
 								]}
 							>
-								<Text bold onPress={() => textInput.focus()}>
+								<Text bold style={styles.cellText}>
 									{internalValue && internalValue.length > 0
 										? internalValue[index]
 										: ""}
@@ -91,6 +85,7 @@ export default Verification = ({ navigation }) => {
 							</View>
 						))}
 				</TouchableOpacity>
+
 				<Button
 					full
 					style={{
@@ -120,7 +115,7 @@ export default Verification = ({ navigation }) => {
 					onPress={() => console.log("Resend Value")}
 					style={{ justifyContent: "flex-start" }}
 				>
-					<Text h4 color="black">
+					<Text bold color={theme.colors.solidGray}>
 						If you didn't receive a code!{" "}
 						<Text h4 color={theme.colors.primary2}>
 							Resend
@@ -131,7 +126,6 @@ export default Verification = ({ navigation }) => {
 		</Block>
 	);
 };
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -153,4 +147,12 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		borderBottomWidth: 1.5,
 	},
+	cellText:{
+		textAlign:'center',
+		fontSize:16
+	}
+,
 });
+
+
+

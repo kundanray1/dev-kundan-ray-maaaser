@@ -1,8 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { WELCOME_START } from "./actions";
-import { AuthAPI } from "./../../../api/AuthAPI";
 import { welcomeSuccess, welcomeFail } from "./actions";
-const authApi = new AuthAPI();
 export function* welcome({ payload }) {
 	try {
 		const response = yield call(authApi.welcome, payload);

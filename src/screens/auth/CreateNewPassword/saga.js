@@ -1,8 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { CREATE_NEW_PASSWORD_START } from "./actions";
-import { AuthAPI } from "./../../../api/AuthAPI";
 import { createNewPasswordSuccess, createNewPasswordFail } from "./actions";
-const authApi = new AuthAPI();
 
 export function* createNewPassword({ payload }) {
 	try {

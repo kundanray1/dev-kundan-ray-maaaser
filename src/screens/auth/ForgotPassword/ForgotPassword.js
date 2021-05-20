@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-	Image,
-	ActivityIndicator,
-} from "react-native";
+import { Image, ActivityIndicator } from "react-native";
 import { Formik } from "formik";
 import { ForgotPasswordValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
@@ -15,9 +12,8 @@ import {
 	ErrorMessage,
 } from "./../../../components/Index.js";
 
-export default ForgotPassword = ({ navigation,data,forgotPassword }) => {
-	const [passwordFocus, setPasswordFocus] = useState(false);
-	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
+	const [identifierFocus, setIdentifierFocus] = useState(false);
 	return (
 		<KeyboardAwareScrollView
 			style={{ marginVertical: 10 }}
@@ -29,18 +25,19 @@ export default ForgotPassword = ({ navigation,data,forgotPassword }) => {
 						<Image
 							source={require("../../../assets/icons/logo.png")}
 							style={{ height: 100, width: 100 }}
+
 						/>
 						<Text
-							h3
+						bold
 							center
-							style={{ marginTop: 6 }}
+							style={{ marginTop: 6,fontSize:18 }}
 							color={theme.colors.black}
 						>
-							Create new Password
+							Forgot password?
 						</Text>
 						<Text
 							center
-							style={{ marginTop: 6, padding: 5 }}
+							style={{ marginTop: 6, padding: 5,fontSize:15  }}
 							color={theme.colors.gray}
 						>
 							Your new password must be different from previous
@@ -49,16 +46,15 @@ export default ForgotPassword = ({ navigation,data,forgotPassword }) => {
 					</Block>
 				</Block>
 				<Block flex={2.5} center>
-					<Block center middle style={{ marginTop: 44 }}>
+					<Block center middle style={{ marginTop: 25 }}>
 						<Formik
 							initialValues={{
-								password: "",
-								confirmPassword: "",
+								identifier: "",
 							}}
 							onSubmit={(values) => {
-								forgotPassword(values)
+								forgotPassword(values);
 							}}
-							validationSchema={CreateNewPasswordValidationSchema}
+							validationSchema={ForgotPasswordValidationSchema}
 						>
 							{({
 								handleChange,
@@ -71,62 +67,32 @@ export default ForgotPassword = ({ navigation,data,forgotPassword }) => {
 								<Block>
 									<Input
 										full
-										password
-										label="Password"
+										label="Email address / Phone Number"
 										style={{ marginBottom: 5 }}
-										onChangeText={handleChange("password")}
-										onBlur={() => {
-											setFieldTouched("password");
-											setPasswordFocus(false);
-										}}
-										onFocus={() => {
-											setPasswordFocus(true);
-										}}
-										value={values.password}
-										style={{
-											borderBottomColor: passwordFocus
-												? theme.colors.primary2
-												: touched.password &&
-												  errors.password
-												? theme.colors.red
-												: theme.colors.solidGray,
-										}}
-									/>
-									<ErrorMessage
-										error={errors.password}
-										visible={touched.password}
-									/>
-									<Input
-										full
-										password
-										label="Confirm Password"
-										style={{ marginBottom: 5 }}
+										focus={identifierFocus}
 										onChangeText={handleChange(
-											"confirmPassword"
+											"identifier"
 										)}
 										onBlur={() => {
-											setFieldTouched("confirmPassword");
-											setConfirmPasswordFocus(false);
+											setFieldTouched("identifier");
+											setIdentifierFocus(false);
 										}}
-										onFocus={() =>
-											setConfirmPasswordFocus(true)
-										}
-										value={values.confirmPassword}
+										onFocus={() => setIdentifierFocus(true)}
+										value={values.identifier}
 										style={{
-											borderBottomColor: confirmPasswordFocus
+											borderBottomColor: identifierFocus
 												? theme.colors.primary2
-												: touched.confirmPassword &&
-												  errors.confirmPassword
+												: touched.identifier &&
+												  errors.identifier
 												? theme.colors.red
 												: theme.colors.solidGray,
 										}}
 									/>
 									<ErrorMessage
-										error={errors.confirmPassword}
-										visible={touched.confirmPassword}
+										error={errors.identifier}
+										visible={touched.identifier}
 									/>
-									{!errors.confirmPassword &&
-									!errors.password ? (
+									{!errors.identifierFocus ? (
 										<Button
 											full
 											style={{
@@ -176,4 +142,3 @@ export default ForgotPassword = ({ navigation,data,forgotPassword }) => {
 		</KeyboardAwareScrollView>
 	);
 };
-

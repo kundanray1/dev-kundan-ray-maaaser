@@ -16,7 +16,7 @@ const colors = {
   black2: "#69707F",
   black3: "#8798AD",
   white: "#FFFFFF",
-  gray: "#BFC5D2",
+  gray: "#676767",
   gray2: "#F4F6FC",
   gray3: "#EEF3F5",
   caption: "#B0BAC9",
@@ -28,7 +28,7 @@ const colors = {
 
 const sizes = {
   font: 15,
-  inputFont:18,
+  inputFont:16,
   h1: 48,
   h2: 34,
   h3: 28,

@@ -21,8 +21,8 @@ export default Button = ({ style, full, opacity, children, ...props }) => {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
-    height: 55,
+    borderRadius: 2,
+    height: 46,
     paddingVertical: 11,
     alignItems: "center",
     justifyContent: "center",

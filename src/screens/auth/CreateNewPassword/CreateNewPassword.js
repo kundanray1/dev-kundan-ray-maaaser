@@ -29,6 +29,7 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 						<Image
 							source={require("../../../assets/icons/logo.png")}
 							style={{ height: 100, width: 100 }}
+							
 						/>
 						<Text
 							h3
@@ -73,6 +74,7 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 										full
 										password
 										label="Password"
+										focus={passwordFocus}
 										style={{ marginBottom: 5 }}
 										onChangeText={handleChange("password")}
 										onBlur={() => {
@@ -100,6 +102,7 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 										full
 										password
 										label="Confirm Password"
+										focus={confirmPasswordFocus}
 										style={{ marginBottom: 5 }}
 										onChangeText={handleChange(
 											"confirmPassword"
