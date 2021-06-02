@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-	Image,
-	ActivityIndicator,
-} from "react-native";
+import { Image } from "react-native";
 import { Formik } from "formik";
 import { CreateNewPasswordValidationSchema } from "../../../utility/ValidationSchema.js";
 import * as theme from "../../../constants/theme.js";
@@ -12,12 +9,38 @@ import {
 	Block,
 	Text,
 	Input,
-	ErrorMessage,
+	ErrorMessage,CustomActivityIndicator
 } from "../../../components/Index.js";
+import AccountProto from "./../../../protos/account_pb";
 
-export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
+export default CreateNewPassword = ({
+	navigation,
+	data,
+	forgotPasswordData,
+	verificationData,
+	createNewPassword,
+}) => {
 	const [passwordFocus, setPasswordFocus] = useState(false);
 	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+
+	const onSubmitCreateNewPassword = (values) => {
+		const createNewPasswordData = new AccountProto.PasswordReset();
+		createNewPasswordData.setAccountid(
+			forgotPasswordData.forgotPassword.refid
+		);
+		createNewPasswordData.setNewpassword(values.password);
+		createNewPasswordData.setCode(verificationData.code.array[4]);
+		createNewPassword(createNewPasswordData);
+	};
+
+	useEffect(() => {
+		if (data.createNewPassword !== null) {
+			if (data.createNewPassword.success) {
+				navigation.navigate("Login");
+			}
+		}
+	}, [data]);
+
 	return (
 		<KeyboardAwareScrollView
 			style={{ marginVertical: 10 }}
@@ -29,7 +52,6 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 						<Image
 							source={require("../../../assets/icons/logo.png")}
 							style={{ height: 100, width: 100 }}
-							
 						/>
 						<Text
 							h3
@@ -53,11 +75,11 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 					<Block center middle style={{ marginTop: 44 }}>
 						<Formik
 							initialValues={{
-								password: "",
-								confirmPassword: "",
+								password: "Josh@123",
+								confirmPassword: "Josh@123",
 							}}
 							onSubmit={(values) => {
-								createNewPassword(values)
+								onSubmitCreateNewPassword(values);
 							}}
 							validationSchema={CreateNewPasswordValidationSchema}
 						>
@@ -139,10 +161,10 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 											onPress={handleSubmit}
 										>
 											{data.isLoading ? (
-												<ActivityIndicator
-													size="small"
-													color={theme.colors.white}
-												/>
+												 <CustomActivityIndicator
+                         isLoading={data.isLoading}
+                         label="Requesting..."
+                        />
 											) : (
 												<Text
 													button
@@ -179,4 +201,3 @@ export default CreateNewPassword = ({ navigation,data,createNewPassword }) => {
 		</KeyboardAwareScrollView>
 	);
 };
-

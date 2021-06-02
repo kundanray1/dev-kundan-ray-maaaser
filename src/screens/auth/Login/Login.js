@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  StyleSheet,
-  Image,
-  ActivityIndicator,
-  Keyboard,
-  TouchableOpacity,
-} from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LoginValidationSchema } from "./../../../utility/ValidationSchema.js";
@@ -17,33 +11,24 @@ import {
   Text,
   Input,
   ErrorMessage,
-  CheckBox,
+  CustomActivityIndicator
 } from "./../../../components/Index.js";
 import LoginProto from "./../../../protos/auth_pb";
-import { showMessage } from "react-native-flash-message";
 const Login = ({ navigation, data, login }) => {
+  console.log("Login");
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [checked, setChecked] = useState(false);
 
+//set all the required proto for updating and submitting
   const onSubmitLogin = (values) => {
     const loginData = new LoginProto.LoginRequest();
     loginData.setEmailphone(values.identifier);
     loginData.setPassword(values.password);
-    const res = login(loginData);
-    console.log(res);
-    if (res.error) {
-      showMessage({
-        message: res.msg,
-        type: "danger",
-      });
-    } else {
-      showMessage({
-        message: "Lgged In successfully",
-        type: "success",
-      });
-    }
+    login(loginData);
+
   };
+  
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -63,12 +48,11 @@ const Login = ({ navigation, data, login }) => {
           <Block center style={{ marginTop: 44 }}>
             <Formik
               initialValues={{
-                identifier: "",
-                password: "Joshan@123",
+                identifier: "j@gmail.com",
+                password: "Joshan@1234",
               }}
               onSubmit={(values) => {
                 onSubmitLogin(values);
-                // navigation.navigate("Lets Get Started")
               }}
               validationSchema={LoginValidationSchema}
             >
@@ -182,9 +166,9 @@ const Login = ({ navigation, data, login }) => {
                       onPress={handleSubmit}
                     >
                       {data.isLoading ? (
-                        <ActivityIndicator
-                          size="small"
-                          color={theme.colors.white}
+                        <CustomActivityIndicator
+                         isLoading={data.isLoading}
+                         label="Requesting..."
                         />
                       ) : (
                         <Text button style={{ fontSize: 18 }}>
@@ -208,7 +192,7 @@ const Login = ({ navigation, data, login }) => {
                   )}
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("SignUp")}
+                    onPress={() => navigation.navigate("Welcome")}
                   >
                     <Text h4 color={theme.colors.solidGray}>
                       Don't have an account?{" "}

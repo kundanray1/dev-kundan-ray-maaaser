@@ -1,17 +1,56 @@
+
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { CREATE_NEW_PASSWORD_START } from "./actions";
-import { createNewPasswordSuccess, createNewPasswordFail } from "./actions";
+import { createNewPasswordSuccess, createNewPasswordFail,createNewPasswordClear } from "./actions";
+import base from "./../../../protos/account_rpc_pb";
+import APIEndpoints from "./../../../constants/APIConstants";
+import { ProtoHeaders } from "./../../../constants/APIHeader";
+import { requestProto } from "../../../utility/request";
+import { showMessage } from "react-native-flash-message";
+import {forgotPasswordClear} from "../ForgotPassword/actions";
+import {verificationClear} from "../Verification/actions";
 
+
+//serializing the payload into binary and submittin data to requestProto function with additional data
 export function* createNewPassword({ payload }) {
+	console.log("createNewPassword payload==",payload)
 	try {
-		const response = yield call(authApi.createNewPassword, payload);
-		yield put(createNewPasswordSuccess(response));
-	} catch (error) {
-		yield put(createNewPasswordFail(error));
+		const serializedData = payload.serializeBinary();
+		const response = yield call(requestProto, APIEndpoints.PASSWORD_RESET, {
+			method: "PATCH",
+			headers: ProtoHeaders,
+			body: serializedData,
+		});
+		const res = base.AccountBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		console.log("res createNewPassword==",res)
+		if (res.success) {
+			yield put(createNewPasswordSuccess(res));
+			yield put(forgotPasswordClear());
+			yield put(verificationClear());
+			yield put(createNewPasswordClear());
+			showMessage({
+				message: res.msg,
+				type: "success",
+			});
+
+		} else {
+			yield put(createNewPasswordFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(createNewPasswordFail(e));
+		showMessage({
+			message: "Sorry, error from server or check your credentials!",
+			type: "danger",
+		});
 	}
 }
 
-// Individual exports for testing
 export default function* createNewPasswordSaga() {
 	yield takeLatest(CREATE_NEW_PASSWORD_START, createNewPassword);
 }

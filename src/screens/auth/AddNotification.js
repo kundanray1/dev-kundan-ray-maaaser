@@ -3,7 +3,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import {
 	StyleSheet,
 	Image,
-	ActivityIndicator,
 } from "react-native";
 import { Formik } from "formik";
 import { descriptionValidationSchema } from "./../../utility/ValidationSchema.js";
@@ -15,17 +14,16 @@ import {
 	Input,
 	ErrorMessage,
 } from "../../components/Index.js";
-import { addPost } from "./../../store/actions/PostsActions";
 import { connect, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import API from './../../api/API'
 
-const Adddescription = ({ navigation, posts }) => {
+const Adddescription = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const [descriptionFocus, setDescriptionFocus] = useState(false);
 	const onSubmitRegister = ({ description }) => {
 		console.log("=====================================");
 		console.log("inside onSubmitRegister");
-		dispatch(addPost({ description }));
 	};
 	return (
 		<KeyboardAwareScrollView
@@ -65,7 +63,8 @@ const Adddescription = ({ navigation, posts }) => {
 								description: "",
 							}}
 							onSubmit={(values) => {
-								onSubmitRegister(values);
+								// onSubmitRegister(values);
+								API.removeTokens() ;
 							}}
 							validationSchema={descriptionValidationSchema}
 						>
@@ -158,9 +157,3 @@ const styles = StyleSheet.create({
 	},
 });
 
-const structuredSelector = createStructuredSelector({
-	posts: (state) => state.posts,
-});
-
-const mapDispatchToProps = { addPost };
-export default connect(structuredSelector, mapDispatchToProps)(Adddescription);

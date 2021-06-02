@@ -3,7 +3,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import {
   StyleSheet,
   Image,
-  ActivityIndicator,
   Keyboard,
   TouchableOpacity,
 } from "react-native";
@@ -17,30 +16,27 @@ import {
   Text,
   Input,
   ErrorMessage,
-  CheckBox,
+  CheckBox,CustomActivityIndicator
 } from "./../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
+import AccountProto from "./../../../protos/account_pb";
+import MaaserProto from "./../../../protos/maaser_pb";
+import AddressProto from "./../../../protos/address_pb";
+// import API from "./../../../api/API";
 
-const LetsGetStartedDonor = ({ navigation, data, login }) => {
-  const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(false);
-  const [streetFocus, setStreetFocus] = useState(false);
+const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStartedDonor }) => {
+
+  const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
+    false
+  );
+  const [street1Focus, setStreet1Focus] = useState(false);
+  const [street2Focus, setStreet2Focus] = useState(false);
   const [stateFocus, setStateFocus] = useState(false);
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
   const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== "web") {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("we need camera roll permissions to make this work!");
-        }
-      }
-    })();
-  }, []);
+//select image function 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -48,14 +44,46 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
     console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
   };
-  console.log("Joshan");
+//set all the required proto for updating and submitting
+  const onSubmitSaveAndContinue = (values) => {
+
+    const clientData = new AccountProto.Client();
+    const accountData = new AccountProto.Account();
+    const addressData = new AddressProto.Address();
+   
+    accountData.setAccountid(loginData.user.account.accountid);
+    accountData.setEmail(loginData.user.account.email);
+    accountData.setFullname(values.fullName);
+    accountData.setCountrycode(loginData.user.account.countrycode);
+    accountData.setAccounttype(loginData.user.account.accounttype);
+
+    addressData.setStreet1(values.street1);
+    addressData.setStreet2(values.street2);
+    addressData.setState(values.state);
+    addressData.setCity(values.city);
+    addressData.setZip(values.zipCode);
+    addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
+    
+
+    clientData.setClientid(loginData.user.clientid);
+    clientData.setProfilepic(image);
+    clientData.setClienttype(loginData.user.clienttype);
+    clientData.setAccount(accountData);
+    clientData.setAddressesList(addressData);
+
+    letsGetStartedDonor(clientData);
+  };
+
+  useEffect(() => {
+    if (loginData.user.account.isfirstlogin===true) {
+      navigation.navigate("MainTab");
+    }
+  }, [loginData.user]);
 
   return (
     <KeyboardAwareScrollView
@@ -78,7 +106,9 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
               style={{ marginTop: 2, padding: 5, fontSize: 15 }}
               color={theme.colors.gray}
             >
-            {accountType=="Individual"? "Tell us a bit about you.":"Tell us a bit about your company."}
+              {loginData.user.account.clienttype == 1
+                ? "Tell us a bit about you."
+                : "Tell us a bit about your company."}
             </Text>
             <TouchableOpacity onPress={pickImage}>
               {image ? (
@@ -99,34 +129,40 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
                   padding: 2,
                   borderRadius: 10,
                   position: "absolute",
-                  marginLeft:60,
-                  marginTop:55,
+                  marginLeft: 60,
+                  marginTop: 55,
                 }}
               >
-              <Block style={{
-                  backgroundColor: theme.colors.primary2,
-                  padding: 4,
-                  borderRadius: 10,
-                }}>
-                <MaterialCommunityIcons name="camera" size={10} color="white" />
-              </Block>
+                <Block
+                  style={{
+                    backgroundColor: theme.colors.primary2,
+                    padding: 4,
+                    borderRadius: 10,
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="camera"
+                    size={10}
+                    color="white"
+                  />
+                </Block>
               </Block>
             </TouchableOpacity>
-            
           </Block>
         </Block>
         <Block flex={2.5} center>
           <Block center style={{ marginTop: 20 }}>
             <Formik
               initialValues={{
-                name: "",
-                street: "",
-                state: "",
-                city: "",
-                zipCode: "",
+                fullName: "Joshan Pradhan",
+                street1: "Fikkal ",
+                street2: "Phikkal",
+                state: " Ilam",
+                city: "Fikkal",
+                zipCode: "44600",
               }}
               onSubmit={(values) => {
-                console.log(values);
+                onSubmitSaveAndContinue(values)
               }}
               validationSchema={LetsGetStartedDonorValidationSchema}
             >
@@ -141,33 +177,32 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
                 <Block>
                   <Input
                     full
-                    label={accountType=="Individual"? "Full Name":"Company Name"}
+                    label={
+                       loginData.user.account.clienttype == 1 ? "Full Name" : "Company Name"
+                    }
                     focus={fullNameOrCompanyNameFocus}
                     style={{ marginBottom: 5 }}
-                    onChangeText={handleChange("name")}
+                    onChangeText={handleChange("fullName")}
                     onBlur={() => {
-                      setFieldTouched("name");
+                      setFieldTouched("fullName");
                       setFullNameOrCompanyNameFocus(false);
                     }}
                     onFocus={() => setFullNameOrCompanyNameFocus(true)}
-                    value={values.name}
+                    value={values.fullName}
                     style={{
                       borderBottomColor: fullNameOrCompanyNameFocus
                         ? theme.colors.primary2
-                        : touched.name && errors.name
+                        : touched.fullName && errors.fullName
                         ? theme.colors.red
                         : theme.colors.solidGray,
                     }}
                   />
-                  <ErrorMessage
-                    error={errors.name}
-                    visible={touched.name}
-                  />
+                  <ErrorMessage error={errors.fullName} visible={touched.fullName} />
                   <Text
                     bold
                     style={{ fontSize: 16, marginTop: 5 }}
                     color={
-                      streetFocus || stateFocus || cityFocus || zipCodeFocus
+                      street1Focus ||  street2Focus || stateFocus || cityFocus || zipCodeFocus
                         ? theme.colors.primary2
                         : theme.colors.black
                     }
@@ -177,27 +212,52 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
 
                   <Input
                     full
-                    placeholder="Street"
+                    placeholder="Street 1"
                     style={{ marginBottom: 5 }}
-                    onChangeText={handleChange("street")}
+                    onChangeText={handleChange("street1")}
                     onBlur={() => {
-                      setFieldTouched("street");
-                      setStreetFocus(false);
+                      setFieldTouched("street1");
+                      setStreet1Focus(false);
                     }}
-                    onFocus={() => setStreetFocus(true)}
-                    value={values.street}
+                    onFocus={() => setStreet1Focus(true)}
+                    value={values.street1}
                     style={{
-                      borderBottomColor: streetFocus
+                      borderBottomColor: street1Focus
                         ? theme.colors.primary2
-                        : touched.street && errors.street
+                        : touched.street1 && errors.street1
                         ? theme.colors.red
                         : theme.colors.solidGray,
                       marginTop: 0,
                     }}
                   />
                   <ErrorMessage
-                    error={errors.street}
-                    visible={touched.street}
+                    error={errors.street1}
+                    visible={touched.street1}
+                  />
+
+                  <Input
+                    full
+                    placeholder="Street 2"
+                    style={{ marginBottom: 5 }}
+                    onChangeText={handleChange("street2")}
+                    onBlur={() => {
+                      setFieldTouched("street2");
+                      setStreet1Focus(false);
+                    }}
+                    onFocus={() => setStreet1Focus(true)}
+                    value={values.street2}
+                    style={{
+                      borderBottomColor: street1Focus
+                        ? theme.colors.primary2
+                        : touched.street2 && errors.street2
+                        ? theme.colors.red
+                        : theme.colors.solidGray,
+                      marginTop: 0,
+                    }}
+                  />
+                  <ErrorMessage
+                    error={errors.street2}
+                    visible={touched.street2}
                   />
 
                   <Input
@@ -270,7 +330,7 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
                   />
 
                   {!errors.fullName &&
-                  !errors.street &&
+                  !errors.street1 &&
                   !errors.state &&
                   !errors.city &&
                   !errors.zipCode ? (
@@ -283,9 +343,9 @@ const LetsGetStartedDonor = ({ navigation, data, login }) => {
                       onPress={handleSubmit}
                     >
                       {data.isLoading ? (
-                        <ActivityIndicator
-                          size="small"
-                          color={theme.colors.white}
+                         <CustomActivityIndicator
+                         isLoading={data.isLoading}
+                         label="Requesting..."
                         />
                       ) : (
                         <Text button style={{ fontSize: 18 }}>

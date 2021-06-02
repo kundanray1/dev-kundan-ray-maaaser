@@ -1,7 +1,7 @@
 import {
-  LOGIN_START,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  LETS_GET_STARTED_DONOR_START,
+  LETS_GET_STARTED_DONOR_SUCCESS,
+  LETS_GET_STARTED_DONOR_FAIL,
 } from './actions';
 
 const initialState = {
@@ -11,23 +11,23 @@ const initialState = {
   error: null,
 };
 
-export const loginReducer=(state = initialState, { type, payload }) => {
+export const letsGetStartedDonorReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case LOGIN_START:
+    case LETS_GET_STARTED_DONOR_START:
     return {
         ...state,
         isLoading: true,
         isLoggedIn: false,
       };
 
-    case LOGIN_SUCCESS:
+    case LETS_GET_STARTED_DONOR_SUCCESS:
       return {
         ...state,
         isLoading: false,
         isLoggedIn: true,
         user: payload,
       };
-    case LOGIN_FAIL:
+    case LETS_GET_STARTED_DONOR_FAIL:
       return {
         ...state,
         isLoggedIn: false,

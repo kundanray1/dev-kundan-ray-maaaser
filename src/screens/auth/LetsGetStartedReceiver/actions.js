@@ -1,21 +1,21 @@
-export const LOGIN_START = "LOGIN_START";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LETS_GET_STARTED_RECEIVER_START = "LETS_GET_STARTED_RECEIVER_START";
+export const LETS_GET_STARTED_RECEIVER_SUCCESS = "LETS_GET_STARTED_RECEIVER_SUCCESS";
+export const LETS_GET_STARTED_RECEIVER_FAIL = "LETS_GET_STARTED_RECEIVER_FAIL";
 
-export const loginStart = (payload) => {
+export const letsGetStartedReceiverStart = (payload) => {
   return {
-    type: LOGIN_START,
+    type: LETS_GET_STARTED_RECEIVER_START,
     payload,
   };
 };
 
-export const loginSuccess = (payload) => ({
-  type: LOGIN_SUCCESS,
+export const letsGetStartedReceiverSuccess = (payload) => ({
+  type: LETS_GET_STARTED_RECEIVER_SUCCESS,
   payload,
 });
 
-export const loginFail = (payload) => ({
-  type: LOGIN_FAIL,
+export const letsGetStartedReceiverFail = (payload) => ({
+  type: LETS_GET_STARTED_RECEIVER_FAIL,
   payload,
 });
 

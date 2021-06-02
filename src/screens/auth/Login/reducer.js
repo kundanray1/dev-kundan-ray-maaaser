@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
 } from './actions';
+import API from './../../../api/API'
 
 const initialState = {
   isLoading: false,
@@ -10,6 +11,8 @@ const initialState = {
   user: null,
   error: null,
 };
+
+
 
 export const loginReducer=(state = initialState, { type, payload }) => {
   switch (type) {

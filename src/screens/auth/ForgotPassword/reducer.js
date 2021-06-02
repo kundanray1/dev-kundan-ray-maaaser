@@ -2,11 +2,13 @@ import {
   FORGOT_PASSWORD_FAIL,
   FORGOT_PASSWORD_START,
   FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_CLEAR,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  forgotPassword: '',
+  forgotPassword: null,
+  emailPhone:null,
   error: null,
 };
 
@@ -16,6 +18,7 @@ export const forgotPasswordReducer=(state = initialState, { type, payload }) => 
     return {
         ...state,
         isLoading: true,
+        emailPhone:payload,
       };
     case FORGOT_PASSWORD_SUCCESS:
       return {
@@ -29,6 +32,8 @@ export const forgotPasswordReducer=(state = initialState, { type, payload }) => 
         isLoading: false,
         error: payload,
       };
+      case FORGOT_PASSWORD_CLEAR:
+      return initialState
    
     default:
       return state;

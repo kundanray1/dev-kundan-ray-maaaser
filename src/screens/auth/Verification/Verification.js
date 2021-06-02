@@ -1,45 +1,76 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	Image,
 	View,
 	StyleSheet,
 	KeyboardAvoidingView,
 	TouchableOpacity,
-	ActivityIndicator,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
-import { Button, Block, Text, ErrorMessage } from "../../../components/Index.js";
+import { Button, Block, Text,CustomActivityIndicator } from "../../../components/Index.js";
 import { TextInput } from "react-native-gesture-handler";
+import AccountProto from "./../../../protos/account_pb";
 
-export default Verification = ({ navigation }) => {
-	const [loading, setLoading] = useState(false);
+export default Verification = ({
+	navigation,
+	data,
+	forgotPasswordData,
+	verification,
+	forgotPassword,
+}) => {
+	const [accountId, setAccountId] = useState(false);
 	const [internalValue, setInternalValue] = useState("");
 	let textInput = useRef(null);
 	const lengthInput = 6;
 	const onChangeText = (value) => {
 		setInternalValue(value);
 	};
-	const handleSubmit = () => {
-		setLoading(!loading);
+	const onSubmitVerification = () => {
+		const verificationData = new AccountProto.AccountVerification();
+		verificationData.setRefid(forgotPasswordData.forgotPassword.refid);
+		verificationData.setCode(internalValue);
+		verification(verificationData);
 	};
-	
+
+	const onSubmitResend = () => {
+		console.log(forgotPasswordData.emailPhone);
+		forgotPassword(forgotPasswordData.emailPhone);
+	};
+
+	useEffect(() => {
+		if (data.verification !== null) {
+			if (data.verification.success) {
+				console.log("verifiaction success", data.code.array[4]);
+				navigation.navigate("Create New Password");
+			}
+		}
+	}, [data]);
+
 	return (
-		<Block center style={{ marginTop: 20 }}>
-			<Image
-				source={require("../../../assets/icons/logo.png")}
-				style={{ height: 100, width: 100 }}
-			/>
-			<Text bold center style={{ marginTop: 6, fontSize:18 }} color={theme.colors.black}>
-				Verification
-			</Text>
-			<Text
-				center
-				style={{ marginTop: 6, padding: 5 }}
-				color={theme.colors.gray}
-			>
-				Enter your email address or phone number and we’ll send you
-				instructions on how to change your password.
-			</Text>
+		<Block style={{ marginTop: 20 }}>
+			<Block center style={{ flex: 0 }}>
+				<Image
+					source={require("../../../assets/icons/logo.png")}
+					style={{ height: 100, width: 100 }}
+				/>
+				<Text
+					bold
+					center
+					style={{ marginTop: 6, fontSize: 18 }}
+					color={theme.colors.black}
+				>
+					Verification
+				</Text>
+
+				<Text
+					center
+					style={{ marginTop: 6, padding: 5 }}
+					color={theme.colors.gray}
+				>
+					Enter your email address or phone number and we’ll send you
+					instructions on how to change your password.
+				</Text>
+			</Block>
 
 			<KeyboardAvoidingView
 				keyboardVerticalOffset={50}
@@ -47,7 +78,7 @@ export default Verification = ({ navigation }) => {
 				style={styles.containerAvoidingView}
 			>
 				<TextInput
-					ref={(input) => textInput = input}
+					ref={(input) => (textInput = input)}
 					onChangeText={onChangeText}
 					autoFocus={true}
 					style={{ width: 0, height: 0 }}
@@ -59,7 +90,7 @@ export default Verification = ({ navigation }) => {
 
 				<TouchableOpacity
 					style={styles.containerInput}
-					onPress={() => textInput.focus()} 
+					onPress={() => textInput.focus()}
 					activeOpacity={1}
 				>
 					{Array(lengthInput)
@@ -92,18 +123,15 @@ export default Verification = ({ navigation }) => {
 						marginTop: 12,
 						marginBottom: 12,
 					}}
-					onPress={handleSubmit}
+					onPress={onSubmitVerification}
 					disabled={internalValue.length == 6 ? false : true}
 				>
-					{loading ? (
+					{data.loading ? (
 						<Block row>
-							<Text button style={{ fontSize: 18, marginTop: 6 }}>
-								Sending
-							</Text>
-							<ActivityIndicator
-								size="small"
-								color={theme.colors.white}
-							/>
+							 <CustomActivityIndicator
+                         isLoading={data.isLoading}
+                         label="Requesting..."
+                        />
 						</Block>
 					) : (
 						<Text button style={{ fontSize: 18 }}>
@@ -111,18 +139,18 @@ export default Verification = ({ navigation }) => {
 						</Text>
 					)}
 				</Button>
-				<TouchableOpacity
-					onPress={() => console.log("Resend Value")}
-					style={{ justifyContent: "flex-start" }}
-				>
-					<Text bold color={theme.colors.solidGray}>
-						If you didn't receive a code!{" "}
-						<Text h4 color={theme.colors.primary2}>
-							Resend
-						</Text>
-					</Text>
-				</TouchableOpacity>
 			</KeyboardAvoidingView>
+			<TouchableOpacity
+				style={{ paddingHorizontal: 25 }}
+				onPress={onSubmitResend}
+			>
+				<Text bold color={theme.colors.solidGray}>
+					If you didn't receive a code!{" "}
+					<Text h4 color={theme.colors.primary2}>
+						Resend
+					</Text>
+				</Text>
+			</TouchableOpacity>
 		</Block>
 	);
 };
@@ -147,12 +175,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		borderBottomWidth: 1.5,
 	},
-	cellText:{
-		textAlign:'center',
-		fontSize:16
-	}
-,
+	cellText: {
+		textAlign: "center",
+		fontSize: 16,
+	},
 });
-
-
-

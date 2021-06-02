@@ -2,11 +2,13 @@ import {
   CREATE_NEW_PASSWORD_FAIL,
   CREATE_NEW_PASSWORD_START,
   CREATE_NEW_PASSWORD_SUCCESS,
+  CREATE_NEW_PASSWORD_CLEAR
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  createNewPassword: '',
+  createNewPassword: null,
+  emailPhone:null,
   error: null,
 };
 
@@ -29,6 +31,14 @@ export const createNewPasswordReducer=(state = initialState, { type, payload }) 
         isLoading: false,
         error: payload,
       };
+      case CREATE_NEW_PASSWORD_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+       case CREATE_NEW_PASSWORD_CLEAR:
+      return initialState
    
     default:
       return state;

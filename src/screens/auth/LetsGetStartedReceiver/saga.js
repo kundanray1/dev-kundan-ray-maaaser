@@ -1,43 +1,52 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
-import { LOGIN_START } from "./actions";
-import { loginSuccess, loginFail } from "./actions";
-import LoginProto from "./../../../protos/auth_pb";
-import base from "./../../../protos/auth_rpc_pb";
+import { call, put, takeLatest } from "redux-saga/effects";
+import { LETS_GET_STARTED_RECEIVER_START } from "./actions";
+import {
+  letsGetStartedReceiverFail,
+  letsGetStartedReceiverSuccess,
+} from "./actions";
 import APIEndpoints from "./../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
+import base from "./../../../protos/account_rpc_pb";
+import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
+import { loginSuccess } from "./../Login/actions";
 
-export function* login({ payload }) {
-	const loginData = new LoginProto.LoginRequest();
-	loginData.setEmailphone("joshanpradhan@gmail.com");
-	loginData.setPassword("Joshan@123");
-	const serializedData = loginData.serializeBinary();
-	try {
-		console.log("server resposnse object");
+//serializing the payload into binary and submittin data to requestProto function with additional data
 
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "POST",
-			headers: ProtoHeaders,
-			body: serializedData,
-		});
-		console.log("server resposnse object 1", response);
-
-		const res = base.AuthBaseResponse.deserializeBinary(
-			response
-		).toObject();
-		console.log("server resposnse object 2", res);
-
-		if (res.error) {
-			yield put(loginFail(res.msg));
-		} else {
-			yield put(loginSuccess(res));
-		}
-	} catch (e) {
-		yield put(loginFail(e));
-	}
+export function* letsGetStartedReceiver({ payload }) {
+  console.log("letsGetStartedReceiver payload:::", payload);
+  try {
+    const serializedData = payload.serializeBinary();
+    const response = yield call(requestProto, APIEndpoints.SIGNUP, {
+      method: "PATCH",
+      headers: API.authProtoHeader(),
+      body: serializedData,
+    });
+    const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
+    console.log(res);
+    if (res.error) {
+      yield put(letsGetStartedReceiverFail(res.msg));
+      showMessage({
+        message: res.msg,
+        type: "danger",
+      });
+    } else {
+      yield put(letsGetStartedReceiverSuccess(res));
+      yield put(loginSuccess(res.client));
+      showMessage({
+        message: "Account created successfully",
+        type: "success",
+      });
+    }
+  } catch (e) {
+    yield put(letsGetStartedReceiverFail(e));
+    showMessage({
+      message: "Sorry, error from server or check your credentials!",
+      type: "danger",
+    });
+  }
 }
-
 // Individual exports for testing
-export default function* loginSaga() {
-	yield takeLatest(LOGIN_START, login);
+export default function* letsGetStartedReceiverSaga() {
+  yield takeLatest(LETS_GET_STARTED_RECEIVER_START, letsGetStartedReceiver);
 }

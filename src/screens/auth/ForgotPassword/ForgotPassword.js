@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Image, ActivityIndicator } from "react-native";
+import { Image } from "react-native";
 import { Formik } from "formik";
 import { ForgotPasswordValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
@@ -9,11 +9,25 @@ import {
 	Block,
 	Text,
 	Input,
-	ErrorMessage,
+	ErrorMessage,CustomActivityIndicator
 } from "./../../../components/Index.js";
 
 export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
-	const [identifierFocus, setIdentifierFocus] = useState(false);
+	const [emailPhoneFocus, setEmailPhoneFocus] = useState(false);
+
+	useEffect(() => {
+		if (data.forgotPassword !== null) {
+			if (data.forgotPassword.success) {
+				console.log("after success forgotPassword", data);
+				navigation.navigate("Verification");
+			}
+		}
+	}, [data]);
+
+	const onSubmitForgotPassword = (values) => {
+		forgotPassword(values.emailPhone);
+	};
+
 	return (
 		<KeyboardAwareScrollView
 			style={{ marginVertical: 10 }}
@@ -25,23 +39,21 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 						<Image
 							source={require("../../../assets/icons/logo.png")}
 							style={{ height: 100, width: 100 }}
-
 						/>
 						<Text
-						bold
+							bold
 							center
-							style={{ marginTop: 6,fontSize:18 }}
+							style={{ marginTop: 6, fontSize: 18 }}
 							color={theme.colors.black}
 						>
 							Forgot password?
 						</Text>
 						<Text
 							center
-							style={{ marginTop: 6, padding: 5,fontSize:15  }}
+							style={{ marginTop: 6, padding: 5, fontSize: 15 }}
 							color={theme.colors.gray}
 						>
-							Your new password must be different from previous
-							used password.
+							Your new password must be different from previous used password.
 						</Text>
 					</Block>
 				</Block>
@@ -49,10 +61,10 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 					<Block center middle style={{ marginTop: 25 }}>
 						<Formik
 							initialValues={{
-								identifier: "",
+								emailPhone: "j@gmail.com",
 							}}
 							onSubmit={(values) => {
-								forgotPassword(values);
+								onSubmitForgotPassword(values);
 							}}
 							validationSchema={ForgotPasswordValidationSchema}
 						>
@@ -69,30 +81,27 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 										full
 										label="Email address / Phone Number"
 										style={{ marginBottom: 5 }}
-										focus={identifierFocus}
-										onChangeText={handleChange(
-											"identifier"
-										)}
+										focus={emailPhoneFocus}
+										onChangeText={handleChange("emailPhone")}
 										onBlur={() => {
-											setFieldTouched("identifier");
-											setIdentifierFocus(false);
+											setFieldTouched("emailPhone");
+											setEmailPhoneFocus(false);
 										}}
-										onFocus={() => setIdentifierFocus(true)}
-										value={values.identifier}
+										onFocus={() => setEmailPhoneFocus(true)}
+										value={values.emailPhone}
 										style={{
-											borderBottomColor: identifierFocus
+											borderBottomColor: emailPhoneFocus
 												? theme.colors.primary2
-												: touched.identifier &&
-												  errors.identifier
+												: touched.emailPhone && errors.emailPhone
 												? theme.colors.red
 												: theme.colors.solidGray,
 										}}
 									/>
 									<ErrorMessage
-										error={errors.identifier}
-										visible={touched.identifier}
+										error={errors.emailPhone}
+										visible={touched.emailPhone}
 									/>
-									{!errors.identifierFocus ? (
+									{!errors.emailPhoneFocus ? (
 										<Button
 											full
 											style={{
@@ -102,15 +111,12 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 											onPress={handleSubmit}
 										>
 											{data.isLoading ? (
-												<ActivityIndicator
-													size="small"
-													color={theme.colors.white}
-												/>
+												 <CustomActivityIndicator
+                         isLoading={data.isLoading}
+                         label="Requesting..."
+                        />
 											) : (
-												<Text
-													button
-													style={{ fontSize: 18 }}
-												>
+												<Text button style={{ fontSize: 18 }}>
 													Send
 												</Text>
 											)}
@@ -121,14 +127,10 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 											style={{
 												marginTop: 12,
 												marginBottom: 12,
-												backgroundColor:
-													theme.colors.gray,
+												backgroundColor: theme.colors.gray,
 											}}
 										>
-											<Text
-												button
-												style={{ fontSize: 18 }}
-											>
+											<Text button style={{ fontSize: 18 }}>
 												Send
 											</Text>
 										</Button>
