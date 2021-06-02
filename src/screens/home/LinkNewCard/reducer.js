@@ -1,38 +1,31 @@
 import {
-  LOGIN_START,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  LINK_NEW_CARD_FAIL,
+  LINK_NEW_CARD_START,
+  LINK_NEW_CARD_SUCCESS,
 } from './actions';
-import API from './../../../api/API'
 
 const initialState = {
   isLoading: false,
-  isLoggedIn: true,
-  user: API.user(),
+  linkNewCard: '',
   error: null,
 };
 
-export const loginReducer=(state = initialState, { type, payload }) => {
+export const linkNewCardReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case LOGIN_START:
+    case LINK_NEW_CARD_START:
     return {
         ...state,
         isLoading: true,
-        isLoggedIn: false,
       };
-
-    case LOGIN_SUCCESS:
+    case LINK_NEW_CARD_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
-        user: payload,
+        linkNewCard: payload,
       };
-    case LOGIN_FAIL:
+    case LINK_NEW_CARD_FAIL:
       return {
         ...state,
-        isLoggedIn: false,
-        user: null,
         isLoading: false,
         error: payload,
       };

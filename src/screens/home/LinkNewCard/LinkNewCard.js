@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
-  View
+  View,
 } from "react-native";
-import { MaterialCommunityIcons,AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LinkNewCardValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
@@ -17,18 +17,24 @@ import {
   Button,
   Block,
   Text,
-  FormInput,
+  Input,
   // Dimensions,
-  ErrorMessage,
+  ErrorMessage,CustomActivityIndicator
 } from "./../../../components/Index.js";
-import MonthPicker from './MonthPicker';
+import MonthPicker from "./MonthPicker";
 
 // const HEIGHT = Dimensions.get("window").height;
 // const WIDTH = Dimensions.get("window").width;
 
 const LinkNewCard = ({ navigation, data, login }) => {
-  const [month, setMonth] = useState();
-  const [year, setYear] = useState();
+  const [cardholderNameFocus, setCardholderNameFocus] = useState(false);
+  const [cardNumberFocus, setCardNumberFocus] = useState(false);
+  const [cvvFocus, setCvvFocus] = useState(false);
+  const [streetAddressFocus, setStreetAddressFocus] = useState(false);
+  const [cityFocus, setCityFocus] = useState(false);
+  const [stateFocus, setStateFocus] = useState(false);
+  const [month, setMonth] = useState("Month");
+  const [year, setYear] = useState("Year");
   const [monthModalVisible, setMonthModalVisible] = useState(false);
   const [yearModalVisible, setYearModalVisible] = useState(false);
 
@@ -50,16 +56,13 @@ const LinkNewCard = ({ navigation, data, login }) => {
 
   const onPressMonthItem = (option) => {
     setMonth(option);
-    console.log("month", month);
     setMonthModalVisible(false);
   };
 
-    const onPressYearItem = (option) => {
+  const onPressYearItem = (option) => {
     setYear(option);
-    console.log("Year", year);
     setYearModalVisible(false);
   };
-
 
   const RenderMonthOptions = monthOptions.map((option, index) => (
     <TouchableOpacity
@@ -85,70 +88,74 @@ const LinkNewCard = ({ navigation, data, login }) => {
     </TouchableOpacity>
   ));
 
-
   const selectMonth = () => (
     <SafeAreaView>
-    <TouchableOpacity
-      style={styles.customPicker}
-      activeOpacity={0.8}
-      onPress={() => setMonthModalVisible(!monthModalVisible)}
-    >
-      <Block>
+      <TouchableOpacity
+        style={styles.customPicker}
+        activeOpacity={0.8}
+        onPress={() => setMonthModalVisible(!monthModalVisible)}
+      >
         <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
           {month}
         </Text>
-      </Block>
-      <Block style={{ alignItems: "flex-end" }}>
-        <AntDesign name="caretdown" size={16} color={theme.colors.solidGray} />
-      </Block>
-      
-    </TouchableOpacity>
-    <Modal
+        <Block style={{ alignItems: "flex-end" }}>
+          <AntDesign
+            name="caretdown"
+            size={16}
+            color={theme.colors.solidGray}
+          />
+        </Block>
+      </TouchableOpacity>
+      <Modal
         visible={monthModalVisible}
         transparent={true}
-        nRequestClose={() => setMonthModalVisible(!monthModalVisible)}
+        animationType="fade"
+        statusBarTranslucent={true}
+        onRequestClose={() => setMonthModalVisible(!monthModalVisible)}
       >
         <View style={styles.container}>
-          <View style={[styles.modal, {width:150 }]}>
+          <View style={[styles.modal, { width: 150 }]}>
             {RenderMonthOptions}
           </View>
         </View>
       </Modal>
     </SafeAreaView>
-
   );
 
-   const selectYear = () => (
+  const selectYear = () => (
     <SafeAreaView>
-
-    <TouchableOpacity
-      style={styles.customPicker}
-      activeOpacity={0.8}
-      onPress={() => setYearModalVisible(!monthModalVisible)}
-    >
-      <Block>
-        <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-          {year}
-        </Text>
-      </Block>
-      <Block style={{ alignItems: "flex-end" }}>
-        <AntDesign name="caretdown" size={16} color={theme.colors.solidGray} />
-      </Block>
-      
-    </TouchableOpacity>
-    <Modal
+      <TouchableOpacity
+        style={styles.customPicker}
+        activeOpacity={0.8}
+        onPress={() => setYearModalVisible(!monthModalVisible)}
+      >
+        <Block>
+          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
+            {year}
+          </Text>
+        </Block>
+        <Block style={{ alignItems: "flex-end" }}>
+          <AntDesign
+            name="caretdown"
+            size={16}
+            color={theme.colors.solidGray}
+          />
+        </Block>
+      </TouchableOpacity>
+      <Modal
         visible={yearModalVisible}
         transparent={true}
-        nRequestClose={() => setYearModalVisible(!yearModalVisible)}
+        animationType="fade"
+        statusBarTranslucent={true}
+        onRequestClose={() => setYearModalVisible(!yearModalVisible)}
       >
         <View style={styles.container}>
-          <View style={[styles.modal, {width:150 }]}>
+          <View style={[styles.modal, { width: 150 }]}>
             {RenderYearOptions}
           </View>
         </View>
       </Modal>
     </SafeAreaView>
-
   );
 
   //set all the required proto for updating and submitting
@@ -186,117 +193,169 @@ const LinkNewCard = ({ navigation, data, login }) => {
             errors,
           }) => (
             <Block>
-              <FormInput
+              <Input
+                full
                 label="Cardholder Name"
-                placeholder="Cardholder Name"
+                focus={cardholderNameFocus}
                 onChangeText={handleChange("cardholderName")}
                 onBlur={() => {
                   setFieldTouched("cardholderName");
+                  setCardholderNameFocus(false);
                 }}
+                onFocus={() => setCardholderNameFocus(true)}
                 value={values.cardholderName}
+                style={{
+                  borderBottomColor: cardholderNameFocus
+                    ? theme.colors.primary2
+                    : touched.cardholderName && errors.cardholderName
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
               />
               <ErrorMessage
                 error={errors.cardholderName}
                 visible={touched.cardholderName}
               />
-              <FormInput
+
+              <Input
+                full
                 label="Card Number"
-                placeholder="Card Name"
+                focus={cardNumberFocus}
                 onChangeText={handleChange("cardNumber")}
                 onBlur={() => {
                   setFieldTouched("cardNumber");
+                  setCardNumberFocus(false);
                 }}
+                onFocus={() => setCardNumberFocus(true)}
                 value={values.cardNumber}
+                style={{
+                  borderBottomColor: cardNumberFocus
+                    ? theme.colors.primary2
+                    : touched.cardNumber && errors.cardNumber
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
               />
               <ErrorMessage
                 error={errors.cardNumber}
                 visible={touched.cardNumber}
               />
 
-              <Block row>
+              <Block row style={{marginTop:5}}>
                 <Block style={{ flex: 4 }}>
-                <Text
-          bold
-          style={{ fontSize: 18,fontWeight:"500"}}
-        >
-        Expiry Date
-        </Text>
+                  <Text bold style={{ fontSize: 16}}>
+                    Expiry Date
+                  </Text>
                 </Block>
-                <Block style={{ flex: 2 }}>
-                   <Text
-          bold
-          style={{ fontSize: 18,fontWeight:"500"}}
-        >
-       CVV
-        </Text>
+                <Block style={{ flex: 2.7 }}>
+                  <Text bold style={{ fontSize: 16}}>
+                    CVV
+                  </Text>
                 </Block>
               </Block>
 
               <Block row>
-                <Block style={{ flex: 1.5,marginTop:10 }}>
-                  <MonthPicker />
-                  {/*{selectMonth()}*/}
-
+                <Block style={{ flex: 1.5, marginTop: 10 }}>
+                  {selectMonth()}
                 </Block>
 
-                <Block style={{ flex: 1.5,marginTop:10 }}>
+                <Block style={{ flex: 1.5, marginTop: 10 }}>
                   {selectYear()}
                 </Block>
 
                 <Block style={{ flex: 2 }}>
-                  <FormInput
-                    placeholder="CVV"
+                  <Input
+                    full
+                    focus={cvvFocus}
                     onChangeText={handleChange("cvv")}
                     onBlur={() => {
                       setFieldTouched("cvv");
+                      setCvvFocus(false);
                     }}
+                    onFocus={() => setCvvFocus(true)}
                     value={values.cvv}
+                    style={{
+                      borderBottomColor: cvvFocus
+                        ? theme.colors.primary2
+                        : touched.cvv && errors.cvv
+                        ? theme.colors.red
+                        : theme.colors.solidGray,
+                    }}
                   />
                 </Block>
               </Block>
 
-              <ErrorMessage error={errors.month} visible={touched.month} />
-              <ErrorMessage error={errors.year} visible={touched.year} />
               <ErrorMessage error={errors.cvv} visible={touched.cvv} />
 
-              <FormInput
+              <Input
+                full
                 label="Street Address"
-                placeholder="Street Address"
+                focus={streetAddressFocus}
                 onChangeText={handleChange("streetAddress")}
                 onBlur={() => {
                   setFieldTouched("streetAddress");
+                  setStreetAddressFocus(false);
                 }}
+                onFocus={() => setStreetAddressFocus(true)}
                 value={values.streetAddress}
+                style={{
+                  borderBottomColor: streetAddressFocus
+                    ? theme.colors.primary2
+                    : touched.streetAddress && errors.streetAddress
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
               />
               <ErrorMessage
                 error={errors.streetAddress}
                 visible={touched.streetAddress}
               />
 
-              <FormInput
+              <Input
+                full
                 label="City"
-                placeholder="City"
+                focus={cityFocus}
                 onChangeText={handleChange("city")}
                 onBlur={() => {
                   setFieldTouched("city");
+                  setCityFocus(false);
                 }}
+                onFocus={() => setCityFocus(true)}
                 value={values.city}
+                style={{
+                  borderBottomColor: cityFocus
+                    ? theme.colors.primary2
+                    : touched.city && errors.city
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
               />
               <ErrorMessage error={errors.city} visible={touched.city} />
 
-              <FormInput
+              <Input
+                full
                 label="State"
-                placeholder="State"
+                focus={stateFocus}
                 onChangeText={handleChange("state")}
                 onBlur={() => {
                   setFieldTouched("state");
+                  setStateFocus(false);
                 }}
+                onFocus={() => setStateFocus(true)}
                 value={values.state}
+                style={{
+                  borderBottomColor: stateFocus
+                    ? theme.colors.primary2
+                    : touched.state && errors.state
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
               />
               <ErrorMessage error={errors.state} visible={touched.state} />
 
               {!errors.cardholderName &&
               !errors.cardNumber &&
+              !errors.cvv &&
               !errors.streetAddress &&
               !errors.city &&
               !errors.state ? (
@@ -308,10 +367,10 @@ const LinkNewCard = ({ navigation, data, login }) => {
                   onPress={handleSubmit}
                 >
                   {data.isLoading ? (
-                    <ActivityIndicator
-                      size="small"
-                      color={theme.colors.white}
-                    />
+                   <CustomActivityIndicator
+                         isLoading={data.isLoading}
+                         label="Requesting..."
+                        />
                   ) : (
                     <Text button style={{ fontSize: 18 }}>
                       Link Card
@@ -340,6 +399,7 @@ const LinkNewCard = ({ navigation, data, login }) => {
 };
 
 export default LinkNewCard;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -362,17 +422,12 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   customPicker: {
-    width:"90%",
-    height: 40,
+    width: "90%",
+    height: 25,
     flexDirection: "row",
     justifyContent: "space-between",
     borderColor: theme.colors.solidGray,
     alignItems: "center",
-    borderWidth: 1,
-    paddingHorizontal:5
-
+    borderBottomWidth: 1,
   },
 });
-
-
-    
