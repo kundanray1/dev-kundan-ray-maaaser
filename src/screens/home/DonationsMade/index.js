@@ -2,17 +2,15 @@ import { memo } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
-import reducer from "./reducer";
-import saga from "./saga";
 import DonationsMade from "./DonationsMade";
-import { welcomeStart } from "./actions";
+import { donationsMadeStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.donationsMade,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		donationsMade: (values) => dispatch(donationsMadeStart(values)),
 	};
 };
 

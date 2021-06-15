@@ -1,18 +1,18 @@
-export const WELCOME_START = "WELCOME_START";
-export const WELCOME_SUCCESS = "WELCOME_SUCCESS";
-export const WELCOME_FAIL = "WELCOME_FAIL";
+export const CARD_START = "CARD_START";
+export const CARD_SUCCESS = "CARD_SUCCESS";
+export const CARD_FAIL = "CARD_FAIL";
 
-export const welcomeStart = (payload) => {
+export const cardStart = (payload) => {
 	return {
-		type: WELCOME_START,
+		type: CARD_START,
 		payload,
 	};
 };
-export const welcomeSuccess = (payload) => ({
-	type: WELCOME_SUCCESS,
+export const cardSuccess = (payload) => ({
+	type: CARD_SUCCESS,
 	payload,
 });
-export const welcomeFail = (payload) => ({
-	type: WELCOME_FAIL,
+export const cardFail = (payload) => ({
+	type: CARD_FAIL,
 	payload,
 });

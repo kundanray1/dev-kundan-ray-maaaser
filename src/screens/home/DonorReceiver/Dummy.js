@@ -13,7 +13,6 @@ export default [
     amount:"100",
     date: "7th Jan, 2021",
   },
-  
 ];
 
 

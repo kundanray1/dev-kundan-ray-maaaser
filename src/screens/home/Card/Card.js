@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  RefreshControl,
+  ActivityIndicator,
+  Pressable,
+  TouchableWithoutFeedback,
+} from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
   Block,
@@ -8,40 +15,101 @@ import {
   FloatingButton,
   LinkedAccountsAndLinkedCard,
 } from "../../../components/Index.js";
-import Dummy from "./Dummy.js";
+import { LoadFund } from "./LoadFund.js";
+import { Bottom } from "./Bottom.js";
 
-const Card = () => {
-  const [loading, setLoading] = useState(false);
+const Card = ({ navigation, data, loginData, card }) => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [cardData, setCardData] = useState();
+  const [amountFocus, setAmountFocus] = useState(false);
 
+  let bs = React.createRef();
+  let bs1 = React.createRef();
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    card();
+    setRefreshing(false);
+  });
+
+  useEffect(() => {
+    card();
+  }, []);
   return (
-    <Block>
-    <SafeAreaView>
-      <Block style={{flex:0,marginTop:10,paddingHorizontal:16}}>
-        <Text style={{ fontSize: 25, fontWeight: "700",paddingVertical:2 }}>Linked Cards </Text>
-      </Block>
-      <FlatList
-        data={Dummy}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => {
-          return item.id.toString();
+    <>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          bs.current.snapTo(1);
+          bs1.current.snapTo(1);
         }}
-        ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
-        ListEmptyComponent={() => <Empty title="No data" />}
-        renderItem={(post) => (
-          <LinkedAccountsAndLinkedCard
-            image={post.item.image}
-            // label={post.item.label}
-            accountNo={post.item.accountNo}
-            date={post.item.date}
-          />
-        )}  
+      >
+        <SafeAreaView>
+          <Block
+            style={{ flex: 0, paddingVertical: 10, paddingHorizontal: 16 }}
+          >
+            <Text
+              style={{ fontSize: 22, fontWeight: "700", paddingVertical: 2 }}
+            >
+              Linked Cards{" "}
+            </Text>
+          </Block>
+          {data.isLoading ? (
+            <ActivityIndicator size="large" color={theme.colors.primary2} />
+          ) : (
+            <FlatList
+              data={data.card}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item) => {
+                return item.cardid.toString();
+              }}
+              refreshControl={
+                <RefreshControl
+                  colors={[theme.colors.primary2]}
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
+              }
+              ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
+              ListEmptyComponent={() => <Empty title="data" />}
+              renderItem={(post) => (
+                <Pressable
+                  style={{
+                    paddingHorizontal: 16,
+                    marginVertical: 4,
+                  }}
+                  onLongPress={() => {
+                    bs.current.snapTo(0);
+                    setCardData(post.item);
+                  }}
+                  delayLongPress={500}
+                >
+                  <LinkedAccountsAndLinkedCard
+                    accountNo={post.item.cardnumber}
+                    date={post.item.expirydate}
+                    onPress={() => {
+                      bs.current.snapTo(1);
+                      bs1.current.snapTo(0);
+                    }}
+                  />
+                </Pressable>
+              )}
+            />
+          )}
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
+      <FloatingButton
+        image={require("../../../assets/icons/add-m.png")}
+        onPress={() => navigation.navigate("Link New Card")}
       />
-    </SafeAreaView>
-     <FloatingButton
-          image={require("../../../assets/icons/add-m.png")}
-          onPress={() => console.log("Load Fund")}
-        />
-        </Block>
+      <Bottom bs={bs} cardData={cardData} navigation={navigation} />
+      <LoadFund
+        bs1={bs1}
+        amountFocus={amountFocus}
+        setAmountFocusTrue={()=>setAmountFocus(true)}
+        setAmountFocusFalse={()=>setAmountFocus(false)}
+
+      />
+    </>
   );
 };
 

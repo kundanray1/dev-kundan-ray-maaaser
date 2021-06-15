@@ -1,29 +1,29 @@
 import {
-  WELCOME_FAIL,
-  WELCOME_START,
-  WELCOME_SUCCESS,
+  DONATE_NOW_FAIL,
+  DONATE_NOW_START,
+  DONATE_NOW_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  welcome: '',
+  donateNow: '',
   error: null,
 };
 
-export const welcomeReducer=(state = initialState, { type, payload }) => {
+export const donateNowReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case WELCOME_START:
+    case DONATE_NOW_START:
     return {
         ...state,
         isLoading: true,
       };
-    case WELCOME_SUCCESS:
+    case DONATE_NOW_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        welcome: payload,
+        donateNow: payload,
       };
-    case WELCOME_FAIL:
+    case DONATE_NOW_FAIL:
       return {
         ...state,
         isLoading: false,

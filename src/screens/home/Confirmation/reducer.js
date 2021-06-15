@@ -1,29 +1,29 @@
 import {
-  WELCOME_FAIL,
-  WELCOME_START,
-  WELCOME_SUCCESS,
+  CONFIRMATION_FAIL,
+  CONFIRMATION_START,
+  CONFIRMATION_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  welcome: '',
+  confirmation: '',
   error: null,
 };
 
-export const welcomeReducer=(state = initialState, { type, payload }) => {
+export const confirmationReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case WELCOME_START:
+    case CONFIRMATION_START:
     return {
         ...state,
         isLoading: true,
       };
-    case WELCOME_SUCCESS:
+    case CONFIRMATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        welcome: payload,
+        confirmation: payload,
       };
-    case WELCOME_FAIL:
+    case CONFIRMATION_FAIL:
       return {
         ...state,
         isLoading: false,

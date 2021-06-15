@@ -1,51 +1,40 @@
-import React, { useState } from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import React, { useState,useCallback } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
   Modal,
   Dimensions,
-  FlatList,
+  View,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
 import {
   Block,
   Text,
-  ErrorMessage,
-  Empty
 } from "./../../../components/Index.js";
-import {Months} from './Dummy';
 
-
-const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-const monthOptions = [
-    "January",
-    "Febrary",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-const MonthPicker = ({  }) => {
-  const [month, setMonth] = useState();
+const monthOptions = ["Weekly", "Monthly", "Yearly"];
+
+const MonthPicker = ({ month, setMonth,setLayoutPosition }) => {
   const [monthModalVisible, setMonthModalVisible] = useState(false);
+  
+  const onPressMonthItem = useCallback(
+    (option) => {
+      setMonth(option);
+      setMonthModalVisible(false);
+    },
+    [setMonth]
+  );
+ const handleLayoutPosition = useCallback(
+    (position) => {
+      setLayoutPosition(position);
+    },
+    [setLayoutPosition]
+  );
 
-  const onPressMonthItem = (option) => {
-    setMonth(option);
-    setMonthModalVisible(false);
-  };
-
-
-const RenderMonthOptions = monthOptions.map((option, index) => (
+  const RenderMonthOptions = monthOptions.map((option, index) => (
     <TouchableOpacity
       key={index}
       onPress={() => onPressMonthItem(option)}
@@ -57,42 +46,58 @@ const RenderMonthOptions = monthOptions.map((option, index) => (
     </TouchableOpacity>
   ));
   return (
-       <SafeAreaView>
-    <TouchableOpacity
-      style={styles.customPicker}
-      activeOpacity={0.8}
-      onPress={() => setMonthModalVisible(!monthModalVisible)}
-    >
-      <Block>
-        <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-          {month}
+    <SafeAreaView>
+      <Block style={{ marginTop: 8 }}>
+        <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
+          Schedule Donation
         </Text>
       </Block>
-      <Block style={{ alignItems: "flex-end" }}>
-        <AntDesign name="caretdown" size={16} color={theme.colors.solidGray} />
-      </Block>
-      
-    </TouchableOpacity>
-    <Modal
+      <TouchableOpacity
+        style={styles.customPicker}
+        activeOpacity={0.8}
+        onPress={() => setMonthModalVisible(!monthModalVisible)}
+        onLayout={({nativeEvent})=>{
+                handleLayoutPosition(nativeEvent.layout)
+        }} 
+      >
+        <Block>
+          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
+            {month}
+          </Text>
+        </Block>
+        <Block style={{ alignItems: "flex-end" }}>
+          <AntDesign
+            name="caretdown"
+            size={16}
+            color={theme.colors.solidGray}
+          />
+        </Block>
+      </TouchableOpacity>
+      <Modal
         visible={monthModalVisible}
         transparent={true}
-        style={{paddingHorizontal:50}}
-        nRequestClose={() => setMonthModalVisible(!monthModalVisible)}
+        animationType="fade"
+        statusBarTranslucent={true}
+        onRequestClose={() => setMonthModalVisible(!monthModalVisible)}
       >
-          <Block style={[styles.modal]}>
-               {RenderMonthOptions}
-          </Block>
+        <View style={styles.container}>
+          <View style={[styles.modal, { width: WIDTH - 30 }]}>
+            {RenderMonthOptions}
+          </View>
+        </View>
       </Modal>
     </SafeAreaView>
-
   );
 };
 
 export default MonthPicker;
 const styles = StyleSheet.create({
-  
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   modal: {
-    flex:0.5,
     borderRadius: 4,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -102,24 +107,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     borderRadius: 3,
     padding: 10,
-    height:HEIGHT-400,
-    width:WIDTH-200
   },
   option: {
     alignItems: "flex-start",
   },
   customPicker: {
-    width:"90%",
-    height: 40,
+    height: 28,
     flexDirection: "row",
     justifyContent: "space-between",
     borderColor: theme.colors.solidGray,
     alignItems: "center",
-    borderWidth: 1,
-    paddingHorizontal:5
-
+    borderBottomWidth: 1,
   },
 });
-
-
-    

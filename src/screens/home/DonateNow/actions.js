@@ -1,18 +1,18 @@
-export const WELCOME_START = "WELCOME_START";
-export const WELCOME_SUCCESS = "WELCOME_SUCCESS";
-export const WELCOME_FAIL = "WELCOME_FAIL";
+export const DONATE_NOW_START = "DONATE_NOW_START";
+export const DONATE_NOW_SUCCESS = "DONATE_NOW_SUCCESS";
+export const DONATE_NOW_FAIL = "DONATE_NOW_FAIL";
 
-export const welcomeStart = (payload) => {
+export const donateNowStart = (payload) => {
 	return {
-		type: WELCOME_START,
+		type: DONATE_NOW_START,
 		payload,
 	};
 };
-export const welcomeSuccess = (payload) => ({
-	type: WELCOME_SUCCESS,
+export const donateNowSuccess = (payload) => ({
+	type: DONATE_NOW_SUCCESS,
 	payload,
 });
-export const welcomeFail = (payload) => ({
-	type: WELCOME_FAIL,
+export const donateNowFail = (payload) => ({
+	type: DONATE_NOW_FAIL,
 	payload,
 });

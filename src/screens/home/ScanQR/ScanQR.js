@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import React, { useState, useEffect } from "react";
+import { Text, View, StyleSheet, Button } from "react-native";
+import { BarCodeScanner } from "expo-barcode-scanner";
 
-export default ScanQR=()=> {
+export default ScanQR = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -29,43 +29,50 @@ export default ScanQR=()=> {
     <View style={styles.container}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={[StyleSheet.absoluteFill, styles.container]}>
+        style={[styles.container]}
+      >
         <Text style={styles.description}>Scan your QR code</Text>
-        <View
-          style={styles.qr}
-        />
-        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-
+        <View style={styles.qr} />
+        {scanned && (
+          <Button
+            title={"Tap to Scan Again"}
+            onPress={() => setScanned(false)}
+          />
+        )}
       </BarCodeScanner>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
- container: {
+  container: {
     flex: 1,
-    alignItems: 'center',  
-    borderWidth:1                                                                                
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   qr: {
-    marginTop: '20%',
-    marginBottom: '20%',
+    marginTop: "20%",
+    marginBottom: "20%",
     width: "70%",
     height: "40%",
-    borderWidth:1,
-    borderColor:"white"
+    borderWidth: 1,
+    borderColor: "white",
   },
   description: {
     fontSize: 20,
-    marginTop: '10%',
-    textAlign: 'center',
-    width: '100%',
-    color: 'white',
+    marginTop: "10%",
+    textAlign: "center",
+    width: "100%",
+    color: "white",
   },
   cancel: {
     fontSize: 20,
-    textAlign: 'center',
-    width: '70%',
-    color: 'white',
+    textAlign: "center",
+    width: "70%",
+    color: "white",
   },
 });

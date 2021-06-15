@@ -1,29 +1,29 @@
 import {
-  WELCOME_FAIL,
-  WELCOME_START,
-  WELCOME_SUCCESS,
+  RECEIVERS_FAIL,
+  RECEIVERS_START,
+  RECEIVERS_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  welcome: '',
+  receivers: '',
   error: null,
 };
 
-export const welcomeReducer=(state = initialState, { type, payload }) => {
+export const receiversReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case WELCOME_START:
+    case RECEIVERS_START:
     return {
         ...state,
         isLoading: true,
       };
-    case WELCOME_SUCCESS:
+    case RECEIVERS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        welcome: payload,
+        receivers: payload,
       };
-    case WELCOME_FAIL:
+    case RECEIVERS_FAIL:
       return {
         ...state,
         isLoading: false,

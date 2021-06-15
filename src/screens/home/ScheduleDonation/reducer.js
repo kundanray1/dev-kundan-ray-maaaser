@@ -1,38 +1,31 @@
 import {
-  LOGIN_START,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  SCHEDULE_DONATION_FAIL,
+  SCHEDULE_DONATION_START,
+  SCHEDULE_DONATION_SUCCESS,
 } from './actions';
-import API from './../../../api/API'
 
 const initialState = {
   isLoading: false,
-  isLoggedIn: true,
-  user: API.user(),
+  scheduleDonation: '',
   error: null,
 };
 
-export const loginReducer=(state = initialState, { type, payload }) => {
+export const scheduleDonationReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case LOGIN_START:
+    case SCHEDULE_DONATION_START:
     return {
         ...state,
         isLoading: true,
-        isLoggedIn: false,
       };
-
-    case LOGIN_SUCCESS:
+    case SCHEDULE_DONATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
-        user: payload,
+        scheduleDonation: payload,
       };
-    case LOGIN_FAIL:
+    case SCHEDULE_DONATION_FAIL:
       return {
         ...state,
-        isLoggedIn: false,
-        user: null,
         isLoading: false,
         error: payload,
       };

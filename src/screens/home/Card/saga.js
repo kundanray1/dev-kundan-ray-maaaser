@@ -1,16 +1,41 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { WELCOME_START } from "./actions";
-import { welcomeSuccess, welcomeFail } from "./actions";
-export function* welcome({ payload }) {
+import { CARD_START } from "./actions";
+import { cardSuccess, cardFail } from "./actions";
+import base from "./../../../protos/payment_rpc_pb";
+import APIEndpoints from "./../../../constants/APIConstants";
+import { ProtoHeaders } from "./../../../constants/APIHeader";
+import { requestProto } from "../../../utility/request";
+import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
+
+//serializing the payload into binary and submittin data to requestProto function with additional data
+export function* card({ payload }) {
 	try {
-		const response = yield call(authApi.welcome, payload);
-		yield put(welcomeSuccess(response));
-	} catch (error) {
-		yield put(welcomeFail(error));
+		const response = yield call(requestProto, APIEndpoints.CARD, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(cardSuccess(res.cardsList));
+		} else {
+			yield put(cardFail(res));
+			showMessage({
+				message: "Sorry0, error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(cardFail(e));
+		showMessage({
+			message: "Sorry, error from server or check your credentials!",
+			type: "danger",
+		});
 	}
 }
 
-// Individual exports for testing
-export default function* welcomeSaga() {
-	yield takeLatest(WELCOME_START, welcome);
+export default function* cardSaga() {
+	yield takeLatest(CARD_START, card);
 }

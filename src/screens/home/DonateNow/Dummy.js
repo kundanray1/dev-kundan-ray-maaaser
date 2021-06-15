@@ -9,7 +9,7 @@ export default [
     id: "2",
     image: require("../../../assets/icons/qr.png"),
     label: "Scan QR Code",
-    navigate:"Manual"
+    navigate:"Scan QR Code"
   },
   {
     id: "3",

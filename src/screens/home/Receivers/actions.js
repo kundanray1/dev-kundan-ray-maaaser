@@ -1,18 +1,18 @@
-export const WELCOME_START = "WELCOME_START";
-export const WELCOME_SUCCESS = "WELCOME_SUCCESS";
-export const WELCOME_FAIL = "WELCOME_FAIL";
+export const RECEIVERS_START = "RECEIVERS_START";
+export const RECEIVERS_SUCCESS = "RECEIVERS_SUCCESS";
+export const RECEIVERS_FAIL = "RECEIVERS_FAIL";
 
-export const welcomeStart = (payload) => {
+export const receiversStart = (payload) => {
 	return {
-		type: WELCOME_START,
+		type: RECEIVERS_START,
 		payload,
 	};
 };
-export const welcomeSuccess = (payload) => ({
-	type: WELCOME_SUCCESS,
+export const receiversSuccess = (payload) => ({
+	type: RECEIVERS_SUCCESS,
 	payload,
 });
-export const welcomeFail = (payload) => ({
-	type: WELCOME_FAIL,
+export const receiversFail = (payload) => ({
+	type: RECEIVERS_FAIL,
 	payload,
 });

@@ -1,21 +1,21 @@
-export const LOGIN_START = "LOGIN_START";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAIL = "LOGIN_FAIL";
+export const MANUAL_START = "MANUAL_START";
+export const MANUAL_SUCCESS = "MANUAL_SUCCESS";
+export const MANUAL_FAIL = "MANUAL_FAIL";
 
-export const loginStart = (payload) => {
+export const manualStart = (payload) => {
   return {
-    type: LOGIN_START,
+    type: MANUAL_START,
     payload,
   };
 };
 
-export const loginSuccess = (payload) => ({
-  type: LOGIN_SUCCESS,
+export const manualSuccess = (payload) => ({
+  type: MANUAL_SUCCESS,
   payload,
 });
 
-export const loginFail = (payload) => ({
-  type: LOGIN_FAIL,
+export const manualFail = (payload) => ({
+  type: MANUAL_FAIL,
   payload,
 });
 

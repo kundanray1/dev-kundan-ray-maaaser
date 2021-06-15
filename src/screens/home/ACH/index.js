@@ -2,17 +2,17 @@ import { memo } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
-import reducer from "./reducer";
-import saga from "./saga";
 import ACH from "./ACH";
-import { welcomeStart } from "./actions";
+import { ACHStart,loadAmountStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.ACH,
+	loginData: (state) => state.login,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		ACH: (values) => dispatch(ACHStart(values)),
+		loadAmount: (values) => dispatch(loadAmountStart(values)),
 	};
 };
 

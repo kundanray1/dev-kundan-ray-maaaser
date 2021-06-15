@@ -1,21 +1,19 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { LOGIN_START } from "./actions";
-import { loginSuccess, loginFail } from "./actions";
-import LoginProto from "./../../../protos/auth_pb";
+import { SCHEDULE_DONATION_START } from "./actions";
+import { scheduleDonationSuccess, scheduleDonationFail } from "./actions";
 import base from "./../../../protos/auth_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
-import LocalDB from "./../../../api/LocalStorage";
-import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* login({ payload }) {
+export function* scheduleDonation({ payload }) {
+	console.log("payload==", payload);
 	try {
 		const serializedData = payload.serializeBinary();
 		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "POST",
+			method: "GET",
 			headers: ProtoHeaders,
 			body: serializedData,
 		});
@@ -23,28 +21,20 @@ export function* login({ payload }) {
 			response
 		).toObject();
 		if (res.error) {
-			yield put(loginFail(res.msg));
+			yield put(scheduleDonationSuccess(res.msg));
 			showMessage({
 				message: res.msg,
 				type: "danger",
 			});
 		} else {
-			yield put(loginSuccess(res.loginresponse.loginaccount.client));
+			yield put(scheduleDonationFail(res.msg));
 			showMessage({
-				message: "Lgged In successfully",
+				message: "Password changed successfully",
 				type: "success",
 			});
-			LocalDB.setSessions(res, (resolve, reject) => {
-				if (resolve) {
-					return resolve;
-				} else {
-					return reject;
-				}
-			});
-			API.setToken();
 		}
 	} catch (e) {
-		yield put(loginFail(e));
+		yield put(scheduleDonationFail(e));
 		showMessage({
 			message: "Sorry, error from server or check your credentials!",
 			type: "danger",
@@ -52,6 +42,6 @@ export function* login({ payload }) {
 	}
 }
 
-export default function* loginSaga() {
-	yield takeLatest(LOGIN_START, login);
+export default function* scheduleDonationSaga() {
+	yield takeLatest(SCHEDULE_DONATION_START, scheduleDonation);
 }

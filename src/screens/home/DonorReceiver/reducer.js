@@ -1,29 +1,50 @@
 import {
-  WELCOME_FAIL,
-  WELCOME_START,
-  WELCOME_SUCCESS,
+  DONOR_RECEIVER_FAIL,
+  DONOR_RECEIVER_START,
+  DONOR_RECEIVER_SUCCESS,
+  BALANCE_FAIL,
+  BALANCE_START,
+  BALANCE_SUCCESS,
 } from './actions';
 
 const initialState = {
-  isLoading: false,
-  welcome: '',
+  isLoading: true,
+  donorReceiver: '',
+  balance:"",
   error: null,
 };
-
-export const welcomeReducer=(state = initialState, { type, payload }) => {
+export const donorReceiverReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case WELCOME_START:
+    case DONOR_RECEIVER_START:
     return {
         ...state,
         isLoading: true,
       };
-    case WELCOME_SUCCESS:
+    case DONOR_RECEIVER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        welcome: payload,
+        donorReceiver: payload,
       };
-    case WELCOME_FAIL:
+    case DONOR_RECEIVER_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+   
+       case BALANCE_START:
+    return {
+        ...state,
+        isLoading: true,
+      };
+    case BALANCE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        balance: payload,
+      };
+    case BALANCE_FAIL:
       return {
         ...state,
         isLoading: false,

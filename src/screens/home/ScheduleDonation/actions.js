@@ -1,21 +1,21 @@
-export const LOGIN_START = "LOGIN_START";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAIL = "LOGIN_FAIL";
+export const SCHEDULE_DONATION_START = "SCHEDULE_DONATION_START";
+export const SCHEDULE_DONATION_SUCCESS = "SCHEDULE_DONATION_SUCCESS";
+export const SCHEDULE_DONATION_FAIL = "SCHEDULE_DONATION_FAIL";
 
-export const loginStart = (payload) => {
+export const scheduleDonationStart = (payload) => {
   return {
-    type: LOGIN_START,
+    type: SCHEDULE_DONATION_START,
     payload,
   };
 };
 
-export const loginSuccess = (payload) => ({
-  type: LOGIN_SUCCESS,
+export const scheduleDonationSuccess = (payload) => ({
+  type: SCHEDULE_DONATION_SUCCESS,
   payload,
 });
 
-export const loginFail = (payload) => ({
-  type: LOGIN_FAIL,
+export const scheduleDonationFail = (payload) => ({
+  type: SCHEDULE_DONATION_FAIL,
   payload,
 });
 

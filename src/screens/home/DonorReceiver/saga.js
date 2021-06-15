@@ -1,16 +1,77 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { WELCOME_START } from "./actions";
-import { welcomeSuccess, welcomeFail } from "./actions";
-export function* welcome({ payload }) {
-	try {
-		const response = yield call(authApi.welcome, payload);
-		yield put(welcomeSuccess(response));
-	} catch (error) {
-		yield put(welcomeFail(error));
+import { DONOR_RECEIVER_START,BALANCE_START } from "./actions";
+import { donorReceiverSuccess, donorReceiverFail,balanceSuccess,balanceFail } from "./actions";
+import base from "./../../../protos/payment_rpc_pb";
+import APIEndpoints from "./../../../constants/APIConstants";
+import { requestProto } from "../../../utility/request";
+import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
+
+//serializing the payload into binary and submittin data to requestProto function with additional data
+export function* donorReceiver({ payload }) {
+		try {
+		const response = yield call(
+			requestProto,
+			`${APIEndpoints.BALANCE}/${payload}`,
+			{
+				method: "GET",
+				headers: API.authProtoHeader(),
+			}
+		);
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(donorReceiverSuccess(res));
+		} else {
+			yield put(donorReceiverFail(res));
+			showMessage({
+				message: "Sorry, error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(donorReceiverFail(e));
+		showMessage({
+			message: "Sorry, error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+export function* balance({ payload }) {
+		try {
+		const response = yield call(
+			requestProto,
+			`${APIEndpoints.BALANCE}/${payload}`,
+			{
+				method: "GET",
+				headers: API.authProtoHeader(),
+			}
+		);
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		console.log("balance res",res);
+		if (res.success) {
+			yield put(balanceSuccess(res.balance));
+		} else {
+			yield put(balanceFail(res));
+			showMessage({
+				message: "Sorry, error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(balanceFail(e));
+		showMessage({
+			message: "Sorry, error from server or check your credentials!",
+			type: "danger",
+		});
 	}
 }
 
-// Individual exports for testing
-export default function* welcomeSaga() {
-	yield takeLatest(WELCOME_START, welcome);
+export default function* donorReceiverSaga() {
+	yield takeLatest(DONOR_RECEIVER_START, donorReceiver);
+	yield takeLatest(BALANCE_START, balance);
 }
+

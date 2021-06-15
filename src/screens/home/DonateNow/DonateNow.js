@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { ActivityIndicator,FlatList, SafeAreaView, Image } from "react-native";
-import * as theme from "../../../constants/theme.js";
+import { FlatList, SafeAreaView } from "react-native";
 import {
   Block,
   Text,
   Empty,
-  SearchBar,
   LoadFundAndDonationMethodCard,
 } from "../../../components/Index.js";
 import Dummy from "./Dummy.js";
@@ -15,7 +13,7 @@ const DonateNow = ({navigation}) => {
 
   return (
     <SafeAreaView >
-      <Block style={{flex:0,marginTop:10,paddingHorizontal:16}}>
+      <Block style={{flex:0,paddingVertical:15,paddingHorizontal:16}}>
         <Text style={{ fontSize: 22, fontWeight: "700",paddingVertical:2 }}>Donation Methods  </Text>
         <Text style={{ fontSize: 16,paddingVertical:2}}>Choose the desired methods for the donation.</Text>
       </Block>

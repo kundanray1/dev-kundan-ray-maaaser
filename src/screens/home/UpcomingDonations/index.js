@@ -2,8 +2,6 @@ import { memo } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
-import reducer from "./reducer";
-import saga from "./saga";
 import UpcomingDonations from "./UpcomingDonations";
 import { welcomeStart } from "./actions";
 

@@ -1,18 +1,18 @@
-export const WELCOME_START = "WELCOME_START";
-export const WELCOME_SUCCESS = "WELCOME_SUCCESS";
-export const WELCOME_FAIL = "WELCOME_FAIL";
+export const LOAD_FUND_START = "LOAD_FUND_START";
+export const LOAD_FUND_SUCCESS = "LOAD_FUND_SUCCESS";
+export const LOAD_FUND_FAIL = "LOAD_FUND_FAIL";
 
-export const welcomeStart = (payload) => {
+export const loadFundStart = (payload) => {
 	return {
-		type: WELCOME_START,
+		type: LOAD_FUND_START,
 		payload,
 	};
 };
-export const welcomeSuccess = (payload) => ({
-	type: WELCOME_SUCCESS,
+export const loadFundSuccess = (payload) => ({
+	type: LOAD_FUND_SUCCESS,
 	payload,
 });
-export const welcomeFail = (payload) => ({
-	type: WELCOME_FAIL,
+export const loadFundFail = (payload) => ({
+	type: LOAD_FUND_FAIL,
 	payload,
 });

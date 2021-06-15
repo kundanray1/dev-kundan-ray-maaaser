@@ -2,17 +2,16 @@ import { memo } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
-import reducer from "./reducer";
-import saga from "./saga";
 import Card from "./Card";
-import { welcomeStart } from "./actions";
+import { cardStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.card,
+	loginData: (state) => state.login,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		card: () => dispatch(cardStart()),
 	};
 };
 

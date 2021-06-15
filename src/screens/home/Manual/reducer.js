@@ -1,38 +1,31 @@
 import {
-  LOGIN_START,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  MANUAL_FAIL,
+  MANUAL_START,
+  MANUAL_SUCCESS,
 } from './actions';
-import API from './../../../api/API'
 
 const initialState = {
   isLoading: false,
-  isLoggedIn: true,
-  user: API.user(),
+  manual: '',
   error: null,
 };
 
-export const loginReducer=(state = initialState, { type, payload }) => {
+export const manualReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case LOGIN_START:
+    case MANUAL_START:
     return {
         ...state,
         isLoading: true,
-        isLoggedIn: false,
       };
-
-    case LOGIN_SUCCESS:
+    case MANUAL_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
-        user: payload,
+        manual: payload,
       };
-    case LOGIN_FAIL:
+    case MANUAL_FAIL:
       return {
         ...state,
-        isLoggedIn: false,
-        user: null,
         isLoading: false,
         error: payload,
       };

@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
-  SafeAreaView,
-  Image,
-  ActivityIndicator,
+ 
   TouchableOpacity,
   StyleSheet,
-  Modal,
-  View,
+ 
+  Platform,
 } from "react-native";
-import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LinkNewCardValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
@@ -18,151 +16,100 @@ import {
   Block,
   Text,
   Input,
-  // Dimensions,
-  ErrorMessage,CustomActivityIndicator
+  ErrorMessage,
+  CustomActivityIndicator,
 } from "./../../../components/Index.js";
-import MonthPicker from "./MonthPicker";
+import moment from "moment";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import PaymentProto from "./../../../protos/payment_pb";
+import AddressProto from "./../../../protos/address_pb";
+import CountryCode from "./CountryCode";
 
-// const HEIGHT = Dimensions.get("window").height;
-// const WIDTH = Dimensions.get("window").width;
-
-const LinkNewCard = ({ navigation, data, login }) => {
+const LinkNewCard = ({
+  navigation,
+  data,
+  loginData,
+  linkNewCard,
+  linkNewCardClear,
+  updateLinkNewCard,
+  route,
+}) => {
   const [cardholderNameFocus, setCardholderNameFocus] = useState(false);
   const [cardNumberFocus, setCardNumberFocus] = useState(false);
-  const [cvvFocus, setCvvFocus] = useState(false);
-  const [streetAddressFocus, setStreetAddressFocus] = useState(false);
-  const [cityFocus, setCityFocus] = useState(false);
+  const [cvcFocus, setCvcFocus] = useState(false);
+
+  const [street1Focus, setStreet1Focus] = useState(false);
+  const [street2Focus, setStreet2Focus] = useState(false);
   const [stateFocus, setStateFocus] = useState(false);
-  const [month, setMonth] = useState("Month");
-  const [year, setYear] = useState("Year");
-  const [monthModalVisible, setMonthModalVisible] = useState(false);
-  const [yearModalVisible, setYearModalVisible] = useState(false);
+  const [cityFocus, setCityFocus] = useState(false);
+  const [zipCodeFocus, setZipCodeFocus] = useState(false);
 
-  const monthOptions = [
-    "January",
-    "Febrary",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const yearOptions = ["2021", "2022", "2023", "2024", "2025", "2026"];
-
-  const onPressMonthItem = (option) => {
-    setMonth(option);
-    setMonthModalVisible(false);
-  };
-
-  const onPressYearItem = (option) => {
-    setYear(option);
-    setYearModalVisible(false);
-  };
-
-  const RenderMonthOptions = monthOptions.map((option, index) => (
-    <TouchableOpacity
-      key={index}
-      onPress={() => onPressMonthItem(option)}
-      style={{ marginVertical: 2 }}
-    >
-      <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
-        {option}
-      </Text>
-    </TouchableOpacity>
-  ));
-
-  const RenderYearOptions = yearOptions.map((option, index) => (
-    <TouchableOpacity
-      key={index}
-      onPress={() => onPressYearItem(option)}
-      style={{ marginVertical: 2 }}
-    >
-      <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
-        {option}
-      </Text>
-    </TouchableOpacity>
-  ));
-
-  const selectMonth = () => (
-    <SafeAreaView>
-      <TouchableOpacity
-        style={styles.customPicker}
-        activeOpacity={0.8}
-        onPress={() => setMonthModalVisible(!monthModalVisible)}
-      >
-        <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-          {month}
-        </Text>
-        <Block style={{ alignItems: "flex-end" }}>
-          <AntDesign
-            name="caretdown"
-            size={16}
-            color={theme.colors.solidGray}
-          />
-        </Block>
-      </TouchableOpacity>
-      <Modal
-        visible={monthModalVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent={true}
-        onRequestClose={() => setMonthModalVisible(!monthModalVisible)}
-      >
-        <View style={styles.container}>
-          <View style={[styles.modal, { width: 150 }]}>
-            {RenderMonthOptions}
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [countryCode, setCountryCode] = useState(
+    route.params != undefined ? route.params.card.countrycode : ""
   );
-
-  const selectYear = () => (
-    <SafeAreaView>
-      <TouchableOpacity
-        style={styles.customPicker}
-        activeOpacity={0.8}
-        onPress={() => setYearModalVisible(!monthModalVisible)}
-      >
-        <Block>
-          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-            {year}
-          </Text>
-        </Block>
-        <Block style={{ alignItems: "flex-end" }}>
-          <AntDesign
-            name="caretdown"
-            size={16}
-            color={theme.colors.solidGray}
-          />
-        </Block>
-      </TouchableOpacity>
-      <Modal
-        visible={yearModalVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent={true}
-        onRequestClose={() => setYearModalVisible(!yearModalVisible)}
-      >
-        <View style={styles.container}>
-          <View style={[styles.modal, { width: 150 }]}>
-            {RenderYearOptions}
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
-  );
-
   //set all the required proto for updating and submitting
-
-  const onSubmitLogin = (values) => {
-    console.log("Submit Successful");
+  const onSubmitLinkNewCard = (values) => {
+    const linkNewCardData = new PaymentProto.Card();
+    const addressData = new AddressProto.Address();
+    linkNewCardData.setCardnumber(values.cardNumber);
+    linkNewCardData.setCardholdername(values.cardholderName);
+    linkNewCardData.setExpirydate(new Date(date).getTime());
+    linkNewCardData.setCvc(values.cvc);
+    addressData.setStreet1(values.street1);
+    addressData.setStreet2(values.street2);
+    addressData.setState(values.state);
+    addressData.setCity(values.city);
+    addressData.setZip(values.zipCode);
+    addressData.setCountrycode(countryCode);
+    linkNewCardData.setBillingaddress(addressData);
+    console.log(values);
+    console.log(countryCode);
+    linkNewCard(linkNewCardData);
   };
+
+  const onSubmitUpdateLinkNewCard = (values) => {
+    const updateLinkNewCardData = new PaymentProto.Card();
+    const updateAddressData = new AddressProto.Address();
+    updateLinkNewCardData.setCardid(route.params.card.cardid);
+    updateLinkNewCardData.setCardholdername(values.cardholderName);
+    updateLinkNewCardData.setRefid(route.params.card.refid);
+    updateLinkNewCardData.setAccountid(loginData.user.account.accountid);
+    updateLinkNewCardData.setCardnumber(values.cardNumber);
+    updateLinkNewCardData.setExpirydate(new Date(date).getTime());
+    updateLinkNewCardData.setCvc(values.cvc);
+    updateLinkNewCardData.setCardstatus(
+      PaymentProto.Card.CardStatus.ACTIVE_CARD
+    );
+    updateAddressData.setAddressid(route.params.card.billingaddress.addressid);
+    updateAddressData.setStreet1(values.street1);
+    updateAddressData.setStreet2(values.street2);
+    updateAddressData.setState(values.state);
+    updateAddressData.setCity(values.city);
+    updateAddressData.setZip(values.zipCode);
+    updateAddressData.setCountrycode(
+      route.params.card.billingaddress.countrycode
+    );
+    updateLinkNewCardData.setBillingaddress(updateAddressData);
+    updateLinkNewCard(updateLinkNewCardData);
+  };
+
+  useEffect(() => {
+    if (data.linkNewCard.success) {
+      linkNewCardClear();
+      navigation.navigate("Card");
+    }
+  }, [data]);
+
+  const onChange = (event, selectedDate) => {
+    console.log("selectedDate", selectedDate);
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+    setShow(false);
+  };
+  console.log("date", date);
 
   return (
     <KeyboardAwareScrollView
@@ -172,15 +119,31 @@ const LinkNewCard = ({ navigation, data, login }) => {
       <Block style={{ paddingHorizontal: 16 }}>
         <Formik
           initialValues={{
-            cardholderName: "",
-            cardNumber: "",
-            cvv: "",
-            streetAddress: "",
-            city: "",
-            state: "",
+            cardholderName:
+              route.params != undefined
+                ? route.params.card.cardholdername
+                : "joshan",
+            cardNumber:
+              route.params != undefined ? route.params.card.cardnumber : "",
+            cvc:
+              route.params != undefined
+                ? route.params.card.cvc.toString()
+                : " ",
+            street1:
+              route.params != undefined ? route.params.card.street1 : "Phikkal",
+            street2:
+              route.params != undefined ? route.params.card.street2 : "Fikkal",
+            city: route.params != undefined ? route.params.card.city : "ktm",
+            state: route.params != undefined ? route.params.card.state : "ktm",
+            zipCode:
+              route.params != undefined
+                ? route.params.card.billingaddress.zip.toString()
+                : "44600",
           }}
           onSubmit={(values) => {
-            onSubmitLogin(values);
+            route.params != undefined
+              ? onSubmitUpdateLinkNewCard(values)
+              : onSubmitLinkNewCard(values);
           }}
           validationSchema={LinkNewCardValidationSchema}
         >
@@ -194,7 +157,6 @@ const LinkNewCard = ({ navigation, data, login }) => {
           }) => (
             <Block>
               <Input
-                full
                 label="Cardholder Name"
                 focus={cardholderNameFocus}
                 onChangeText={handleChange("cardholderName")}
@@ -216,9 +178,7 @@ const LinkNewCard = ({ navigation, data, login }) => {
                 error={errors.cardholderName}
                 visible={touched.cardholderName}
               />
-
               <Input
-                full
                 label="Card Number"
                 focus={cardNumberFocus}
                 onChangeText={handleChange("cardNumber")}
@@ -226,6 +186,7 @@ const LinkNewCard = ({ navigation, data, login }) => {
                   setFieldTouched("cardNumber");
                   setCardNumberFocus(false);
                 }}
+                number
                 onFocus={() => setCardNumberFocus(true)}
                 value={values.cardNumber}
                 style={{
@@ -241,78 +202,122 @@ const LinkNewCard = ({ navigation, data, login }) => {
                 visible={touched.cardNumber}
               />
 
-              <Block row style={{marginTop:5}}>
+              <Block row style={{ marginTop: 5 }}>
                 <Block style={{ flex: 4 }}>
-                  <Text bold style={{ fontSize: 16}}>
+                  <Text bold style={{ fontSize: 16 }}>
                     Expiry Date
                   </Text>
                 </Block>
                 <Block style={{ flex: 2.7 }}>
-                  <Text bold style={{ fontSize: 16}}>
-                    CVV
+                  <Text bold style={{ fontSize: 16 }}>
+                    CVC
                   </Text>
                 </Block>
               </Block>
 
               <Block row>
-                <Block style={{ flex: 1.5, marginTop: 10 }}>
-                  {selectMonth()}
-                </Block>
-
-                <Block style={{ flex: 1.5, marginTop: 10 }}>
-                  {selectYear()}
+                <Block style={{ flex: 3, marginTop: 10 }}>
+                  <TouchableOpacity
+                    style={styles.customPicker}
+                    activeOpacity={0.8}
+                    onPress={() => setShow(true)}
+                  >
+                    <Block>
+                      <Text
+                        bold
+                        style={{ fontSize: 16, color: theme.colors.solidGray }}
+                      >
+                        {moment(date).format("DD/MM/YYYY")}
+                      </Text>
+                    </Block>
+                    <Block style={{ alignItems: "flex-end" }}>
+                      <MaterialCommunityIcons
+                        name="calendar-month"
+                        size={20}
+                        color={theme.colors.primary2}
+                      />
+                    </Block>
+                  </TouchableOpacity>
+                  {show && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={date}
+                      mode="date"
+                      is24Hour={true}
+                      display="default"
+                      minimumDate={new Date()}
+                      textColor="red" 
+                      onChange={onChange}
+                    />
+                  )}
                 </Block>
 
                 <Block style={{ flex: 2 }}>
                   <Input
-                    full
-                    focus={cvvFocus}
-                    onChangeText={handleChange("cvv")}
+                    focus={cvcFocus}
+                    onChangeText={handleChange("cvc")}
                     onBlur={() => {
-                      setFieldTouched("cvv");
-                      setCvvFocus(false);
+                      setFieldTouched("cvc");
+                      setCvcFocus(false);
                     }}
-                    onFocus={() => setCvvFocus(true)}
-                    value={values.cvv}
+                    number
+                    onFocus={() => setCvcFocus(true)}
+                    value={values.cvc}
                     style={{
-                      borderBottomColor: cvvFocus
+                      borderBottomColor: cvcFocus
                         ? theme.colors.primary2
-                        : touched.cvv && errors.cvv
+                        : touched.cvc && errors.cvc
                         ? theme.colors.red
                         : theme.colors.solidGray,
                     }}
                   />
                 </Block>
               </Block>
-
-              <ErrorMessage error={errors.cvv} visible={touched.cvv} />
-
+              <ErrorMessage error={errors.cvc} visible={touched.cvc} />
+              <CountryCode
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+              />
               <Input
-                full
-                label="Street Address"
-                focus={streetAddressFocus}
-                onChangeText={handleChange("streetAddress")}
+                label="Street Address 1"
+                focus={street1Focus}
+                onChangeText={handleChange("street1")}
                 onBlur={() => {
-                  setFieldTouched("streetAddress");
-                  setStreetAddressFocus(false);
+                  setFieldTouched("street1");
+                  setStreet1Focus(false);
                 }}
-                onFocus={() => setStreetAddressFocus(true)}
-                value={values.streetAddress}
+                onFocus={() => setStreet1Focus(true)}
+                value={values.street1}
                 style={{
-                  borderBottomColor: streetAddressFocus
+                  borderBottomColor: street1Focus
                     ? theme.colors.primary2
-                    : touched.streetAddress && errors.streetAddress
+                    : touched.street1 && errors.street1
                     ? theme.colors.red
                     : theme.colors.solidGray,
                 }}
               />
-              <ErrorMessage
-                error={errors.streetAddress}
-                visible={touched.streetAddress}
+              <ErrorMessage error={errors.street1} visible={touched.street1} />
+              <Input
+                label="Street Address 2"
+                focus={street2Focus}
+                onChangeText={handleChange("street2")}
+                onBlur={() => {
+                  setFieldTouched("street2");
+                  setStreet2Focus(false);
+                }}
+                onFocus={() => setStreet2Focus(true)}
+                value={values.street2}
+                style={{
+                  borderBottomColor: street2Focus
+                    ? theme.colors.primary2
+                    : touched.street2 && errors.street2
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
               />
+              <ErrorMessage error={errors.street2} visible={touched.street2} />
 
               <Input
-                full
                 label="City"
                 focus={cityFocus}
                 onChangeText={handleChange("city")}
@@ -333,7 +338,6 @@ const LinkNewCard = ({ navigation, data, login }) => {
               <ErrorMessage error={errors.city} visible={touched.city} />
 
               <Input
-                full
                 label="State"
                 focus={stateFocus}
                 onChangeText={handleChange("state")}
@@ -353,12 +357,35 @@ const LinkNewCard = ({ navigation, data, login }) => {
               />
               <ErrorMessage error={errors.state} visible={touched.state} />
 
+              <Input
+                label="Zip Code"
+                focus={zipCodeFocus}
+                onChangeText={handleChange("zipCode")}
+                onBlur={() => {
+                  setFieldTouched("zipCode");
+                  setZipCodeFocus(false);
+                }}
+                number
+                onFocus={() => setZipCodeFocus(true)}
+                value={values.zipCode}
+                style={{
+                  borderBottomColor: zipCodeFocus
+                    ? theme.colors.primary2
+                    : touched.zipCode && errors.zipCode
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
+              />
+              <ErrorMessage error={errors.zipCode} visible={touched.zipCode} />
+
               {!errors.cardholderName &&
               !errors.cardNumber &&
-              !errors.cvv &&
-              !errors.streetAddress &&
+              !errors.cvc &&
+              !errors.street1 &&
+              !errors.street2 &&
               !errors.city &&
-              !errors.state ? (
+              !errors.state &&
+              !errors.zipCode ? (
                 <Button
                   style={{
                     marginTop: 12,
@@ -367,10 +394,14 @@ const LinkNewCard = ({ navigation, data, login }) => {
                   onPress={handleSubmit}
                 >
                   {data.isLoading ? (
-                   <CustomActivityIndicator
-                         isLoading={data.isLoading}
-                         label="Requesting..."
-                        />
+                    <CustomActivityIndicator
+                      label="Requesting..."
+                      isLoading={data.isLoading}
+                    />
+                  ) : route.params != undefined ? (
+                    <Text button style={{ fontSize: 18 }}>
+                      Update Card
+                    </Text>
                   ) : (
                     <Text button style={{ fontSize: 18 }}>
                       Link Card
@@ -385,9 +416,15 @@ const LinkNewCard = ({ navigation, data, login }) => {
                     backgroundColor: theme.colors.gray,
                   }}
                 >
-                  <Text button style={{ fontSize: 18 }}>
-                    Link Card
-                  </Text>
+                  {route.params != undefined ? (
+                    <Text button style={{ fontSize: 18 }}>
+                      Update Card
+                    </Text>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Link Card
+                    </Text>
+                  )}
                 </Button>
               )}
             </Block>
@@ -401,29 +438,9 @@ const LinkNewCard = ({ navigation, data, login }) => {
 export default LinkNewCard;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modal: {
-    borderRadius: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    elevation: 4,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    borderRadius: 3,
-    padding: 10,
-  },
-  option: {
-    alignItems: "flex-start",
-  },
   customPicker: {
-    width: "90%",
-    height: 25,
+    width: "93%",
+    height: 28,
     flexDirection: "row",
     justifyContent: "space-between",
     borderColor: theme.colors.solidGray,

@@ -1,21 +1,17 @@
-import React, { useState } from "react";
-import { ActivityIndicator,FlatList, SafeAreaView, Image } from "react-native";
-import * as theme from "../../../constants/theme.js";
+import React from "react";
+import { FlatList, SafeAreaView,  } from "react-native";
 import {
   Block,
   Text,
   Empty,
-  SearchBar,
   LoadFundAndDonationMethodCard,
 } from "../../../components/Index.js";
 import Dummy from "./Dummy.js";
 
-const LoadFund = () => {
-  const [loading, setLoading] = useState(false);
-
+const LoadFund = ({navigation}) => {
   return (
     <SafeAreaView >
-      <Block style={{flex:0,marginTop:10,paddingHorizontal:16}}>
+      <Block style={{flex:0,paddingVertical:15,paddingHorizontal:16}}>
         <Text style={{ fontSize: 22, fontWeight: "700",paddingVertical:2 }}>Load Fund Methods </Text>
         <Text style={{ fontSize: 16,paddingVertical:2}}>Choose the desired method for the load fund.</Text>
       </Block>
@@ -31,6 +27,7 @@ const LoadFund = () => {
           <LoadFundAndDonationMethodCard
             image={post.item.image}
             label={post.item.label}
+            onPress={()=>navigation.navigate(post.item.navigate)}
           />
         )}
       />

@@ -2,17 +2,15 @@ import { memo } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
-import reducer from "./reducer";
-import saga from "./saga";
 import Confirmation from "./Confirmation";
-import { welcomeStart } from "./actions";
+import { confirmationStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.confirmation,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		confirmation: (values) => dispatch(confirmationStart(values)),
 	};
 };
 

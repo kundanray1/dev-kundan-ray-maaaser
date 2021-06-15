@@ -1,29 +1,29 @@
 import {
-  WELCOME_FAIL,
-  WELCOME_START,
-  WELCOME_SUCCESS,
+  CARD_FAIL,
+  CARD_START,
+  CARD_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  welcome: '',
+  card: '',
   error: null,
 };
 
-export const welcomeReducer=(state = initialState, { type, payload }) => {
+export const cardReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case WELCOME_START:
+    case CARD_START:
     return {
         ...state,
         isLoading: true,
       };
-    case WELCOME_SUCCESS:
+    case CARD_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        welcome: payload,
+        card: payload,
       };
-    case WELCOME_FAIL:
+    case CARD_FAIL:
       return {
         ...state,
         isLoading: false,

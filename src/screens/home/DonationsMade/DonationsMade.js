@@ -18,6 +18,7 @@ const DonationsMade = () => {
           <ActivityIndicator size="large" color={theme.colors.black} />
         </Block>
       ) : (
+      <Block style={{flex:0,marginTop:6}}>
         <FlatList
           data={Dummy}
           showsVerticalScrollIndicator={false}
@@ -27,6 +28,8 @@ const DonationsMade = () => {
           ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
           ListEmptyComponent={() => <Empty title="No data" />}
           renderItem={(post) => (
+            <Block style={{paddingHorizontal:18}}>
+
             <DonationsDetail
               profilePic={post.item.profilePic}
               name={post.item.name}
@@ -34,8 +37,11 @@ const DonationsMade = () => {
               date={post.item.date}
               textColor={theme.colors.green}
             />
+            </Block>
           )}
         />
+      </Block>
+
       )}
     </SafeAreaView>
   );
