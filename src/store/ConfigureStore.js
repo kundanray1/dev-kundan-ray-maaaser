@@ -9,7 +9,7 @@ const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   rootReducer,
   initialState,
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware),
 )
 
 sagaMiddleware.run(rootSaga)

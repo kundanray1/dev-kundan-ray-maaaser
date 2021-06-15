@@ -6,13 +6,14 @@ const { width } = Dimensions.get("window");
 
 export default Button = ({ style, full, opacity, children, ...props }) => {
   const buttonStyles = [styles.button, full && styles.full, style];
-
   return (
     <TouchableOpacity
       activeOpacity={opacity || 0.8}
       {...props}
     >
-     <LinearGradient colors={['#068DD3', '#0BB3F3']} style={buttonStyles}>
+     <LinearGradient colors={['#068DD3', '#0BB3F3']} start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 0 }}
+                    style={buttonStyles}>
        {children}
       </LinearGradient>
     </TouchableOpacity>

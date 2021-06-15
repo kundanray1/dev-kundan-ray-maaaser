@@ -1,82 +1,88 @@
-import {APIHeader} from '../constants/APIHeader';
+import {
+    APIHeaders,
+    APIHeadersForMultipartFormData,
+    ProtoHeaders,
+} from "./../constants/APIHeader";
 import LocalDb from "./LocalStorage";
-import {decode as atob, encode as btoa} from 'base-64'
-import base from "./../../../protos/account_rpc_pb";
 
-
-// FileReader.prototype.readAsArrayBuffer = function (blob) {
-//     if (this.readyState === this.LOADING) throw new Error("InvalidStateError");
-//     this._setReadyState(this.LOADING);
-//     this._result = null;
-//     this._error = null; 
-//     const fr = new FileReader();
-//     fr.onloadend = () => {
-//         const content =  atob(fr.result.substr("data:application/octet-stream;base64,".length));
-//         const buffer = new ArrayBuffer(content.length);
-//         const view = new Uint8Array(buffer);
-//         view.set(Array.from(content).map(c => c.charCodeAt(0)));
-//         this._result = buffer;
-//         this._setReadyState(this.DONE);
-//     };
-//     fr.readAsDataURL(blob);
-// }
-
-export default class API{
+export class API {
     static token = null;
     static user = null;
+
     constructor() {
         API.token = null;
         API.user = null;
         this.setToken();
     }
+
     setToken() {
-        LocalDb.getSession().then(response => {
-            if (null !== response) {
-                API.token = response.token;
-                API.user = response.user;
+        LocalDb.getSessions().then((response) => {
+            if (response !== null) {
+                API.token = response.loginresponse.token;
+                API.user = response.loginresponse.loginaccount.client;
             }
         }).catch(err => {
             console.log("Error while getting session.", err);
         });
     }
+
     removeTokens() {
-        API.token = null;
-        API.user = null;
+        LocalDb.removeSession((resolve,reject)=>{
+            if(resolve){
+                return resolve
+            }else{
+                return reject
+            }
+        })
     }
+
     resetToken() {
+        console.log("resetToken()")
         this.removeTokens();
         this.setToken();
     }
 
     processResponse(response, callback) {
-        response.arrayBuffer().then(function (b) {
-            if (b) {
-                const baseResponse = base.AccountBaseResponse.deserializeBinary(response).toObject();
-                console.log("Inside processResponse::::",baseResponse)
-                if (baseResponse.getError()) {
-                    const errorReceived = { error: true, msg: baseResponse.getMsg() };
-                    callback(null, errorReceived);
+        response
+            .json()
+            .then((parsedResponse) => {
+                if (parsedResponse.error) {
+                    const error = {
+                        error: true,
+                        msg: parsedResponse.msg,
+                        errorCode: parsedResponse.errorCode,
+                    };
+                    callback(null, error);
                 } else {
-                    callback(baseResponse, null);
-                    console.log("Inside Process if")
+                    callback(parsedResponse, null);
                 }
-            } else {
-                const error = { error: true, msg: "Error while parsing. ", };
-                console.log("Inside Process else")
-                callback(null, error);
-            }
-        })
+            })
+            .catch(() => {
+                callback(null, "Exception on server");
+            });
     }
 
-    getUser() {
+    token() {
+        return API.token;
+    }
+    user() {
         return API.user;
     }
-
-    get headers() {
-        return { ...APIHeader }
+    headers() {
+        return { ...APIHeaders };
     }
-
-    get authHeaders() {
-        return { ...APIHeader, 'Authorization': API.token }
+    protoHeaders() {
+        return { ...ProtoHeaders };
+    }
+    authHeaders() {
+        return { ...APIHeaders, Authorization: API.token };
+    }
+    authProtoHeader() {
+        return { ...ProtoHeaders, Authorization: API.token };
+    }
+    authHeadersForMultipartFormData() {
+        return { ...APIHeadersForMultipartFormData, Authorization: API.token };
     }
 }
+
+export default new API();

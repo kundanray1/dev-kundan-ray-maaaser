@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import * as theme from "../constants/theme.js";
-import LoggedInStack from './LoggedInStack';
-import LoggedOutStack from './LoggedOutStack';
+import LoggedInStack from "./LoggedInStack";
+import LoggedOutStack from "./LoggedOutStack";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { authStart } from "./../store/actions/AuthActions";
-
+import API from "./../api/API";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -17,16 +16,18 @@ const MyTheme = {
   },
 };
 
-
-const App = ({data}) => {
+const App = ({ data }) => {
   return (
     <NavigationContainer theme={MyTheme}>
-        {(data.isLoggedIn && data.user)?<LoggedInStack/>:<LoggedOutStack/>}
-      <OfflineNotice/>
+      {(data.isLoggedIn && data.user!==null)  ? (
+        <LoggedInStack />
+      ) : (
+        <LoggedOutStack />
+      )}
+      <OfflineNotice />
     </NavigationContainer>
   );
 };
-
 
 const structuredSelector = createStructuredSelector({
   data: (state) => state.login,

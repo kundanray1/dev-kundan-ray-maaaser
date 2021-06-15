@@ -1,20 +1,21 @@
-const BASE_URL='https://apexrideapi.herokuapp.com'
-
-//define all the URL for posts(GET,POST,PUT,DELETE,GETBYID)
-export const LOGIN_URL=`${BASE_URL}/auth/local`
-export const SIGNUP_URL=`${BASE_URL}/auth/local/register`
-export const NOTIFICATIONS_URL=`${BASE_URL}/notifications`
-
-const MainAPI = 'https://455325babfe7.ngrok.io';
-
+//all the url for API endpoints
+const MainAPI = 'http://34.94.88.140:9000';
 const APIEndPoints = {
     LOGIN: MainAPI + '/login',
     SIGNUP: MainAPI + '/client',
     LOGOUT: MainAPI + '/account/logout',
+    FORGOT_PASSWORD:MainAPI+ '/request/password/reset?emailPhone=',
+    CHECK_VERIFICATION_CODE:MainAPI+ '/check/verification/code',
+    PASSWORD_RESET:MainAPI+ '/password/reset',
+    BANK : MainAPI + '/bank',
+    CARD : MainAPI + '/card',
+    TRANSACTION : MainAPI + '/transaction',
+    BALANCE : MainAPI + '/balance',
+
+
     ADD_USER : MainAPI + '/user',
     DELETE_USER : MainAPI + '/user/',
     FETCH_ALL_USERS:MainAPI+'/users',
-    PASSWORD_RESET:MainAPI+ '/user/password/update',
     PASSWORD_RESET_ADMIN:MainAPI+ '/user/password/reset',
     FETCH_REPORT_MASTER : MainAPI+'/',
     FETCH_PHONES:MainAPI+ '/phone',
@@ -27,7 +28,6 @@ const APIEndPoints = {
     FETCH_NOTES:MainAPI+'/note',
     FETCH_ASSOCIATIONS:MainAPI+'/association',
     FETCH_AGGREGRATE_REPORT:MainAPI+'/report/aggregate'
-
 };
 
 export default APIEndPoints;

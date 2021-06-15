@@ -1,3 +1,4 @@
+//headers for authorization while sending request to server
 export const APIHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json',

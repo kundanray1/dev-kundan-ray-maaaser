@@ -31,8 +31,6 @@ const ACH = ({ navigation, data, loginData, ACH,loadAmount }) => {
     ACH(loginData.user.clientid);
     setRefreshing(false);
   });
-console.log(data);
-
   useEffect(() => {
     ACH(loginData.user.clientid);
     if(data.loadAmount.success){
@@ -135,7 +133,6 @@ console.log(data);
         amountFocus={amountFocus}
         setAmountFocusTrue={()=>setAmountFocus(true)}
         setAmountFocusFalse={()=>setAmountFocus(false)}
-        loadAmount={loadAmount}
         accountData={accountData}
       />
     </>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import { Dimensions, Image, StyleSheet } from "react-native";
 import {
@@ -11,17 +12,41 @@ import {
 import { Formik } from "formik";
 import { LoadFundValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "../../../constants/theme.js";
+import PaymentProto from "./../../../protos/payment_pb";
+import { useDispatch } from 'react-redux'
+import { loadAmountStart } from "./actions";
+
 const WIDTH = Dimensions.get("window").width;
 
-export const LoadFund = ({ bs1, amountFocus, setAmountFocusTrue ,setAmountFocusFalse }) => {
-
+export const LoadFund = ({
+	bs1,
+	amountFocus,
+	setAmountFocusTrue,
+	setAmountFocusFalse,
+	accountData
+}) => {
+	 const dispatch = useDispatch()
 	const RenderHeader = () => (
 		<Block style={styles.header}>
 			<Block style={styles.panelHandle} />
 		</Block>
 	);
+
 	const onSubmitLoadFund = (values) => {
-		console.log(values);
+		const loadAmountProto = new PaymentProto.Transaction();
+		loadAmountProto.setBankid(accountData.bankid);
+		loadAmountProto.setDonoraccountid("2e1ff5052b914b08aaf1d439f8acbf3c");
+		loadAmountProto.setAmount(values.amount);
+		loadAmountProto.setTransactionmedium(
+			PaymentProto.TransactionMedium.ACH
+		);
+		loadAmountProto.setTransactiontype(
+			PaymentProto.TransactionType.LOAD_FUND
+		);
+		loadAmountProto.setTransactionstatus(
+			PaymentProto.TransactionStatus.TRANSACTION_APPROVED
+		);
+		dispatch(loadAmountStart(loadAmountProto));
 	};
 	const RenderContent = () => {
 		return (
@@ -67,7 +92,7 @@ export const LoadFund = ({ bs1, amountFocus, setAmountFocusTrue ,setAmountFocusF
 								onChangeText={handleChange("amount")}
 								onBlur={() => {
 									setFieldTouched("amount");
-									setAmountFocusFalse
+									setAmountFocusFalse;
 								}}
 								number
 								onFocus={setAmountFocusTrue}
@@ -83,21 +108,22 @@ export const LoadFund = ({ bs1, amountFocus, setAmountFocusTrue ,setAmountFocusF
 							<ErrorMessage
 								error={errors.amount}
 								visible={touched.amount}
+								style={{ paddingVertical: 1 }}
 							/>
-			<Block style={{flex:0,paddingVertical:5}}>
-							{!errors.amount ? (
-								<Button onPress={handleSubmit}>
-									<Text button style={{ fontSize: 18 }}>
-										Load Fund
-									</Text>
-								</Button>
-							) : (
-								<Button>
-									<Text button style={{ fontSize: 18 }}>
-										Load Fund
-									</Text>
-								</Button>
-							)}
+							<Block style={{ flex: 0, paddingVertical: 10 }}>
+								{!errors.amount ? (
+									<Button onPress={handleSubmit}>
+										<Text button style={{ fontSize: 18 }}>
+											Load Fund
+										</Text>
+									</Button>
+								) : (
+									<Button>
+										<Text button style={{ fontSize: 18 }}>
+											Load Fund
+										</Text>
+									</Button>
+								)}
 							</Block>
 						</>
 					)}

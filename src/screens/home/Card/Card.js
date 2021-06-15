@@ -89,6 +89,7 @@ const Card = ({ navigation, data, loginData, card }) => {
                     onPress={() => {
                       bs.current.snapTo(1);
                       bs1.current.snapTo(0);
+                      setCardData(post.item);
                     }}
                   />
                 </Pressable>
@@ -102,12 +103,12 @@ const Card = ({ navigation, data, loginData, card }) => {
         onPress={() => navigation.navigate("Link New Card")}
       />
       <Bottom bs={bs} cardData={cardData} navigation={navigation} />
-      <LoadFund
+       <LoadFund
         bs1={bs1}
         amountFocus={amountFocus}
         setAmountFocusTrue={()=>setAmountFocus(true)}
         setAmountFocusFalse={()=>setAmountFocus(false)}
-
+        cardData={cardData}
       />
     </>
   );

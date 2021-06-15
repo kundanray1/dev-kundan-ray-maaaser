@@ -23,7 +23,6 @@ export const LoadFund = ({
 	amountFocus,
 	setAmountFocusTrue,
 	setAmountFocusFalse,
-	loadAmount,
 	accountData
 }) => {
 	 const dispatch = useDispatch()

@@ -1,8 +1,18 @@
+//defining all the necessary theme properties
+
+import {
+  Dimensions
+} from "react-native";
+
+
+const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
+
 const colors = {
   primary1: "#068DD3",
   primary2: "#0BB3F3",
   blue: "#2E5BFF",
-  solidGray:"#767676",
+  solidGray:"#5F6062",
   lightblue: "#488eff",
   maroon: "#8B0000",
   lightmaroon: "#9b111e",
@@ -17,7 +27,7 @@ const colors = {
   black3: "#8798AD",
   white: "#FFFFFF",
   gray: "#676767",
-  gray2: "#F4F6FC",
+  gray2: "#B9C3CD",
   gray3: "#EEF3F5",
   caption: "#B0BAC9",
   input: "#333333", // '#E0E7FF' 20%

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
-  StyleSheet,
   Image,
-  Keyboard,
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -16,16 +14,13 @@ import {
   Text,
   Input,
   ErrorMessage,
-  CheckBox,CustomActivityIndicator
+  CustomActivityIndicator
 } from "./../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
 import AccountProto from "./../../../protos/account_pb";
 import MaaserProto from "./../../../protos/maaser_pb";
 import AddressProto from "./../../../protos/address_pb";
-// import API from "./../../../api/API";
-
 const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStartedDonor }) => {
-
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -87,24 +82,23 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
 
   return (
     <KeyboardAwareScrollView
-      style={{ marginVertical: 10 }}
+      style={{ paddingVertical: 40 }}
       showsVerticalScrollIndicator={false}
     >
       <Block center middle>
         <Block style={{ marginTop: 20 }}>
           <Block center>
-            <Text
-              bold
+             <Text
               center
-              style={{ marginTop: 6, fontSize: 18 }}
+              style={{paddingTop: 5,fontSize: 18, fontWeight: "700" }}
               color={theme.colors.black}
             >
               Let’s Get Started.
             </Text>
             <Text
               center
-              style={{ marginTop: 2, padding: 5, fontSize: 15 }}
-              color={theme.colors.gray}
+              style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+              color={theme.colors.gray2}
             >
               {loginData.user.account.clienttype == 1
                 ? "Tell us a bit about you."
@@ -242,12 +236,12 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
                     onChangeText={handleChange("street2")}
                     onBlur={() => {
                       setFieldTouched("street2");
-                      setStreet1Focus(false);
+                      setStreet2Focus(false);
                     }}
-                    onFocus={() => setStreet1Focus(true)}
+                    onFocus={() => setStreet2Focus(true)}
                     value={values.street2}
                     style={{
-                      borderBottomColor: street1Focus
+                      borderBottomColor: street2Focus
                         ? theme.colors.primary2
                         : touched.street2 && errors.street2
                         ? theme.colors.red

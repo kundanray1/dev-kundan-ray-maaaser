@@ -9,20 +9,24 @@ import {
 import * as theme from "./../../../constants/theme.js";
 
 export default Welcome = ({ navigation }) => {
-  console.log("Welcome")
+  console.log("Welcome");
   return (
     <Block>
-      <Block style={{ flex: 2.5 }}>
-        <Block center middle>
-          <Image
-            source={require("../../../assets/icons/logo.png")}
-            style={{ height: 120, width: 120 }}
-          />
-        </Block>
+      <Block
+        style={{
+          alignItems: "center",
+          justifyContent: "flex-end",
+          marginBottom:40,
+        }}
+      >
+        <Image
+          source={require("../../../assets/icons/logo.png")}
+          style={{ height: 110, width: 110 }}
+        />
       </Block>
 
-      <Block center middle style={{ flex: 1.5 }}>
-        <Block>
+      <Block center>
+        <Block middle>
           <Button
             full
             onPress={() =>
@@ -35,8 +39,14 @@ export default Welcome = ({ navigation }) => {
               Sign Up as Donor
             </Text>
           </Button>
-
-          <Block row center>
+          <Block
+            row
+            center
+            style={{
+              flex: 0,
+              paddingVertical: 25,
+            }}
+          >
             <Block style={{ height: 1, backgroundColor: theme.colors.black }} />
             <Text
               bold
@@ -49,9 +59,9 @@ export default Welcome = ({ navigation }) => {
             >
               Or
             </Text>
-
             <Block style={{ height: 1, backgroundColor: theme.colors.black }} />
           </Block>
+
           <OutlinedButton
             full
             onPress={() =>
@@ -67,16 +77,18 @@ export default Welcome = ({ navigation }) => {
               Sign Up as Receiver
             </Text>
           </OutlinedButton>
-          <Block style={{marginTop:10}}>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text h4 color={theme.colors.solidGray}>
-                Already have an account?{" "}
-                <Text h4 color={theme.colors.primary2}>
-                  Log In
-                </Text>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
+            style={{ paddingVertical: 15 }}
+          >
+            <Text h4 color={theme.colors.solidGray}>
+              Already have an account?{" "}
+              <Text h4 color={theme.colors.primary2}>
+                Login
               </Text>
-            </TouchableOpacity>
-          </Block>
+            </Text>
+          </TouchableOpacity>
         </Block>
       </Block>
     </Block>

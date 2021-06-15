@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Text from "./Text";
 import * as theme from "../constants/theme";
-import * as Icon from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 
 export default Input = ({
@@ -43,9 +43,13 @@ export default Input = ({
         onPress={() => setToggleSecure(!toggleSecure)}
       >
         {password && (
-          <Icon.Ionicons
+          <Ionicons
             color={theme.colors.solidGray}
-            size={theme.sizes.font * 1.5}
+            size={24}
+            style={{
+              paddingVertical: 8,
+              marginTop:4,
+            }}
             name={toggleSecure ? "md-eye" : "md-eye-off"}
           />
         )}
@@ -53,20 +57,20 @@ export default Input = ({
     );
   };
   return (
-    <View style={{ marginTop: 5}}>
-    {label?
-      <View style={styles.labelContainer}>
-
-        <Text
-          bold
-          style={{ fontSize: 16}}
-          color={focus?theme.colors.primary2:theme.colors.black}
-        >
-          {label}
-        </Text>
-      </View>:
-      <View/>
-    }
+    <View style={{ paddingVertical: 8 }}>
+      {label ? (
+        <View style={styles.labelContainer}>
+          <Text
+            bold
+            style={{ fontSize: 16 }}
+            color={focus ? theme.colors.primary2 : theme.colors.black}
+          >
+            {label}
+          </Text>
+        </View>
+      ) : (
+        <View />
+      )}
       <TextInput
         style={inputStyles}
         secureTextEntry={isSecure}
@@ -89,21 +93,19 @@ const styles = StyleSheet.create({
     fontSize: theme.sizes.inputFont,
     color: theme.colors.solidGray,
     height: 30,
-    paddingTop:10
+    paddingTop: 2,
   },
 
   labelContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom:0
   },
   toggle: {
     position: "absolute",
     alignItems: "flex-end",
-    width: theme.sizes.base * 2,
-    height: theme.sizes.base * 1,
-    top: theme.sizes.base * 1.5,
+    top: theme.sizes.base * 1.2,
     right: 0,
+    paddingHorizontal: 2,
   },
   full: {
     width: width - 50,
