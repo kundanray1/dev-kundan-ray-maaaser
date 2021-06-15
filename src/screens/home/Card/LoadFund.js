@@ -23,9 +23,9 @@ export const LoadFund = ({
 	amountFocus,
 	setAmountFocusTrue,
 	setAmountFocusFalse,
-	accountData
+	cardData
 }) => {
-	 const dispatch = useDispatch()
+	const dispatch = useDispatch()
 	const RenderHeader = () => (
 		<Block style={styles.header}>
 			<Block style={styles.panelHandle} />
@@ -34,11 +34,11 @@ export const LoadFund = ({
 
 	const onSubmitLoadFund = (values) => {
 		const loadAmountProto = new PaymentProto.Transaction();
-		loadAmountProto.setBankid(accountData.bankid);
+		loadAmountProto.setBankid(cardData.cardid);
 		loadAmountProto.setDonoraccountid("2e1ff5052b914b08aaf1d439f8acbf3c");
 		loadAmountProto.setAmount(values.amount);
 		loadAmountProto.setTransactionmedium(
-			PaymentProto.TransactionMedium.ACH
+			PaymentProto.TransactionMedium.CARD
 		);
 		loadAmountProto.setTransactiontype(
 			PaymentProto.TransactionType.LOAD_FUND

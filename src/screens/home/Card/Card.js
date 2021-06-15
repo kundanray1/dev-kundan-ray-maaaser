@@ -34,7 +34,11 @@ const Card = ({ navigation, data, loginData, card }) => {
 
   useEffect(() => {
     card();
-  }, []);
+    if (data.loadAmount.success) {
+      bs.current.snapTo(1);
+      bs1.current.snapTo(1);
+    }
+  }, [data.loadAmount]);
   return (
     <>
       <TouchableWithoutFeedback
@@ -44,7 +48,12 @@ const Card = ({ navigation, data, loginData, card }) => {
         }}
       >
         <SafeAreaView>
-          <Block
+        
+          {data.isLoading ? (
+            <ActivityIndicator size="large" color={theme.colors.primary2} />
+          ) : (
+          <>
+            <Block
             style={{ flex: 0, paddingVertical: 10, paddingHorizontal: 16 }}
           >
             <Text
@@ -53,9 +62,6 @@ const Card = ({ navigation, data, loginData, card }) => {
               Linked Cards{" "}
             </Text>
           </Block>
-          {data.isLoading ? (
-            <ActivityIndicator size="large" color={theme.colors.primary2} />
-          ) : (
             <FlatList
               data={data.card}
               showsVerticalScrollIndicator={false}
@@ -71,6 +77,9 @@ const Card = ({ navigation, data, loginData, card }) => {
               }
               ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
               ListEmptyComponent={() => <Empty title="data" />}
+              ListFooterComponent={() => (
+                <Block style={{ marginVertical: 110, flex: 0 }} />
+              )}
               renderItem={(post) => (
                 <Pressable
                   style={{
@@ -95,6 +104,7 @@ const Card = ({ navigation, data, loginData, card }) => {
                 </Pressable>
               )}
             />
+            </>
           )}
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -103,11 +113,11 @@ const Card = ({ navigation, data, loginData, card }) => {
         onPress={() => navigation.navigate("Link New Card")}
       />
       <Bottom bs={bs} cardData={cardData} navigation={navigation} />
-       <LoadFund
+      <LoadFund
         bs1={bs1}
         amountFocus={amountFocus}
-        setAmountFocusTrue={()=>setAmountFocus(true)}
-        setAmountFocusFalse={()=>setAmountFocus(false)}
+        setAmountFocusTrue={() => setAmountFocus(true)}
+        setAmountFocusFalse={() => setAmountFocus(false)}
         cardData={cardData}
       />
     </>

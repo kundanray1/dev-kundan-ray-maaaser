@@ -2,18 +2,21 @@ import {
   CARD_FAIL,
   CARD_START,
   CARD_SUCCESS,
-} from './actions';
-
+  LOAD_AMOUNT_FAIL,
+  LOAD_AMOUNT_START,
+  LOAD_AMOUNT_SUCCESS,
+} from "./actions";
 const initialState = {
   isLoading: false,
-  card: '',
+  card: "",
+  loadAmount: "",
   error: null,
 };
 
-export const cardReducer=(state = initialState, { type, payload }) => {
+export const cardReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CARD_START:
-    return {
+      return {
         ...state,
         isLoading: true,
       };
@@ -29,7 +32,24 @@ export const cardReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
-   
+    case LOAD_AMOUNT_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case LOAD_AMOUNT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        loadAmount: payload,
+      };
+    case LOAD_AMOUNT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }
