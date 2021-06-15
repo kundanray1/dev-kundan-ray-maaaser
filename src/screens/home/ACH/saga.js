@@ -54,6 +54,7 @@ export function* loadAmount({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("===================Happy===================")
 		if (res.success) {
 			yield put(loadAmountSuccess(res));
 			showMessage({

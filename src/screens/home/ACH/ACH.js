@@ -58,7 +58,12 @@ const ACH = ({ navigation, data, loginData, ACH,loadAmount }) => {
         >
           <SafeAreaView>
             <Block style={{ flex: 0 }}>
-              <Block
+             
+              {data.isLoading ? (
+                <ActivityIndicator size="large" color={theme.colors.primary2} />
+              ) : (
+              <>
+               <Block
                 style={{ flex: 0, paddingVertical: 10, paddingHorizontal: 16 }}
               >
                 <Text
@@ -70,12 +75,9 @@ const ACH = ({ navigation, data, loginData, ACH,loadAmount }) => {
                   Linked Accounts{" "}
                 </Text>
               </Block>
-              {data.isLoading ? (
-                <ActivityIndicator size="large" color={theme.colors.primary2} />
-              ) : (
                 <FlatList
                   data={data.ACH.banksList}
-                  showsVerticalScrollIndicator={false}
+                  showsVerticalScrollIndicator={true}
                   keyExtractor={(item) => {
                     return item.bankid.toString();
                   }}
@@ -91,7 +93,9 @@ const ACH = ({ navigation, data, loginData, ACH,loadAmount }) => {
                   )}
                   ListEmptyComponent={() => <Empty title="data" />}
                   ListFooterComponent={() => (
-                    <Block style={{ marginVertical: 40, flex: 0 }} />
+                    <Block style={{ marginVertical:110,
+                     flex: 0 }} />
+
                   )}
                   renderItem={(post) => (
                     <Pressable
@@ -118,6 +122,7 @@ const ACH = ({ navigation, data, loginData, ACH,loadAmount }) => {
                     </Pressable>
                   )}
                 />
+                </>
               )}
             </Block>
           </SafeAreaView>
