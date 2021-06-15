@@ -34,7 +34,7 @@ const Login = ({ navigation, data, login }) => {
           style={{ height: 100, width: 100 }}
         />
         <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
-          Login to your account
+          Login to your account...
         </Text>
       </Block>
 
