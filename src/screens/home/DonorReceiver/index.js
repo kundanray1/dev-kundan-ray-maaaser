@@ -8,6 +8,9 @@ import { donorReceiverStart,balanceStart } from "./actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.donorReceiver,
 	loginData: (state) => state.login,
+	ACHData: (state) => state.ACH,
+	CardData: (state) => state.card,
+
 
 });
 const mapDispatchToProps = (dispatch) => {

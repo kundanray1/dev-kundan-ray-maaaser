@@ -18,12 +18,11 @@ import {
 } from "../../../components/Index.js";
 import Dummy from "./Dummy.js";
 
-const DonorReceiver = ({ navigation,data, loginData, balance }) => {
+const DonorReceiver = ({ navigation,data, loginData,ACHData,CardData, balance }) => {
   const fullName = loginData.user.account.fullname.split(" ")[0];
-  console.log(data);
   useEffect(() => {
     balance(loginData.user.account.accountid);
-  }, [data.balance.balanceamount]);
+  }, [ACHData.loadAmount,CardData.loadAmount]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (

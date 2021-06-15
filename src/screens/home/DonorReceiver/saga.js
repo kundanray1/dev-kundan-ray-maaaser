@@ -39,6 +39,7 @@ export function* donorReceiver({ payload }) {
 	}
 }
 export function* balance({ payload }) {
+
 		try {
 		const response = yield call(
 			requestProto,
@@ -51,13 +52,12 @@ export function* balance({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("balance res",res);
 		if (res.success) {
 			yield put(balanceSuccess(res.balance));
 		} else {
 			yield put(balanceFail(res));
 			showMessage({
-				message: "Sorry, error from server or check your credentials!",
+				message: res.msg,
 				type: "danger",
 			});
 		}
