@@ -192,7 +192,7 @@ export default SignUp = ({
                 error={errors.confirmPassword}
                 visible={touched.confirmPassword}
               />
-              <Block style={{ flex: 0, paddingTop: 30, paddingBottom: 15 }}>
+              <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
                 {!errors.emailOrPhone &&
                 !errors.confirmPassword &&
                 !errors.password ? (

@@ -140,7 +140,7 @@ export default CreateNewPassword = ({
 								error={errors.confirmPassword}
 								visible={touched.confirmPassword}
 							/>
-							<Block style={{ flex: 0, paddingTop:30 }}>
+							<Block style={{ flex: 0, paddingTop:22 }}>
 							{!errors.confirmPassword && !errors.password ? (
 								<Button
 									full
@@ -160,11 +160,7 @@ export default CreateNewPassword = ({
 							) : (
 								<Button
 									full
-									style={{
-										marginTop: 12,
-										marginBottom: 12,
-										backgroundColor: theme.colors.gray,
-									}}
+									
 								>
 									<Text button style={{ fontSize: 18 }}>
 										Send

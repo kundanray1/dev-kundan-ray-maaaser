@@ -3,18 +3,18 @@ import { Image } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block.js";
 import Text from "./Text.js";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default Empty = ({ title }) => {
+export default Empty = ({iconName, title }) => {
   return (
-    <Block center middle>
-      <Block style={{ marginTop: 20 }}>
-        <Image
-          source={require("../assets/icons/box.png")}
-          style={{ height: 100, width: 100 }}
-        />
-      </Block>
-      <Text h3 color={theme.colors.gray} bold>
-        No {title} available!
+    <Block center middle style={{marginTop:10}}>
+        <MaterialCommunityIcons
+                      name={iconName}
+                      size={100}
+                      color={theme.colors.primary2}
+                    />
+      <Text color={theme.colors.gray} style={{fontSize:16,fontWeight:"700"}}>
+        {title}
       </Text>
     </Block>
   );

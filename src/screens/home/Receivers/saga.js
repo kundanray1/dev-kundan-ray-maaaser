@@ -1,39 +1,36 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { RECEIVERS_START } from "./actions";
 import { receiversSuccess, receiversFail } from "./actions";
-import base from "./../../../protos/auth_rpc_pb";
+import base from "./../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* receivers({ payload }) {
-	console.log("payload==", payload);
 	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
+		const response = yield call(requestProto, APIEndpoints.RECEIVERSCLIENT, {
 			method: "GET",
-			headers: ProtoHeaders,
-			body: serializedData,
+			headers: API.authProtoHeader(),
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(receiversSuccess(res.msg));
-			showMessage({
-				message: res.msg,
-				type: "danger",
-			});
+		if (res.success) {
+			console.log("asdkjassuccess")
+			yield put(receiversSuccess(res));
 		} else {
-			yield put(receiversFail(res.msg));
+			console.log("easndsalse")
+			yield put(receiversFail(res));
 			showMessage({
-				message: "Password changed successfully",
-				type: "success",
+				message: "Sorry, error from server or check your credentials!",
+				type: "danger",
 			});
 		}
 	} catch (e) {
+			console.log("catch")
+
 		yield put(receiversFail(e));
 		showMessage({
 			message: "Sorry, error from server or check your credentials!",
@@ -45,3 +42,4 @@ export function* receivers({ payload }) {
 export default function* receiversSaga() {
 	yield takeLatest(RECEIVERS_START, receivers);
 }
+

@@ -18,6 +18,7 @@ import Input from "./Input.js";
 import Label from "./Label.js";
 import LoadFundAndDonationMethodCard from "./LoadFundAndDonationMethodCard.js";
 import LinkedAccountsAndLinkedCard from "./LinkedAccountsAndLinkedCard.js";
+import ScheduleDonationCard from "./ScheduleDonationCard.js";
 import Text from "./Text.js";
 
 export {
@@ -39,5 +40,6 @@ export {
   Label,
   LoadFundAndDonationMethodCard,
   LinkedAccountsAndLinkedCard,
+  ScheduleDonationCard,
   Text,
 };

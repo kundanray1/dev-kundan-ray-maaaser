@@ -1,20 +1,20 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { LOGIN_START } from "./actions";
-import { loginSuccess, loginFail } from "./actions";
+import { ADD_MEMBER_START } from "./actions";
+import { addMemberSuccess, addMemberFail } from "./actions";
 import base from "./../../../protos/auth_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
-import LocalDB from "./../../../api/LocalStorage";
 import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* login({ payload }) {
+export function* addMember({ payload }) {
+	console.log("payload==", payload);
 	try {
 		const serializedData = payload.serializeBinary();
 		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "POST",
+			method: "GET",
 			headers: ProtoHeaders,
 			body: serializedData,
 		});
@@ -22,28 +22,20 @@ export function* login({ payload }) {
 			response
 		).toObject();
 		if (res.error) {
-			yield put(loginFail(res.msg));
+			yield put(addMemberSuccess(res.msg));
 			showMessage({
 				message: res.msg,
 				type: "danger",
 			});
 		} else {
-			yield put(loginSuccess(res.loginresponse.loginaccount.client));
+			yield put(addMemberFail(res.msg));
 			showMessage({
-				message: "Logged In successfully",
+				message: "Password changed successfully",
 				type: "success",
 			});
-			LocalDB.setSessions(res, (resolve, reject) => {
-				if (resolve) {
-					return resolve;
-				} else {
-					return reject;
-				}
-			});
-			API.setToken();
 		}
 	} catch (e) {
-		yield put(loginFail(e));
+		yield put(addMemberFail(e));
 		showMessage({
 			message: "Sorry, error from server or check your credentials!",
 			type: "danger",
@@ -51,6 +43,6 @@ export function* login({ payload }) {
 	}
 }
 
-export default function* loginSaga() {
-	yield takeLatest(LOGIN_START, login);
+export default function* addMemberSaga() {
+	yield takeLatest(ADD_MEMBER_START, addMember);
 }

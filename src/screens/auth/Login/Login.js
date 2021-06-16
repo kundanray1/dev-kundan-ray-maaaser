@@ -34,7 +34,7 @@ const Login = ({ navigation, data, login }) => {
           style={{ height: 100, width: 100 }}
         />
         <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
-          Login to your account...
+          Login to your account
         </Text>
       </Block>
 
@@ -147,7 +147,7 @@ const Login = ({ navigation, data, login }) => {
                 </Text>
               </TouchableOpacity>
             </Block>
-              <Block style={{ flex: 0, paddingTop: 30,paddingBottom: 15 }}>
+              <Block style={{ flex: 0, paddingTop: 20,paddingBottom: 15 }}>
 
             {!errors.identifier && !errors.password ? (
                 <Button full onPress={handleSubmit}>

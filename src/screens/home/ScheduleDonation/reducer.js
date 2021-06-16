@@ -5,7 +5,7 @@ import {
 } from './actions';
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   scheduleDonation: '',
   error: null,
 };

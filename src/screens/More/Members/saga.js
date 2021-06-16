@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { SCHEDULE_DONATION_START } from "./actions";
-import { scheduleDonationSuccess, scheduleDonationFail } from "./actions";
+import { MEMBERS_START } from "./actions";
+import { membersSuccess, membersFail } from "./actions";
 import base from "./../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { requestProto } from "../../../utility/request";
@@ -8,11 +8,11 @@ import { showMessage } from "react-native-flash-message";
 import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* scheduleDonation({ payload }) {
+export function* members({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.SCHEDULE_TRANSACTION}/${payload}`,
+			`${APIEndpoints.BANK}/${payload}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
@@ -22,25 +22,26 @@ export function* scheduleDonation({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
-			yield put(scheduleDonationSuccess(res.scheduletransactionsList));
+			yield put(membersSuccess(res));
 		} else {
-			yield put(scheduleDonationFail(res.msg));
+			yield put(membersFail(res));
 			showMessage({
-				message: "Sorry, error from server or check your credentials!",
+				message: "members, error from server or check your credentials!",
 				type: "danger",
 			});
 		}
 	} catch (e) {
-		console.log("4")
-
-		yield put(scheduleDonationFail(e));
+		yield put(membersFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "members, error from server or check your credentials!",
 			type: "danger",
 		});
 	}
 }
 
-export default function* scheduleDonationSaga() {
-	yield takeLatest(SCHEDULE_DONATION_START, scheduleDonation);
+export default function* membersSaga() {
+	yield takeLatest(MEMBERS_START, members);
 }
+
+
+

@@ -22,6 +22,7 @@ import loadFundSaga from "./../../screens/home/LoadFund/saga";
 import manualSaga from "./../../screens/home/Manual/saga";
 import receiversSaga from "./../../screens/home/Receivers/saga";
 import scanQRSaga from "./../../screens/home/ScanQR/saga";
+import linkScheduleDonationSaga from "./../../screens/home/LinkScheduleDonation/saga";
 import scheduleDonationSaga from "./../../screens/home/ScheduleDonation/saga";
 import upcomingDonationsSaga from "./../../screens/home/UpcomingDonations/saga";
 import uploadQRSaga from "./../../screens/home/UploadQR/saga";
@@ -51,6 +52,7 @@ export default function* rootSaga() {
 		manualSaga(),
 		receiversSaga(),
 		scanQRSaga(),
+		linkScheduleDonationSaga(),
 		scheduleDonationSaga(),
 		upcomingDonationsSaga(),
 		// uploadQRSaga(),

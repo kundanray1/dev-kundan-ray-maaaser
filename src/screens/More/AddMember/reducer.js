@@ -1,29 +1,29 @@
 import {
-  RECEIVERS_FAIL,
-  RECEIVERS_START,
-  RECEIVERS_SUCCESS,
+  ADD_MEMBER_FAIL,
+  ADD_MEMBER_START,
+  ADD_MEMBER_SUCCESS,
 } from './actions';
 
 const initialState = {
-  isLoading: true,
-  receivers: '',
+  isLoading: false,
+  addMember: '',
   error: null,
 };
 
-export const receiversReducer=(state = initialState, { type, payload }) => {
+export const addMemberReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case RECEIVERS_START:
+    case ADD_MEMBER_START:
     return {
         ...state,
         isLoading: true,
       };
-    case RECEIVERS_SUCCESS:
+    case ADD_MEMBER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        receivers: payload,
+        addMember: payload,
       };
-    case RECEIVERS_FAIL:
+    case ADD_MEMBER_FAIL:
       return {
         ...state,
         isLoading: false,

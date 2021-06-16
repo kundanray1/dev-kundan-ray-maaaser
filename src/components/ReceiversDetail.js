@@ -50,7 +50,7 @@ export default ReceiversDetail = ({ profilePic, name,...props }) => {
 							colors={["#068DD3", "#0BB3F3"]}
 							style={styles.button}
 							start={{ x: 0, y: 1 }}
-                    end={{ x: 1, y: 0 }}
+                   				 end={{ x: 1, y: 0 }}
 						>
 							<Text
 								color={theme.colors.white}

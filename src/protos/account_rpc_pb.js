@@ -87,7 +87,8 @@ proto.brilltech.maaser.rpc.AccountBaseRequest.toObject = function(includeInstanc
     user: (f = msg.getUser()) && account_pb.User.toObject(includeInstance, f),
     client: (f = msg.getClient()) && account_pb.Client.toObject(includeInstance, f),
     employee: (f = msg.getEmployee()) && account_pb.Employee.toObject(includeInstance, f),
-    account: (f = msg.getAccount()) && account_pb.Account.toObject(includeInstance, f)
+    account: (f = msg.getAccount()) && account_pb.Account.toObject(includeInstance, f),
+    clientfilterrequest: (f = msg.getClientfilterrequest()) && account_pb.ClientFilter.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -205,6 +206,11 @@ proto.brilltech.maaser.rpc.AccountBaseRequest.deserializeBinaryFromReader = func
       var value = new account_pb.Account;
       reader.readMessage(value,account_pb.Account.deserializeBinaryFromReader);
       msg.setAccount(value);
+      break;
+    case 19:
+      var value = new account_pb.ClientFilter;
+      reader.readMessage(value,account_pb.ClientFilter.deserializeBinaryFromReader);
+      msg.setClientfilterrequest(value);
       break;
     default:
       reader.skipField();
@@ -369,6 +375,14 @@ proto.brilltech.maaser.rpc.AccountBaseRequest.serializeBinaryToWriter = function
       18,
       f,
       account_pb.Account.serializeBinaryToWriter
+    );
+  }
+  f = message.getClientfilterrequest();
+  if (f != null) {
+    writer.writeMessage(
+      19,
+      f,
+      account_pb.ClientFilter.serializeBinaryToWriter
     );
   }
 };
@@ -809,6 +823,36 @@ proto.brilltech.maaser.rpc.AccountBaseRequest.prototype.clearAccount = function(
  */
 proto.brilltech.maaser.rpc.AccountBaseRequest.prototype.hasAccount = function() {
   return jspb.Message.getField(this, 18) != null;
+};
+
+
+/**
+ * optional brilltech.maaser.entities.ClientFilter clientFilterRequest = 19;
+ * @return {?proto.brilltech.maaser.entities.ClientFilter}
+ */
+proto.brilltech.maaser.rpc.AccountBaseRequest.prototype.getClientfilterrequest = function() {
+  return /** @type{?proto.brilltech.maaser.entities.ClientFilter} */ (
+    jspb.Message.getWrapperField(this, account_pb.ClientFilter, 19));
+};
+
+
+/** @param {?proto.brilltech.maaser.entities.ClientFilter|undefined} value */
+proto.brilltech.maaser.rpc.AccountBaseRequest.prototype.setClientfilterrequest = function(value) {
+  jspb.Message.setWrapperField(this, 19, value);
+};
+
+
+proto.brilltech.maaser.rpc.AccountBaseRequest.prototype.clearClientfilterrequest = function() {
+  this.setClientfilterrequest(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.brilltech.maaser.rpc.AccountBaseRequest.prototype.hasClientfilterrequest = function() {
+  return jspb.Message.getField(this, 19) != null;
 };
 
 

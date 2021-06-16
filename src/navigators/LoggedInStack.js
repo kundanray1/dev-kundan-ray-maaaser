@@ -22,7 +22,9 @@ import ACH from "../screens/home/ACH/index";
 import Card from "../screens/home/Card/index";
 import LinkNewCard from "../screens/home/LinkNewCard/index";
 import LinkNewAccount from "../screens/home/LinkNewAccount/index";
+import LinkScheduleDonation from "../screens/home/LinkScheduleDonation/index";
 import ScanQRCodeTabStack from "./ScanQRCodeTabStack";
+import ScheduleDonationReceiverDetail from "../screens/home/ScheduleDonationReceiverDetail/index";
 
 //navigator for logged in users
 const AuthStack = createStackNavigator();
@@ -124,9 +126,19 @@ const LoggedInStack = ({ data }) => {
         component={LinkNewAccount}
       />
       <AuthStack.Screen
+        name="Link Schedule Donation"
+        options={{ headerShown: true }}
+        component={LinkScheduleDonation}
+      />
+      <AuthStack.Screen
         name="Scan QR Code"
         options={{ headerShown: true }}
         component={ScanQRCodeTabStack}
+      />
+      <AuthStack.Screen
+        name="Details"
+        options={{ headerShown: true }}
+        component={ScheduleDonationReceiverDetail}
       />
     </AuthStack.Navigator>
   );

@@ -1,5 +1,5 @@
 //all the url for API endpoints
-const MainAPI = 'http://34.94.88.140:9000';
+const MainAPI = 'http://34.102.69.148:9000';
 const APIEndPoints = {
     LOGIN: MainAPI + '/login',
     SIGNUP: MainAPI + '/client',
@@ -11,7 +11,8 @@ const APIEndPoints = {
     CARD : MainAPI + '/card',
     TRANSACTION : MainAPI + '/transaction',
     BALANCE : MainAPI + '/balance',
-
+    RECEIVERSCLIENT : MainAPI + '/client?type=3',
+    SCHEDULE_TRANSACTION : MainAPI + '/schedule/transaction/account',
 
     ADD_USER : MainAPI + '/user',
     DELETE_USER : MainAPI + '/user/',

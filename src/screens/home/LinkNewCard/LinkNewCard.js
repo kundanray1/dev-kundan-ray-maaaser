@@ -109,7 +109,6 @@ const LinkNewCard = ({
     setDate(currentDate);
     setShow(false);
   };
-  console.log("date", date);
 
   return (
     <KeyboardAwareScrollView

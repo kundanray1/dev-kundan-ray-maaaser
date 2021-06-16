@@ -88,7 +88,7 @@ export const ManualValidationSchema = Yup.object().shape({
     .required()
     .label("Amount"),
 });
-export const ScheduleDonationValidationSchema = Yup.object().shape({
+export const LinkScheduleDonationValidationSchema = Yup.object().shape({
   receiverName: Yup.string().required().label("Receiver name"),
   amount: Yup.number()
     .positive()

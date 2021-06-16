@@ -1,4 +1,4 @@
-import React, { useState,useCallback } from "react";
+import React, { useState,useCallback,useEffect } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -15,29 +15,25 @@ import {
 } from "./../../../components/Index.js";
 
 const WIDTH = Dimensions.get("window").width;
-const monthOptions = ["Weekly", "Monthly", "Yearly"];
+const receiversNameOptions = ["Daily","Weekly", "Monthly","Quaterly","Half Yearly", "Yearly"];
 
-const MonthPicker = ({ month, setMonth,setLayoutPosition }) => {
-  const [monthModalVisible, setMonthModalVisible] = useState(false);
-  
-  const onPressMonthItem = useCallback(
+const ReceiversName = ({ receiversName, setReceiversName }) => {
+  const [receiversNameModalVisible, setReceiversNameModalVisible] = useState(false);
+  useEffect(()=>{
+
+  })
+  const onPressReceiversNameItem = useCallback(
     (option) => {
-      setMonth(option);
-      setMonthModalVisible(false);
+      setReceiversName(option);
+      setReceiversNameModalVisible(false);
     },
-    [setMonth]
-  );
- const handleLayoutPosition = useCallback(
-    (position) => {
-      setLayoutPosition(position);
-    },
-    [setLayoutPosition]
+    [setReceiversName]
   );
 
-  const RenderMonthOptions = monthOptions.map((option, index) => (
+  const RenderReceiversNameOptions = receiversNameOptions.map((option, index) => (
     <TouchableOpacity
       key={index}
-      onPress={() => onPressMonthItem(option)}
+      onPress={() => onPressReceiversNameItem(option)}
       style={{ marginVertical: 2 }}
     >
       <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
@@ -47,22 +43,18 @@ const MonthPicker = ({ month, setMonth,setLayoutPosition }) => {
   ));
   return (
     <SafeAreaView>
-      <Block style={{ marginTop: 8 }}>
+      <Block style={{ paddingVertical: 8 }}>
         <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-          Schedule Donation
+         Receiver's Name
         </Text>
-      </Block>
       <TouchableOpacity
         style={styles.customPicker}
         activeOpacity={0.8}
-        onPress={() => setMonthModalVisible(!monthModalVisible)}
-        onLayout={({nativeEvent})=>{
-                handleLayoutPosition(nativeEvent.layout)
-        }} 
+        onPress={() => setReceiversNameModalVisible(!receiversNameModalVisible)}
       >
         <Block>
           <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-            {month}
+            {receiversName}
           </Text>
         </Block>
         <Block style={{ alignItems: "flex-end" }}>
@@ -74,23 +66,24 @@ const MonthPicker = ({ month, setMonth,setLayoutPosition }) => {
         </Block>
       </TouchableOpacity>
       <Modal
-        visible={monthModalVisible}
+        visible={receiversNameModalVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() => setMonthModalVisible(!monthModalVisible)}
+        onRequestClose={() => setReceiversNameModalVisible(!receiversNameModalVisible)}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 30 }]}>
-            {RenderMonthOptions}
+            {RenderReceiversNameOptions}
           </View>
         </View>
       </Modal>
+      </Block>
     </SafeAreaView>
   );
 };
 
-export default MonthPicker;
+export default ReceiversName;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

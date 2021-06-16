@@ -18,4 +18,3 @@ export const scheduleDonationFail = (payload) => ({
   type: SCHEDULE_DONATION_FAIL,
   payload,
 });
-

@@ -95,7 +95,7 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 							error={errors.emailPhone}
 							visible={touched.emailPhone}
 						/>
-							<Block style={{ flex:0,marginTop: 25 }}>
+							<Block style={{ flex:0,marginTop: 30 }}>
 
 						{!errors.emailPhoneFocus ? (
 								<Button full onPress={handleSubmit}>

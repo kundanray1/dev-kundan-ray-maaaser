@@ -127,7 +127,7 @@ export default Verification = ({
 							</View>
 						))}
 				</TouchableOpacity>
-				<Block style={{ flex: 0, paddingTop: 25, paddingBottom: 15 }}>
+				<Block style={{ flex: 0, paddingTop: 30, paddingBottom: 15 }}>
 					<Button
 						full
 						onPress={onSubmitVerification}

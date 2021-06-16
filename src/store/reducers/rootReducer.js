@@ -24,6 +24,7 @@ import { receiversReducer } from "./../../screens/home/Receivers/reducer";
 import { scanQRCodeReducer } from "./../../screens/home/ScanQRCode/reducer";
 import { scanQRReducer } from "./../../screens/home/ScanQR/reducer";
 import { uploadQRReducer } from "./../../screens/home/UploadQR/reducer";
+import { linkScheduleDonationReducer } from "./../../screens/home/LinkScheduleDonation/reducer";
 import { scheduleDonationReducer } from "./../../screens/home/ScheduleDonation/reducer";
 import { upcomingDonationsReducer } from "./../../screens/home/UpcomingDonations/reducer";
 
@@ -55,7 +56,9 @@ const rootReducer = combineReducers({
 	scanQRCodeReducer: scanQRCodeReducer,
 	scanQRReducer: scanQRReducer,
 	uploadQRReducer: uploadQRReducer,
+	linkScheduleDonation: linkScheduleDonationReducer,
 	scheduleDonation: scheduleDonationReducer,
+
 	upcomingDonation: upcomingDonationsReducer,
 });
 

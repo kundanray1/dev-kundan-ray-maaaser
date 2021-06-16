@@ -10,9 +10,9 @@ import * as theme from "../../constants/theme.js";
 import { Block, Text } from "../../components/Index.js";
 import Dummy from "./Dummy.js";
 
-const More = () => {
+const More = ({navigation}) => {
   const RenderOptions = ({ image, label }) => (
-    <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 6 }}>
+    <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 6 }} onPress={()=>navigation.navigate("Members")}>
     <Block row style={{
             flex: 1,
             alignItems: "center",
