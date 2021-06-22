@@ -5,8 +5,8 @@ import {
 } from './actions';
 
 const initialState = {
-  isLoading: false,
-  upcomingDonations: '',
+  isLoading: true,
+  upcomingDonations: null,
   error: null,
 };
 

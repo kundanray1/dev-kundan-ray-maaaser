@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import UpcomingDonations from "./UpcomingDonations";
-import { welcomeStart } from "./actions";
+import { upcomingDonationsStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.upcomingDonations,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		upcomingDonations: (values) => dispatch(upcomingDonationsStart(values)),
 	};
 };
 

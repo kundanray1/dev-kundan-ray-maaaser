@@ -1,42 +1,41 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { UPCOMING_DONATIONS_START } from "./actions";
 import { upcomingDonationsSuccess, upcomingDonationsFail } from "./actions";
-import base from "./../../../protos/auth_rpc_pb";
+import base from "./../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
+
 export function* upcomingDonations({ payload }) {
-	console.log("payload==", payload);
 	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "GET",
-			headers: ProtoHeaders,
-			body: serializedData,
-		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const response = yield call(
+			requestProto,
+			`${APIEndpoints.GET_SCHEDULE_TRANSACTION}/${payload}`,
+			{
+				method: "GET",
+				headers: API.authProtoHeader(),
+			}
+		);
+		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(upcomingDonationsSuccess(res.msg));
-			showMessage({
-				message: res.msg,
-				type: "danger",
-			});
+		if (res.success) {
+			yield put(upcomingDonationsSuccess(res.scheduletransactionsList));
 		} else {
 			yield put(upcomingDonationsFail(res.msg));
 			showMessage({
-				message: "Password changed successfully",
-				type: "success",
+				message: "upcomingDonations, error from server or check your credentials!",
+				type: "danger",
 			});
 		}
 	} catch (e) {
+
 		yield put(upcomingDonationsFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "upcomingDonations, error from server or check your credentials!",
 			type: "danger",
 		});
 	}
