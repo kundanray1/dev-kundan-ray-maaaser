@@ -13,9 +13,11 @@ import {
   Text,
   Empty,
   FloatingButton,
-  LinkedAccountsAndLinkedCard,
+  MemberDetailCard,
 } from "../../../components/Index.js";
 import { Bottom } from "./Bottom.js";
+import Dummy from "./Dummy.js";
+
 
 const Members = ({ navigation, data, loginData, members }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -58,10 +60,10 @@ const Members = ({ navigation, data, loginData, members }) => {
                 </Text>
               </Block>
                 <FlatList
-                  data={[]}
+                  data={Dummy}
                   showsVerticalScrollIndicator={true}
                   keyExtractor={(item) => {
-                    return item.bankid.toString();
+                    return item.id.toString();
                   }}
                   refreshControl={
                     <RefreshControl
@@ -75,10 +77,12 @@ const Members = ({ navigation, data, loginData, members }) => {
                   )}
                   ListEmptyComponent={<Empty iconName="account-group" title="You haven’t added any members yet." />}
                   ListFooterComponent={() => (
-                    <Block style={{ marginVertical:100,
-                     flex: 0 }} />
-
-                  )}
+                  <Block middle center style={{ marginBottom:120,flex: 0 }}>
+                  </Block>
+                )}
+                ListFooterComponentStyle={{
+                  paddingVertical:20,
+                }}
                   renderItem={(post) => (
                     <Pressable
                       style={{
@@ -91,14 +95,13 @@ const Members = ({ navigation, data, loginData, members }) => {
                       }}
                       delayLongPress={500}
                     >
-                      <LinkedAccountsAndLinkedCard
-                        accountNo={post.item.accountnumber}
-                        label={post.item.bankname}
-                        date={post.item.createdat}
-                        onPress={() => {
-                          bs.current.snapTo(1);
-                        }}
-                      />
+                     
+            <MemberDetailCard
+              profilePic={post.item.profilePic}
+              name={post.item.name}
+              email={post.item.email}
+              onPress={()=>console.log("Pressed")}
+            />
                     </Pressable>
                   )}
                 />
