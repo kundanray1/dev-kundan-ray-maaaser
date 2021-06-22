@@ -1,46 +1,43 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { ADD_MEMBER_START } from "./actions";
 import { addMemberSuccess, addMemberFail } from "./actions";
-import base from "./../../../protos/auth_rpc_pb";
+import base from "./../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../api/API";
-
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* addMember({ payload }) {
-	console.log("payload==", payload);
-	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "GET",
-			headers: ProtoHeaders,
-			body: serializedData,
-		});
-		const res = base.AuthBaseResponse.deserializeBinary(
-			response
-		).toObject();
-		if (res.error) {
-			yield put(addMemberSuccess(res.msg));
-			showMessage({
-				message: res.msg,
-				type: "danger",
-			});
-		} else {
-			yield put(addMemberFail(res.msg));
-			showMessage({
-				message: "Password changed successfully",
-				type: "success",
-			});
-		}
-	} catch (e) {
-		yield put(addMemberFail(e));
-		showMessage({
-			message: "Sorry, error from server or check your credentials!",
-			type: "danger",
-		});
-	}
+  try {
+    const serializedData = payload.serializeBinary();
+    const response = yield call(requestProto, APIEndpoints.EMPLOYEE, {
+      method: "POST",
+      headers: API.authProtoHeader(),
+      body: serializedData,
+    });
+  	console.log("response",response);
+    const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
+    console.log(res);
+    if (res.success) {
+      yield put(addMemberSuccess(res.msg));
+      showMessage({
+        message: "Added new member successfully",
+        type: "success",
+      });
+    } else {
+      yield put(addMemberFail(res));
+       showMessage({
+        message: res.msg,
+        type: "danger",
+      });
+    }
+  } catch (e) {
+    yield put(addMemberFail(e));
+    showMessage({
+      message: "addMemberFail, error from server or check your credentials!",
+      type: "danger",
+    });
+  }
 }
 
 export default function* addMemberSaga() {

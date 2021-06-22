@@ -8,16 +8,26 @@ import {
   Block,
   Text,
   ErrorMessage,
+  CustomActivityIndicator,
 } from "./../../../components/Index.js";
+import AccountProto from "./../../../protos/account_pb";
+import MaaserProto from "./../../../protos/maaser_pb";
 
-const AddMember = ({ navigation, data, login }) => {
+const AddMember = ({ navigation, data, addMember }) => {
   const [nameFocus, setNameFocus] = useState();
   const [emailFocus, setEmailFocus] = useState();
 
   //set all the required proto for updating and submitting
-  const onSubmitLogin = (values) => {
-    console.log("AddMember onSubmitLogin values==", values);
-    navigation.navigate("Confirmation");
+  const onSubmitAddMember = (values) => {
+    const employeeData = new AccountProto.Employee();
+    const accountData = new AccountProto.Account();
+    accountData.setFullname(values.fullname);
+    accountData.setEmail(values.email);
+    accountData.setPassword("Joshan@1234");
+    accountData.setCountrycode("NP");
+    accountData.setAccounttype(MaaserProto.AccountType.EMPLOYEE_ACCOUNT);
+    employeeData.setAccount(accountData)
+    addMember(employeeData);
   };
 
   return (
@@ -28,11 +38,11 @@ const AddMember = ({ navigation, data, login }) => {
       <Block style={{ paddingHorizontal: 16 }}>
         <Formik
           initialValues={{
-            name: "",
-            email: "",
+            name: "Joshan Pradhan",
+            email: "ji@gmail.com",
           }}
           onSubmit={(values) => {
-            onSubmitLogin(values);
+            onSubmitAddMember(values);
           }}
           validationSchema={AddMemberValidationSchema}
         >
@@ -63,10 +73,7 @@ const AddMember = ({ navigation, data, login }) => {
                     : theme.colors.solidGray,
                 }}
               />
-              <ErrorMessage
-                error={errors.name}
-                visible={touched.name}
-              />
+              <ErrorMessage error={errors.name} visible={touched.name} />
 
               <Input
                 label="Email"
@@ -92,9 +99,9 @@ const AddMember = ({ navigation, data, login }) => {
                 {!errors.receiverName && !errors.amount ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
-                      <ActivityIndicator
-                        size="small"
-                        color={theme.colors.white}
+                      <CustomActivityIndicator
+                        label="Requesting..."
+                        isLoading={data.isLoading}
                       />
                     ) : (
                       <Text button style={{ fontSize: 18 }}>
