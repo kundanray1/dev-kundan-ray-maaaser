@@ -2,41 +2,64 @@ export const LINK_SCHEDULE_DONATION_START = "LINK_SCHEDULE_DONATION_START";
 export const LINK_SCHEDULE_DONATION_SUCCESS = "LINK_SCHEDULE_DONATION_SUCCESS";
 export const LINK_SCHEDULE_DONATION_FAIL = "LINK_SCHEDULE_DONATION_FAIL";
 
-export const RECEIVERS_START = "RECEIVERS_START";
-export const RECEIVERS_SUCCESS = "RECEIVERS_SUCCESS";
-export const RECEIVERS_FAIL = "RECEIVERS_FAIL";
+export const UPDATE_LINK_SCHEDULE_DONATION_START = "UPDATE_LINK_SCHEDULE_DONATION_START";
+export const UPDATE_LINK_SCHEDULE_DONATION_SUCCESS = "UPDATE_LINK_SCHEDULE_DONATION_SUCCESS";
+export const UPDATE_LINK_SCHEDULE_DONATION_FAIL = "UPDATE_LINK_SCHEDULE_DONATION_FAIL";
 
 
-export const scheduleDonationStart = (payload) => {
+export const DONATION_RECEIVERS_START = "DONATION_RECEIVERS_START";
+export const DONATION_RECEIVERS_SUCCESS = "DONATION_RECEIVERS_SUCCESS";
+export const DONATION_RECEIVERS_FAIL = "DONATION_RECEIVERS_FAIL";
+
+
+export const linkScheduleDonationStart = (payload) => {
   return {
     type: LINK_SCHEDULE_DONATION_START,
     payload,
   };
 };
 
-export const scheduleDonationSuccess = (payload) => ({
+export const linkScheduleDonationSuccess = (payload) => ({
   type: LINK_SCHEDULE_DONATION_SUCCESS,
   payload,
 });
 
-export const scheduleDonationFail = (payload) => ({
+export const linkScheduleDonationFail = (payload) => ({
   type: LINK_SCHEDULE_DONATION_FAIL,
   payload,
 });
 
-export const receiversStart = (payload) => {
+export const updateLinkScheduleDonationStart = (payload) => {
   return {
-    type: RECEIVERS_START,
+    type: UPDATE_LINK_SCHEDULE_DONATION_START,
     payload,
   };
 };
 
-export const receiversSuccess = (payload) => ({
-  type: RECEIVERS_SUCCESS,
+export const updateLinkScheduleDonationSuccess = (payload) => ({
+  type: UPDATE_LINK_SCHEDULE_DONATION_SUCCESS,
   payload,
 });
 
-export const receiversFail = (payload) => ({
-  type: RECEIVERS_FAIL,
+export const updateLinkScheduleDonationFail = (payload) => ({
+  type: UPDATE_LINK_SCHEDULE_DONATION_FAIL,
+  payload,
+});
+
+
+export const donationReceiversStart = (payload) => {
+  return {
+    type: DONATION_RECEIVERS_START,
+    payload,
+  };
+};
+
+export const donationReceiversSuccess = (payload) => ({
+  type: DONATION_RECEIVERS_SUCCESS,
+  payload,
+});
+
+export const donationReceiversFail = (payload) => ({
+  type: DONATION_RECEIVERS_FAIL,
   payload,
 });

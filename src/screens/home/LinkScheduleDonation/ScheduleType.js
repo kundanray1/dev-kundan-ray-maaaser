@@ -15,7 +15,7 @@ import {
 } from "./../../../components/Index.js";
 
 const WIDTH = Dimensions.get("window").width;
-const scheduleTypeOptions = ["Daily","Weekly", "Monthly","Quaterly","Half Yearly", "Yearly"];
+const scheduleTypeOptions = ["One Time","Daily","Weekly", "Monthly","Quarterly","Yearly","Nth Day"];
 
 const ScheduleType = ({ scheduleType, setScheduleType }) => {
   const [scheduleTypeModalVisible, setScheduleTypeModalVisible] = useState(false);
@@ -109,5 +109,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.solidGray,
     alignItems: "center",
     borderBottomWidth: 1,
+    paddingVertical:6,
+    
   },
 });

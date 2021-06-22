@@ -1,0 +1,49 @@
+import { call, put, select, takeLatest } from "redux-saga/effects";
+import {
+	CARD_LOAD_FUND_START,
+} from "./actions";
+import {
+	cardLoadFundSuccess,
+	cardLoadFundFail
+} from "./actions";
+import base from "./../../../protos/payment_rpc_pb";
+import APIEndpoints from "./../../../constants/APIConstants";
+import { requestProto } from "../../../utility/request";
+import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
+
+//serializing the payload into binary and submittin data to requestProto function with additional data
+export function* cardLoadFund({ payload }) {
+	try {
+		const serializedData = payload.serializeBinary();
+		const response = yield call(requestProto, APIEndpoints.TRANSACTION, {
+			method: "POST",
+			headers: API.authProtoHeader(),
+			body: serializedData,
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		console.log("res=======", res);
+		if (res.success) {
+			yield put(cardLoadFundSuccess(res));
+		} else {
+			yield put(cardLoadFundFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		console.log("cardLoadFund failed===", payload);
+
+		yield put(cardLoadFundFail(e));
+		showMessage({
+			message: "cardLoadFund, error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+export default function*cardLoadFundSaga() {
+	yield takeLatest(CARD_LOAD_FUND_START, cardLoadFund);
+}

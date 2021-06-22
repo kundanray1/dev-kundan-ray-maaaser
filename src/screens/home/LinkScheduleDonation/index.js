@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import LinkScheduleDonation from "./LinkScheduleDonation";
-import { linkScheduleDonationStart } from "./actions";
+import { linkScheduleDonationStart,updateLinkScheduleDonationStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.login,
+	data: (state) => state.linkScheduleDonation,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
 		linkScheduleDonation: (values) => dispatch(linkScheduleDonationStart(values)),
+		updateLinkScheduleDonation: (values) => dispatch(updateLinkScheduleDonationStart(values)),
 	}
 }
 

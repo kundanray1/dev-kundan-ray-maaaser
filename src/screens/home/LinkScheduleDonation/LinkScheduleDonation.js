@@ -20,27 +20,132 @@ import {
   Text,
   Input,
   ErrorMessage,
+  CustomActivityIndicator,
 } from "./../../../components/Index.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import ReceiversName from "./ReceiversName";
+import ReceiversList from "./ReceiversList";
 import ScheduleType from "./ScheduleType";
+import PaymentProto from "./../../../protos/payment_pb";
+import API from "./../../../api/API";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const LinkScheduleDonation = ({ navigation, data, login }) => {
-  const [receiversId, setReceiversId] = useState();
-  const [amountFocus, setAmountFocus] = useState();
-  const [scheduleType, setScheduleType] = useState();
-  const [startDate, setStartDate] = useState(new Date());
+const LinkScheduleDonation = ({ navigation, data, linkScheduleDonation,updateLinkScheduleDonation,route }) => {
+  let scheduleTypeRoute;
+  if(route.params != undefined){
+    if(route.params.scheduleDonationData.scheduledetail.scheduletype==1){
+    scheduleTypeRoute="One Time"
+  }else if(route.params.scheduleDonationData.scheduledetail.scheduletype==2){
+    scheduleTypeRoute="Daily"
+  }else if(route.params.scheduleDonationData.scheduledetail.scheduletype==3){
+    scheduleTypeRoute="Weekly"
+  }else if(route.params.scheduleDonationData.scheduledetail.scheduletype==4){
+    scheduleTypeRoute="Monthly"
+  }else if(route.params.scheduleDonationData.scheduledetail.scheduletype==5){
+    scheduleTypeRoute="Quaterly"
+  }else if(route.params.scheduleDonationData.scheduledetail.scheduletype==7){
+    scheduleTypeRoute="Yearly"
+  }else{
+    scheduleTypeRoute="Nth Day"
+  }
+}
+  const [receiverId, setReceiverId] = useState(route.params != undefined ?route.params.scheduleDonationData.clientList[1].account.accountid:"");
+  const [amountFocus, setAmountFocus] = useState(scheduleTypeRoute);
+  const [scheduleType, setScheduleType] = useState(scheduleTypeRoute);
+  const [startDate, setStartDate] = useState(route.params != undefined ? route.params.scheduleDonationData.scheduledetail.startdate:new Date());
   const [showStartDate, setShowStartDate] = useState(false);
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(route.params != undefined ? route.params.scheduleDonationData.scheduledetail.enddate:new Date());
   const [showEndDate, setShowEndDate] = useState(false);
   const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
-  const onSubmitLogin = (values) => {
-    console.log(values);
+
+  const onSubmitLinkScheduleDonation = (values) => {
+    const scheduleTypeProto =
+      scheduleType == "One Time"
+        ? PaymentProto.ScheduleType.ONE_TIME
+        : scheduleType == "Daily"
+        ? PaymentProto.ScheduleType.DAILY
+        : scheduleType == "Weekly"
+        ? PaymentProto.ScheduleType.WEEKLY
+        : scheduleType == "Monthly"
+        ? PaymentProto.ScheduleType.MONTHLY
+        : scheduleType == "Quaterly"
+        ? PaymentProto.ScheduleType.QUARTERLY
+        : scheduleType == "YEARLY"
+        ? PaymentProto.ScheduleType.YEARLY
+        : PaymentProto.ScheduleType.NTH_DAY
+
+
+    const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
+    const scheduleDetailProto = new PaymentProto.ScheduleDetail();
+    scheduleDetailProto.setStartdate(new Date(startDate).getTime());
+    scheduleDetailProto.setEnddate(new Date(endDate).getTime());
+    scheduleDetailProto.setScheduletype(scheduleTypeProto);
+    scheduleTransactionProto.setAmount(values.amount);
+    scheduleTransactionProto.setScheduledetail(scheduleDetailProto);
+    scheduleTransactionProto.setTransactionstatus(
+      PaymentProto.TransactionStatus.TRANSACTION_PENDING
+    );
+    scheduleTransactionProto.setScheduletransactionstatus(
+      PaymentProto.ScheduleTransactionStatus.SCHEDULING
+    );
+    scheduleTransactionProto.setTransactiontype(
+      PaymentProto.TransactionType.DONATE_FUND
+    );
+    scheduleTransactionProto.setTransactionmedium(
+      PaymentProto.TransactionMedium.INTERNAL_MEDIUM
+    );
+    scheduleTransactionProto.setDonoraccountid(API.user().account.accountid);
+    scheduleTransactionProto.setReceiveraccountid(receiverId);
+    scheduleTransactionProto.setRemark(values.remarks);
+
+    linkScheduleDonation(scheduleTransactionProto);
+  };
+
+
+  const onSubmitUpdateLinkScheduleDonation = (values) => {
+    const scheduleTypeProto =
+      scheduleType == "One Time"
+        ? PaymentProto.ScheduleType.ONE_TIME
+        : scheduleType == "Daily"
+        ? PaymentProto.ScheduleType.DAILY
+        : scheduleType == "Weekly"
+        ? PaymentProto.ScheduleType.WEEKLY
+        : scheduleType == "Monthly"
+        ? PaymentProto.ScheduleType.MONTHLY
+        : scheduleType == "Quaterly"
+        ? PaymentProto.ScheduleType.QUARTERLY
+        : scheduleType == "YEARLY"
+        ? PaymentProto.ScheduleType.YEARLY
+        : PaymentProto.ScheduleType.NTH_DAY
+
+    const updateScheduleTransactionProto = new PaymentProto.ScheduleTransaction();
+    const updateScheduleDetailProto = new PaymentProto.ScheduleDetail();
+
+    updateScheduleDetailProto.setStartdate(new Date(startDate).getTime());
+    updateScheduleDetailProto.setEnddate(new Date(endDate).getTime());
+    updateScheduleDetailProto.setScheduletype(scheduleTypeProto);
+    updateScheduleTransactionProto.setScheduletransactionid(route.params.scheduleDonationData.scheduletransactionid)
+    updateScheduleTransactionProto.setAmount(values.amount);
+    updateScheduleTransactionProto.setScheduledetail(updateScheduleDetailProto);
+    updateScheduleTransactionProto.setTransactionstatus(
+      PaymentProto.TransactionStatus.TRANSACTION_PENDING
+    );
+    updateScheduleTransactionProto.setScheduletransactionstatus(
+      PaymentProto.ScheduleTransactionStatus.SCHEDULING
+    );
+    updateScheduleTransactionProto.setTransactiontype(
+      PaymentProto.TransactionType.DONATE_FUND
+    );
+    updateScheduleTransactionProto.setTransactionmedium(
+      PaymentProto.TransactionMedium.INTERNAL_MEDIUM
+    );
+    updateScheduleTransactionProto.setDonoraccountid(API.user().account.accountid);
+    updateScheduleTransactionProto.setReceiveraccountid(receiverId);
+    updateScheduleTransactionProto.setRemark(values.remarks);
+    updateLinkScheduleDonation(updateScheduleTransactionProto);
   };
 
   const onChangeStartDate = (event, selectedDate) => {
@@ -64,11 +169,14 @@ const LinkScheduleDonation = ({ navigation, data, login }) => {
       <Block style={{ paddingHorizontal: 16 }}>
         <Formik
           initialValues={{
-            remarks: "",
-            amount: "",
+            remarks:  route.params != undefined ? route.params.scheduleDonationData.remark : "Remark",
+            amount:  route.params != undefined ? route.params.scheduleDonationData.amount.toString() : "Amount",
           }}
           onSubmit={(values) => {
-            onSubmitLogin(values);
+            route.params != undefined ? 
+            onSubmitUpdateLinkScheduleDonation(values)
+            :
+            onSubmitLinkScheduleDonation(values);
           }}
           validationSchema={LinkScheduleDonationValidationSchema}
         >
@@ -81,9 +189,11 @@ const LinkScheduleDonation = ({ navigation, data, login }) => {
             errors,
           }) => (
             <Block>
-              <ReceiversName
-                receiversId={receiversId}
-                setReceiversId={setReceiversId}
+              <ReceiversList
+                receiverId={receiverId}
+                setReceiverId={setReceiverId}
+                data={data}
+                receiverName={route.params.scheduleDonationData.clientList[1].account.fullname}
               />
 
               <Input
@@ -112,9 +222,9 @@ const LinkScheduleDonation = ({ navigation, data, login }) => {
               />
 
               <Block style={{ paddingVertical: 8 }}>
-                  <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-                    Start Date
-                  </Text>
+                <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
+                  Start Date
+                </Text>
                 <TouchableOpacity
                   style={styles.customPicker}
                   activeOpacity={0.8}
@@ -151,9 +261,9 @@ const LinkScheduleDonation = ({ navigation, data, login }) => {
               </Block>
 
               <Block style={{ paddingVertical: 8 }}>
-                  <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-                    End Date
-                  </Text>
+                <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
+                  End Date
+                </Text>
                 <TouchableOpacity
                   style={styles.customPicker}
                   activeOpacity={0.8}
@@ -211,9 +321,9 @@ const LinkScheduleDonation = ({ navigation, data, login }) => {
                 {!errors.remarks && !errors.amount ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
-                      <ActivityIndicator
-                        size="small"
-                        color={theme.colors.white}
+                      <CustomActivityIndicator
+                        label="Requesting..."
+                        isLoading={data.isLoading}
                       />
                     ) : (
                       <Text button style={{ fontSize: 18 }}>
@@ -247,7 +357,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.solidGray,
     alignItems: "flex-end",
     borderBottomWidth: 1,
-    paddingBottom:2,
-
+    paddingBottom: 2,
+    paddingVertical: 6,
   },
 });

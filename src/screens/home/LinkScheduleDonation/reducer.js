@@ -2,15 +2,19 @@ import {
   LINK_SCHEDULE_DONATION_FAIL,
   LINK_SCHEDULE_DONATION_START,
   LINK_SCHEDULE_DONATION_SUCCESS,
-  RECEIVERS_START,
-RECEIVERS_SUCCESS,
-RECEIVERS_FAIL,
+  UPDATE_LINK_SCHEDULE_DONATION_FAIL,
+  UPDATE_LINK_SCHEDULE_DONATION_START,
+  UPDATE_LINK_SCHEDULE_DONATION_SUCCESS,
+  DONATION_RECEIVERS_START,
+DONATION_RECEIVERS_SUCCESS,
+DONATION_RECEIVERS_FAIL,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  linkScheduleDonation: '',
-  receivers:"",
+  linkScheduleDonation: null,
+  updateLinkScheduleDonation: null,
+  donationReceivers:null,
   error: null,
 };
 
@@ -33,18 +37,37 @@ export const linkScheduleDonationReducer=(state = initialState, { type, payload 
         isLoading: false,
         error: payload,
       };
-    case RECEIVERS_START:
+
+    case UPDATE_LINK_SCHEDULE_DONATION_START:
     return {
         ...state,
         isLoading: true,
       };
-    case RECEIVERS_SUCCESS:
+    case UPDATE_LINK_SCHEDULE_DONATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        receivers: payload,
+        updateLinkScheduleDonation: payload,
       };
-    case RECEIVERS_FAIL:
+    case UPDATE_LINK_SCHEDULE_DONATION_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
+    case DONATION_RECEIVERS_START:
+    return {
+        ...state,
+        isLoading: true,
+      };
+    case DONATION_RECEIVERS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        donationReceivers: payload,
+      };
+    case DONATION_RECEIVERS_FAIL:
       return {
         ...state,
         isLoading: false,
