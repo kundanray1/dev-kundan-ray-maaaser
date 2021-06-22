@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import Manual from "./Manual";
-import { loginStart } from "./actions";
+import { manualStart,manualReceiversStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.login,
+	data: (state) => state.manual,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		login: (values) => dispatch(loginStart(values)),
+		manual: (values) => dispatch(manualStart(values)),
 	}
 }
 

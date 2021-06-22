@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../utility/ValidationSchema.js";
@@ -8,16 +8,32 @@ import {
   Block,
   Text,
   ErrorMessage,
+  ActivityIndicator,
+  CustomActivityIndicator
 } from "./../../../components/Index.js";
+import ReceiversList from "./ReceiversList";
+import Dummy from "./Dummy";
+import PaymentProto from "./../../../protos/payment_pb";
+import API from "./../../../api/API";
 
-const Manual = ({ navigation, data, login }) => {
-  const [receiverNameFocus, setReceiverNameFocus] = useState();
+const Manual = ({ navigation, data, manual }) => {
+  const [receiverId, setReceiverId] = useState("");
+  const [receiverName, setReceiverName] = useState("");
   const [amountFocus, setAmountFocus] = useState();
-
+  const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
-  const onSubmitLogin = (values) => {
-    console.log("Manual onSubmitLogin values==", values);
-    navigation.navigate("Confirmation");
+  const makeDonation = (values) => {
+     navigation.navigate("Manual Donate Confirmation",{
+      accountid:API.user().account.accountid,
+      receiverId:receiverId,
+      receiverName:receiverName,
+      amount:values.amount,
+      remarks:values.remarks,
+      transactionMedium:PaymentProto.TransactionMedium.INTERNAL_MEDIUM,
+      transactionType:PaymentProto.TransactionType.DONATE_FUND,
+      transactionStatus: PaymentProto.TransactionStatus.TRANSACTION_APPROVED,
+      
+    })
   };
 
   return (
@@ -31,11 +47,11 @@ const Manual = ({ navigation, data, login }) => {
         </Block>
         <Formik
           initialValues={{
-            receiverName: "",
             amount: "",
+            remarks:" "
           }}
           onSubmit={(values) => {
-            onSubmitLogin(values);
+            makeDonation(values);
           }}
           validationSchema={ManualValidationSchema}
         >
@@ -48,29 +64,12 @@ const Manual = ({ navigation, data, login }) => {
             errors,
           }) => (
             <>
-              <Input
-                label="Receiver’s Name"
-                focus={receiverNameFocus}
-                onChangeText={handleChange("receiverName")}
-                onBlur={() => {
-                  setFieldTouched("receiverName");
-                  setReceiverNameFocus(false);
-                }}
-                onFocus={() => setReceiverNameFocus(true)}
-                value={values.receiverName}
-                style={{
-                  borderBottomColor: receiverNameFocus
-                    ? theme.colors.primary2
-                    : touched.receiverName && errors.receiverName
-                    ? theme.colors.red
-                    : theme.colors.solidGray,
-                }}
+              <ReceiversList
+                receiverId={receiverId}
+                setReceiverId={setReceiverId}
+                setReceiverName={setReceiverName}
+                data={data}
               />
-              <ErrorMessage
-                error={errors.receiverName}
-                visible={touched.receiverName}
-              />
-
               <Input
                 label="Amount"
                 focus={amountFocus}
@@ -91,14 +90,33 @@ const Manual = ({ navigation, data, login }) => {
                 }}
               />
               <ErrorMessage error={errors.amount} visible={touched.amount} />
+               <Input
+                label="Remarks"
+                focus={remarksFocus}
+                onChangeText={handleChange("remarks")}
+                onBlur={() => {
+                  setFieldTouched("remarks");
+                  setRemarksFocus(false);
+                }}
+                onFocus={() => setRemarksFocus(true)}
+                value={values.remarks}
+                style={{
+                  borderBottomColor: remarksFocus
+                    ? theme.colors.primary2
+                    : touched.remarks && errors.remarks
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
+              />
+              <ErrorMessage error={errors.remarks} visible={touched.remarks} />
               <Block style={{ flex: 0, paddingVertical: 10 }}>
                 {!errors.receiverName && !errors.amount ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
-                      <ActivityIndicator
-                        size="small"
-                        color={theme.colors.white}
-                      />
+                       <CustomActivityIndicator
+                      label="Requesting..."
+                      isLoading={data.isLoading}
+                    />
                     ) : (
                       <Text button style={{ fontSize: 18 }}>
                         Proceed
