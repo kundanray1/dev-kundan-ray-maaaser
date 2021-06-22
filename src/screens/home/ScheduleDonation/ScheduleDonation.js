@@ -16,11 +16,12 @@ import {
   ScheduleDonationCard,
 } from "../../../components/Index.js";
 import { Bottom } from "./Bottom.js";
+import API from "./../../../api/API";
+
 
 const ScheduleDonation = ({
   navigation,
   data,
-  loginData,
   scheduleDonation,
 }) => {
   const [amountFocus, setAmountFocus] = useState(false);
@@ -30,11 +31,11 @@ const ScheduleDonation = ({
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    scheduleDonation(loginData.account.accountid);
+    scheduleDonation(API.user().account.accountid);
     setRefreshing(false);
   });
   useEffect(() => {
-    scheduleDonation(loginData.user.account.accountid);
+    scheduleDonation(API.user().account.accountid);
     if (data.scheduleDonation.success) {
       bs.current.snapTo(1);
     }
@@ -89,8 +90,12 @@ const ScheduleDonation = ({
                   />
                 )}
                 ListFooterComponent={() => (
-                  <Block style={{ marginVertical: 40, flex: 0 }} />
+                  <Block middle center style={{ marginBottom:120,flex: 0 }}>
+                  </Block>
                 )}
+                ListFooterComponentStyle={{
+                  paddingVertical:20,
+                }}
                 renderItem={(post) => (
                   <Pressable
                     style={{
@@ -104,10 +109,11 @@ const ScheduleDonation = ({
                     delayLongPress={500}
                   >
                     <ScheduleDonationCard
-                      receiverName={post.item.remark}
+                      receiverName={post.item.clientList[1].account.fullname}
                       amount={post.item.amount}
                       startDate={post.item.scheduledetail.startdate}
                       scheduleType={post.item.scheduledetail.scheduletype}
+                      scheduleTransactionStatus={post.item.scheduletransactionstatus}
                       onPress={()=>navigation.navigate("Details",{
                         "scheduleDonationReceiverDetail":post.item
                       })}

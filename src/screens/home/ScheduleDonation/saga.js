@@ -12,7 +12,7 @@ export function* scheduleDonation({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.SCHEDULE_TRANSACTION}/${payload}`,
+			`${APIEndpoints.GET_SCHEDULE_TRANSACTION}/${payload}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
@@ -26,16 +26,15 @@ export function* scheduleDonation({ payload }) {
 		} else {
 			yield put(scheduleDonationFail(res.msg));
 			showMessage({
-				message: "Sorry, error from server or check your credentials!",
+				message: "scheduleDonationFail0, error from server or check your credentials!",
 				type: "danger",
 			});
 		}
 	} catch (e) {
-		console.log("4")
 
 		yield put(scheduleDonationFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "scheduleDonationFail1, error from server or check your credentials!",
 			type: "danger",
 		});
 	}

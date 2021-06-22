@@ -6,7 +6,7 @@ import { Block, Text } from "../../../components/Index.js";
 import * as theme from "../../../constants/theme.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export const Bottom = ({ navigation, bs, accountData }) => {
+export const Bottom = ({ navigation, bs, scheduleDonationData }) => {
 	let fall = new Animated.Value(1);
 
 	const handleDeleteConfirm = () => {
@@ -17,12 +17,12 @@ export const Bottom = ({ navigation, bs, accountData }) => {
 	const handleEdit = () => {
 		console.log("handleEdit");
 		bs.current.snapTo(1);
-		navigation.navigate("Link New Account", { account: accountData });
+		navigation.navigate("Link Schedule Donation", { scheduleDonationData: scheduleDonationData });
 	};
 	const handleDelete = () => {
 		Alert.alert(
 			"Account Deletion",
-			"Are you sure you want to delete this account?",
+			"Are you sure you want to delete this schedule donation?",
 			[
 				{
 					text: "Cancel",
