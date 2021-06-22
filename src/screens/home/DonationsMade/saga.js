@@ -1,42 +1,38 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { DONATIONS_MADE_START } from "./actions";
 import { donationsMadeSuccess, donationsMadeFail } from "./actions";
-import base from "./../../../protos/auth_rpc_pb";
+import base from "./../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* donationsMade({ payload }) {
-	console.log("payload==", payload);
 	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
+		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${payload}`, {
 			method: "GET",
-			headers: ProtoHeaders,
-			body: serializedData,
+			headers: API.authProtoHeader(),
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(donationsMadeSuccess(res.msg));
-			showMessage({
-				message: res.msg,
-				type: "danger",
-			});
+		console.log("donationsMade res",res);
+		if (res.success) {
+			console.log("if donationsMade")
+			yield put(donationsMadeSuccess(res.transactionsList));
 		} else {
-			yield put(donationsMadeFail(res.msg));
+			console.log("else donationsMade")
+			yield put(donationsMadeFail(res));
 			showMessage({
-				message: "Password changed successfully",
+				message: "donationsMade, error from server or check your credentials!",
 				type: "success",
 			});
 		}
 	} catch (e) {
-		yield put(donationsMadeFail(e));
+		yield put(receiversFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "donationsMade, error from server or check your credentials!",
 			type: "danger",
 		});
 	}
