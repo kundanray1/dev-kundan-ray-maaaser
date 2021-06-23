@@ -8,18 +8,18 @@ import {
 import * as theme from "../../../constants/theme.js";
 import { Block, Empty, DonationsDetail } from "../../../components/Index.js";
 import Dummy from "./Dummy.js";
-import API from "./../../../api/API";
 
 const UpcomingDonations = ({ navigation, data, upcomingDonations }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    upcomingDonations(API.user().account.accountid);
+    upcomingDonations();
     setRefreshing(false);
   });
   useEffect(() => {
     if (data.upcomingDonations == null) {
-      upcomingDonations(API.user().account.accountid);
+    upcomingDonations();
+      
     }
   }, [data.upcomingDonations]);
   return (

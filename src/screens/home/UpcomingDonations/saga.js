@@ -13,7 +13,7 @@ export function* upcomingDonations({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.GET_SCHEDULE_TRANSACTION}/${payload}`,
+			APIEndpoints.UPCOMING_TRANSACTION,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
