@@ -4,11 +4,13 @@ import {
   FlatList,
   SafeAreaView,
   RefreshControl,
+  SectionList,
 } from "react-native";
 import * as theme from "../../constants/theme.js";
-import { Block, Empty, TransactionDetailCard } from "../../components/Index.js";
-import Dummy from "./Dummy.js";
+import { Block, Empty, TransactionDetailCard,Text } from "../../components/Index.js";
 import API from "./../../api/API";
+import moment from "moment";
+
 
 const Transactions = ({ navigation, data, transactions }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -17,6 +19,42 @@ const Transactions = ({ navigation, data, transactions }) => {
     transactions(API.user().account.accountid);
     setRefreshing(false);
   });
+
+
+const DATA = Object.values(data.transactions.reduce((acc, item) => {
+  if (!acc[moment(item.createdat).format("Do MMMM YYYY")]) acc[moment(item.createdat).format("Do MMMM YYYY")] = {
+    title: moment(item.createdat).format("Do MMMM YYYY"),
+    data: []
+  };
+  acc[moment(item.createdat).format("Do MMMM YYYY")].data.push(item);
+  return acc;
+
+}, {}))
+const  renderItems = ({ item }) => {
+    return (
+       <Block style={{ paddingHorizontal: 18 }}>
+     <TransactionDetailCard
+                  profilePic={require("../../assets/icons/user.png")}
+                  data={item}
+                  amount={item.amount}
+                  date={item.createdat}
+                  textColor={theme.colors.black}
+                  transactionType={item.transactiontype}
+                  transactionMedium={item.transactionmedium}
+                />
+                </Block>
+    )
+  }
+
+const  renderHeader = ({ section }) => {
+    return (
+      <Block style={{backgroundcolor:theme.colors.gray2,paddingHorizontal:8,paddingVertical:6}}>
+        <Text center style={{fontSize:16,fontWeight:"700"}}>{section.title}</Text>
+      </Block>
+    )
+  }
+
+
   useEffect(() => {
     if (data.transactions == null) {
       transactions(API.user().account.accountid);
@@ -30,47 +68,12 @@ const Transactions = ({ navigation, data, transactions }) => {
         </Block>
       ) : (
         <Block style={{ flex: 0, marginTop: 6 }}>
-          <FlatList
-            data={data.transactions}
-            showsVerticalScrollIndicator={true}
-            keyExtractor={(item) => {
-              return item.transactionid.toString();
-            }}
-            refreshControl={
-              <RefreshControl
-                colors={[theme.colors.primary2]}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-            ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
-            ListEmptyComponent={() => (
-              <Empty
-                iconName="calendar-month"
-                title="You don't have any upcoming donations yet."
-              />
-            )}
-             ListFooterComponent={() => (
-                  <Block middle center style={{ marginBottom:100,flex: 0 }}>
-                  </Block>
-                )}
-                ListFooterComponentStyle={{
-                  paddingVertical:20,
-                }}
-            renderItem={(post) => (
-              <Block style={{ paddingHorizontal: 18 }}>
-                <TransactionDetailCard
-                  profilePic={require("../../assets/icons/user.png")}
-                  data={post.item}
-                  amount={post.item.amount}
-                  date={post.item.createdat}
-                  textColor={theme.colors.black}
-                  transactionType={post.item.transactiontype}
-                  transactionMedium={post.item.transactionmedium}
-                />
-              </Block>
-            )}
-          />
+          <SectionList
+          sections={DATA}
+          keyExtractor={(item, index) => item + index}
+          renderItem={renderItems}
+          renderSectionHeader={renderHeader}
+      />
         </Block>
       )}
     </SafeAreaView>
