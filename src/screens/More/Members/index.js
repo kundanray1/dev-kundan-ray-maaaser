@@ -7,7 +7,6 @@ import { membersStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.members,
-	loginData: (state) => state.login,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

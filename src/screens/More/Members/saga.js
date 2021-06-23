@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { MEMBERS_START } from "./actions";
 import { membersSuccess, membersFail } from "./actions";
-import base from "./../../../protos/payment_rpc_pb";
+import base from "./../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
@@ -12,13 +12,13 @@ export function* members({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.BANK}/${payload}`,
+			`${APIEndpoints.GET_EMPLOYEE_LIST}/${payload}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
 			}
 		);
-		const res = base.PaymentBaseResponse.deserializeBinary(
+		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
 		if (res.success) {

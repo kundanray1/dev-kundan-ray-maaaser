@@ -17,7 +17,7 @@ export const Bottom = ({ navigation, bs, accountData }) => {
 	const handleEdit = () => {
 		console.log("handleEdit");
 		bs.current.snapTo(1);
-		navigation.navigate("Link New Account", { account: accountData });
+		navigation.navigate("Add New Member", { accountData: accountData });
 	};
 	const handleDelete = () => {
 		Alert.alert(
