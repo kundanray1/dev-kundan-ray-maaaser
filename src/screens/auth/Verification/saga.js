@@ -35,7 +35,7 @@ export function* verification({ payload }) {
 	} catch (e) {
 		yield put(verificationFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}

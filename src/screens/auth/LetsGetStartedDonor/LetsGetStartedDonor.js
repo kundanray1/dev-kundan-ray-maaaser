@@ -34,7 +34,7 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
 //select image function 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -76,7 +76,7 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
 
   useEffect(() => {
     if (loginData.user.account.isfirstlogin===true) {
-      navigation.navigate("MainTab");
+      navigation.navigate("DonorMainTab");
     }
   }, [loginData.user]);
 
@@ -336,16 +336,21 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
                       }}
                       onPress={handleSubmit}
                     >
-                      {data.isLoading ? (
-                         <CustomActivityIndicator
-                         isLoading={data.isLoading}
-                         label="Requesting..."
-                        />
-                      ) : (
-                        <Text button style={{ fontSize: 18 }}>
-                          Save and Continue
-                        </Text>
-                      )}
+                     {data.isLoading ? (
+                    <>
+                    <CustomActivityIndicator
+                      isLoading={data.isLoading}
+                      label="Requesting..."
+                    />
+                    <Text button style={{ fontSize: 18 }}>
+                      Save and Conitnue
+                    </Text>
+                    </>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Save and Conitnue
+                    </Text>
+                  )}
                     </Button>
                   ) : (
                     <Button

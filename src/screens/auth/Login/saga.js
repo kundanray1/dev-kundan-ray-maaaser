@@ -28,24 +28,24 @@ export function* login({ payload }) {
 				type: "danger",
 			});
 		} else {
+			yield LocalDB.setSessions(res, (resolve, reject) => {
+				if (resolve) {
+					API.setToken();
+				} else {
+					API.resetToken();
+				}
+			});
+			console.log("token",API.token())
 			yield put(loginSuccess(res.loginresponse.loginaccount.client));
 			showMessage({
 				message: "Logged In successfully",
 				type: "success",
 			});
-			LocalDB.setSessions(res, (resolve, reject) => {
-				if (resolve) {
-					return resolve;
-				} else {
-					return reject;
-				}
-			});
-			API.setToken();
 		}
 	} catch (e) {
 		yield put(loginFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}

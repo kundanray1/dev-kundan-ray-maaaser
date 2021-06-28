@@ -14,7 +14,6 @@ import {
 } from "./../../../components/Index.js";
 import LoginProto from "./../../../protos/auth_pb";
 const Login = ({ navigation, data, login }) => {
-  console.log("Login");
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -152,10 +151,15 @@ const Login = ({ navigation, data, login }) => {
             {!errors.identifier && !errors.password ? (
                 <Button full onPress={handleSubmit}>
                   {data.isLoading ? (
+                    <>
                     <CustomActivityIndicator
                       isLoading={data.isLoading}
                       label="Requesting..."
                     />
+                    <Text button style={{ fontSize: 18 }}>
+                      Login
+                    </Text>
+                    </>
                   ) : (
                     <Text button style={{ fontSize: 18 }}>
                       Login

@@ -64,7 +64,7 @@ export default ClientType = ({ clientType,setClientType }) => {
       <Modal
         visible={isModalVisible}
         transparent={true}
-        nRequestClose={() => setModalVisible(!isModalVisible)}
+        onRequestClose={() => setModalVisible(!isModalVisible)}
       >
         
         <View style={styles.container}>
@@ -107,5 +107,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.solidGray,
     alignItems: "center",
     borderBottomWidth: 1,
+    paddingVertical:6,
+    
   },
 });

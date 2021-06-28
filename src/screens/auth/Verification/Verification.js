@@ -38,14 +38,12 @@ export default Verification = ({
 	};
 
 	const onSubmitResend = () => {
-		console.log(forgotPasswordData.emailPhone);
 		forgotPassword(forgotPasswordData.emailPhone);
 	};
 
 	useEffect(() => {
 		if (data.verification !== null) {
 			if (data.verification.success) {
-				console.log("verifiaction success", data.code.array[4]);
 				navigation.navigate("Create New Password");
 			}
 		}
@@ -133,18 +131,21 @@ export default Verification = ({
 						onPress={onSubmitVerification}
 						disabled={internalValue.length == 6 ? false : true}
 					>
-						{data.loading ? (
-							<Block row>
-								<CustomActivityIndicator
-									isLoading={data.isLoading}
-									label="Requesting..."
-								/>
-							</Block>
-						) : (
-							<Text button style={{ fontSize: 18 }}>
-								Send
-							</Text>
-						)}
+						{data.isLoading ? (
+										<>
+										<CustomActivityIndicator
+											isLoading={data.isLoading}
+											label="Requesting..."
+										/>
+										<Text button style={{ fontSize: 18 }}>
+											Send
+										</Text>
+										</>
+									) : (
+										<Text button style={{ fontSize: 18 }}>
+											Send
+										</Text>
+									)}
 					</Button>
 				</Block>
 			</KeyboardAvoidingView>

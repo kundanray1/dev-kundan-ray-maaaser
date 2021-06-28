@@ -9,7 +9,6 @@ import {
 import * as theme from "./../../../constants/theme.js";
 
 export default Welcome = ({ navigation }) => {
-  console.log("Welcome");
   return (
     <Block>
       <Block

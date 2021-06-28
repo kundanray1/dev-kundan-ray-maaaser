@@ -21,7 +21,7 @@ import {
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-export default SignUp = ({
+export default CountryCode = ({
   countryCode,setCountryCode
 }) => {
   const [search, setSearch] = useState();
@@ -191,6 +191,8 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.solidGray,
     alignItems: "center",
     borderBottomWidth: 1,
+    paddingVertical:6,
+    
   },
   vwClear: {
     flex: 0.2,

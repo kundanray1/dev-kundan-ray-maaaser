@@ -13,7 +13,6 @@ import {verificationClear} from "../Verification/actions";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* createNewPassword({ payload }) {
-	console.log("createNewPassword payload==",payload)
 	try {
 		const serializedData = payload.serializeBinary();
 		const response = yield call(requestProto, APIEndpoints.PASSWORD_RESET, {
@@ -24,7 +23,6 @@ export function* createNewPassword({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("res createNewPassword==",res)
 		if (res.success) {
 			yield put(createNewPasswordSuccess(res));
 			yield put(forgotPasswordClear());
@@ -45,7 +43,7 @@ export function* createNewPassword({ payload }) {
 	} catch (e) {
 		yield put(createNewPasswordFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}

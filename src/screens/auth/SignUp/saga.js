@@ -10,7 +10,6 @@ import LoginProto from "./../../../protos/auth_pb";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* signUp({ payload }) {
-  console.log({payload})
   try {
     const serializedData = payload.serializeBinary();
     const response = yield call(requestProto, APIEndpoints.SIGNUP, {
@@ -19,7 +18,6 @@ export function* signUp({ payload }) {
       body: serializedData,
     });
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
-    console.log(res);
     if (res.error) {
       yield put(signUpFail(res.msg));
       showMessage({
@@ -32,7 +30,7 @@ export function* signUp({ payload }) {
   } catch (e) {
     yield put(signUpFail(e));
     showMessage({
-      message: "Sorry, error from server or check your credentials!",
+      message: "Error from server or check your credentials!",
       type: "danger",
     });
   }

@@ -10,11 +10,8 @@ import base from "./../../../protos/account_rpc_pb";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../api/API";
 import { loginSuccess } from "./../Login/actions";
-
 //serializing the payload into binary and submittin data to requestProto function with additional data
-
 export function* letsGetStartedReceiver({ payload }) {
-  console.log("letsGetStartedReceiver payload:::", payload);
   try {
     const serializedData = payload.serializeBinary();
     const response = yield call(requestProto, APIEndpoints.SIGNUP, {
@@ -23,7 +20,6 @@ export function* letsGetStartedReceiver({ payload }) {
       body: serializedData,
     });
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
-    console.log(res);
     if (res.error) {
       yield put(letsGetStartedReceiverFail(res.msg));
       showMessage({
@@ -41,7 +37,7 @@ export function* letsGetStartedReceiver({ payload }) {
   } catch (e) {
     yield put(letsGetStartedReceiverFail(e));
     showMessage({
-      message: "Sorry, error from server or check your credentials!",
+      message: "Error from server or check your credentials!",
       type: "danger",
     });
   }

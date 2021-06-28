@@ -17,7 +17,6 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 	useEffect(() => {
 		if (data.forgotPassword !== null) {
 			if (data.forgotPassword.success) {
-				console.log("after success forgotPassword", data);
 				navigation.navigate("Verification");
 			}
 		}
@@ -100,10 +99,15 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 						{!errors.emailPhoneFocus ? (
 								<Button full onPress={handleSubmit}>
 									{data.isLoading ? (
+										<>
 										<CustomActivityIndicator
 											isLoading={data.isLoading}
 											label="Requesting..."
 										/>
+										<Text button style={{ fontSize: 18 }}>
+											Send
+										</Text>
+										</>
 									) : (
 										<Text button style={{ fontSize: 18 }}>
 											Send
@@ -123,7 +127,6 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 							</Button>
 						)}
 							</Block>
-
 					</>
 				)}
 			</Formik>

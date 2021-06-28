@@ -40,7 +40,7 @@ export function* forgotPassword({ payload }) {
 	} catch (e) {
 		yield put(forgotPasswordFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}

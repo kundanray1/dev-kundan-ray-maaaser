@@ -35,7 +35,7 @@ export function* letsGetStartedDonor({ payload }) {
   } catch (e) {
     yield put(letsGetStartedDonorFail(e));
     showMessage({
-      message: "Sorry, error from server or check your credentials!",
+      message: "Error from server or check your credentials!",
       type: "danger",
     });
   }

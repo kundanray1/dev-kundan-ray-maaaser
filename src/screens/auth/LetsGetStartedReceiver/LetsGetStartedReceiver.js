@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {  Image,  TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Formik } from "formik";
 import { LetsGetStartedReceiverValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
 import {
@@ -14,6 +13,8 @@ import {
   CustomActivityIndicator,
 } from "./../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
+
+import { Formik } from "formik";
 import AccountProto from "./../../../protos/account_pb";
 import MaaserProto from "./../../../protos/maaser_pb";
 import AddressProto from "./../../../protos/address_pb";
@@ -39,7 +40,7 @@ const letsGetStartedReceiver = ({
   //select image function
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -79,7 +80,7 @@ const letsGetStartedReceiver = ({
 
   useEffect(() => {
     if (loginData.user.account.isfirstlogin === true) {
-      navigation.navigate("MainTab");
+      navigation.navigate("ReceiverMainTab");
     }
   }, [loginData.user]);
   return (
@@ -362,10 +363,15 @@ const letsGetStartedReceiver = ({
                     onPress={handleSubmit}
                   >
                     {data.isLoading ? (
+                      <>
                       <CustomActivityIndicator
                         isLoading={data.isLoading}
                         label="Requesting..."
                       />
+                       <Text button style={{ fontSize: 18 }}>
+                        Save and Continue
+                      </Text>
+                      </>
                     ) : (
                       <Text button style={{ fontSize: 18 }}>
                         Save and Continue

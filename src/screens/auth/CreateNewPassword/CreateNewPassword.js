@@ -147,10 +147,15 @@ export default CreateNewPassword = ({
 									onPress={handleSubmit}
 								>
 									{data.isLoading ? (
+										<>
 										<CustomActivityIndicator
 											isLoading={data.isLoading}
 											label="Requesting..."
 										/>
+										<Text button style={{ fontSize: 18 }}>
+											Send
+										</Text>
+										</>
 									) : (
 										<Text button style={{ fontSize: 18 }}>
 											Send

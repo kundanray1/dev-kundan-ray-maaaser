@@ -64,9 +64,7 @@ export default SignUp = ({
     clientData.setClienttype(CLIENT_TYPE);
     clientData.setAccount(accountData);
     signUp(clientData);
-    console.log(values)
-    console.log(clientType)
-    console.log(countryCode)
+    
   };
 
   useEffect(() => {
@@ -198,15 +196,20 @@ export default SignUp = ({
                 !errors.password ? (
                   <Button full onPress={handleSubmit}>
                     {data.isLoading ? (
-                      <CustomActivityIndicator
-                        isLoading={data.isLoading}
-                        label="Requesting..."
-                      />
-                    ) : (
-                      <Text button style={{ fontSize: 18 }}>
-                        Sign Up
-                      </Text>
-                    )}
+                    <>
+                    <CustomActivityIndicator
+                      isLoading={data.isLoading}
+                      label="Requesting..."
+                    />
+                    <Text button style={{ fontSize: 18 }}>
+                       Sign Up
+                    </Text>
+                    </>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                       Sign Up
+                    </Text>
+                  )}
                   </Button>
                 ) : (
                   <Button full>
