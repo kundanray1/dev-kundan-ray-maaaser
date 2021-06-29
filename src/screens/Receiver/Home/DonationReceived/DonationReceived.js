@@ -51,7 +51,7 @@ const DonationReceived = ({ navigation, data, donationReceived }) => {
               post.item.clientList[1] != undefined ? (
                 <Block style={{ paddingHorizontal: 18 }}>
                   <DonationsDetail
-                    profilePic={require("../../../../assets/icons/user.png")}
+                    profilePic={post.item.clientList[1].profilepic}
                     name={post.item.clientList[1].account.fullname}
                     amount={post.item.amount}
                     date={post.item.createdat}
