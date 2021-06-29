@@ -26,10 +26,7 @@ export default ChangePassword = ({
 	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
 	const onSubmitChangePassword = (values) => {
-		const changePasswordData = new AccountProto.PasswordReset();
-		// changePasswordData.setAccountid(
-		// 	forgotPasswordData.forgotPassword.refid
-		// );
+		const changePasswordData = new AccountProto.PasswordChangeRequest();
 		changePasswordData.setOldpassword(values.currentPassword);
 		changePasswordData.setNewpassword(values.password);
 		changePassword(changePasswordData);
@@ -39,9 +36,10 @@ export default ChangePassword = ({
 		if (data.changePassword !== null) {
 			if (data.changePassword.success) {
 				changePasswordClear()
+				navigation.navigate("Profile");
 			}
 		}
-	}, [data,changePassword]);
+	}, [data.changePassword]);
 
 	return (
 		 <KeyboardAwareScrollView
@@ -52,9 +50,9 @@ export default ChangePassword = ({
 
 				<Formik
 					initialValues={{
-						currentPassword:"Joshan@1234",
-						password: "Joshan@123",
-						confirmPassword: "Joshan@123",
+						currentPassword:"",
+						password: "",
+						confirmPassword: "",
 					}}
 					onSubmit={(values) => {
 						onSubmitChangePassword(values);

@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { CHANGE_PASSWORD_START } from "./actions";
 import { changePasswordSuccess, changePasswordFail } from "./actions";
-import base from "./../../../../protos/auth_rpc_pb";
+import base from "./../../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { ProtoHeaders } from "./../../../../constants/APIHeader";
 import { requestProto } from "../../../../utility/request";
@@ -12,31 +12,32 @@ import API from "./../../../../api/API";
 export function* changePassword({ payload }) {
 	try {
 		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "GET",
+		const response = yield call(requestProto, APIEndpoints.CHANGE_PASSWORD, {
+			method: "PATCH",
 			headers: API.authProtoHeader(),
 			body: serializedData,
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(changePasswordSuccess(res.msg));
-			showMessage({
-				message: res.msg,
-				type: "danger",
-			});
-		} else {
-			yield put(changePasswordFail(res.msg));
+		if (res.success) {
+			yield put(changePasswordSuccess(res));
 			showMessage({
 				message: "Password changed successfully",
 				type: "success",
+			});
+			
+		} else {
+			yield put(changePasswordFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
 			});
 		}
 	} catch (e) {
 		yield put(changePasswordFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}
