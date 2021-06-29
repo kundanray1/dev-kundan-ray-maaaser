@@ -9,33 +9,18 @@ import {
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
-import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import API from "../../../api/API.js";
 import ViewProfileIconComponent from "../../../assets/icons/viewProfileIconComponent.js";
 import ChangePasswordIconComponent from "../../../assets/icons/changePasswordIconComponent.js";
 import ArrowRightIconComponent from "../../../assets/icons/arrowRightIconComponent.js";
-import UserIconComponent from "../../../assets/icons/userIconComponent.js";
+import ProfileIconComponent from "../../../assets/icons/profileIconComponent.js";
+import NumberFormat from "react-number-format";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const Profile = ({ navigation, loginData, balanceData }) => {
-  const [image, setImage] = useState(null);
-  //select image function
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
-
   return (
     <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
       <Block
@@ -49,7 +34,7 @@ const Profile = ({ navigation, loginData, balanceData }) => {
             height: "55%",
             width: "100%",
             flex: 1,
-            backgroundColor:"#E5E5E5"
+            backgroundColor: "#E5E5E5",
           }}
           imageStyle={{
             borderBottomLeftRadius: 50,
@@ -93,13 +78,23 @@ const Profile = ({ navigation, loginData, balanceData }) => {
                   ""
                 )}
               </Block>
-              <Text
-                style={{ fontSize: 24, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                {"\u0024"}
-                {balanceData.balance}
-              </Text>
+
+              <NumberFormat
+                value={balanceData.balance}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                renderText={(formattedValue) => (
+                  <Text
+                    style={{ fontSize: 24, fontWeight: "700" }}
+                    color={theme.colors.solidGray}
+                  >
+                    {formattedValue}
+                  </Text>
+                )}
+              />
               <Text
                 color={theme.colors.solidGray}
                 style={{ fontSize: 16, fontWeight: "700" }}
@@ -110,9 +105,13 @@ const Profile = ({ navigation, loginData, balanceData }) => {
             </Block>
           </Block>
         </ImageBackground>
-        <TouchableOpacity
-          onPress={pickImage}
-          style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 20 }}
+        <Block
+          style={{
+            flex: 0,
+            zIndex: 1,
+            position: "absolute",
+            marginTop: HEIGHT / 26,
+          }}
         >
           {loginData.user.profilepic !== "" ? (
             <Image
@@ -124,17 +123,15 @@ const Profile = ({ navigation, loginData, balanceData }) => {
               }}
             />
           ) : (
-            <UserIconComponent  height={ HEIGHT * 0.105} width= {WIDTH * 0.2} style={{backgroundColor: theme.colors.white,borderRadius: 50}}/>
-
+           <ProfileIconComponent/>
           )}
-        </TouchableOpacity>
+        </Block>
       </Block>
       <Block
         style={{
           flex: 0.65,
           paddingHorizontal: 16,
-          backgroundColor:"#E5E5E5"
-
+          backgroundColor: "#E5E5E5",
         }}
       >
         <Block
@@ -160,7 +157,7 @@ const Profile = ({ navigation, loginData, balanceData }) => {
               <ViewProfileIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700",marginLeft:14 }}
+                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
                 color={theme.colors.solidGray}
               >
                 View Profile
@@ -191,7 +188,7 @@ const Profile = ({ navigation, loginData, balanceData }) => {
               <ChangePasswordIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700",marginLeft:14 }}
+                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
                 color={theme.colors.solidGray}
               >
                 Change Password

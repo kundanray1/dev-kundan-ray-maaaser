@@ -44,9 +44,6 @@ const DonationsMade = ({ navigation, data, loginData,donationsMade }) => {
                 title="You don't have made any donations yet."
               />
             )}
-            ListFooterComponent={() => (
-              <Block style={{ marginVertical: 40, flex: 0 }} />
-            )}
             renderItem={(post) =>
               post.item.clientList[1] != undefined ? (
                 <Block style={{ paddingHorizontal: 18 }}>
@@ -59,7 +56,7 @@ const DonationsMade = ({ navigation, data, loginData,donationsMade }) => {
                   />
                 </Block>
               ) : (
-                <Block style={{ paddingHorizontal: 18 }} />
+                <Block style={{flex:0}}/>
               )
             }
           />

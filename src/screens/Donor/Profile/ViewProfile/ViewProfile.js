@@ -9,29 +9,16 @@ import {
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import { Block, Text, FloatingButton } from "../../../../components/Index.js";
-import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import API from "../../../../api/API.js";
-import UserIconComponent from "../../../../assets/icons/userIconComponent.js";
+import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
+import EditIconComponent from "../../../../assets/icons/editIconComponent.js";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const ViewProfile = ({ navigation,loginData }) => {
-  const [image, setImage] = useState(null);
-  //select image function
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
+ 
   return (
     <>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
@@ -158,9 +145,8 @@ const ViewProfile = ({ navigation,loginData }) => {
             </Block>
           </ImageBackground>
 
-          <TouchableOpacity
-            onPress={pickImage}
-            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 20 }}
+          <Block
+            style={{ flex:0,zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
           >
             {loginData.user.profilepic!=="" ? (
               <Image
@@ -172,17 +158,17 @@ const ViewProfile = ({ navigation,loginData }) => {
                 }}
               />
             ) : (
-            <UserIconComponent  height={ HEIGHT * 0.105} width= {WIDTH * 0.2} style={{backgroundColor: theme.colors.white,borderRadius: 100,paddingTop:20}}/>
+            <ProfileIconComponent/>
             )}
-          </TouchableOpacity>
+          </Block>
         </Block>
         <Block style={{flex:0.35, backgroundColor:"#E5E5E5"}}>
         </Block>
       </SafeAreaView>
-      {/*<FloatingButton
-        image={require("../../../../assets/icons/add-m.png")}
+      <FloatingButton
+        iconComponent={<EditIconComponent/>}
         onPress={() => navigation.navigate("Edit Profile")}
-      />*/}
+      />
     </>
   );
 };

@@ -24,6 +24,8 @@ import AccountProto from "./../../../../protos/account_pb";
 import MaaserProto from "./../../../../protos/maaser_pb";
 import AddressProto from "./../../../../protos/address_pb";
 import { ProfileValidationSchema } from "./../../../../utility/ValidationSchema.js";
+import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
+import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -356,7 +358,7 @@ const EditProfile = ({ navigation, loginData, data }) => {
 
           <TouchableOpacity
             onPress={pickImage}
-            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 20 }}
+            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
           >
             {image ? (
               <Image
@@ -368,36 +370,19 @@ const EditProfile = ({ navigation, loginData, data }) => {
                 }}
               />
             ) : (
-              <Image
-                source={require("../../../../assets/icons/Vector.png")}
-                style={{
-                  height: HEIGHT * 0.105,
-                  width: WIDTH * 0.2,
-                  backgroundColor: theme.colors.white,
-                  borderRadius: 100,
-                }}
-              />
+                <ProfileIconComponent/>
             )}
 
             <Block
               style={{
-                backgroundColor: theme.colors.white,
                 padding: 2,
                 borderRadius: 10,
                 position: "absolute",
-                marginLeft: WIDTH * 0.14,
-                marginTop: HEIGHT * 0.078,
+                marginLeft: WIDTH * 0.17,
+                marginTop: HEIGHT * 0.074,
               }}
             >
-              <Block
-                style={{
-                  backgroundColor: theme.colors.primary2,
-                  padding: 2,
-                  borderRadius: 10,
-                }}
-              >
-                <MaterialCommunityIcons name="camera" size={14} color="white" />
-              </Block>
+                <CameraIconComponent/>
             </Block>
           </TouchableOpacity>
         </Block>

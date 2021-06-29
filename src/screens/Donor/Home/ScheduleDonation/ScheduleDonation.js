@@ -19,7 +19,6 @@ import { Bottom } from "./Bottom.js";
 import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 
-
 const ScheduleDonation = ({
   navigation,
   data,
@@ -96,7 +95,7 @@ const ScheduleDonation = ({
                   paddingVertical:20,
                 }}
                 renderItem={(post) => (
-                  post.item.scheduletransactionstatus==5||post.item.scheduletransactionstatus==6?
+                  post.item.scheduletransactionstatus==2||post.item.scheduletransactionstatus==3?
                   <Pressable
                     style={{
                       paddingHorizontal: 16,

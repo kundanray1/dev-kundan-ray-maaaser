@@ -18,6 +18,7 @@ import {
 import moment from "moment";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
+import NumberFormat from "react-number-format";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -72,7 +73,7 @@ const ManualDonateConfirmation = ({
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
+          setConfirmationSuccessfulVisible(false)
         }
       >
         <View style={styles.container}>
@@ -143,9 +144,20 @@ const ManualDonateConfirmation = ({
               </Text>
             </Block>
             <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {amount}
-              </Text>
+             
+               <NumberFormat
+          value={amount}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={"$"}
+          decimalScale={2}
+          fixedDecimalScale={true}
+          renderText={(formattedValue) => (
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              {formattedValue}
+            </Text>
+          )}
+        />
             </Block>
           </Block>
 

@@ -112,7 +112,7 @@ const LinkScheduleDonation = ({
 
     scheduleTransactionProto.setAmount(values.amount);
     scheduleTransactionProto.setTransactionstatus(
-      PaymentProto.TransactionStatus.TRANSACTION_PENDING
+      PaymentProto.TransactionStatus.TRANSACTION_APPROVED
     );
     scheduleTransactionProto.setScheduletransactionstatus(
       PaymentProto.ScheduleTransactionStatus.SCHEDULING

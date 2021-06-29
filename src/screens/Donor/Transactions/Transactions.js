@@ -96,9 +96,8 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
 
   const renderItems = ({ item }) => {
     return (
-      <Block style={{ paddingHorizontal: 18 }}>
+      <Block style={{ paddingHorizontal: 8 }}>
         <TransactionDetailCard
-          profilePic={require("../../../assets/icons/user.png")}
           data={item}
           amount={item.amount}
           date={item.createdat}
@@ -115,7 +114,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
       <Block
         style={{
           backgroundcolor: theme.colors.gray2,
-          paddingHorizontal: 18,
+          paddingHorizontal: 16,
           paddingVertical: 16,
         }}
       >
@@ -133,7 +132,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
     if (data.transactions == null) {
       transactions(loginData.user.account.accountid);
     } else {
-      const DATA = Object.values(
+      const sortedData = Object.values(
         data.transactions.reduce((acc, item) => {
           if (!acc[moment(item.createdat).format("Do MMM YYYY")])
             acc[moment(item.createdat).format("Do MMM YYYY")] = {
@@ -144,7 +143,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
           return acc;
         }, {})
       );
-      setTransactionsData(DATA);
+      setTransactionsData(sortedData);
     }
   }, [data.transactions]);
 

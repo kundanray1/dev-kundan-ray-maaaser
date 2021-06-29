@@ -6,7 +6,6 @@ import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../../api/API";
-
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* scheduleDonation({ payload }) {
 	try {
@@ -21,26 +20,25 @@ export function* scheduleDonation({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+
 		if (res.success) {
 			if(res.scheduletransactionsList==undefined){
 			yield put(scheduleDonationSuccess([]));
-
 		}else{
+			console.log(res.scheduletransactionsList)
 			yield put(scheduleDonationSuccess(res.scheduletransactionsList));
-
 		}
 		} else {
 			yield put(scheduleDonationFail(res.msg));
 			showMessage({
-				message: "scheduleDonationFail0, error from server or check your credentials!",
+				message: "Error from server or check your credentials!",
 				type: "danger",
 			});
 		}
 	} catch (e) {
-
 		yield put(scheduleDonationFail(e));
 		showMessage({
-			message: "scheduleDonationFail1, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}

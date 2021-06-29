@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import { Block, Empty, DonationsDetail } from "../../../../components/Index.js";
-import Dummy from "./Dummy.js";
 
 const UpcomingDonations = ({ navigation, data, upcomingDonations }) => {
   const [refreshing, setRefreshing] = useState(false);

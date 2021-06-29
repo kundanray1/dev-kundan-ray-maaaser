@@ -12,7 +12,6 @@ import {
   CustomActivityIndicator
 } from "./../../../../components/Index.js";
 import ReceiversList from "./ReceiversList";
-import Dummy from "./Dummy";
 import PaymentProto from "./../../../../protos/payment_pb";
 import API from "./../../../../api/API";
 

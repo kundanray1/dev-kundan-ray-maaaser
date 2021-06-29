@@ -12,10 +12,11 @@ import Dummy from "./Dummy.js";
 
 const More = ({navigation}) => {
   const RenderOptions = ({ image, label }) => (
-    <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 6 }} onPress={()=>navigation.navigate("Members")}>
+    <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 10 }} onPress={()=>navigation.navigate("Members")}>
     <Block row style={{
             flex: 1,
             alignItems: "center",
+
           }}>
        {/* <ImageBackground
           style={{

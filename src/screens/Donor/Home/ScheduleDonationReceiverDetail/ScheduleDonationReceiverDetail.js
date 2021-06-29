@@ -39,35 +39,25 @@ const ScheduleDonationReceiverDetail = ({
 
   let status =
     scheduleDonationReceiverDetail.scheduletransactionstatus == 1
-      ? "SCHEDULE PENDING"
-      : scheduleDonationReceiverDetail.scheduletransactionstatus == 2
-      ? "APPROVED"
-      : scheduleDonationReceiverDetail.scheduletransactionstatus == 3
       ? "SCHEDULING"
-      : scheduleDonationReceiverDetail.scheduletransactionstatus == 4
-      ? "CLOSED"
-      : scheduleDonationReceiverDetail.scheduletransactionstatus == 5
-      ? "DISABLED"
-      : "CANCELLED";
+      : scheduleDonationReceiverDetail.scheduletransactionstatus == 2
+      ? "DISABLED": "CANCELLED";
 
   const onSubmitScheduleDonationReceiverDetail = (values) => {
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
     scheduleTransactionProto.setScheduletransactionid(
       scheduleDonationReceiverDetail.scheduletransactionid
     );
+
     if (values == "cancel") {
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.CANCELLED
       );
-    } else if (values == "close") {
-      scheduleTransactionProto.setScheduletransactionstatus(
-        PaymentProto.ScheduleTransactionStatus.CLOSED
-      );
-    } else if (values == "delete") {
+    } else if (values == "disable") {
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.DISABLED
       );
-    } else {
+    } else if (values == "schedule") {
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.SCHEDULING
       );
@@ -183,7 +173,7 @@ const ScheduleDonationReceiverDetail = ({
             <Block>
               <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
                 {moment(
-                  scheduleDonationReceiverDetail.scheduledetail.endDate
+                  scheduleDonationReceiverDetail.scheduledetail.enddate
                 ).format("Do MMMM YYYY")}
               </Text>
             </Block>
@@ -218,14 +208,8 @@ const ScheduleDonationReceiverDetail = ({
             <Block
               style={{
                 backgroundColor:
-                  status == "SCHEDULE PENDING"
-                    ? theme.colors.schedulePendingBackground
-                    : status == "APPROVED"
-                    ? theme.colors.approvedBackground
-                    : status == "SCHEDULING"
+                  status == "SCHEDULING"
                     ? theme.colors.schedulingBackground
-                    : status == "CLOSED"
-                    ? theme.colors.closedBackground
                     : status == "DISABLED"
                     ? theme.colors.disabledBackground
                     : theme.colors.cancelledBackground,
@@ -241,14 +225,8 @@ const ScheduleDonationReceiverDetail = ({
                   fontWeight: "700",
                 }}
                 color={
-                  status == "SCHEDULE PENDING"
-                    ? theme.colors.schedulePendingText
-                    : status == "APPROVED"
-                    ? theme.colors.approvedText
-                    : status == "SCHEDULING"
+                  status == "SCHEDULING"
                     ? theme.colors.schedulingText
-                    : status == "CLOSED"
-                    ? theme.colors.closedText
                     : status == "DISABLED"
                     ? theme.colors.disabledText
                     : theme.colors.cancelledText
@@ -300,7 +278,7 @@ const ScheduleDonationReceiverDetail = ({
             <>
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => onSubmitScheduleDonationReceiverDetail("close")}
+                onPress={() => onSubmitScheduleDonationReceiverDetail("schedule")}
                 style={{
                   flex: 0,
                   paddingVertical: 12,
@@ -319,7 +297,7 @@ const ScheduleDonationReceiverDetail = ({
                       color={theme.colors.gray}
                       style={{ fontSize: 18, fontWeight: "700" }}
                     >
-                      Close
+                      Schedule
                     </Text>
                   </>
                 ) : (
@@ -328,13 +306,13 @@ const ScheduleDonationReceiverDetail = ({
                     color={theme.colors.gray}
                     style={{ fontSize: 18, fontWeight: "700" }}
                   >
-                    Close
+                    Schedule
                   </Text>
                 )}
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => onSubmitScheduleDonationReceiverDetail("delete")}
+                onPress={() => onSubmitScheduleDonationReceiverDetail("disable")}
                 style={{
                   flex: 0,
                   paddingVertical: 12,
@@ -353,7 +331,7 @@ const ScheduleDonationReceiverDetail = ({
                       color={theme.colors.red}
                       style={{ fontSize: 18, fontWeight: "700" }}
                     >
-                      Delete
+                      Disable
                     </Text>
                   </>
                 ) : (
@@ -362,81 +340,14 @@ const ScheduleDonationReceiverDetail = ({
                     color={theme.colors.red}
                     style={{ fontSize: 18, fontWeight: "700" }}
                   >
-                    Delete
+                    Disable
                   </Text>
                 )}
               </TouchableOpacity>
             </>
-          ) : status == "CLOSED" ? (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => onSubmitScheduleDonationReceiverDetail("delete")}
-              style={{
-                flex: 0,
-                paddingVertical: 12,
-                borderTopWidth: 2,
-                borderColor: theme.colors.gray2,
-              }}
-            >
-              {data.isLoading ? (
-                <>
-                  <CustomActivityIndicator
-                    label="Requesting..."
-                    isLoading={data.isLoading}
-                  />
-                  <Text
-                    center
-                    color={theme.colors.red}
-                    style={{ fontSize: 18, fontWeight: "700" }}
-                  >
-                    Delete
-                  </Text>
-                </>
-              ) : (
-                <Text
-                  center
-                  color={theme.colors.red}
-                  style={{ fontSize: 18, fontWeight: "700" }}
-                >
-                  Delete
-                </Text>
-              )}
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => onSubmitScheduleDonationReceiverDetail("cancel")}
-              style={{
-                flex: 0,
-                paddingVertical: 12,
-                borderTopWidth: 2,
-                borderColor: theme.colors.gray2,
-              }}
-            >
-              {data.isLoading ? (
-                <>
-                  <CustomActivityIndicator
-                    label="Requesting..."
-                    isLoading={data.isLoading}
-                  />
-                  <Text
-                    center
-                    color={theme.colors.gray}
-                    style={{ fontSize: 18, fontWeight: "700" }}
-                  >
-                    Cancel Donation
-                  </Text>
-                </>
-              ) : (
-                <Text
-                  center
-                  color={theme.colors.gray}
-                  style={{ fontSize: 18, fontWeight: "700" }}
-                >
-                  Cancel Donation
-                </Text>
-              )}
-            </TouchableOpacity>
+            )
+            :(
+            <Block style={{flex:0}}/>
           )}
         </Block>
       </Block>

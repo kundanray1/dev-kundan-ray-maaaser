@@ -16,8 +16,9 @@ import {
   MemberDetailCard,
 } from "../../../../components/Index.js";
 import { Bottom } from "./Bottom.js";
-import Dummy from "./Dummy.js";
 import API from "./../../../../api/API";
+import AddIconComponent from "./../../../../assets/icons/addIconComponent";
+
 
 const Members = ({ navigation, data,loginData, members }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -32,7 +33,6 @@ const Members = ({ navigation, data,loginData, members }) => {
   });
 
   useEffect(() => {
-    console.log("Joshan");
     if(data.members==null){
     members(loginData.user.account.accountid);
     }
@@ -111,7 +111,7 @@ const Members = ({ navigation, data,loginData, members }) => {
                       delayLongPress={500}
                     >
                       <MemberDetailCard
-                        profilePic={require("../../../../assets/icons/user.png")}
+                        profilePic={post.item.profilepic}
                         name={post.item.account.fullname}
                         email={post.item.account.email}
                         onPress={() => console.log("Pressed")}
@@ -125,7 +125,7 @@ const Members = ({ navigation, data,loginData, members }) => {
         </SafeAreaView>
       </TouchableWithoutFeedback>
       <FloatingButton
-        image={require("../../../../assets/icons/add-m.png")}
+        iconComponent={<AddIconComponent/>}
         onPress={() => navigation.navigate("Add New Member")}
       />
       <Bottom bs={bs} accountData={accountData} navigation={navigation} />

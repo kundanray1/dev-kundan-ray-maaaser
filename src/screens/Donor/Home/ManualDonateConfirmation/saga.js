@@ -24,7 +24,6 @@ export function* manualDonateConfirmation({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("res=======", res);
 		if (res.success) {
 			yield put(manualDonateConfirmationSuccess(res));
 		} else {
@@ -35,8 +34,6 @@ export function* manualDonateConfirmation({ payload }) {
 			});
 		}
 	} catch (e) {
-		console.log("ACHLoadFund Confirm failed===", payload);
-
 		yield put(manualDonateConfirmationFail(e));
 		showMessage({
 			message: "ACHLoadFund Confirm, error from server or check your credentials!",
