@@ -15,7 +15,6 @@ import {
   Empty,
   DonorsDetail,
 } from "../../../../components/Index.js";
-// import Dummy from "./Dummy.js";
 import { Ionicons } from "@expo/vector-icons";
 
 const Donors = ({ navigation, data, donors }) => {
@@ -117,7 +116,7 @@ const [refreshing, setRefreshing] = useState(false);
             renderItem={(post) => (
               <Block style={{ flex: 0, paddingHorizontal: 16 }}>
                 <DonorsDetail
-                  profilePic={require("../../../../assets/icons/user.png")}
+                  profilePic={post.item.profilepic}
                   name={post.item.account.fullname}
                   clientType={post.item.clienttype}
                 />
