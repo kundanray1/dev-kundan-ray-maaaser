@@ -16,18 +16,15 @@ import API from "./../../../../api/API";
 
 export function* withdrawFundConfirmation({ payload }) {
 	try {
-		console.log("1")
 		const serializedData = payload.serializeBinary();
 		const response = yield call(requestProto, APIEndpoints.TRANSACTION, {
 			method: "POST",
 			headers: API.authProtoHeader(),
 			body: serializedData,
 		});
-		console.log("2")
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("3")
 		if (res.success) {
 			yield put(withdrawFundConfirmationSuccess(res));
 		} else {

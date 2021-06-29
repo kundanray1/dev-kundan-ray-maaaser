@@ -17,6 +17,9 @@ import {
 } from "../../../../components/Index.js";
 import moment from "moment";
 import PaymentProto from "./../../../../protos/payment_pb";
+import NumberFormat from "react-number-format";
+import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
+
 const WIDTH = Dimensions.get("window").width;
 
 const WithdrawFundConfirmation = ({
@@ -82,10 +85,7 @@ const WithdrawFundConfirmation = ({
               Withdrawn Fund Successfull!
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
-              <Image
-                source={require("../../../../assets/icons/successConfirmation.png")}
-                style={{ height: 60, width: 60 }}
-              />
+              <TickIconComponent/>
             </View>
             <View style={{ paddingHorizontal: 30 }}>
               <Button onPress={() => navigation.navigate("Linked Accounts")}>
@@ -200,9 +200,19 @@ const WithdrawFundConfirmation = ({
               </Text>
             </Block>
             <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {amount}
-              </Text>
+                <NumberFormat
+          value={amount}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={"$"}
+          decimalScale={2}
+          fixedDecimalScale={true}
+          renderText={(formattedValue) => (
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              {formattedValue}
+            </Text>
+          )}
+        />
             </Block>
           </Block>
 
