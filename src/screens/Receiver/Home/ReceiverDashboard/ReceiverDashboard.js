@@ -18,9 +18,11 @@ import {
   FloatingButton,
   DonorsDetail,
 } from "../../../../components/Index.js";
-import Dummy from "./Dummy.js";
 import API from "./../../../../api/API";
 import LocalDB from "./../../../../api/LocalStorage";
+import NumberFormat from "react-number-format";
+import UserIconComponent from "./../../../../assets/icons/userIconComponent";
+import BellIconComponent from "./../../../../assets/icons/bellIconComponent";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 const DonorReceiver = ({
@@ -54,6 +56,7 @@ const DonorReceiver = ({
       donors();
     }
   }, []);
+  console.log(donationReceivedData.donationReceived);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ||
@@ -83,16 +86,15 @@ const DonorReceiver = ({
               source={require("../../../../assets/images/backgroundColor.png")}
             >
               <TouchableOpacity
-              activeOpacity={0.8}
+                activeOpacity={0.8}
                 style={{
                   flex: 0,
                   alignItems: "flex-end",
                   paddingHorizontal: 16,
                 }}
               >
-                <Image
-                  source={require("../../../../assets/icons/bellIcon.png")}
-                  style={{ height: 30, width: 30,marginBottom:10,marginRight:10 }}
+                <BellIconComponent
+                  style={{ marginBottom: 10, marginRight: 10 }}
                 />
               </TouchableOpacity>
               <Block
@@ -117,10 +119,14 @@ const DonorReceiver = ({
                       flex: 1,
                     }}
                   >
-                    <Image
-                      source={require("../../../../assets/icons/user.png")}
-                      style={{ height: 40, width: 40, marginRight: 10 }}
-                    />
+                    {loginData.user.profilepic == "" ? (
+                      <UserIconComponent height={45} width={45} />
+                    ) : (
+                      <Image
+                        source={{ uri: loginData.user.profilepic }}
+                        style={{ height: 50, width: 50, borderRadius: 30 }}
+                      />
+                    )}
                   </Block>
                   <Block
                     style={{
@@ -163,10 +169,22 @@ const DonorReceiver = ({
                     >
                       Balance
                     </Text>
-                    <Text center style={{ fontSize: 24, fontWeight: "700" }}>
-                      {"\u0024"}
-                      {data.balance}
-                    </Text>
+                    <NumberFormat
+                      value={data.balance}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      renderText={(formattedValue) => (
+                        <Text
+                          center
+                          style={{ fontSize: 20, fontWeight: "700" }}
+                        >
+                          {formattedValue}
+                        </Text>
+                      )}
+                    />
                   </Block>
                 </Block>
               </Block>
@@ -232,7 +250,7 @@ const DonorReceiver = ({
                   renderItem={(post) =>
                     post.item.clientList[1] != undefined ? (
                       <DonationsDetail
-                        profilePic={require("../../../../assets/icons/user.png")}
+                        profilePic={post.item.clientList[1].profilepic}
                         name={post.item.clientList[1].account.fullname}
                         amount={post.item.amount}
                         date={post.item.createdat}
@@ -282,7 +300,7 @@ const DonorReceiver = ({
                   )}
                   renderItem={(post) => (
                     <DonorsDetail
-                      profilePic={require("../../../../assets/icons/user.png")}
+                      profilePic={post.item.profilepic}
                       name={post.item.account.fullname}
                       clientType={post.item.clienttype}
                     />
