@@ -17,6 +17,8 @@ import {
 } from "../../../../components/Index.js";
 import { Bottom } from "./Bottom.js";
 import API from "./../../../../api/API";
+import AddIconComponent from "./../../../../assets/icons/addIconComponent";
+import BlueBankIconComponent from "./../../../../assets/icons/blueBankIconComponent";
 
 const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
   const [amountFocus, setAmountFocus] = useState(false);
@@ -40,7 +42,6 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
           bs.current.snapTo(1);
         }}
       >
-        
           <SafeAreaView>
             <Block style={{ flex: 0 }}>
              
@@ -48,6 +49,7 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
                 <ActivityIndicator size="large" color={theme.colors.primary2} />
               ) : (
               <>
+              <Block style={{flex:0,marginTop:26}}>
                 <FlatList
                   data={data.linkedAccounts.banksList}
                   showsVerticalScrollIndicator={true}
@@ -87,7 +89,7 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
                       <LinkedAccountsAndLinkedCard
                         accountNo={post.item.accountnumber}
                         label={post.item.bankname}
-                        image={require("../../../../assets/icons/ach.png")}
+                        iconComponent={<BlueBankIconComponent width={40} height={40} style={{alignItems:"center"}}/>}
                         onPress={() => {
                           navigation.navigate("Withdraw Fund",{accountData:post.item})
                         }}
@@ -95,14 +97,18 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
                     </Pressable>
                   )}
                 />
+            </Block>
+
                 </>
               )}
+
             </Block>
           </SafeAreaView>
       </TouchableWithoutFeedback>
       <FloatingButton
-        image={require("../../../../assets/icons/add-m.png")}
+        iconComponent={<AddIconComponent/>}
         onPress={() => navigation.navigate("Link New Account")}
+      
       />
       <Bottom bs={bs} accountData={accountData} navigation={navigation} />
       
