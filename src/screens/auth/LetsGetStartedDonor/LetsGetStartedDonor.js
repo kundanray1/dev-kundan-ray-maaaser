@@ -3,6 +3,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import {
   Image,
   TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
@@ -20,7 +21,13 @@ import * as ImagePicker from "expo-image-picker";
 import AccountProto from "./../../../protos/account_pb";
 import MaaserProto from "./../../../protos/maaser_pb";
 import AddressProto from "./../../../protos/address_pb";
-const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStartedDonor }) => {
+import ProfileIconComponent from "../../../assets/icons/profileIconComponent.js";
+import CameraIconComponent from "../../../assets/icons/cameraIconComponent.js";
+
+const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
+
+const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStartedDonor,imageUpload }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -50,6 +57,7 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
     const clientData = new AccountProto.Client();
     const accountData = new AccountProto.Account();
     const addressData = new AddressProto.Address();
+    const AddressList = [];
    
     accountData.setAccountid(loginData.user.account.accountid);
     accountData.setEmail(loginData.user.account.email);
@@ -57,19 +65,20 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
     accountData.setCountrycode(loginData.user.account.countrycode);
     accountData.setAccounttype(loginData.user.account.accounttype);
 
+    addressData.setRefid(loginData.user.account.accountid);
     addressData.setStreet1(values.street1);
     addressData.setStreet2(values.street2);
     addressData.setState(values.state);
     addressData.setCity(values.city);
     addressData.setZip(values.zipCode);
     addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
-    
+    AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
     clientData.setProfilepic(image);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);
-    clientData.setAddressesList(addressData);
+    clientData.setAddressesList(AddressList);
 
     letsGetStartedDonor(clientData);
   };
@@ -82,7 +91,7 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
 
   return (
     <KeyboardAwareScrollView
-      style={{ paddingVertical: 40 }}
+      style={{ paddingVertical: 10 }}
       showsVerticalScrollIndicator={false}
     >
       <Block center middle>
@@ -106,41 +115,29 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
             </Text>
             <TouchableOpacity onPress={pickImage}>
               {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={{ width: 80, height: 80, borderRadius: 100 }}
-                />
-              ) : (
-                <Image
-                  source={require("../../../assets/icons/Vector.png")}
-                  style={{ height: 80, width: 80 }}
-                />
-              )}
+              <Image
+                source={{ uri: image }}
+                style={{
+                  height: HEIGHT * 0.105,
+                  width: WIDTH * 0.2,
+                  borderRadius: 100,
+                }}
+              />
+            ) : (
+                <ProfileIconComponent/>
+            )}
 
               <Block
-                style={{
-                  backgroundColor: theme.colors.white,
-                  padding: 2,
-                  borderRadius: 10,
-                  position: "absolute",
-                  marginLeft: 60,
-                  marginTop: 55,
-                }}
-              >
-                <Block
-                  style={{
-                    backgroundColor: theme.colors.primary2,
-                    padding: 4,
-                    borderRadius: 10,
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="camera"
-                    size={10}
-                    color="white"
-                  />
-                </Block>
-              </Block>
+              style={{
+                padding: 2,
+                borderRadius: 10,
+                position: "absolute",
+                marginLeft: WIDTH * 0.17,
+                marginTop: HEIGHT * 0.074,
+              }}
+            >
+                <CameraIconComponent/>
+            </Block>
             </TouchableOpacity>
           </Block>
         </Block>

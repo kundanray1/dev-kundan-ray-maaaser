@@ -2,19 +2,26 @@ import {
   LETS_GET_STARTED_DONOR_START,
   LETS_GET_STARTED_DONOR_SUCCESS,
   LETS_GET_STARTED_DONOR_FAIL,
-} from './actions';
+  IMAGE_UPLOAD_START,
+  IMAGE_UPLOAD_SUCCESS,
+  IMAGE_UPLOAD_FAIL,
+} from "./actions";
 
 const initialState = {
   isLoading: false,
   isLoggedIn: false,
   user: null,
+  image:null,
   error: null,
 };
 
-export const letsGetStartedDonorReducer=(state = initialState, { type, payload }) => {
+export const letsGetStartedDonorReducer = (
+  state = initialState,
+  { type, payload }
+) => {
   switch (type) {
     case LETS_GET_STARTED_DONOR_START:
-    return {
+      return {
         ...state,
         isLoading: true,
         isLoggedIn: false,
@@ -30,12 +37,33 @@ export const letsGetStartedDonorReducer=(state = initialState, { type, payload }
     case LETS_GET_STARTED_DONOR_FAIL:
       return {
         ...state,
-        isLoggedIn: false,
         user: null,
         isLoading: false,
         error: payload,
       };
-   
+
+    case IMAGE_UPLOAD_START:
+      return {
+        ...state,
+        isLoading: true,
+        isLoggedIn: false,
+      };
+
+    case IMAGE_UPLOAD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: true,
+        image: payload,
+      };
+    case IMAGE_UPLOAD_FAIL:
+      return {
+        ...state,
+        image: null,
+        isLoading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }

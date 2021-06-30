@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+
+
 import { Image } from "react-native";
 import { Formik } from "formik";
 import { ForgotPasswordValidationSchema } from "./../../../utility/ValidationSchema.js";
@@ -27,6 +31,10 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 	};
 
 	return (
+		<KeyboardAwareScrollView
+     
+      showsVerticalScrollIndicator={false}
+    >
 		<Block center style={{ marginVertical: 60 }}>
 			<Image
 				source={require("../../../assets/icons/logo.png")}
@@ -131,5 +139,6 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 				)}
 			</Formik>
 		</Block>
+		</KeyboardAwareScrollView>
 	);
 };

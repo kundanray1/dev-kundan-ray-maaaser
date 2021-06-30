@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import LetsGetStartedDonor from "./LetsGetStartedDonor";
-import { letsgetStartedDonorStart } from "./actions";
+import { letsgetStartedDonorStart,imageUploadStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.letsGetStartedDonor,
@@ -13,6 +13,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => {
 	return {
 		letsGetStartedDonor: (values) => dispatch(letsgetStartedDonorStart(values)),
+		imageUpload: (values) => dispatch(imageUploadStart(values)),
 	}
 }
 

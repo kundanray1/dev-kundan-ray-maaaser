@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import { Image, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
@@ -26,6 +28,7 @@ const Login = ({ navigation, data, login }) => {
     login(loginData);
   };
   return (
+   
     <Block center middle>
       <Block center style={{ flex: 0, marginBottom: 20 }}>
         <Image
@@ -39,8 +42,8 @@ const Login = ({ navigation, data, login }) => {
 
       <Formik
         initialValues={{
-          identifier: "jp@gmail.com",
-          password: "Joshan@1234",
+          identifier: "q@gmail.com",
+          password: "Joshan@123",
         }}
         onSubmit={(values) => {
           onSubmitLogin(values);

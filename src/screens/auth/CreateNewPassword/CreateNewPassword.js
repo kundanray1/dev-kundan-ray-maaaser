@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Image } from "react-native";
 import { Formik } from "formik";
 import { CreateNewPasswordValidationSchema } from "../../../utility/ValidationSchema.js";
@@ -42,9 +43,10 @@ export default CreateNewPassword = ({
 	}, [data]);
 
 	return (
-
+ <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+    >
 		<Block center style={{ marginVertical: 60 }}>
-
 			<Image
 				source={require("../../../assets/icons/logo.png")}
 				style={{ height: 100, width: 100 }}
@@ -177,5 +179,6 @@ export default CreateNewPassword = ({
 					)}
 				</Formik>
 		</Block>
+		</KeyboardAwareScrollView>
 	);
 };

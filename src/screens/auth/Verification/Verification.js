@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
 	Image,
 	View,
