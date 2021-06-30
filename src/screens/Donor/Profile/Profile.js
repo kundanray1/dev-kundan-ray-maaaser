@@ -6,6 +6,7 @@ import {
   Image,
   ImageBackground,
   Dimensions,
+  ActivityIndicator
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
@@ -20,9 +21,13 @@ import NumberFormat from "react-number-format";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const Profile = ({ navigation, loginData, balanceData }) => {
+const Profile = ({ navigation, loginData,data,balanceData }) => {
   return (
     <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
+      {data.isLoading ? (
+              <ActivityIndicator size="large" color={theme.colors.primary2} />
+            ) : (
+            <>
       <Block
         style={{
           flex: 0.35,
@@ -66,9 +71,9 @@ const Profile = ({ navigation, loginData, balanceData }) => {
                   style={{ fontSize: 20, fontWeight: "700", marginRight: 8 }}
                   color={theme.colors.solidGray}
                 >
-                  {loginData.user.account.fullname}
+                  {data.profile.account.fullname}
                 </Text>
-                {loginData.user.account.accountstatus == 2 ? (
+                {data.profile.account.accountstatus == 2 ? (
                   <MaterialIcons
                     name="verified"
                     size={20}
@@ -113,9 +118,9 @@ const Profile = ({ navigation, loginData, balanceData }) => {
             marginTop: HEIGHT / 26,
           }}
         >
-          {loginData.user.profilepic !== "" ? (
+          {data.profile.profilepic !== "" ? (
             <Image
-              source={{ uri: loginData.user.profilepic }}
+              source={{ uri: data.profile.profilepic }}
               style={{
                 height: HEIGHT * 0.105,
                 width: WIDTH * 0.2,
@@ -127,6 +132,7 @@ const Profile = ({ navigation, loginData, balanceData }) => {
           )}
         </Block>
       </Block>
+
       <Block
         style={{
           flex: 0.65,
@@ -176,7 +182,7 @@ const Profile = ({ navigation, loginData, balanceData }) => {
 
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Change Password")}
+            onPress={() => navigation.navigate("Change Password",{clientType:"donor"})}
             style={{
               flex: 0,
               flexDirection: "row",
@@ -206,6 +212,8 @@ const Profile = ({ navigation, loginData, balanceData }) => {
           </TouchableOpacity>
         </Block>
       </Block>
+      </>
+      )}
     </SafeAreaView>
   );
 };

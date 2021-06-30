@@ -10,40 +10,31 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
 import { Block, Text } from "./../../../components/Index.js";
-
+import {Type} from "./Dummy";
 const WIDTH = Dimensions.get("window").width;
-const transactionsTypeOptions = [
-	"One Time",
-	"Daily",
-	"Weekly",
-	"Monthly",
-	"Quarterly",
-	"Yearly",
-	"Nth Day",
-];
-
-const TransactionsType = ({ transactionsType, setTransactionsType }) => {
+const TransactionsType = ({ transactionsType, setTransactionsType,setTransactionsTypeId }) => {
 	const [
 		transactionsTypeModalVisible,
 		setTransactionsTypeModalVisible,
 	] = useState(false);
 	const onPressTransactionsTypeItem = useCallback(
-		(option) => {
-			setTransactionsType(option);
+		(item) => {
+			setTransactionsType(item.label);
+			setTransactionsTypeId(item.type)
 			setTransactionsTypeModalVisible(false);
 		},
 		[setTransactionsType]
 	);
 
-	const RenderTransactionsMediumOptions = transactionsTypeOptions.map(
-		(option, index) => (
+	const RenderTransactionsTypeOptions = Type.map(
+		(item, index) => (
 			<TouchableOpacity
 				key={index}
-				onPress={() => onPressTransactionsTypeItem(option)}
+				onPress={() => onPressTransactionsTypeItem(item)}
 				style={{ marginVertical: 2 }}
 			>
 				<Text bold style={{ paddingVertical: 4, fontSize: 18, color: theme.colors.solidGray, }}>
-					{option}
+					{item.label}
 				</Text>
 			</TouchableOpacity>
 		)
@@ -56,11 +47,11 @@ const TransactionsType = ({ transactionsType, setTransactionsType }) => {
 			<TouchableOpacity
 				style={styles.customPicker}
 				activeOpacity={0.8}
-				// onPress={() =>
-				// 	setTransactionsTypeModalVisible(
-				// 		!transactionsTypeModalVisible
-				// 	)
-				// }
+				onPress={() =>
+					setTransactionsTypeModalVisible(
+						!transactionsTypeModalVisible
+					)
+				}
 			>
 				<Block>
 					<Text
@@ -95,7 +86,7 @@ const TransactionsType = ({ transactionsType, setTransactionsType }) => {
 			>
 				<View style={styles.container}>
 					<View style={[styles.modal, { width: WIDTH - 30 }]}>
-						{RenderTransactionsMediumOptions}
+						{RenderTransactionsTypeOptions}
 					</View>
 				</View>
 			</Modal>

@@ -2,11 +2,13 @@ import {
   EDIT_PROFILE_FAIL,
   EDIT_PROFILE_START,
   EDIT_PROFILE_SUCCESS,
+  EDIT_PROFILE_CLEAR,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  editProfile: '',
+  editProfile: null,
+  editProfileClear: null,
   error: null,
 };
 
@@ -29,7 +31,9 @@ export const editProfileReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
-   
+    case EDIT_PROFILE_CLEAR:
+      return initialState;
+
     default:
       return state;
   }

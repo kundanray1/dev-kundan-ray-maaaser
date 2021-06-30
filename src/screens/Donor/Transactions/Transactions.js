@@ -28,10 +28,7 @@ import TransactionsMedium from "./TransactionsMedium";
 import TransactionsType from "./TransactionsType";
 import API from "../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
-
-
 const WIDTH = Dimensions.get("window").width;
-
 const Transactions = ({ navigation, data,loginData, transactions,search }) => {
   const [transactionsData, setTransactionsData] = useState();
   const [
@@ -43,7 +40,10 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
   const [toDate, setToDate] = useState(new Date());
   const [showToDate, setShowToDate] = useState(false);
   const [transactionsMedium, setTransactionsMedium] = useState();
+  const [transactionsMediumId, setTransactionsMediumId] = useState("");
   const [transactionsType, setTransactionsType] = useState();
+  const [transactionsTypeId, setTransactionsTypeId] = useState("");
+
   const [refreshing, setRefreshing] = useState(false);
   
   const onChangeFromDate = (event, selectedDate) => {
@@ -68,7 +68,9 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
   setFromDate(new Date());
   setToDate(new Date());
   setTransactionsMedium();
+  setTransactionsMediumId("");
   setTransactionsType();
+  setTransactionsTypeId("");
   };
 
   const onPressSubmitApply = () => {
@@ -76,7 +78,9 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
     search({
       accountId:loginData.user.account.accountid,
       fromDate:new Date(fromDate).getTime(),
-      toDate:new Date(toDate).getTime()
+      toDate:new Date(toDate).getTime(),
+      medium:transactionsMediumId,
+      type:transactionsTypeId
     })
   };
   React.useLayoutEffect(() => {
@@ -260,10 +264,12 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
             <TransactionsMedium
               transactionsMedium={transactionsMedium}
               setTransactionsMedium={setTransactionsMedium}
+              setTransactionsMediumId={setTransactionsMediumId}
             />
             <TransactionsType
               transactionsType={transactionsType}
               setTransactionsType={setTransactionsType}
+              setTransactionsTypeId={setTransactionsTypeId}
             />
             <Button onPress={onPressSubmitApply}>
               <Text button style={{ fontSize: 18 }}>

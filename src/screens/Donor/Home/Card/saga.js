@@ -17,12 +17,13 @@ export function* card({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("card",res)
 		if (res.success) {
 			yield put(cardSuccess(res.cardsList));
 		} else {
 			yield put(cardFail(res));
 			showMessage({
-				message: "card, error from server or check your credentials!",
+				message: "Error from server or check your credentials!",
 				type: "danger",
 			});
 		}

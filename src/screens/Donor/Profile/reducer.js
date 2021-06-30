@@ -5,8 +5,8 @@ import {
 } from './actions';
 
 const initialState = {
-  isLoading: false,
-  profile: '',
+  isLoading: true,
+  profile: null,
   error: null,
 };
 

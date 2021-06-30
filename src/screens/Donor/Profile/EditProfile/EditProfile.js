@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   StatusBar,
   SafeAreaView,
@@ -30,7 +30,7 @@ import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const EditProfile = ({ navigation, loginData, data }) => {
+const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editProfileClear }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -58,6 +58,7 @@ const EditProfile = ({ navigation, loginData, data }) => {
     const clientData = new AccountProto.Client();
     const accountData = new AccountProto.Account();
     const addressData = new AddressProto.Address();
+    const AddressList = [];
 
     accountData.setAccountid(loginData.user.account.accountid);
     accountData.setEmail(loginData.user.account.email);
@@ -71,16 +72,24 @@ const EditProfile = ({ navigation, loginData, data }) => {
     addressData.setCity(values.city);
     addressData.setZip(values.zipCode);
     addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
+    AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
     clientData.setProfilepic(image);
     clientData.setBio(values.bio);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);
-    clientData.setAddressesList(addressData);
-    letsGetStartedReceiver(clientData);
+    clientData.setAddressesList(AddressList);
+    editProfile(clientData);
   };
-
+ useEffect(() => {
+    if(data.editProfile!==null){
+       if(data.editProfile.success){
+        editProfileClear()
+        navigation.navigate("Profile")
+       }
+    }
+  }, [data.editProfile]); 
   return (
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
@@ -122,11 +131,11 @@ const EditProfile = ({ navigation, loginData, data }) => {
                 <Formik
                   initialValues={{
                     fullName: "",
-                    street1: "",
-                    street2: "",
+                    street1:"",
+                    street2:"",
                     state: "",
                     city: "",
-                    zipCode: "",
+                    zipCode: ""
                   }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);

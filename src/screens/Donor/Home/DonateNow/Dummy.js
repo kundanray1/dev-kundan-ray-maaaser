@@ -18,14 +18,12 @@ export default [
     image:ManualIconComponent(),
     label: "Manual",
     navigate:"Manual",
-    iconName:"file-document",
   },
   {
     id: "2",
     image:QrcodeIconComponent(),
     label: "Scan QR Code",
     navigate:"Scan QR Code",
-    iconName:"qrcode-scan",
 
   },
   {
@@ -33,7 +31,5 @@ export default [
     image: NfcIconComponent(),
     label: "NFC",
     navigate:"Manual",
-    iconName:"cellphone-nfc",
-
   },
 ];

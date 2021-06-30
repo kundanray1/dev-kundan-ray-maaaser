@@ -10,40 +10,33 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
 import { Block, Text } from "./../../../components/Index.js";
+import {Medium} from "./Dummy";
 
 const WIDTH = Dimensions.get("window").width;
-const transactionsMediumOptions = [
-  "One Time",
-  "Daily",
-  "Weekly",
-  "Monthly",
-  "Quarterly",
-  "Yearly",
-  "Nth Day",
-];
-
-const TransactionsMedium = ({ transactionsMedium, setTransactionsMedium }) => {
+const TransactionsMedium = ({ transactionsMedium, setTransactionsMedium,setTransactionsMediumId }) => {
   const [
     transactionsMediumModalVisible,
     setTransactionsMediumModalVisible,
   ] = useState(false);
   const onPressTransactionsMediumItem = useCallback(
-    (option) => {
-      setTransactionsMedium(option);
+    (item) => {
+      setTransactionsMedium(item.label);
+      setTransactionsMediumId(item.medium);
       setTransactionsMediumModalVisible(false);
     },
     [setTransactionsMedium]
   );
 
-  const RenderTransactionsMediumOptions = transactionsMediumOptions.map(
-    (option, index) => (
+  const RenderTransactionsMediumOptions = Medium.map(
+    (item, index) => (
       <TouchableOpacity
         key={index}
-        onPress={() => onPressTransactionsMediumItem(option)}
-        style={{ marginVertical: 2 }}
+        onPress={() => onPressTransactionsMediumItem(item)}
+        style={{flexDirection:"row",alignItems:"center", marginVertical: 2 }}
       >
+      {item.image}
         <Text bold style={{ paddingVertical: 4, fontSize: 18, color:theme.colors.solidGray,}}>
-          {option}
+          {item.label}
         </Text>
       </TouchableOpacity>
     )
@@ -56,9 +49,9 @@ const TransactionsMedium = ({ transactionsMedium, setTransactionsMedium }) => {
       <TouchableOpacity
         style={styles.customPicker}
         activeOpacity={0.8}
-        // onPress={() =>
-        //   setTransactionsMediumModalVisible(!transactionsMediumModalVisible)
-        // }
+        onPress={() =>
+          setTransactionsMediumModalVisible(!transactionsMediumModalVisible)
+        }
       >
         <Block>
           <Text bold style={{ fontSize: 16, color:"#999999" }}>

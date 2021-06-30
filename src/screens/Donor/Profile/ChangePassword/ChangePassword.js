@@ -19,8 +19,10 @@ export default ChangePassword = ({
 	navigation,
 	data,
 	changePassword,
-	changePasswordClear
+	changePasswordClear,
+	route,
 }) => {
+	const {clientType}=route.params
 	const [currentPasswordFocus, setCurrentPasswordFocus] = useState(false);
 	const [passwordFocus, setPasswordFocus] = useState(false);
 	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
@@ -36,7 +38,11 @@ export default ChangePassword = ({
 		if (data.changePassword !== null) {
 			if (data.changePassword.success) {
 				changePasswordClear()
+				if(clientType=="receiver"){
+				navigation.navigate("Receiver Profile");
+				}else{
 				navigation.navigate("Profile");
+				}
 			}
 		}
 	}, [data.changePassword]);

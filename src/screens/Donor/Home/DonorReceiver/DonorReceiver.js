@@ -40,6 +40,8 @@ const DonorReceiver = ({
   navigation,
   data,
   loginData,
+  profileData,
+  profile,
   donationsMadeData,
   upcomingDonationsData,
   receiversData,
@@ -51,7 +53,6 @@ const DonorReceiver = ({
   manualDonateConfirmationClear,
   manualDonateConfirmationData
 }) => {
-  const fullName = loginData.user.account.fullname.split(" ")[0];
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
   const [amountFocus, setAmountFocus] = useState();
@@ -64,19 +65,22 @@ const DonorReceiver = ({
     balance(loginData.user.account.accountid);
     upcomingDonations(loginData.user.account.accountid);
     donationsMade(loginData.user.account.accountid);
-    receivers(), setRefreshing(false);
+    receivers(), 
+    setRefreshing(false);
   });
   useEffect(() => {
     if (
       upcomingDonationsData.upcomingDonations == null ||
       donationsMadeData.donationsMade == null ||
       data.donationReceivers == null ||
-      receiversData.receivers == null
+      receiversData.receivers == null ||
+      profileData.profile == null
     ) {
       balance(loginData.user.account.accountid);
       upcomingDonations(loginData.user.account.accountid);
       donationsMade(loginData.user.account.accountid);
       receivers();
+      profile(loginData.user.account.accountid)
     }
   }, []);
     useEffect(() => {
@@ -255,7 +259,8 @@ const DonorReceiver = ({
       {data.isLoading ||
       upcomingDonationsData.isLoading ||
       donationsMadeData.isLoading ||
-      receiversData.isLoading ? (
+      receiversData.isLoading ||
+      profileData.isLoading ?(
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
@@ -296,11 +301,11 @@ const DonorReceiver = ({
                     backgroundColor: theme.colors.white,
                   }}
                 >
-                  {loginData.user.profilepic == "" ? (
+                  {profileData.profile.profilepic == "" ? (
                     <UserIconComponent height={45} width={45}/>
                   ) : (
                     <Image
-                      source={{ uri: loginData.user.profilepic }}
+                      source={{ uri: profileData.profile.profilepic }}
                       style={{ height: 50, width: 50, borderRadius: 30 }}
                     />
                   )}
@@ -317,7 +322,7 @@ const DonorReceiver = ({
                         textTransform: "capitalize",
                       }}
                     >
-                      Hi, {fullName}!
+                      Hi, {profileData.profile.account.fullname.split(" ")[0]}!
                     </Text>
                     <Button
                       style={{ height: 30, width: 100, marginTop: 4 }}
@@ -363,7 +368,7 @@ const DonorReceiver = ({
             </ImageBackground>
           </Block>
 
-          <Block style={{ flex: 0.7, marginTop: 10 }}>
+          <Block style={{ flex: 0.74, marginTop: 10 }}>
             <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
               <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
                 <Text style={{ fontSize: 18, fontWeight: "700" }}>
@@ -379,7 +384,7 @@ const DonorReceiver = ({
               </Block>
               <Block style={{ flex: 1 }}>
                 <FlatList
-                  data={upcomingDonationsData.upcomingDonations.slice(0, 6)}
+                  data={upcomingDonationsData.upcomingDonations.slice(0, 2)}
                   refreshControl={
                     <RefreshControl
                       colors={[theme.colors.primary2]}
@@ -433,19 +438,19 @@ const DonorReceiver = ({
                 </Text>
               </Block>
               <Block style={{ flex: 1 }}>
-                <Text
+                {/*<Text
                   style={{ fontSize: 16, fontWeight: "700" }}
                   color={theme.colors.primary2}
                 >
                   Recent
-                </Text>
+                </Text>*/}
 
                 <FlatList
                   data={donationsMadeData.donationsMade
                     .filter((transaction) => {
                       return transaction.transactiontype === 2;
                     })
-                    .slice(0, 6)}
+                    .slice(0, 2)}
                   refreshControl={
                     <RefreshControl
                       colors={[theme.colors.primary2]}
@@ -507,7 +512,7 @@ const DonorReceiver = ({
               </Block>
               <Block style={{ flex: 1 }}>
                 <FlatList
-                  data={receiversData.receivers.clientsList.slice(0, 6)}
+                  data={receiversData.receivers.clientsList.slice(0, 2)}
                   showsVerticalScrollIndicator={true}
                   keyExtractor={(item) => {
                     return item.clientid.toString();

@@ -8,10 +8,12 @@ import { donationsMadeStart } from "./../DonationsMade/actions";
 import { upcomingDonationsStart } from "./../UpcomingDonations/actions";
 import { receiversStart } from "./../Receivers/actions";
 import { manualDonateConfirmationStart,manualDonateConfirmationClear } from "./../ManualDonateConfirmation/actions";
+import { profileStart } from "./../../Profile/actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.donorReceiver,
 	loginData: (state) => state.login,
+	profileData: (state) => state.profile,
 	donationsMadeData: (state) => state.donationsMade,
 	upcomingDonationsData: (state) => state.upcomingDonations,
 	receiversData: (state) => state.receivers,
@@ -27,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 		receivers: () => dispatch(receiversStart()),
 		manualDonateConfirmationStart: (values) => dispatch(manualDonateConfirmationStart(values)),
 		manualDonateConfirmationClear: () => dispatch(manualDonateConfirmationClear()),
+		profile: (values) => dispatch(profileStart(values)),
 	};
 };
 

@@ -1,35 +1,40 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { EDIT_PROFILE_START } from "./actions";
 import { editProfileSuccess, editProfileFail } from "./actions";
-import base from "./../../../../protos/auth_rpc_pb";
+import { profileSuccess } from "./../actions";
+
+import base from "./../../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../../constants/APIHeader";
 import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
+import API from "./../../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* editProfile({ payload }) {
 	try {
 		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "GET",
-			headers: ProtoHeaders,
+		const response = yield call(requestProto, APIEndpoints.SIGNUP, {
+			method: "PATCH",
+			headers: API.authProtoHeader(),
 			body: serializedData,
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(editProfileSuccess(res.msg));
+
+		console.log("editProfile",res)
+		if (res.success) {
+			yield put(editProfileSuccess(res));
+			yield put(profileSuccess(res.client));
 			showMessage({
-				message: res.msg,
-				type: "danger",
+				message: "Profile updated successfully",
+				type: "success",
 			});
 		} else {
 			yield put(editProfileFail(res.msg));
 			showMessage({
-				message: "Password changed successfully",
-				type: "success",
+				message: res.msg,
+				type: "danger",
 			});
 		}
 	} catch (e) {

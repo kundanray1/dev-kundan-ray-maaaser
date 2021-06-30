@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   StatusBar,
   SafeAreaView,
@@ -6,6 +6,7 @@ import {
   Image,
   ImageBackground,
   Dimensions,
+  ActivityIndicator
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import { Block, Text, FloatingButton } from "../../../../components/Index.js";
@@ -17,8 +18,7 @@ import EditIconComponent from "../../../../assets/icons/editIconComponent.js";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const ViewProfile = ({ navigation,loginData }) => {
- 
+const ViewProfile = ({ navigation,data,profileData }) => {
   return (
     <>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
@@ -27,7 +27,6 @@ const ViewProfile = ({ navigation,loginData }) => {
             flex: 0.65,
             alignItems: "center",
             backgroundColor:"#E5E5E5"
-
           }}
         >
           <ImageBackground
@@ -68,7 +67,7 @@ const ViewProfile = ({ navigation,loginData }) => {
                     style={{ fontSize: 16, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
-                                       {loginData.user.clienttype == 1 ? "Full Name" : "Company Name"}
+                                       {profileData.profile.clienttype == 1 ? "Full Name" : "Company Name"}
 
                   </Text>
                   <Block row style={{ flex: 0 }}>
@@ -76,9 +75,9 @@ const ViewProfile = ({ navigation,loginData }) => {
                       color={theme.colors.solidGray}
                       style={{ fontSize: 15, marginRight: 8 }}
                     >
-                      {loginData.user.account.fullname}
+                      {profileData.profile.account.fullname}
                     </Text>
-                    {loginData.user.account.accountstatus == 2 ? (
+                    {profileData.profile.account.accountstatus == 2 ? (
                       <MaterialIcons
                         name="verified"
                         size={20}
@@ -99,7 +98,7 @@ const ViewProfile = ({ navigation,loginData }) => {
                     Email Address
                   </Text>
                   <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                    {loginData.user.account.email}
+                    {profileData.profile.account.email}
                   </Text>
                 </Block>
 
@@ -112,7 +111,7 @@ const ViewProfile = ({ navigation,loginData }) => {
                     Account Type
                   </Text>
                   <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                    {loginData.user.clienttype == 1 ? "Individual" : "Organization"}
+                    {profileData.profile.clienttype == 1 ? "Individual" : "Organization"}
                   </Text>
                 </Block>
 
@@ -124,9 +123,16 @@ const ViewProfile = ({ navigation,loginData }) => {
                   >
                     Address
                   </Text>
+                  {
+                    profileData.profile.addressesList.length==0?
                   <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                    3764 Wilshire, Los Angeles California
+                    Not available
+                    </Text>:
+                    <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+                    {profileData.profile.addressesList[0].street1} {profileData.profile.addressesList[0].street2}, {profileData.profile.addressesList[0].city} {profileData.profile.addressesList[0].state}
                   </Text>
+                  }
+                  
                 </Block>
 
                 <Block style={{ flex: 0, paddingVertical: 10 }}>
@@ -137,9 +143,15 @@ const ViewProfile = ({ navigation,loginData }) => {
                   >
                     Zip Code
                   </Text>
+                  {
+                    profileData.profile.addressesList.length==0?
                   <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                    {loginData.user.account.email}
+                    Not available
+                    </Text>:
+                    <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+                    {profileData.profile.addressesList[0].zip}
                   </Text>
+                  }
                 </Block>
               </Block>
             </Block>
@@ -148,9 +160,9 @@ const ViewProfile = ({ navigation,loginData }) => {
           <Block
             style={{ flex:0,zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
           >
-            {loginData.user.profilepic!=="" ? (
+            {profileData.profile.profilepic!=="" ? (
               <Image
-                source={{ uri: loginData.user.profilepic }}
+                source={{ uri: profileData.profile.profilepic }}
                 style={{
                   height: HEIGHT * 0.105,
                   width: WIDTH * 0.2,

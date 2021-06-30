@@ -1,40 +1,33 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CONFIRMATION_START } from "./actions";
-import { confirmationSuccess, confirmationFail } from "./actions";
-import base from "./../../../../protos/auth_rpc_pb";
-import APIEndpoints from "./../../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../../constants/APIHeader";
-import { requestProto } from "../../../../utility/request";
+import { PROFILE_START } from "./actions";
+import { profileSuccess, profileFail } from "./actions";
+import base from "./../../../protos/account_rpc_pb";
+import APIEndpoints from "./../../../constants/APIConstants";
+import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
+import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* confirmation({ payload }) {
-	console.log("payload==", payload);
+export function* profile({ payload }) {
 	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
+		const response = yield call(requestProto, `${APIEndpoints.PROFILE}/${payload}`, {
 			method: "GET",
-			headers: ProtoHeaders,
-			body: serializedData,
+			headers: API.authProtoHeader(),
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(confirmationSuccess(res.msg));
+		if (res.success) {
+			yield put(profileSuccess(res.loginaccount.client));
+		} else {
+			yield put(profileFail(res.msg));
 			showMessage({
 				message: res.msg,
 				type: "danger",
 			});
-		} else {
-			yield put(confirmationFail(res.msg));
-			showMessage({
-				message: "Password changed successfully",
-				type: "success",
-			});
 		}
 	} catch (e) {
-		yield put(confirmationFail(e));
+		yield put(profileFail(e));
 		showMessage({
 			message: "Sorry, error from server or check your credentials!",
 			type: "danger",
@@ -42,6 +35,6 @@ export function* confirmation({ payload }) {
 	}
 }
 
-export default function* confirmationSaga() {
-	yield takeLatest(CONFIRMATION_START, confirmation);
+export default function* profileSaga() {
+	yield takeLatest(PROFILE_START, profile);
 }

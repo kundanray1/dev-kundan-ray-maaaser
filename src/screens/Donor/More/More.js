@@ -18,20 +18,6 @@ const More = ({navigation}) => {
             alignItems: "center",
 
           }}>
-       {/* <ImageBackground
-          style={{
-            height: 50,
-            width: 50,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          imageStyle={{
-            borderRadius: 4,
-          }}
-          source={require("../../../assets/icons/moreScreenIconBackground.png")}
-        >
-          <Image source={image} style={{ height: 18, width: 18 }} />
-        </ImageBackground>*/}
         {image}
           <Text
             style={{ fontSize: 18, fontWeight: "700",paddingHorizontal:14 }}

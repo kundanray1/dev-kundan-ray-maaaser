@@ -1,36 +1,29 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { VIEW_PROFILE_START } from "./actions";
 import { viewProfileSuccess, viewProfileFail } from "./actions";
-import base from "./../../../../protos/auth_rpc_pb";
+import base from "./../../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
-import { ProtoHeaders } from "./../../../../constants/APIHeader";
 import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
+import API from "./../../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* viewProfile({ payload }) {
-	console.log("payload==", payload);
 	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
+		const response = yield call(requestProto, `${APIEndpoints.PROFILE}/${payload}`, {
 			method: "GET",
-			headers: ProtoHeaders,
-			body: serializedData,
+			headers: API.authProtoHeader(),
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(viewProfileSuccess(res.msg));
-			showMessage({
-				message: res.msg,
-				type: "danger",
-			});
+		if (res.success) {
+			yield put(viewProfileSuccess(res.loginaccount.client));
 		} else {
 			yield put(viewProfileFail(res.msg));
 			showMessage({
-				message: "Password changed successfully",
-				type: "success",
+				message: res.msg,
+				type: "danger",
 			});
 		}
 	} catch (e) {

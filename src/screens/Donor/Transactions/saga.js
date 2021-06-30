@@ -37,8 +37,8 @@ export function* transactions({ payload }) {
 
 export function* search({ payload }) {
 	try {
-		const {accountId,fromDate,toDate}=payload
-		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}`, {
+		const {accountId,fromDate,toDate,medium,type}=payload
+		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});

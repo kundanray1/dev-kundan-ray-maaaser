@@ -7,6 +7,7 @@ import { viewProfileStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.viewProfile,
+	profileData: (state) => state.profile,
 	loginData: (state) => state.login,
 });
 const mapDispatchToProps = (dispatch) => {
