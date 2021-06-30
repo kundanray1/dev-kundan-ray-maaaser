@@ -35,10 +35,10 @@ const DonorReceiver = ({
   balance,
   donationReceived,
   donors,
+  receiverProfileData,
+receiverProfile
 }) => {
-  const fullName = loginData.user.account.fullname.split(" ")[0];
   const [refreshing, setRefreshing] = useState(false);
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
@@ -49,11 +49,13 @@ const DonorReceiver = ({
     if (
       donationReceivedData.donationReceived == null ||
       data.donationDashboard == null ||
-      donorsData.donors == null
+      donorsData.donors == null ||
+      receiverProfileData.receiverProfile == null
     ) {
       balance(loginData.user.account.accountid);
       donationReceived(loginData.user.account.accountid);
       donors();
+      receiverProfile(loginData.user.account.accountid);
     }
   }, []);
   console.log(donationReceivedData.donationReceived);
@@ -61,7 +63,8 @@ const DonorReceiver = ({
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ||
       donationReceivedData.isLoading ||
-      donorsData.isLoading ? (
+      donorsData.isLoading ||
+      receiverProfileData.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
@@ -94,12 +97,12 @@ const DonorReceiver = ({
                 }}
               >
                 <BellIconComponent
-                  style={{ marginBottom: 10, marginRight: 10 }}
+                  style={{ marginBottom: 10, marginRight: 8 }}
                 />
               </TouchableOpacity>
               <Block
                 style={{
-                  flex: 0.5,
+                  flex: 0.65,
                   paddingHorizontal: 16,
                 }}
               >
@@ -119,11 +122,11 @@ const DonorReceiver = ({
                       flex: 1,
                     }}
                   >
-                    {loginData.user.profilepic == "" ? (
-                      <UserIconComponent height={45} width={45} />
+                    {receiverProfileData.receiverProfile.profilepic == "" ? (
+                      <UserIconComponent height={45} width={45}/>
                     ) : (
                       <Image
-                        source={{ uri: loginData.user.profilepic }}
+                        source={{ uri: receiverProfileData.receiverProfile.profilepic }}
                         style={{ height: 50, width: 50, borderRadius: 30 }}
                       />
                     )}
@@ -131,7 +134,7 @@ const DonorReceiver = ({
                   <Block
                     style={{
                       flex: 4,
-                      marginLeft: 6,
+                      marginLeft: 10,
                     }}
                   >
                     <Text
@@ -141,7 +144,7 @@ const DonorReceiver = ({
                         textTransform: "capitalize",
                       }}
                     >
-                      Hi, {fullName}!
+                      Hi, {receiverProfileData.receiverProfile.account.fullname.split(" ")[0]}!
                     </Text>
                     <Button
                       style={{ height: 30, width: 100, marginTop: 4 }}
@@ -191,8 +194,8 @@ const DonorReceiver = ({
             </ImageBackground>
           </Block>
 
-          <Block style={{ flex: 0.7, marginTop: 10 }}>
-            <Block style={{ paddingHorizontal: 20, flex: 1 }}>
+          <Block style={{ flex: 0.74, marginTop: 10 }}>
+            <Block style={{ paddingHorizontal: 20, flex: 1.2,paddingTop: 10 }}>
               <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
                 <Text style={{ fontSize: 18, fontWeight: "700" }}>
                   Donation Received
@@ -250,8 +253,8 @@ const DonorReceiver = ({
                   renderItem={(post) =>
                     post.item.clientList[1] != undefined ? (
                       <DonationsDetail
-                        profilePic={post.item.clientList[1].profilepic}
-                        name={post.item.clientList[1].account.fullname}
+                        profilePic={post.item.clientList[0].profilepic}
+                        name={post.item.clientList[0].account.fullname}
                         amount={post.item.amount}
                         date={post.item.createdat}
                         textColor={theme.colors.green}

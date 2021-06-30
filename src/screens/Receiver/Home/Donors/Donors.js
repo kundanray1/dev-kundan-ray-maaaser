@@ -55,7 +55,6 @@ const [refreshing, setRefreshing] = useState(false);
       setSearch(text);
     }
   }
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Block style={{ flex: 0, paddingHorizontal: 16 }}>

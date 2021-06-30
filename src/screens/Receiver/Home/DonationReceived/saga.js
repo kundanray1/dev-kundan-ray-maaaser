@@ -12,7 +12,7 @@ export function* donationReceived({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.DONATION_RECEIVED}/${payload}`,
+			`${APIEndpoints.DONATION_RECEIVED}/${payload}?medium=3&type=2`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
