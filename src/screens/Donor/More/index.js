@@ -3,16 +3,19 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import More from "./More";
-import { welcomeStart } from "./actions";
+import { logoutStart,logoutClear } from "./actions";
+import { loginClear} from "./../../auth/Login/actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.more,
 	loginData: (state) => state.login,
 	
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		logout: () => dispatch(logoutStart()),
+		loginClear: () => dispatch(loginClear()),
+		logoutClear: () => dispatch(logoutClear()),
 	};
 };
 

@@ -116,7 +116,7 @@ const ACH = ({ navigation, data,loginData, ACH }) => {
       </TouchableWithoutFeedback>
       <FloatingButton
         iconComponent={<AddIconComponent/>}
-        onPress={() => navigation.navigate("Link New Account")}
+        onPress={() => navigation.navigate("Link New Account",{screenName:"ACH"})}
       />
       <Bottom bs={bs} accountData={accountData} navigation={navigation} />
       

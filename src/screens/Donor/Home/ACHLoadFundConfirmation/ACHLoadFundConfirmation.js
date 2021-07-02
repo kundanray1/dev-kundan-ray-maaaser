@@ -94,7 +94,7 @@ const ACHLoadFundConfirmation = ({
                 onPress={() => navigation.navigate("ACH")}
               >
                 <Text button style={{ fontSize: 18 }}>
-                  Got It!
+                   Okay!
                 </Text>
               </Button>
             </View>

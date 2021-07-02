@@ -36,7 +36,9 @@ const LinkScheduleDonation = ({
   navigation,
   data,
   linkScheduleDonation,
+  linkScheduleDonationClear,
   updateLinkScheduleDonation,
+  updateLinkScheduleDonationClear,
   route,
 }) => {
   let scheduleTypeRoute;
@@ -147,6 +149,17 @@ const LinkScheduleDonation = ({
     setEndDate(currentDate);
     setShowEndDate(false);
   };
+
+ useEffect(() => {
+    if(data.linkScheduleDonation!==null || data.updateLinkScheduleDonation!==null){
+       if(data.linkScheduleDonation.success || data.updateLinkScheduleDonation.success){
+        linkScheduleDonationClear()
+        updateLinkScheduleDonationClear()
+        navigation.navigate("linkScheduleDonation")
+       }
+    }
+  }, [data.linkScheduleDonation,data.updateLinkScheduleDonation]); 
+
 
   return (
     <KeyboardAwareScrollView

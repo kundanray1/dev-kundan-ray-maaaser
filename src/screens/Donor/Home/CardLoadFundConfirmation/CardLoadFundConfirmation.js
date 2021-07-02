@@ -90,7 +90,7 @@ cardNumber
                 onPress={() => navigation.navigate("Card")}
               >
                 <Text button style={{ fontSize: 18 }}>
-                  Got It!
+                  Okay !
                 </Text>
               </Button>
             </View>

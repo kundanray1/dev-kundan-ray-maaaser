@@ -68,7 +68,7 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
             >
               <Block row center style={{ flex: 0 }}>
                 <Text
-                  style={{ fontSize: 20, fontWeight: "700", marginRight: 8 }}
+                  style={{ fontSize: 18, fontWeight: "700", marginRight: 8 }}
                   color={theme.colors.solidGray}
                 >
                   {data.profile.account.fullname}
@@ -93,7 +93,7 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
                 fixedDecimalScale={true}
                 renderText={(formattedValue) => (
                   <Text
-                    style={{ fontSize: 24, fontWeight: "700" }}
+                    style={{ fontSize: 20, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
                     {formattedValue}
@@ -115,7 +115,7 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
             flex: 0,
             zIndex: 1,
             position: "absolute",
-            marginTop: HEIGHT / 26,
+            marginTop: HEIGHT / 20,
           }}
         >
           {data.profile.profilepic !== "" ? (
@@ -128,7 +128,7 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
               }}
             />
           ) : (
-           <ProfileIconComponent/>
+           <ProfileIconComponent height={HEIGHT * 0.105} width= {WIDTH * 0.2}/>
           )}
         </Block>
       </Block>
@@ -157,9 +157,11 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
             style={{
               flex: 0,
               flexDirection: "row",
+              paddingLeft:4
+
             }}
           >
-            <Block row center style={{ paddingVertical: 10 }}>
+            <Block row center style={{ paddingVertical: 14 }}>
               <ViewProfileIconComponent />
               <Text
                 color={theme.colors.solidGray}
@@ -188,6 +190,8 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
               flexDirection: "row",
               borderTopWidth: 1,
               borderColor: theme.colors.gray2,
+              paddingLeft:4
+              
             }}
           >
             <Block row center style={{ paddingVertical: 10 }}>

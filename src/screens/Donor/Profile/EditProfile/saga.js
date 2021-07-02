@@ -21,8 +21,6 @@ export function* editProfile({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-
-		console.log("editProfile",res)
 		if (res.success) {
 			yield put(editProfileSuccess(res));
 			yield put(profileSuccess(res.client));

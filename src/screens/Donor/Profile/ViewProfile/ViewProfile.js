@@ -157,22 +157,27 @@ const ViewProfile = ({ navigation,data,profileData }) => {
             </Block>
           </ImageBackground>
 
-          <Block
-            style={{ flex:0,zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
-          >
-            {profileData.profile.profilepic!=="" ? (
-              <Image
-                source={{ uri: profileData.profile.profilepic }}
-                style={{
-                  height: HEIGHT * 0.105,
-                  width: WIDTH * 0.2,
-                  borderRadius: 100,
-                }}
-              />
-            ) : (
-            <ProfileIconComponent/>
-            )}
-          </Block>
+         <Block
+          style={{
+            flex: 0,
+            zIndex: 1,
+            position: "absolute",
+            marginTop: HEIGHT / 20,
+          }}
+        >
+          {profileData.profile.profilepic !== "" ? (
+            <Image
+              source={{ uri: profileData.profile.profilepic }}
+              style={{
+                height: HEIGHT * 0.105,
+                width: WIDTH * 0.2,
+                borderRadius: 100,
+              }}
+            />
+          ) : (
+           <ProfileIconComponent height={HEIGHT * 0.105} width= {WIDTH * 0.2}/>
+          )}
+        </Block>
         </Block>
         <Block style={{flex:0.35, backgroundColor:"#E5E5E5"}}>
         </Block>

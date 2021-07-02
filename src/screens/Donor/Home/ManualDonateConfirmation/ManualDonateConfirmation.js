@@ -87,7 +87,7 @@ const ManualDonateConfirmation = ({
             <View style={{ paddingHorizontal: 30 }}>
               <Button onPress={() => navigation.navigate("Donate Now")}>
                 <Text button style={{ fontSize: 18 }}>
-                  Got It!
+                  Okay !
                 </Text>
               </Button>
             </View>

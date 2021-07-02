@@ -6,6 +6,8 @@ import {
   UPDATE_LINK_NEW_CARD_FAIL,
   UPDATE_LINK_NEW_CARD_START,
   UPDATE_LINK_NEW_CARD_SUCCESS,
+  UPDATE_LINK_NEW_CARD_CLEAR,
+
 
 } from './actions';
 
@@ -37,7 +39,6 @@ export const linkNewCardReducer=(state = initialState, { type, payload }) => {
 
     case LINK_NEW_CARD_CLEAR:
       return initialState;
-   
 
     case UPDATE_LINK_NEW_CARD_START:
     return {
@@ -56,6 +57,8 @@ export const linkNewCardReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
+    case UPDATE_LINK_NEW_CARD_CLEAR:
+      return initialState;
 
     default:
       return state;

@@ -130,12 +130,12 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
               >
                 <Formik
                   initialValues={{
-                    fullName: "",
-                    street1:"",
-                    street2:"",
-                    state: "",
-                    city: "",
-                    zipCode: ""
+                    fullName:  profileData.profile.account.fullname!==undefined? profileData.profile.account.fullname:"",
+                    street1: profileData.profile.addressesList[0].street1!==undefined? profileData.profile.addressesList[0].street1:"",
+                    street2: profileData.profile.addressesList[0].street2!==undefined? profileData.profile.addressesList[0].street2:"",
+                    state: profileData.profile.addressesList[0].state!==undefined? profileData.profile.addressesList[0].state:"",
+                    city: profileData.profile.addressesList[0].city!==undefined? profileData.profile.addressesList[0].city:"",
+                    zipCode:  profileData.profile.addressesList[0].zip!==undefined? profileData.profile.addressesList[0].zip.toString():""
                   }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);
@@ -367,7 +367,7 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
 
           <TouchableOpacity
             onPress={pickImage}
-            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
+            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 22 }}
           >
             {image ? (
               <Image
@@ -379,7 +379,7 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
                 }}
               />
             ) : (
-                <ProfileIconComponent/>
+                <ProfileIconComponent height={ HEIGHT * 0.105} width={WIDTH * 0.2}/>
             )}
 
             <Block
@@ -387,11 +387,11 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
                 padding: 2,
                 borderRadius: 10,
                 position: "absolute",
-                marginLeft: WIDTH * 0.17,
-                marginTop: HEIGHT * 0.074,
+                marginLeft: WIDTH * 0.126,
+                marginTop: HEIGHT * 0.064,
               }}
             >
-                <CameraIconComponent/>
+                <CameraIconComponent height={ HEIGHT * 0.034} width={WIDTH * 0.12}/>
             </Block>
           </TouchableOpacity>
         </Block>

@@ -26,6 +26,7 @@ const LinkNewAccount = ({
   linkNewAccount,
   linkNewAccountClear,
   updateLinkNewAccount,
+  updateLinkNewAccountClear,
   route,
 }) => {
   const [bankNameFocus, setBankNameFocus] = useState();
@@ -50,17 +51,21 @@ const LinkNewAccount = ({
     }else{
     linkNewAccount(updateLinkNewAccountData);
     }
-   
   };
 
   useEffect(() => {
-    if(data.linkNewAccount!=null){
-    if (data.linkNewAccount.success) {
-      linkNewAccountClear();
-      navigation.navigate("ACH");
-    }  
+    if(data.linkNewAccount!==null || data.updateLinkNewAccount!==null){
+       if(data.linkNewAccount.success || data.updateLinkNewAccount.success ){
+        linkNewAccountClear()
+        updateLinkNewAccountClear()
+        if(route.params.screenName=="Linked Accounts"){
+          navigation.navigate("Linked Accounts")
+        }else{
+          navigation.navigate("ACH")
+        }
+       }
     }
-  }, [data.linkNewAccount]);
+  }, [data.linkNewAccount,data.updateLinkNewAccount]); 
 
   return (
     <KeyboardAwareScrollView

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import LinkNewAccount from "./LinkNewAccount";
-import { linkNewAccountStart,linkNewAccountClear,updateLinkNewAccountStart } from "./actions";
+import { linkNewAccountStart,linkNewAccountClear,updateLinkNewAccountStart,updateLinkNewAccountClear } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.linkNewAccount,
@@ -15,6 +15,8 @@ const mapDispatchToProps = (dispatch) => {
 		linkNewAccount: (values) => dispatch(linkNewAccountStart(values)),
 		linkNewAccountClear: () => dispatch(linkNewAccountClear()),
 		updateLinkNewAccount: (values) => dispatch(updateLinkNewAccountStart(values)),
+		updateLinkNewAccountClear: () => dispatch(updateLinkNewAccountClear()),
+
 	}
 }
 

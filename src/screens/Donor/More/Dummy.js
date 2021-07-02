@@ -17,7 +17,25 @@ const HelpIconComponent=()=>(
 const LogoutIconComponent=()=>(
   <LogoutIcon height={40} width={40}/>
 )
-export default [
+export const Individual=[
+  {
+    id: "1",
+    image:AboutIconComponent(),
+    label: "About",
+  },
+  {
+    id: "2",
+    image: HelpIconComponent(),
+    label: "Help",
+  },
+  {
+    id: "3",
+    image:LogoutIconComponent(),
+    label: "Logout",
+  },
+];
+
+export const Organization=[
   {
     id: "1",
     image:MembersIconComponent(),

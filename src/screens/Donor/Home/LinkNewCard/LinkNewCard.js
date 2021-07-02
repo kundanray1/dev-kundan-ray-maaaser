@@ -30,6 +30,7 @@ const LinkNewCard = ({
   linkNewCard,
   linkNewCardClear,
   updateLinkNewCard,
+  updateLinkNewCardClear,
   route,
 }) => {
   const [cardholderNameFocus, setCardholderNameFocus] = useState(false);
@@ -58,7 +59,7 @@ const LinkNewCard = ({
     linkNewCardData.setCardstatus(
       PaymentProto.Card.CardStatus.ACTIVE_CARD
     );
-    linkNewCardData.setAccountid(loginData.user.account.accountid);
+    linkNewCardData.setCardid(loginData.user.account.accountid);
     }
     linkNewCardData.setCardnumber(values.cardNumber);
     linkNewCardData.setCardholdername(values.cardholderName);
@@ -82,14 +83,16 @@ const LinkNewCard = ({
    }
   };
 
-    useEffect(() => {
-    if(data.linkNewCard!=null){
-    if (data.linkNewCard.success) {
-      linkNewCardClear();
-      navigation.navigate("Card");
-    }  
+     useEffect(() => {
+    if(data.linkNewCard!==null || data.updateLinkNewCard!==null){
+       if(data.linkNewCard.success || data.updateLinkNewCard.success ){
+        linkNewCardClear()
+        updateLinkNewCardClear()
+        navigation.navigate("Card")
+       }
     }
-  }, [data.linkNewCard]);
+  }, [data.linkNewCard,data.updateLinkNewCard]); 
+
 
   const onChange = (event, selectedDate) => {
     console.log("selectedDate", selectedDate);

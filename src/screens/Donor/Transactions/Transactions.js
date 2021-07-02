@@ -43,7 +43,8 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
   const [transactionsMediumId, setTransactionsMediumId] = useState("");
   const [transactionsType, setTransactionsType] = useState();
   const [transactionsTypeId, setTransactionsTypeId] = useState("");
-
+  console.log("fromDate",new Date(fromDate).getTime())
+  console.log("ToDate",new Date(toDate).getTime())
   const [refreshing, setRefreshing] = useState(false);
   
   const onChangeFromDate = (event, selectedDate) => {
