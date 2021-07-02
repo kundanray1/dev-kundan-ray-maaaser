@@ -30,7 +30,6 @@ const LinkNewCard = ({
   linkNewCard,
   linkNewCardClear,
   updateLinkNewCard,
-  updateLinkNewCardClear,
   route,
 }) => {
   const [cardholderNameFocus, setCardholderNameFocus] = useState(false);
@@ -50,8 +49,27 @@ const LinkNewCard = ({
   );
   //set all the required proto for updating and submitting
   const onSubmitLinkNewCard = (values) => {
+
+      // "cardId": "5dbe08f097354a04b0f156c3e9dd1089",
+      //   "cardHolderName": "Sanjit Shrestha",
+      //   "refId": "card_1IyAoPIVnmWuo9jMWOyfRe3O",
+      //   "accountId": "0bc2135f03164dd486143945af1f3ad3",
+      //   "cardNumber": "5555555555554444",
+      //   "expiryDate": "1740068023000",
+      //   "cvc": 233,
+      //   "cardStatus": "ACTIVE_CARD",
+      //   "billingAddress": {
+      //       "addressId": "35a62fc6f62d4868a0fffbab4e8dfe42",
+      //       "street1": "Baneswor1",
+      //       "street2": "Chow123k",
+      //       "city": "Kathmand1u",
+      //       "state": "MA",
+      //       "zip": 44600,
+      //       "countryCode": "NPE"
+        // }
     const linkNewCardData = new PaymentProto.Card();
     const addressData = new AddressProto.Address();
+    const AddressList = [];
 
     if(route.params!=undefined){
        linkNewCardData.setCardid(route.params.card.cardid);
@@ -76,7 +94,6 @@ const LinkNewCard = ({
     addressData.setCountrycode(countryCode);
     linkNewCardData.setBillingaddress(addressData);
   if(route.params!=undefined){
-          addressData.setAddressid(route.params.card.billingaddress.addressid);
           updateLinkNewCard(linkNewCardData);
    }else{
     linkNewCard(linkNewCardData);
@@ -84,10 +101,9 @@ const LinkNewCard = ({
   };
 
      useEffect(() => {
-    if(data.linkNewCard!==null || data.updateLinkNewCard!==null){
-       if(data.linkNewCard.success || data.updateLinkNewCard.success ){
+    if(data.linkNewCard!==null ){
+       if(data.linkNewCard.success ){
         linkNewCardClear()
-        updateLinkNewCardClear()
         navigation.navigate("Card")
        }
     }
@@ -121,11 +137,11 @@ const LinkNewCard = ({
                 ? route.params.card.cvc.toString()
                 : " ",
             street1:
-              route.params != undefined ? route.params.card.street1 : "",
+              route.params != undefined ? route.params.card.billingaddress.street1 : "",
             street2:
-              route.params != undefined ? route.params.card.street2 : "",
-            city: route.params != undefined ? route.params.card.city : "",
-            state: route.params != undefined ? route.params.card.state : "",
+              route.params != undefined ?  route.params.card.billingaddress.street2 : "",
+            city: route.params != undefined ?  route.params.card.billingaddress.city : "",
+            state: route.params != undefined ?  route.params.card.billingaddress.state : "",
             zipCode:
               route.params != undefined
                 ? route.params.card.billingaddress.zip.toString()
@@ -407,7 +423,7 @@ const LinkNewCard = ({
                 >
                   {route.params != undefined ? (
                     <Text button style={{ fontSize: 18 }}>
-                      Update Card
+                      Update
                     </Text>
                   ) : (
                     <Text button style={{ fontSize: 18 }}>

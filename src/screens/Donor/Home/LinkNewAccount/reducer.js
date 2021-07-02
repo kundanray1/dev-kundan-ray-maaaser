@@ -6,7 +6,6 @@ import {
   UPDATE_LINK_NEW_ACCOUNT_FAIL,
   UPDATE_LINK_NEW_ACCOUNT_START,
   UPDATE_LINK_NEW_ACCOUNT_SUCCESS,
-  UPDATE_LINK_NEW_ACCOUNT_CLEAR
 
 } from './actions';
 
@@ -57,8 +56,6 @@ export const linkNewAccountReducer=(state = initialState, { type, payload }) => 
         isLoading: false,
         error: payload,
       };
-      case UPDATE_LINK_NEW_ACCOUNT_CLEAR:
-      return initialState;
 
     default:
       return state;

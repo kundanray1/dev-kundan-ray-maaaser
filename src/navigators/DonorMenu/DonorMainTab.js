@@ -1,12 +1,14 @@
 import React from "react";
+import {Button} from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import * as theme from "../constants/theme";
-import AddNotification from "../screens/auth/AddNotification";
-import DonorReceiver from "../screens/home/DonorReceiver/index";
-import Profile from "../screens/Profile/index";
-import More from "../screens/More/index";
+import * as theme from "../../constants/theme";
+// import AddNotification from "../../screens/auth/AddNotification";
+import DonorReceiver from "../../screens/Donor/Home/DonorReceiver/index";
+import Profile from "../../screens/Donor/Profile/index";
+import Transactions from "../../screens/Donor/Transactions/index";
+import More from "../../screens/Donor/More/index";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
@@ -42,17 +44,17 @@ export default MainTab = () => {
 				activeTintColor: theme.colors.primary2,
 				inactiveTintColor: theme.colors.gray2,
 				style: {
-					paddingBottom: 5,
-					height: 50,
+					paddingBottom:5,
+					height:50,
 				},
 				labelStyle: {
-					fontSize: 12,
+					fontSize: 10,
 				},
 			}}
 		>
 			<Tab.Screen name="Home" component={HomeStack} />
 			<Tab.Screen name="Transactions" component={TransactionsStack} />
-			<Tab.Screen name="Notifications" component={NotificationsStack} />
+			{/*<Tab.Screen name="Notifications" component={NotificationsStack} />*/}
 			<Tab.Screen name="Profile" component={ProfileStack} />
 			<Tab.Screen name="More" component={MoreStack} />
 		</Tab.Navigator>
@@ -65,7 +67,6 @@ function HomeStack() {
 		<HomeRoute.Navigator
 			screenOptions={{
 				headerShown: false,
-				headerLeft: null,
 			}}
 			initialRouteName="Home"
 		>
@@ -81,13 +82,12 @@ function TransactionsStack() {
 		<TransactionsRoute.Navigator
 			screenOptions={{
 				headerShown: true,
-				headerLeft: null,
 			}}
 			initialRouteName="Transactions"
 		>
 			<TransactionsRoute.Screen
 				name="Transactions"
-				component={More}
+				component={Transactions}
 			/>
 		</TransactionsRoute.Navigator>
 	);
@@ -99,7 +99,6 @@ function NotificationsStack() {
 		<NotificationsRoute.Navigator
 			screenOptions={{
 				headerShown: true,
-				headerLeft: null,
 			}}
 			initialRouteName="Notifications"
 		>
@@ -117,7 +116,6 @@ function ProfileStack() {
 		<ProfileRoute.Navigator
 			screenOptions={{
 				headerShown: false,
-				headerLeft: null,
 			}}
 			initialRouteName="Profile"
 		>
@@ -132,7 +130,6 @@ function MoreStack() {
 		<MoreRoute.Navigator
 			screenOptions={{
 				headerShown: true,
-				headerLeft: null,
 			}}
 			initialRouteName="More"
 		>

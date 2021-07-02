@@ -74,7 +74,6 @@ export default Input = ({
       <TextInput
         style={inputStyles}
         secureTextEntry={isSecure}
-        autoCapitalize="none"
         autoCorrect={false}
         keyboardType={inputType}
         returnKeyType="next"

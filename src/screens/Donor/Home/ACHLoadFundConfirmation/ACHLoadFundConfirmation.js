@@ -51,7 +51,7 @@ const ACHLoadFundConfirmation = ({
     const loadFundProto = new PaymentProto.Transaction();
     loadFundProto.setBankid(bankid);
     loadFundProto.setDonoraccountid(accountid);
-    loadFundProto.setAmount(amount);
+    loadFundProto.setAmount(amount*100);
     loadFundProto.setRemark(remarks);
     loadFundProto.setTransactionmedium(transactionMedium);
     loadFundProto.setTransactiontype(transactionType);
@@ -94,7 +94,7 @@ const ACHLoadFundConfirmation = ({
                 onPress={() => navigation.navigate("ACH")}
               >
                 <Text button style={{ fontSize: 18 }}>
-                   Okay!
+                   OK
                 </Text>
               </Button>
             </View>

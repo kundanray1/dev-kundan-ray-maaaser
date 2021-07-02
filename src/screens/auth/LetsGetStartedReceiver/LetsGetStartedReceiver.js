@@ -68,6 +68,7 @@ const letsGetStartedReceiver = ({
     accountData.setCountrycode(loginData.user.account.countrycode);
     accountData.setAccounttype(loginData.user.account.accounttype);
 
+    addressData.setRefid(loginData.user.account.accountid);
     addressData.setStreet1(values.street1);
     addressData.setStreet2(values.street2);
     addressData.setState(values.state);
@@ -81,9 +82,11 @@ const letsGetStartedReceiver = ({
     clientData.setBio(values.bio);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);
-    clientData.setAddressesList(addressData);
+    clientData.setAddressesList(AddressList);
     letsGetStartedReceiver(clientData);
   };
+
+
 
   useEffect(() => {
     if (loginData.user.account.isfirstlogin === true) {
@@ -111,32 +114,45 @@ const letsGetStartedReceiver = ({
               ? "Tell us a bit about you."
               : "Tell us a bit about your company."}
           </Text>
-          <TouchableOpacity onPress={pickImage}>
-            {image ? (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  height: HEIGHT * 0.105,
-                  width: WIDTH * 0.2,
-                  borderRadius: 100,
-                }}
-              />
-            ) : (
-                <ProfileIconComponent/>
-            )}
-
-             <Block
+         <TouchableOpacity
+              onPress={pickImage}
               style={{
-                padding: 2,
-                borderRadius: 10,
+                zIndex: 1,
                 position: "absolute",
-                marginLeft: WIDTH * 0.17,
-                marginTop: HEIGHT * 0.074,
+                marginTop: HEIGHT / 22,
               }}
             >
-                <CameraIconComponent/>
-            </Block>
-          </TouchableOpacity>
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={{
+                    height: HEIGHT * 0.105,
+                    width: WIDTH * 0.2,
+                    borderRadius: 100,
+                  }}
+                />
+              ) : (
+                <ProfileIconComponent
+                  height={HEIGHT * 0.105}
+                  width={WIDTH * 0.2}
+                />
+              )}
+
+              <Block
+                style={{
+                  padding: 2,
+                  borderRadius: 10,
+                  position: "absolute",
+                  marginLeft: WIDTH * 0.126,
+                  marginTop: HEIGHT * 0.064,
+                }}
+              >
+                <CameraIconComponent
+                  height={HEIGHT * 0.034}
+                  width={WIDTH * 0.12}
+                />
+              </Block>
+            </TouchableOpacity>
         </Block>
 
         <Block center style={{ marginTop: 20 }}>

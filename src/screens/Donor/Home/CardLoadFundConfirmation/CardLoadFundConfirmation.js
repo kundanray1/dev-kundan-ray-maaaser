@@ -49,7 +49,7 @@ cardNumber
     const cardFundProto = new PaymentProto.Transaction();
     cardFundProto.setBankid(cardid);
     cardFundProto.setDonoraccountid(accountid);
-    cardFundProto.setAmount(amount);
+    cardFundProto.setAmount(amount*100);
     cardFundProto.setRemark(remarks);
     cardFundProto.setTransactionmedium(transactionMedium);
     cardFundProto.setTransactiontype(transactionType);
@@ -90,7 +90,7 @@ cardNumber
                 onPress={() => navigation.navigate("Card")}
               >
                 <Text button style={{ fontSize: 18 }}>
-                  Okay !
+                  OK
                 </Text>
               </Button>
             </View>

@@ -10,28 +10,11 @@ import ForgotPassword from "../screens/auth/ForgotPassword/index";
 import Verification from "../screens/auth/Verification/index";
 import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
 
-import DonateTabStack from "./DonateTabStack";
-import Confirmation from "../screens/home/Confirmation/index";
-import ACH from "../screens/home/ACH/index";
-
-import Bottom from "../screens/Bottom";
-
 const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {
   return (
       <AuthStack.Navigator initialRouteName="Welcome">
-        <AuthStack.Screen
-          name="Bottom"
-          options={{ headerShown: true }}
-          component={Bottom}
-        /> 
 
-        <AuthStack.Screen
-          name="ACH"
-          options={{ headerShown: true }}
-          component={ACH}
-        /> 
-       
          <AuthStack.Screen
           name="Welcome"
           options={{ headerShown: false }}

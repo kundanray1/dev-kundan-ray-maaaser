@@ -6,14 +6,14 @@ import {
   UPDATE_LINK_NEW_CARD_FAIL,
   UPDATE_LINK_NEW_CARD_START,
   UPDATE_LINK_NEW_CARD_SUCCESS,
-  UPDATE_LINK_NEW_CARD_CLEAR,
 
 
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  linkNewCard: '',
+  linkNewCard: null,
+  updateLinkNewCard:null,
   error: null,
 };
 
@@ -49,7 +49,7 @@ export const linkNewCardReducer=(state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
-        linkNewCard: payload,
+        updateLinkNewCard: payload,
       };
     case UPDATE_LINK_NEW_CARD_FAIL:
       return {
@@ -57,9 +57,7 @@ export const linkNewCardReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
-    case UPDATE_LINK_NEW_CARD_CLEAR:
-      return initialState;
-
+    
     default:
       return state;
   }

@@ -1,0 +1,114 @@
+//contact number
+Suprina: 9846566995
+Roshan: 9861685257
+Robina:9867727451
+Joshan: 9817922101
+Sakshamta :9860232300
+Sanjit :9843633922/ 9803022719
+
+UI Issues
+-Date Picker ko background color change bako chaina
+-Bottom Tabs ko each tab ma border halnu parne cha
+-Each select options wala popup lai center gardeko chu junchai chai harek field ko tyakai muni huna parne
+
+22 June, 2021 
+-Donations Made Listing-Done(UI issue)
+-Upcoming donations Listing-Done()
+-Manual Donation UI changes-Done
+-Schedule Donation Conditional Rendering(function not implemented)
+-Transaction UI(Still date wise filter remaining)
+-Add Member POST 
+
+23 June, 2022
+-Schedule Donation Conditional Rendering(function Implementation)
+-Change the API of Upcoming donations listing {{localURL}}upcoming/transaction its inside schdeule transaction folder
+-Members ko UI ra listing bako cha ra permission assign ko UI ra API baki cha
+-Profile ko UI
+-Code refactor ani halka yeta uti kai miss bako cha bane check garnu(From signUp to till now)
+
+suggestions
+
+Transactions ko filter rakhnu parla
+Profile ko UI ra campaign ko UI
+
+Add memeber garda form ko UI ma duita matra field cha name ra email tesma aru pani add garnu parla 
+
+Today
+Profile UI setup and API implementation
+Receiver End UI design 
+Transaction Filter UI and API implementation
+Check UI design and issuse and Code refactor as per sakshamta Di
+Push Code ko github
+
+Later On
+Members permission assign ko UI ra API baki cha
+
+Nights fixes
+add Email on receivers list along name
+make rounded borders on status on schedule transactions status
+Show 0 balance when first time use is created as donor
+show empty in upcoming donations list when donation list in empty similar with others field like donations made receivers and others
+show lising of receivers in donorreceiver screens
+Change month to only 3 aplhabets
+Transactions UI and API
+Try to remove console from all
+Success and failure message check with proper spelling and all
+shadow of schedule Donation Receiver
+
+Today 
+
+-Receiver End Dashboard
+-Donor API lisiting
+-Upload profile pic wala in form
+-Transactions filter at bottom
+-Donation Received API listing
+-change images to svg
+-Fix images of adding routing number in link new account
+-Add keyboardawarescrollView in all auth
+
+-currency format
+-Withdrawn UI and API implementation in receiver end
+-Donate receivers from dashboard UI
+-Password change API implementation from profile
+
+-Transactions Filter with medium and types in Donor End
+-Transactions UI and API in Receiver end
+-Proifle UI and API in receiver end
+
+
+//Today
+-Log Out API implementation
+-Receiver end Scan QR code and share on social media UI
+-Receiver end UI and profile API
+
+
+-Donations Made listing gap UI
+-Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/saga i.e fix session storage problem for first time account creator
+
+Before building APK
+clear donor and receiver lets get started page initial value
+
+logout garda kheri ko response
+
+
+UI bugs fixing
+
+Donor end(Also make changes in receiver end as well)
+Make Popup just below the specific field
+Card Shadow of all confirmation detail
+make froma and to date empty  by default and reset after each filter
+
+navigate schedule donation lisitng after adding and updating
+Fill address in Link new card update form
+amount when send data multiply by 100 and when get data divide by 100
+Upcoming donations and donations made listing according to date wise like transactions
+
+
+completed
+Receiver end link new account edit
+Change Got It! to Ok
+Link New Account form ko image change as per focus in receiver end as well
+number format in all confirmation detail screen
+Fill data in profile update form
+Show members on more screen only when accout type is organization
+Remove bell icon from receiver end dashboard

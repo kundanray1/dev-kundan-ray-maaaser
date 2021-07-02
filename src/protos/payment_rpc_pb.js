@@ -85,7 +85,7 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.toObject = function(includeInstanc
     balance: (f = msg.getBalance()) && payment_pb.Transaction.toObject(includeInstance, f),
     dataquery: (f = msg.getDataquery()) && treeleaf_pb.DataQuery.toObject(includeInstance, f),
     scheduletransaction: (f = msg.getScheduletransaction()) && payment_pb.ScheduleTransaction.toObject(includeInstance, f),
-    scheduletransactionfilter: (f = msg.getScheduletransactionfilter()) && payment_pb.ScheduleTransactionFilter.toObject(includeInstance, f)
+    transactionfilter: (f = msg.getTransactionfilter()) && payment_pb.TransactionFilter.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -191,9 +191,9 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.deserializeBinaryFromReader = func
       msg.setScheduletransaction(value);
       break;
     case 16:
-      var value = new payment_pb.ScheduleTransactionFilter;
-      reader.readMessage(value,payment_pb.ScheduleTransactionFilter.deserializeBinaryFromReader);
-      msg.setScheduletransactionfilter(value);
+      var value = new payment_pb.TransactionFilter;
+      reader.readMessage(value,payment_pb.TransactionFilter.deserializeBinaryFromReader);
+      msg.setTransactionfilter(value);
       break;
     default:
       reader.skipField();
@@ -337,12 +337,12 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.serializeBinaryToWriter = function
       payment_pb.ScheduleTransaction.serializeBinaryToWriter
     );
   }
-  f = message.getScheduletransactionfilter();
+  f = message.getTransactionfilter();
   if (f != null) {
     writer.writeMessage(
       16,
       f,
-      payment_pb.ScheduleTransactionFilter.serializeBinaryToWriter
+      payment_pb.TransactionFilter.serializeBinaryToWriter
     );
   }
 };
@@ -712,23 +712,23 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.hasScheduletransaction =
 
 
 /**
- * optional brilltech.maaser.entities.ScheduleTransactionFilter scheduleTransactionFilter = 16;
- * @return {?proto.brilltech.maaser.entities.ScheduleTransactionFilter}
+ * optional brilltech.maaser.entities.TransactionFilter transactionFilter = 16;
+ * @return {?proto.brilltech.maaser.entities.TransactionFilter}
  */
-proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.getScheduletransactionfilter = function() {
-  return /** @type{?proto.brilltech.maaser.entities.ScheduleTransactionFilter} */ (
-    jspb.Message.getWrapperField(this, payment_pb.ScheduleTransactionFilter, 16));
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.getTransactionfilter = function() {
+  return /** @type{?proto.brilltech.maaser.entities.TransactionFilter} */ (
+    jspb.Message.getWrapperField(this, payment_pb.TransactionFilter, 16));
 };
 
 
-/** @param {?proto.brilltech.maaser.entities.ScheduleTransactionFilter|undefined} value */
-proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.setScheduletransactionfilter = function(value) {
+/** @param {?proto.brilltech.maaser.entities.TransactionFilter|undefined} value */
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.setTransactionfilter = function(value) {
   jspb.Message.setWrapperField(this, 16, value);
 };
 
 
-proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.clearScheduletransactionfilter = function() {
-  this.setScheduletransactionfilter(undefined);
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.clearTransactionfilter = function() {
+  this.setTransactionfilter(undefined);
 };
 
 
@@ -736,7 +736,7 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.clearScheduletransaction
  * Returns whether this field is set.
  * @return {!boolean}
  */
-proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.hasScheduletransactionfilter = function() {
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.hasTransactionfilter = function() {
   return jspb.Message.getField(this, 16) != null;
 };
 

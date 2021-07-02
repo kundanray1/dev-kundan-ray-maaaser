@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  Dimensions,
-  StyleSheet,
-  Image
-} from "react-native";
+import { Dimensions, StyleSheet, Image } from "react-native";
 import { Formik } from "formik";
 import { LinkNewAccountValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import * as theme from "./../../../../constants/theme.js";
@@ -17,6 +13,8 @@ import {
 } from "./../../../../components/Index.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import RoutingNumberGuideIconComponent from "./../../../../assets/icons/routingNumberGuideIconComponent";
+import AccountNumberGuideIconComponent from "./../../../../assets/icons/accountNumberGuideIconComponent";
+import BankGuideIconComponent from "./../../../../assets/icons/bankGuideIconComponent";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -45,27 +43,26 @@ const LinkNewAccount = ({
     updateLinkNewAccountData.setBankstatus(
       PaymentProto.Bank.BankStatus.ACTIVE_STATUS
     );
-    if(route.params != undefined){
-    updateLinkNewAccountData.setBankid(route.params.account.bankid);
-    updateLinkNewAccount(updateLinkNewAccountData);
-    }else{
-    linkNewAccount(updateLinkNewAccountData);
+    if (route.params.account != undefined) {
+      updateLinkNewAccountData.setBankid(route.params.account.bankid);
+      updateLinkNewAccount(updateLinkNewAccountData);
+    } else {
+      linkNewAccount(updateLinkNewAccountData);
     }
   };
 
   useEffect(() => {
-    if(data.linkNewAccount!==null || data.updateLinkNewAccount!==null){
-       if(data.linkNewAccount.success || data.updateLinkNewAccount.success ){
-        linkNewAccountClear()
-        updateLinkNewAccountClear()
-        if(route.params.screenName=="Linked Accounts"){
-          navigation.navigate("Linked Accounts")
-        }else{
-          navigation.navigate("ACH")
+    if (data.linkNewAccount !== null) {
+      if (data.linkNewAccount.success) {
+        linkNewAccountClear();
+        if (route.params.screenName == "Linked Accounts") {
+          navigation.navigate("Linked Accounts");
+        } else {
+          navigation.navigate("ACH");
         }
-       }
+      }
     }
-  }, [data.linkNewAccount,data.updateLinkNewAccount]); 
+  }, [data.linkNewAccount, data.updateLinkNewAccount]);
 
   return (
     <KeyboardAwareScrollView
@@ -76,21 +73,25 @@ const LinkNewAccount = ({
         <Formik
           initialValues={{
             bankName:
-              route.params != undefined ? route.params.account.bankname : "",
-              accountHolderName:
-              route.params != undefined ? route.params.account.accountholdername : "",
+              route.params.account != undefined
+                ? route.params.account.bankname
+                : "",
+            accountHolderName:
+              route.params.account != undefined
+                ? route.params.account.accountholdername
+                : "",
             accountNumber:
-              route.params != undefined
+              route.params.account != undefined
                 ? route.params.account.accountnumber
                 : "",
             routingNumber:
-              route.params != undefined
+              route.params.account != undefined
                 ? route.params.account.routingnumber
                 : "",
-             confirmAccountNumber:""   
+            confirmAccountNumber: "",
           }}
           onSubmit={(values) => {
-           onSubmitLinkNewAccount(values)
+            onSubmitLinkNewAccount(values);
           }}
           validationSchema={LinkNewAccountValidationSchema}
         >
@@ -103,7 +104,7 @@ const LinkNewAccount = ({
             errors,
           }) => (
             <Block>
-            <Input
+              <Input
                 label="Account Holder Name"
                 focus={accountHolderNameFocus}
                 onChangeText={handleChange("accountHolderName")}
@@ -125,8 +126,14 @@ const LinkNewAccount = ({
                 error={errors.accountHolderName}
                 visible={touched.accountHolderName}
               />
+              {routingNumberFocus ? (
+                <RoutingNumberGuideIconComponent width="100%" />
+              ) : accountNumberFocus ? (
+                <AccountNumberGuideIconComponent width="100%" />
+              ) : (
+                <BankGuideIconComponent width="100%" />
+              )}
 
-             <RoutingNumberGuideIconComponent width="100%"/>
               <Input
                 label="Bank Name"
                 focus={bankNameFocus}
@@ -149,7 +156,7 @@ const LinkNewAccount = ({
                 error={errors.bankName}
                 visible={touched.bankName}
               />
-               
+
               <Input
                 label="Routing Number"
                 focus={routingNumberFocus}
@@ -213,7 +220,8 @@ const LinkNewAccount = ({
                 style={{
                   borderBottomColor: confirmAccountNumberFocus
                     ? theme.colors.primary2
-                    : touched.confirmAccountNumber && errors.confirmAccountNumber
+                    : touched.confirmAccountNumber &&
+                      errors.confirmAccountNumber
                     ? theme.colors.red
                     : theme.colors.solidGray,
                 }}
@@ -223,7 +231,6 @@ const LinkNewAccount = ({
                 error={errors.confirmAccountNumber}
                 visible={touched.confirmAccountNumber}
               />
-
 
               {!errors.bankName &&
               !errors.accountNumber &&
@@ -240,7 +247,7 @@ const LinkNewAccount = ({
                       label="Requesting..."
                       isLoading={data.isLoading}
                     />
-                  ) : route.params != undefined ? (
+                  ) : route.params.account != undefined ? (
                     <Text button style={{ fontSize: 18 }}>
                       Update Account
                     </Text>
@@ -257,7 +264,7 @@ const LinkNewAccount = ({
                     marginBottom: 12,
                   }}
                 >
-                  {route.params != undefined ? (
+                  {route.params.account != undefined ? (
                     <Text button style={{ fontSize: 18 }}>
                       Update Account
                     </Text>

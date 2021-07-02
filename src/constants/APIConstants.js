@@ -5,6 +5,7 @@ const APIEndPoints = {
     SIGNUP: MainAPI + '/client',
     LOGOUT: MainAPI + '/account/logout',
     FORGOT_PASSWORD:MainAPI+ '/request/password/reset?emailPhone=',
+    CHANGE_PASSWORD:MainAPI+ '/password/change',
     CHECK_VERIFICATION_CODE:MainAPI+ '/check/verification/code',
     PASSWORD_RESET:MainAPI+ '/password/reset',
     BANK : MainAPI + '/bank',
@@ -12,23 +13,18 @@ const APIEndPoints = {
     TRANSACTION : MainAPI + '/transaction',
     BALANCE : MainAPI + '/balance',
     RECEIVERSCLIENT : MainAPI + '/client?type=3',
-    SCHEDULE_TRANSACTION : MainAPI + '/schedule/transaction/account',
-
-    ADD_USER : MainAPI + '/user',
-    DELETE_USER : MainAPI + '/user/',
-    FETCH_ALL_USERS:MainAPI+'/users',
-    PASSWORD_RESET_ADMIN:MainAPI+ '/user/password/reset',
-    FETCH_REPORT_MASTER : MainAPI+'/',
-    FETCH_PHONES:MainAPI+ '/phone',
-    FETCH_ADDRESS:MainAPI+ '/address',
-    FETCH_PLEDGE:MainAPI+ '/pledge',
-    FETCH_PAYMENTS:MainAPI+ '/payment',
-    FETCH_EVENTS:MainAPI+ '/event',
-    FETCH_MASTER:MainAPI+'/master',
-    FETCH_REPORT_SINGLE_DONOR:MainAPI+'/master/',
-    FETCH_NOTES:MainAPI+'/note',
-    FETCH_ASSOCIATIONS:MainAPI+'/association',
-    FETCH_AGGREGRATE_REPORT:MainAPI+'/report/aggregate'
+    DONORSCLIENT : MainAPI + '/client?type=2',
+    SCHEDULE_TRANSACTION : MainAPI + '/schedule/transaction',
+    UPCOMING_TRANSACTION : MainAPI + '/upcoming/transaction',
+    GET_SCHEDULE_TRANSACTION : MainAPI + '/schedule/transaction/account',
+    UPDATE_SCHEDULE_TRANSACTION_STATUS : MainAPI + '/schedule/transaction/status',
+    DONATIONS_MADE : MainAPI + '/transaction/account',
+    DONATION_RECEIVED : MainAPI + '/transaction/account',
+    GET_EMPLOYEE_LIST : MainAPI + '/employee/client',
+    EMPLOYEE : MainAPI + '/employee',
+    IMAGE:MainAPI + '/upload/image',
+    PROFILE:MainAPI + '/account/profile',
+    LOGOUT:MainAPI + '/logout'
 };
 
 export default APIEndPoints;

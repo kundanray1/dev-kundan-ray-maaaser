@@ -35,7 +35,6 @@ export function* login({ payload }) {
 					API.resetToken();
 				}
 			});
-			console.log("token",API.token())
 			yield put(loginSuccess(res.loginresponse.loginaccount.client));
 			showMessage({
 				message: "Logged In successfully",

@@ -1,17 +1,15 @@
 import React from "react";
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
-
-const FlaotingButton = ({ image,opacity,style, ...props }) => {
+import  Svg  from "react-native-svg";
+const FlaotingButton = ({ image, opacity, style,iconComponent, ...props }) => {
 	return (
 		<TouchableOpacity
 			activeOpacity={opacity || 0.8}
 			style={styles.touchableOpacityStyle}
 			{...props}
-			>
-			<Image
-				source={image}
-				style={styles.floatingButtonStyle}
-			/>
+		>
+			{iconComponent}
+			
 		</TouchableOpacity>
 	);
 };
@@ -27,10 +25,9 @@ const styles = StyleSheet.create({
 		height: 50,
 		alignItems: "center",
 		justifyContent: "center",
-		
 	},
 	floatingButtonStyle: {
-	    resizeMode: "contain",
+		resizeMode: "contain",
 		width: 50,
 		height: 50,
 	},

@@ -1,4 +1,4 @@
-// React Native DonateTab - Example using React Navigation V5 //
+// React Native ScanQRCodeTab - Example using React Navigation V5 //
 // https://aboutreact.com/react-native-tab //
 import 'react-native-gesture-handler';
 
@@ -9,41 +9,40 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import * as theme from "../constants/theme";
 
 //two tab screens
-import DonateNow from "../screens/home/DonateNow/index";
-import ScheduleDonation from "../screens/home/ScheduleDonation/index";
+import ScanQR from "../../screens/Donor/Home/ScanQR/index";
+import UploadQR from "../../screens/Donor/Home/UploadQR/index";
 
-const DonateTab = createMaterialTopTabNavigator();
+const ScanQRCodeTab = createMaterialTopTabNavigator();
 
 //Top tab screen for donate now and schedule donation screen
-export default DonateTabStack=()=> {
+export default ScanQRCodeTabStack=()=> {
   return (
-    <DonateTab.Navigator
-      initialRouteName="Donate Now"
+    <ScanQRCodeTab.Navigator
+      initialRouteName="Scan QR"
       tabBarOptions={{
         activeTintColor: theme.colors.primary2,
 	      inactiveTintColor: theme.colors.black,
         style: {
           backgroundColor: theme.colors.white,
         },
-       
         labelStyle: {
           fontSize:16,
           fontWeight:"700",
-          textTransform:'capitalize',
+          textTransform:"capitalize",
         },
         indicatorStyle: {
           borderBottomColor: theme.colors.primary2,
           borderBottomWidth: 3,
         },
       }}>
-      <DonateTab.Screen
-        name="Donate Now"
-        component={DonateNow}
+      <ScanQRCodeTab.Screen
+        name="Scan QR"
+        component={ScanQR}
           />
-      <DonateTab.Screen
-        name="Schedule Donation"
-        component={ScheduleDonation}
+      <ScanQRCodeTab.Screen
+        name="Upload QR"
+        component={UploadQR}
         />
-    </DonateTab.Navigator>
+    </ScanQRCodeTab.Navigator>
   );
 }

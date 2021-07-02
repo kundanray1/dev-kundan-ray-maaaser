@@ -22,12 +22,12 @@ goog.exportSymbol('proto.brilltech.maaser.entities.Card.CardStatus', null, globa
 goog.exportSymbol('proto.brilltech.maaser.entities.CardProvider', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.ScheduleDetail', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.ScheduleTransaction', null, global);
-goog.exportSymbol('proto.brilltech.maaser.entities.ScheduleTransactionFilter', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.ScheduleTransactionStatus', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.ScheduleType', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.StripeCustomer', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.StripeCustomer.StripeCustomerStatus', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Transaction', null, global);
+goog.exportSymbol('proto.brilltech.maaser.entities.TransactionFilter', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.TransactionMedium', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.TransactionStatus', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.TransactionType', null, global);
@@ -2970,12 +2970,12 @@ proto.brilltech.maaser.entities.ScheduleDetail.prototype.setScheduletype = funct
  * @extends {jspb.Message}
  * @constructor
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter = function(opt_data) {
+proto.brilltech.maaser.entities.TransactionFilter = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.brilltech.maaser.entities.ScheduleTransactionFilter, jspb.Message);
+goog.inherits(proto.brilltech.maaser.entities.TransactionFilter, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.brilltech.maaser.entities.ScheduleTransactionFilter.displayName = 'proto.brilltech.maaser.entities.ScheduleTransactionFilter';
+  proto.brilltech.maaser.entities.TransactionFilter.displayName = 'proto.brilltech.maaser.entities.TransactionFilter';
 }
 
 
@@ -2990,8 +2990,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.toObject = function(opt_includeInstance) {
-  return proto.brilltech.maaser.entities.ScheduleTransactionFilter.toObject(opt_includeInstance, this);
+proto.brilltech.maaser.entities.TransactionFilter.prototype.toObject = function(opt_includeInstance) {
+  return proto.brilltech.maaser.entities.TransactionFilter.toObject(opt_includeInstance, this);
 };
 
 
@@ -3000,11 +3000,11 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.toObject = f
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.brilltech.maaser.entities.ScheduleTransactionFilter} msg The msg instance to transform.
+ * @param {!proto.brilltech.maaser.entities.TransactionFilter} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.toObject = function(includeInstance, msg) {
+proto.brilltech.maaser.entities.TransactionFilter.toObject = function(includeInstance, msg) {
   var f, obj = {
     dataquery: (f = msg.getDataquery()) && treeleaf_pb.DataQuery.toObject(includeInstance, f),
     transactionmedium: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -3023,23 +3023,23 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.toObject = function(in
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.brilltech.maaser.entities.ScheduleTransactionFilter}
+ * @return {!proto.brilltech.maaser.entities.TransactionFilter}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.deserializeBinary = function(bytes) {
+proto.brilltech.maaser.entities.TransactionFilter.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.brilltech.maaser.entities.ScheduleTransactionFilter;
-  return proto.brilltech.maaser.entities.ScheduleTransactionFilter.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.brilltech.maaser.entities.TransactionFilter;
+  return proto.brilltech.maaser.entities.TransactionFilter.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.brilltech.maaser.entities.ScheduleTransactionFilter} msg The message object to deserialize into.
+ * @param {!proto.brilltech.maaser.entities.TransactionFilter} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.brilltech.maaser.entities.ScheduleTransactionFilter}
+ * @return {!proto.brilltech.maaser.entities.TransactionFilter}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.deserializeBinaryFromReader = function(msg, reader) {
+proto.brilltech.maaser.entities.TransactionFilter.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3076,9 +3076,9 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.deserializeBinaryFromR
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.serializeBinary = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.brilltech.maaser.entities.ScheduleTransactionFilter.serializeBinaryToWriter(this, writer);
+  proto.brilltech.maaser.entities.TransactionFilter.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3086,11 +3086,11 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.serializeBin
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.brilltech.maaser.entities.ScheduleTransactionFilter} message
+ * @param {!proto.brilltech.maaser.entities.TransactionFilter} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.serializeBinaryToWriter = function(message, writer) {
+proto.brilltech.maaser.entities.TransactionFilter.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getDataquery();
   if (f != null) {
@@ -3128,19 +3128,19 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.serializeBinaryToWrite
  * optional treeleaf.protos.DataQuery dataQuery = 1;
  * @return {?proto.treeleaf.protos.DataQuery}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.getDataquery = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.getDataquery = function() {
   return /** @type{?proto.treeleaf.protos.DataQuery} */ (
     jspb.Message.getWrapperField(this, treeleaf_pb.DataQuery, 1));
 };
 
 
 /** @param {?proto.treeleaf.protos.DataQuery|undefined} value */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.setDataquery = function(value) {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.setDataquery = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
 
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.clearDataquery = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.clearDataquery = function() {
   this.setDataquery(undefined);
 };
 
@@ -3149,7 +3149,7 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.clearDataque
  * Returns whether this field is set.
  * @return {!boolean}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.hasDataquery = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.hasDataquery = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -3158,13 +3158,13 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.hasDataquery
  * optional TransactionMedium transactionMedium = 2;
  * @return {!proto.brilltech.maaser.entities.TransactionMedium}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.getTransactionmedium = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.getTransactionmedium = function() {
   return /** @type {!proto.brilltech.maaser.entities.TransactionMedium} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {!proto.brilltech.maaser.entities.TransactionMedium} value */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.setTransactionmedium = function(value) {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.setTransactionmedium = function(value) {
   jspb.Message.setProto3EnumField(this, 2, value);
 };
 
@@ -3173,13 +3173,13 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.setTransacti
  * optional TransactionStatus transactionStatus = 3;
  * @return {!proto.brilltech.maaser.entities.TransactionStatus}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.getTransactionstatus = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.getTransactionstatus = function() {
   return /** @type {!proto.brilltech.maaser.entities.TransactionStatus} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {!proto.brilltech.maaser.entities.TransactionStatus} value */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.setTransactionstatus = function(value) {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.setTransactionstatus = function(value) {
   jspb.Message.setProto3EnumField(this, 3, value);
 };
 
@@ -3188,13 +3188,13 @@ proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.setTransacti
  * optional TransactionType transactionType = 4;
  * @return {!proto.brilltech.maaser.entities.TransactionType}
  */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.getTransactiontype = function() {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.getTransactiontype = function() {
   return /** @type {!proto.brilltech.maaser.entities.TransactionType} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /** @param {!proto.brilltech.maaser.entities.TransactionType} value */
-proto.brilltech.maaser.entities.ScheduleTransactionFilter.prototype.setTransactiontype = function(value) {
+proto.brilltech.maaser.entities.TransactionFilter.prototype.setTransactiontype = function(value) {
   jspb.Message.setProto3EnumField(this, 4, value);
 };
 
@@ -3214,7 +3214,8 @@ proto.brilltech.maaser.entities.CardProvider = {
 proto.brilltech.maaser.entities.TransactionMedium = {
   UNKNOWN_MEDIUM: 0,
   ACH: 1,
-  CARD: 2
+  CARD: 2,
+  INTERNAL_MEDIUM: 3
 };
 
 /**
@@ -3233,9 +3234,9 @@ proto.brilltech.maaser.entities.TransactionType = {
  */
 proto.brilltech.maaser.entities.TransactionStatus = {
   UNKNOWN_TRANSACTION_STATUS: 0,
-  TRANSACTION_PENDING: 1,
-  TRANSACTION_APPROVED: 2,
-  TRANSACTION_DECLINED: 3,
+  TRANSACTION_APPROVED: 1,
+  TRANSACTION_SUBMITTED: 2,
+  TRANSACTION_POSTED: 3,
   TRANSACTION_CANCELLED: 4
 };
 
@@ -3244,12 +3245,9 @@ proto.brilltech.maaser.entities.TransactionStatus = {
  */
 proto.brilltech.maaser.entities.ScheduleTransactionStatus = {
   UNKNOWN_SCHEDULE_STATUS: 0,
-  SCHEDULE_PENDING: 1,
-  APPROVED: 2,
-  SCHEDULING: 3,
-  CLOSED: 4,
-  DISABLED: 5,
-  CANCELLED: 6
+  SCHEDULING: 1,
+  DISABLED: 2,
+  CANCELLED: 3
 };
 
 /**

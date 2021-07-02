@@ -83,6 +83,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
       medium:transactionsMediumId,
       type:transactionsTypeId
     })
+     onPressReset();
   };
   React.useLayoutEffect(() => {
     navigation.setOptions({

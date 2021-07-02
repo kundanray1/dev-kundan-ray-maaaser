@@ -22,12 +22,13 @@ export function* scheduleDonation({ payload }) {
 		).toObject();
 
 		if (res.success) {
-			if(res.scheduletransactionsList==undefined){
-			yield put(scheduleDonationSuccess([]));
-		}else{
-			console.log(res.scheduletransactionsList)
-			yield put(scheduleDonationSuccess(res.scheduletransactionsList));
-		}
+			if (res.scheduletransactionsList == undefined) {
+				yield put(scheduleDonationSuccess([]));
+			} else {
+				yield put(
+					scheduleDonationSuccess(res.scheduletransactionsList)
+				);
+			}
 		} else {
 			yield put(scheduleDonationFail(res.msg));
 			showMessage({

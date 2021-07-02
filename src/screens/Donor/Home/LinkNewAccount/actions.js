@@ -5,8 +5,6 @@ export const LINK_NEW_ACCOUNT_CLEAR = "LINK_NEW_ACCOUNT_CLEAR";
 export const UPDATE_LINK_NEW_ACCOUNT_START = "UPDATE_LINK_NEW_ACCOUNT_START";
 export const UPDATE_LINK_NEW_ACCOUNT_SUCCESS = "UPDATE_LINK_NEW_ACCOUNT_SUCCESS";
 export const UPDATE_LINK_NEW_ACCOUNT_FAIL = "UPDATE_LINK_NEW_ACCOUNT_FAIL";
-export const UPDATE_LINK_NEW_ACCOUNT_ClEAR = "UPDATE_LINK_NEW_ACCOUNT_CLEAR";
-
 
 export const linkNewAccountStart = (payload) => {
   return {
@@ -46,8 +44,3 @@ export const updateLinkNewAccountFail = (payload) => ({
   payload,
 });
 
-
-export const updateLinkNewAccountClear = (payload) => ({
-  type: UPDATE_LINK_NEW_ACCOUNT_CLEAR,
-  payload,
-});

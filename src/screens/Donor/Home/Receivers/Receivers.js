@@ -53,7 +53,6 @@ const Receivers = ({ navigation, data, loginData,receivers,manualDonateConfirmat
   useEffect(() => {
     if (manualDonateConfirmationData.manualDonateConfirmation !== null) {
       if (manualDonateConfirmationData.manualDonateConfirmation.success) {
-        console.log("Success")
         setConfirmationSuccessfulVisible(false);
         setConfirmationMessageVisible(true);
         manualDonateConfirmationClear();
@@ -64,6 +63,7 @@ const Receivers = ({ navigation, data, loginData,receivers,manualDonateConfirmat
   function searchFilterFunction(text) {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
+        console.log(item.account)
         const itemData = item.account.fullname ? item.account.fullname.toUpperCase() : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;

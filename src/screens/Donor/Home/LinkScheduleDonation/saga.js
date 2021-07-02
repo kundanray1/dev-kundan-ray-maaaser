@@ -39,16 +39,16 @@ export function* linkScheduleDonation({ payload }) {
 			});
 		}
 	} catch (e) {
+		console.log("error1")
 		yield put(linkScheduleDonationFail(e));
 		showMessage({
-			message: "Error from server or check your credentials!",
+			message: "linkScheduleDonation from server or check your credentials!",
 			type: "danger",
 		});
 	}
 }
 
 export function* updateLinkScheduleDonation({ payload }) {
-	console.log(payload)
 	try {
 		const serializedData = payload.serializeBinary();
 		const response = yield call(
@@ -70,6 +70,7 @@ export function* updateLinkScheduleDonation({ payload }) {
 				type: "success",
 			});
 		} else {
+			console.log("else2")
 			yield put(updateLinkScheduleDonationFail(res));
 			showMessage({
 				message: res.msg,
@@ -77,9 +78,10 @@ export function* updateLinkScheduleDonation({ payload }) {
 			});
 		}
 	} catch (e) {
+		console.log("error2")
 		yield put(updateLinkScheduleDonationFail(e));
 		showMessage({
-			message: "Error from server or check your credentials!",
+			message: "linkScheduleDonation from server or check your credentials!",
 			type: "danger",
 		});
 	}

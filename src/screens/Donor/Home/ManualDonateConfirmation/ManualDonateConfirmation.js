@@ -48,7 +48,7 @@ const ManualDonateConfirmation = ({
     const donationProto = new PaymentProto.Transaction();
     donationProto.setDonoraccountid(accountid);
     donationProto.setReceiveraccountid(receiverId);
-    donationProto.setAmount(amount);
+    donationProto.setAmount(amount*100);
     donationProto.setRemark(remarks);
     donationProto.setTransactionmedium(transactionMedium);
     donationProto.setTransactiontype(transactionType);
@@ -87,7 +87,7 @@ const ManualDonateConfirmation = ({
             <View style={{ paddingHorizontal: 30 }}>
               <Button onPress={() => navigation.navigate("Donate Now")}>
                 <Text button style={{ fontSize: 18 }}>
-                  Okay !
+                  OK
                 </Text>
               </Button>
             </View>

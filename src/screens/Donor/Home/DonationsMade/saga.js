@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { DONATIONS_MADE_START } from "./actions";
-import { donationsMadeSuccess, donationsMadeFail } from "./actions";
+import { DONATIONS_MADE_START,DONATIONS_MADE_SEARCH_START } from "./actions";
+import { donationsMadeSuccess, donationsMadeFail,donationsMadeSearchSuccess,donationsMadeSearchFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -44,7 +44,43 @@ export function* donationsMade({ payload }) {
 		});
 	}
 }
+export function* donationsMadeSearch({ payload }) {
+	try {
+	console.log(donationsMadeSearch)
+		const {accountId,search,fromDate,toDate,medium,type}=payload
+		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}&search=${search}`, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			if (res.transactionsList == undefined) {
+				yield put(donationsMadeSearchSuccess([]));
+			} else {
+				yield put(donationsMadeSearchSuccess(res.transactionsList));
+			}
+		} else {
+			yield put(donationsMadeSearchFail(res));
+			showMessage({
+				message:
+					"Error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(donationsMadeSearchFail(e));
+		showMessage({
+			message:
+				"Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
 
 export default function* donationsMadeSaga() {
 	yield takeLatest(DONATIONS_MADE_START, donationsMade);
+	yield takeLatest(DONATIONS_MADE_SEARCH_START, donationsMadeSearch);
+
 }

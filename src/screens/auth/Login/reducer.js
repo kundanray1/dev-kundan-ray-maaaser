@@ -2,6 +2,7 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGIN_CLEAR,
 } from './actions';
 import API from './../../../api/API'
 
@@ -38,6 +39,8 @@ export const loginReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
+    case LOGIN_CLEAR:
+      return initialState;
    
     default:
       return state;

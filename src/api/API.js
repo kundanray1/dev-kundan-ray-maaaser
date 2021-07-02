@@ -37,7 +37,6 @@ export class API {
     }
 
     resetToken() {
-        console.log("resetToken()")
         this.removeTokens();
         this.setToken();
     }

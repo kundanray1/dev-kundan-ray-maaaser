@@ -120,10 +120,15 @@ const ScheduleDonationReceiverDetail = ({
               </Text>
             </Block>
             <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {"\u0024"}
-                {scheduleDonationReceiverDetail.amount}
-              </Text>
+            <NumberFormat
+                    value={scheduleDonationReceiverDetail.amount}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    renderText={formattedValue => <Text  color={theme.colors.solidGray} style={{ fontSize: 15 }}>{formattedValue}</Text>} 
+                    />
             </Block>
           </Block>
           <Block row style={{ flex: 0, paddingVertical: 8 }}>

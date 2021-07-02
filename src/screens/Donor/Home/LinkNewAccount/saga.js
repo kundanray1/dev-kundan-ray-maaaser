@@ -48,7 +48,6 @@ export function* linkNewAccount({ payload }) {
 		});
 	}
 }
-
 export function* updateLinkNewAccount({ payload }) {
 	try {
 		const serializedData = payload.serializeBinary();

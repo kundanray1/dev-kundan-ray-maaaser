@@ -2,29 +2,57 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import MainTab from "./MainTab";
-import DonateTabStack from "./DonateTabStack";
-
+import DonorMainTab from "./DonorMenu/DonorMainTab";
+import ReceiverMainTab from "./ReceiverMenu/ReceiverMainTab";
+import DonateTabStack from "./DonorMenu/DonateTabStack";
 
 //auth
-import AddNotification from "../screens/auth/AddNotification";
 import LetsGetStartedDonor from "../screens/auth/LetsGetStartedDonor/index";
 import LetsGetStartedReceiver from "../screens/auth/LetsGetStartedReceiver/index";
 
 //home
-import LoadFund from "../screens/home/LoadFund/index";
-import UpcomingDonations from "../screens/home/UpcomingDonations/index";
-import DonationsMade from "../screens/home/DonationsMade/index";
-import Receivers from "../screens/home/Receivers/index";
-import Manual from "../screens/home/Manual/index";
-import Confirmation from "../screens/home/Confirmation/index";
-import ACH from "../screens/home/ACH/index";
-import Card from "../screens/home/Card/index";
-import LinkNewCard from "../screens/home/LinkNewCard/index";
-import LinkNewAccount from "../screens/home/LinkNewAccount/index";
-import LinkScheduleDonation from "../screens/home/LinkScheduleDonation/index";
-import ScanQRCodeTabStack from "./ScanQRCodeTabStack";
-import ScheduleDonationReceiverDetail from "../screens/home/ScheduleDonationReceiverDetail/index";
+import LoadFund from "../screens/Donor/Home/LoadFund/index";
+import UpcomingDonations from "../screens/Donor/Home/UpcomingDonations/index";
+import DonationsMade from "../screens/Donor/Home/DonationsMade/index";
+import Receivers from "../screens/Donor/Home/Receivers/index";
+import Manual from "../screens/Donor/Home/Manual/index";
+import ManualDonateConfirmation from "../screens/Donor/Home/ManualDonateConfirmation/index";
+import ACH from "../screens/Donor/Home/ACH/index";
+import ACHLoadFund from "../screens/Donor/Home/ACHLoadFund/index";
+import ACHLoadFundConfirmation from "../screens/Donor/Home/ACHLoadFundConfirmation/index";
+import Card from "../screens/Donor/Home/Card/index";
+import CardLoadFund from "../screens/Donor/Home/CardLoadFund/index";
+import CardLoadFundConfirmation from "../screens/Donor/Home/CardLoadFundConfirmation/index";
+import LinkNewCard from "../screens/Donor/Home/LinkNewCard/index";
+import LinkNewAccount from "../screens/Donor/Home/LinkNewAccount/index";
+import LinkScheduleDonation from "../screens/Donor/Home/LinkScheduleDonation/index";
+import ScanQRCodeTabStack from "./DonorMenu/ScanQRCodeTabStack";
+import ScheduleDonationReceiverDetail from "../screens/Donor/Home/ScheduleDonationReceiverDetail/index";
+
+//more
+import AddMember from "../screens/Donor/More/AddMember/index";
+import Members from "../screens/Donor/More/Members/index";
+
+//profile
+import EditProfile from "../screens/Donor/Profile/EditProfile/index";
+import ViewProfile from "../screens/Donor/Profile/ViewProfile/index";
+import ChangePassword from "../screens/Donor/Profile/ChangePassword/index";
+
+//Receivers
+//home
+import ReceiverDashboard from "../screens/Receiver/Home/ReceiverDashboard/index";
+import DonationReceived from "../screens/Receiver/Home/DonationReceived/index";
+import Donors from "../screens/Receiver/Home/Donors/index";
+import LinkedAccounts from "../screens/Receiver/Home/LinkedAccounts/index";
+import WithdrawFund from "../screens/Receiver/Home/WithdrawFund/index";
+import WithdrawFundConfirmation from "../screens/Receiver/Home/WithdrawFundConfirmation/index";
+
+//profile
+import ReceiverEditProfile from "../screens/Receiver/ReceiverProfile/ReceiverEditProfile/index";
+import ReceiverViewProfile from "../screens/Receiver/ReceiverProfile/ReceiverViewProfile/index";
+import MyQRCode from "../screens/Receiver/ReceiverProfile/MyQRCode/index";
+
+
 
 //navigator for logged in users
 const AuthStack = createStackNavigator();
@@ -49,18 +77,26 @@ const LoggedInStack = ({ data }) => {
     ) {
       routeName = "Lets Get Started Receiver";
     }
-  } else {
-    routeName = "MainTab";
+  } else if (data.user.account.accounttype == 3) {
+    routeName = "ReceiverMainTab";
+  }else{
+    routeName = "DonorMainTab";
   }
 
   return (
     <AuthStack.Navigator initialRouteName={routeName}>
+
       <AuthStack.Screen
-        name="MainTab"
+        name="DonorMainTab"
         options={{ headerShown: false }}
-        component={MainTab}
+        component={DonorMainTab}
       />
-       <AuthStack.Screen
+      <AuthStack.Screen
+        name="ReceiverMainTab"
+        options={{ headerShown: false }}
+        component={ReceiverMainTab}
+      />
+      <AuthStack.Screen
         name="Load Fund"
         options={{ headerShown: true }}
         component={LoadFund}
@@ -101,14 +137,25 @@ const LoggedInStack = ({ data }) => {
         component={Manual}
       />
       <AuthStack.Screen
-        name="Confirmation"
+        name="Manual Donate Confirmation"
         options={{ headerShown: true }}
-        component={Confirmation}
+        component={ManualDonateConfirmation}
       />
+    
       <AuthStack.Screen
         name="ACH"
         options={{ headerShown: true }}
         component={ACH}
+      />
+      <AuthStack.Screen
+        name="ACH Load Fund"
+        options={{ headerShown: true }}
+        component={ACHLoadFund}
+      />
+      <AuthStack.Screen
+        name="ACH Load Fund Confirmation"
+        options={{ headerShown: true }}
+        component={ACHLoadFundConfirmation}
       />
       <AuthStack.Screen
         name="Card"
@@ -116,11 +163,21 @@ const LoggedInStack = ({ data }) => {
         component={Card}
       />
       <AuthStack.Screen
+        name="Card Load Fund"
+        options={{ headerShown: true }}
+        component={CardLoadFund}
+      />
+      <AuthStack.Screen
+        name="Card Load Fund Confirmation"
+        options={{ headerShown: true }}
+        component={CardLoadFundConfirmation}
+      />
+      <AuthStack.Screen
         name="Link New Card"
         options={{ headerShown: true }}
         component={LinkNewCard}
       />
-       <AuthStack.Screen
+      <AuthStack.Screen
         name="Link New Account"
         options={{ headerShown: true }}
         component={LinkNewAccount}
@@ -140,6 +197,73 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={ScheduleDonationReceiverDetail}
       />
+      <AuthStack.Screen
+        name="Add New Member"
+        options={{ headerShown: true }}
+        component={AddMember}
+      />
+      <AuthStack.Screen
+        name="Members"
+        options={{ headerShown: true }}
+        component={Members}
+      />
+      <AuthStack.Screen
+        name="View Profile"
+        options={{ headerShown: false }}
+        component={ViewProfile}
+      />
+      <AuthStack.Screen
+        name="Edit Profile"
+        options={{ headerShown: false }}
+        component={EditProfile}
+      />
+      <AuthStack.Screen
+        name="Change Password"
+        options={{ headerShown: true }}
+        component={ChangePassword}
+      />
+
+      <AuthStack.Screen
+        name="Donation Received"
+        options={{ headerShown: true }}
+        component={DonationReceived}
+      />
+      <AuthStack.Screen
+        name="Donors"
+        options={{ headerShown: true }}
+        component={Donors}
+      />
+       <AuthStack.Screen
+        name="Linked Accounts"
+        options={{ headerShown: true }}
+        component={LinkedAccounts}
+      />
+        <AuthStack.Screen
+        name="Withdraw Fund"
+        options={{ headerShown: true }}
+        component={WithdrawFund}
+      />
+        <AuthStack.Screen
+        name="Withdraw Fund Confirmation"
+        options={{ headerShown: true }}
+        component={WithdrawFundConfirmation}
+      />
+        <AuthStack.Screen
+        name="Receiver View Profile"
+        options={{ headerShown: false }}
+        component={ReceiverViewProfile}
+      />
+      <AuthStack.Screen
+        name="Receiver Edit Profile"
+        options={{ headerShown: false }}
+        component={ReceiverEditProfile}
+      />
+       <AuthStack.Screen
+        name="My QR Code"
+        options={{ headerShown: true }}
+        component={MyQRCode}
+      />
+
     </AuthStack.Navigator>
   );
 };

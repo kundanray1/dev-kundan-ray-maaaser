@@ -97,7 +97,7 @@ const DonorReceiver = ({
     const donationProto = new PaymentProto.Transaction();
     donationProto.setDonoraccountid(loginData.user.account.accountid);
     donationProto.setReceiveraccountid(accountData.account.accountid);
-    donationProto.setAmount(values.amount);
+    donationProto.setAmount(values.amount*100);
     donationProto.setRemark(values.remarks);
     donationProto.setTransactionmedium(PaymentProto.TransactionMedium.INTERNAL_MEDIUM);
     donationProto.setTransactiontype(PaymentProto.TransactionType.DONATE_FUND);
@@ -128,7 +128,7 @@ const DonorReceiver = ({
             <View style={{ paddingHorizontal: WIDTH-350 }}>
               <Button onPress={() => setConfirmationMessageVisible(false)}>
                 <Text button style={{ fontSize: 18 }}>
-                  Got It!
+                  OK
                 </Text>
               </Button>
             </View>
@@ -320,6 +320,7 @@ const DonorReceiver = ({
                         fontSize: 20,
                         fontWeight: "700",
                         textTransform: "capitalize",
+                        color:theme.colors.solidGray
                       }}
                     >
                       Hi, {profileData.profile.account.fullname.split(" ")[0]}!
@@ -352,13 +353,13 @@ const DonorReceiver = ({
                     </Text>
                  
                        <NumberFormat
-                    value={data.balance}
+                    value={data.balance/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}
                     decimalScale={2}
                     fixedDecimalScale={true}
-                    renderText={formattedValue => <Text center style={{ fontSize: 20, fontWeight: "700" }}>{formattedValue}</Text>} 
+                    renderText={formattedValue => <Text center style={{ fontSize: 20, fontWeight: "700",color:theme.colors.solidGray }}>{formattedValue}</Text>} 
                   />
                       {/*{data.balance}*/}
                

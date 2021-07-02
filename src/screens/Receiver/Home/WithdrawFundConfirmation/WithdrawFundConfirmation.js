@@ -51,7 +51,7 @@ const WithdrawFundConfirmation = ({
     const withdrawFundProto = new PaymentProto.Transaction();
     withdrawFundProto.setBankid(bankid);
     withdrawFundProto.setReceiveraccountid(accountid);
-    withdrawFundProto.setAmount(amount);
+    withdrawFundProto.setAmount(amount*100);
     withdrawFundProto.setRemark(remarks);
     withdrawFundProto.setTransactionmedium(transactionMedium);
     withdrawFundProto.setTransactiontype(transactionType);
@@ -90,7 +90,7 @@ const WithdrawFundConfirmation = ({
             <View style={{ paddingHorizontal: 30 }}>
               <Button onPress={() => navigation.navigate("Linked Accounts")}>
                 <Text button style={{ fontSize: 18 }}>
-                  Okay !
+                  OK
                 </Text>
               </Button>
             </View>
@@ -201,7 +201,7 @@ const WithdrawFundConfirmation = ({
             </Block>
             <Block>
                 <NumberFormat
-          value={amount}
+          value={amount/100}
           displayType={"text"}
           thousandSeparator={true}
           prefix={"$"}

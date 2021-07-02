@@ -38,7 +38,6 @@ const LinkScheduleDonation = ({
   linkScheduleDonation,
   linkScheduleDonationClear,
   updateLinkScheduleDonation,
-  updateLinkScheduleDonationClear,
   route,
 }) => {
   let scheduleTypeRoute;
@@ -130,7 +129,7 @@ const LinkScheduleDonation = ({
     );
     scheduleTransactionProto.setReceiveraccountid(receiverId);
     scheduleTransactionProto.setRemark(values.remarks);
-    if(route.params!=undefined){
+    if(route.params !=undefined){
     updateLinkScheduleDonation(scheduleTransactionProto);
   }else{
     linkScheduleDonation(scheduleTransactionProto);
@@ -151,11 +150,10 @@ const LinkScheduleDonation = ({
   };
 
  useEffect(() => {
-    if(data.linkScheduleDonation!==null || data.updateLinkScheduleDonation!==null){
-       if(data.linkScheduleDonation.success || data.updateLinkScheduleDonation.success){
+    if(data.linkScheduleDonation!==null){
+       if(data.linkScheduleDonation.success){
         linkScheduleDonationClear()
-        updateLinkScheduleDonationClear()
-        navigation.navigate("linkScheduleDonation")
+        navigation.navigate("Link Schedule Donation")
        }
     }
   }, [data.linkScheduleDonation,data.updateLinkScheduleDonation]); 
@@ -330,11 +328,15 @@ const LinkScheduleDonation = ({
                         label="Requesting..."
                         isLoading={data.isLoading}
                       />
-                    ) : (
-                      <Text button style={{ fontSize: 18 }}>
-                        Schedule Donation
-                      </Text>
-                    )}
+                    ) : route.params != undefined ? (
+                    <Text button style={{ fontSize: 18 }}>
+                      Update 
+                    </Text>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Schedule Donation
+                    </Text>
+                  )}
                   </Button>
                 ) : (
                   <Button>

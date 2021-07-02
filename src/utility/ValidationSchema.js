@@ -46,6 +46,16 @@ export const LetsGetStartedDonorValidationSchema = Yup.object().shape({
   zipCode: Yup.string().required().label("Zip Code"),
 });
 
+export const ProfileValidationSchema = Yup.object().shape({
+  fullName: Yup.string().required().label("Name"),
+  street1: Yup.string().required().label("Street 1"),
+  street2: Yup.string().required().label("Street 2"),
+  state: Yup.string().required().label("State"),
+  city: Yup.string().required().label("City"),
+  zipCode: Yup.string().required().label("Zip Code"),
+});
+
+
 export const LetsGetStartedReceiverValidationSchema = Yup.object().shape({
   fullName: Yup.string().required().label("Name"),
   street1: Yup.string().required().label("Street 1"),
@@ -78,31 +88,30 @@ export const LinkNewCardValidationSchema = Yup.object().shape({
 });
 
 export const ManualValidationSchema = Yup.object().shape({
-  receiverName: Yup.string().required().label("Receiver name"),
   amount: Yup.number()
     .positive()
-    .integer()
     .min(1, "Minimum amount is 1")
     .max(100000, "Maximum amount is 100000")
     .typeError("Amount should contain number only")
     .required()
     .label("Amount"),
+  remarks: Yup.string().required().label("Remarks"),
+
 });
 export const LinkScheduleDonationValidationSchema = Yup.object().shape({
-  receiverName: Yup.string().required().label("Receiver name"),
   amount: Yup.number()
     .positive()
-    .integer()
-    .min(0, "Minimum amount is 1")
+    .min(1, "Minimum amount is 1")
     .max(100000, "Maximum amount is 100000")
     .typeError("Amount should contain number only")
     .required()
     .label("Amount"),
+  remarks: Yup.string().required().label("Remarks"),
+
 });
 export const LoadFundValidationSchema = Yup.object().shape({
   amount: Yup.number()
     .positive()
-    .integer()
     .min(1, "Minimum amount is 1")
     .max(100000, "Maximum amount is 100000")
     .typeError("Amount should contain number only")
@@ -116,8 +125,55 @@ export const LinkNewAccountValidationSchema = Yup.object().shape({
   accountNumber: Yup.string().required().label("Account number"),
   routingNumber: Yup.number()
     .positive()
-    .integer()
     .typeError("Routing number should contain number only")
     .required()
     .label("Routing number"),
+  confirmAccountNumber: Yup.string()
+    .required()
+    .min(6)
+    .max(50)
+    .oneOf([Yup.ref("accountNumber"), null], "Both account number must match")
+    .label("Confirm account number"),
+});
+
+export const AddMemberValidationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Name"),
+  email: Yup.string().email().required().label("Email"),
+  // phoneNumber: Yup.number()
+  //   .positive()
+  //   .integer()
+  //   .typeError("Phone number should contain number only")
+  //   .required()
+  //   .label("Phone Number"),
+  // password: Yup.string().required().min(6).max(50).label("Password"),
+
+});
+
+export const ACHLoadFundValidationSchema = Yup.object().shape({
+  amount: Yup.number()
+    .positive()
+    .min(1, "Minimum amount is 1")
+    .max(100000, "Maximum amount is 100000")
+    .typeError("Amount should contain number only")
+    .required()
+    .label("Amount"),
+  remarks: Yup.string().required().label("Remarks"),
+});
+
+export const CardLoadFundValidationSchema = Yup.object().shape({
+  amount: Yup.number()
+    .positive()
+    .min(1, "Minimum amount is 1")
+    .max(100000, "Maximum amount is 100000")
+    .typeError("Amount should contain number only")
+    .required()
+    .label("Amount"),
+  remarks: Yup.string().required().label("Remarks"),
+
+});
+export const ChangePasswordValidationSchema = Yup.object().shape({
+  currentPassword: Yup.string().required().min(6).max(50).label("Current Password"),
+  password: Yup.string().required().min(6).max(50).label("Password"),
+  confirmPassword: Yup.string().required().min(6).max(50).label("Confirm Password"),
+
 });

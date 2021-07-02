@@ -5,7 +5,6 @@ export const LINK_NEW_CARD_CLEAR = "LINK_NEW_CARD_CLEAR";
 export const UPDATE_LINK_NEW_CARD_START = "UPDATE_LINK_NEW_CARD_START";
 export const UPDATE_LINK_NEW_CARD_SUCCESS = "UPDATE_LINK_NEW_CARD_SUCCESS";
 export const UPDATE_LINK_NEW_CARD_FAIL = "UPDATE_LINK_NEW_CARD_FAIL";
-export const UPDATE_LINK_NEW_CARD_CLEAR = "UPDATE_LINK_NEW_CARD_CLEAR";
 
 
 export const linkNewCardStart = (payload) => {
@@ -43,9 +42,5 @@ export const updateLinkNewCardSuccess = (payload) => ({
 
 export const updateLinkNewCardFail = (payload) => ({
   type: UPDATE_LINK_NEW_CARD_FAIL,
-  payload,
-});
-export const updateLinkNewCardClear = (payload) => ({
-  type: UPDATE_LINK_NEW_CARD_CLEAR,
   payload,
 });

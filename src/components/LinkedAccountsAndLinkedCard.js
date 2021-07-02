@@ -4,20 +4,22 @@ import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
 import moment from "moment";
+import ArrowRightIconComponent from "../assets/icons/arrowRightIconComponent";
 
 export default LinkedAccountsAndLinkedCard = ({
 	label,
 	accountNo,
 	date,
+	iconComponent,
 	...props
 }) => {
 	return (
 			<Block
 				row
 				style={{
-					alignItems: "center",
-					paddingVertical: 4,
-					paddingHorizontal: 10,
+					alignItems:"center",
+					paddingVertical: 12,
+					paddingHorizontal: 20,
 					borderRadius: 4,
 					shadowRadius: 4,
 					elevation: 4,
@@ -31,10 +33,7 @@ export default LinkedAccountsAndLinkedCard = ({
 						alignItems: "flex-start",
 					}}
 				>
-					<Image
-						source={require("../assets/icons/image7.png")}
-						style={{ height: 45, width: 45, marginRight: 10 }}
-					/>
+				{iconComponent}
 				</Block>
 				<Block
 					style={{
@@ -92,10 +91,7 @@ export default LinkedAccountsAndLinkedCard = ({
 					{...props}
 				>
 					
-					<Image
-						source={require("../assets/icons/arrowRight.png")}
-						style={{ height: 20, width: 20}}
-					/>
+					<ArrowRightIconComponent/>
 				</TouchableOpacity>
 			</Block>
 	);

@@ -6,7 +6,6 @@ export const LINK_SCHEDULE_DONATION_CLEAR = "LINK_SCHEDULE_DONATION_CLEAR";
 export const UPDATE_LINK_SCHEDULE_DONATION_START = "UPDATE_LINK_SCHEDULE_DONATION_START";
 export const UPDATE_LINK_SCHEDULE_DONATION_SUCCESS = "UPDATE_LINK_SCHEDULE_DONATION_SUCCESS";
 export const UPDATE_LINK_SCHEDULE_DONATION_FAIL = "UPDATE_LINK_SCHEDULE_DONATION_FAIL";
-export const UPDATE_LINK_SCHEDULE_DONATION_CLEAR = "UPDATE_LINK_SCHEDULE_DONATION_CLEAR";
 
 
 export const DONATION_RECEIVERS_START = "DONATION_RECEIVERS_START";
@@ -54,13 +53,6 @@ export const updateLinkScheduleDonationFail = (payload) => ({
   type: UPDATE_LINK_SCHEDULE_DONATION_FAIL,
   payload,
 });
-
-export const updateLinkScheduleDonationClear = (payload) => ({
-  type: UPDATE_LINK_SCHEDULE_DONATION_CLEAR,
-  payload,
-});
-
-
 
 
 export const donationReceiversStart = (payload) => {

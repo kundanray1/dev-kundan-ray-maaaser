@@ -16,7 +16,7 @@ export class LocalDb {
   setSessions(session, callback) {
     try {
       AsyncStorage.setItem(this.sessionKey, JSON.stringify(session), error =>callback(error));
-      callback(false);
+      callback(true);
     } catch (error) {
       console.log('Error while setting session', error);
     }

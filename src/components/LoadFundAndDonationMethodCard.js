@@ -1,9 +1,11 @@
-import React from "react";
-import { Image, TouchableOpacity } from "react-native";
+ import React from "react";
+import { TouchableOpacity,Image } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
-export default LoadFundAndDonationMethodCard = ({ image, label, ...props }) => {
+import ArrowRightIconComponent from "../assets/icons/arrowRightIconComponent";
+
+export default LoadFundAndDonationMethodCard = ({ iconComponent, label, ...props }) => {
 	return (
 		<Block
 			activeOpacity={0.8}
@@ -16,7 +18,7 @@ export default LoadFundAndDonationMethodCard = ({ image, label, ...props }) => {
 				row
 				style={{
 					alignItems:"center",
-					paddingVertical: 6,
+					paddingVertical: 12,
 					paddingHorizontal: 20,
 					borderRadius: 4,
 					shadowRadius: 4,
@@ -31,10 +33,7 @@ export default LoadFundAndDonationMethodCard = ({ image, label, ...props }) => {
 						alignItems: "flex-start",
 					}}
 				>
-					<Image
-						source={image}
-						style={{ height: 45, width: 45, marginRight: 10 }}
-					/>
+				{iconComponent}
 				</Block>
 				<Block
 					style={{
@@ -56,10 +55,7 @@ export default LoadFundAndDonationMethodCard = ({ image, label, ...props }) => {
 					}}
 					{...props}
 				>
-					<Image
-						source={require("../assets/icons/arrowRight.png")}
-						style={{ height: 20, width: 20}}
-					/>
+					<ArrowRightIconComponent/>
 				</TouchableOpacity>
 			</Block>
 		</Block>
