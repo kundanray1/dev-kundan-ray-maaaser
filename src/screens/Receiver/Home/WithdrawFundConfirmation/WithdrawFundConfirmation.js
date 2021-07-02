@@ -90,7 +90,7 @@ const WithdrawFundConfirmation = ({
             <View style={{ paddingHorizontal: 30 }}>
               <Button onPress={() => navigation.navigate("Linked Accounts")}>
                 <Text button style={{ fontSize: 18 }}>
-                  Got It!
+                  Okay !
                 </Text>
               </Button>
             </View>

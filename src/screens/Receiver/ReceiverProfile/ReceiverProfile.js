@@ -94,7 +94,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
                 fixedDecimalScale={true}
                 renderText={(formattedValue) => (
                   <Text
-                    style={{ fontSize: 24, fontWeight: "700" }}
+                    style={{ fontSize: 20, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
                     {formattedValue}
@@ -111,12 +111,12 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
             </Block>
           </Block>
         </ImageBackground>
-        <Block
+         <Block
           style={{
             flex: 0,
             zIndex: 1,
             position: "absolute",
-            marginTop: HEIGHT / 26,
+            marginTop: HEIGHT / 20,
           }}
         >
           {data.receiverProfile.profilepic !== "" ? (
@@ -129,7 +129,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
               }}
             />
           ) : (
-           <ProfileIconComponent/>
+           <ProfileIconComponent height={HEIGHT * 0.105} width= {WIDTH * 0.2}/>
           )}
         </Block>
       </Block>
@@ -157,6 +157,8 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
             style={{
               flex: 0,
               flexDirection: "row",
+              paddingLeft:4,
+              paddingVertical:4
             }}
           >
             <Block row center style={{ paddingVertical: 10 }}>
@@ -182,12 +184,15 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
 
            <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Receiver View Profile")}
+            onPress={() => navigation.navigate("My QR Code")}
             style={{
               flex: 0,
               flexDirection: "row",
               borderTopWidth: 1,
+              paddingLeft:4,
               borderColor: theme.colors.gray2,
+              paddingVertical:8
+
             }}
           >
             <Block row center style={{ paddingVertical: 10 }}>
@@ -218,7 +223,10 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
               flex: 0,
               flexDirection: "row",
               borderTopWidth: 1,
+              paddingLeft:4,
               borderColor: theme.colors.gray2,
+              paddingVertical:4
+
             }}
           >
             <Block row center style={{ paddingVertical: 10 }}>

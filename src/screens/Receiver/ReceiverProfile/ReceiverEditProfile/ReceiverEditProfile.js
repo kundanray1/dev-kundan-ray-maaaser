@@ -23,9 +23,9 @@ import { Formik } from "formik";
 import AccountProto from "./../../../../protos/account_pb";
 import MaaserProto from "./../../../../protos/maaser_pb";
 import AddressProto from "./../../../../protos/address_pb";
-import { ProfileValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
 import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js";
+import { LetsGetStartedReceiverValidationSchema } from "./../../../../utility/ValidationSchema.js";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -34,6 +34,7 @@ const ReceiverEditProfile = ({ navigation, loginData, data,receiverProfileData,r
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
+  const [bioFocus, setBioFocus] = useState(false);
   const [street1Focus, setStreet1Focus] = useState(false);
   const [street2Focus, setStreet2Focus] = useState(false);
   const [stateFocus, setStateFocus] = useState(false);
@@ -101,7 +102,7 @@ useEffect(() => {
         >
           <ImageBackground
             style={{
-              height: "24%",
+              height: "20%",
               width: "100%",
               flex: 1,
             }}
@@ -130,17 +131,19 @@ useEffect(() => {
               >
                 <Formik
                   initialValues={{
-                    fullName: "",
-                    street1:"",
-                    street2:"",
-                    state: "",
-                    city: "",
-                    zipCode: ""
+                    fullName:  receiverProfileData.receiverProfile.account.fullname!==undefined? receiverProfileData.receiverProfile.account.fullname:"",
+                    street1: receiverProfileData.receiverProfile.addressesList[0].street1!==undefined? receiverProfileData.receiverProfile.addressesList[0].street1:"",
+                    street2: receiverProfileData.receiverProfile.addressesList[0].street2!==undefined? receiverProfileData.receiverProfile.addressesList[0].street2:"",
+                    state: receiverProfileData.receiverProfile.addressesList[0].state!==undefined? receiverProfileData.receiverProfile.addressesList[0].state:"",
+                    city: receiverProfileData.receiverProfile.addressesList[0].city!==undefined? receiverProfileData.receiverProfile.addressesList[0].city:"",
+                    zipCode:  receiverProfileData.receiverProfile.addressesList[0].zip!==undefined? receiverProfileData.receiverProfile.addressesList[0].zip.toString():"",
+                    bio:  receiverProfileData.receiverProfile.bio!==undefined? receiverProfileData.receiverProfile.bio:""
+
                   }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);
                   }}
-                  validationSchema={ProfileValidationSchema}
+                  validationSchema={LetsGetStartedReceiverValidationSchema}
                 >
                   {({
                     handleChange,
@@ -183,6 +186,34 @@ useEffect(() => {
                         error={errors.fullName}
                         visible={touched.fullName}
                       />
+
+                       <Input
+                  label="Bio"
+                  focus={bioFocus}
+                  onChangeText={handleChange("bio")}
+                  onBlur={() => {
+                    setFieldTouched("bio");
+                    setBioFocus(false);
+                  }}
+                  multiline
+                  numberOfLines={3}
+                  onFocus={() => setBioFocus(true)}
+                  value={values.bio}
+                  style={{
+                    borderColor: bioFocus
+                      ? theme.colors.primary2
+                      : touched.bio && errors.bio
+                      ? theme.colors.red
+                      : theme.colors.solidGray,
+                    height: 70,
+                    borderRadius: 2,
+                    borderWidth: 1,
+                    marginTop: 4,
+                  }}
+                />
+                <ErrorMessage error={errors.bio} visible={touched.bio} />
+
+
                       <Block style={{ flex: 0, marginTop: 16 }}>
                         <Text
                           bold
@@ -325,6 +356,7 @@ useEffect(() => {
 
                       <Block style={{ marginVertical: HEIGHT / 50 }}>
                         {!errors.fullName &&
+                        !errors.bio &&  
                         !errors.street1 &&
                         !errors.state &&
                         !errors.city &&
@@ -366,34 +398,44 @@ useEffect(() => {
           </ImageBackground>
 
           <TouchableOpacity
-            onPress={pickImage}
-            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
-          >
-            {image ? (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  height: HEIGHT * 0.105,
-                  width: WIDTH * 0.2,
-                  borderRadius: 100,
-                }}
-              />
-            ) : (
-                <ProfileIconComponent/>
-            )}
-
-            <Block
+              onPress={pickImage}
               style={{
-                padding: 2,
-                borderRadius: 10,
+                zIndex: 1,
                 position: "absolute",
-                marginLeft: WIDTH * 0.17,
-                marginTop: HEIGHT * 0.074,
+                marginTop: HEIGHT / 22,
               }}
             >
-                <CameraIconComponent/>
-            </Block>
-          </TouchableOpacity>
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={{
+                    height: HEIGHT * 0.105,
+                    width: WIDTH * 0.2,
+                    borderRadius: 100,
+                  }}
+                />
+              ) : (
+                <ProfileIconComponent
+                  height={HEIGHT * 0.105}
+                  width={WIDTH * 0.2}
+                />
+              )}
+
+              <Block
+                style={{
+                  padding: 2,
+                  borderRadius: 10,
+                  position: "absolute",
+                  marginLeft: WIDTH * 0.126,
+                  marginTop: HEIGHT * 0.064,
+                }}
+              >
+                <CameraIconComponent
+                  height={HEIGHT * 0.034}
+                  width={WIDTH * 0.12}
+                />
+              </Block>
+            </TouchableOpacity>
         </Block>
       </SafeAreaView>
     </KeyboardAwareScrollView>

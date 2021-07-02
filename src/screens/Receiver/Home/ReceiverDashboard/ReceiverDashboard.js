@@ -72,7 +72,9 @@ receiverProfile
         <>
           <Block
             style={{
-              flex: 0.26,
+              flex: 0.24,
+              // flex: 0.26,
+
             }}
           >
             <ImageBackground
@@ -88,7 +90,7 @@ receiverProfile
               }}
               source={require("../../../../assets/images/backgroundColor.png")}
             >
-              <TouchableOpacity
+             {/* <TouchableOpacity
                 activeOpacity={0.8}
                 style={{
                   flex: 0,
@@ -99,10 +101,11 @@ receiverProfile
                 <BellIconComponent
                   style={{ marginBottom: 10, marginRight: 8 }}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity>*/}
               <Block
                 style={{
-                  flex: 0.65,
+                  // flex: 0.65,
+                  flex: 0.5,
                   paddingHorizontal: 16,
                 }}
               >

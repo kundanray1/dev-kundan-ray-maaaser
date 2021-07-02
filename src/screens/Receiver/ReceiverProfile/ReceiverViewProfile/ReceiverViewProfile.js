@@ -89,6 +89,19 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
                   </Block>
                 </Block>
 
+                  <Block style={{ flex: 0, paddingVertical: 10 }}>
+                  <Text
+                    bold
+                    style={{ fontSize: 16, fontWeight: "700" }}
+                    color={theme.colors.solidGray}
+                  >
+                    Bio
+                  </Text>
+                  <Text color={theme.colors.solidGray} style={{ fontSize: 15 }} numberOfLines={3}>
+                    {receiverProfileData.receiverProfile.bio}
+                  </Text>
+                </Block>
+
                 <Block style={{ flex: 0, paddingVertical: 10 }}>
                   <Text
                     bold
@@ -159,22 +172,27 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
             </Block>
           </ImageBackground>
 
-          <Block
-            style={{ flex:0,zIndex: 1, position: "absolute", marginTop: HEIGHT / 26 }}
-          >
-            {receiverProfileData.receiverProfile.profilepic!=="" ? (
-              <Image
-                source={{ uri: receiverProfileData.receiverProfile.profilepic }}
-                style={{
-                  height: HEIGHT * 0.105,
-                  width: WIDTH * 0.2,
-                  borderRadius: 100,
-                }}
-              />
-            ) : (
-            <ProfileIconComponent/>
-            )}
-          </Block>
+           <Block
+          style={{
+            flex: 0,
+            zIndex: 1,
+            position: "absolute",
+            marginTop: HEIGHT / 20,
+          }}
+        >
+          {receiverProfileData.receiverProfile.profilepic !== "" ? (
+            <Image
+              source={{ uri: receiverProfileData.receiverProfile.profilepic }}
+              style={{
+                height: HEIGHT * 0.105,
+                width: WIDTH * 0.2,
+                borderRadius: 100,
+              }}
+            />
+          ) : (
+           <ProfileIconComponent height={HEIGHT * 0.105} width= {WIDTH * 0.2}/>
+          )}
+        </Block>
         </Block>
         <Block style={{flex:0.35, backgroundColor:"#E5E5E5"}}>
         </Block>

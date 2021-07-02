@@ -107,7 +107,7 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
       </TouchableWithoutFeedback>
       <FloatingButton
         iconComponent={<AddIconComponent/>}
-        onPress={() => navigation.navigate("Link New Account")}
+        onPress={() => navigation.navigate("Link New Account",{screenName:"Linked Accounts"})}
       
       />
       <Bottom bs={bs} accountData={accountData} navigation={navigation} />
