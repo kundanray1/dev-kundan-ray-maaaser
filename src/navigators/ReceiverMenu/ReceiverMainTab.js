@@ -7,7 +7,7 @@ import * as theme from "../../constants/theme";
 import ReceiverDashboard from "../../screens/Receiver/Home/ReceiverDashboard/index";
 import ReceiverProfile from "../../screens/Receiver/ReceiverProfile/index";
 import Withdraws from "../../screens/Receiver/Withdraws/index";
-// import More from "../../screens/Donor/More/index";
+import More from "../../screens/Donor/More/index";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
@@ -55,7 +55,7 @@ export default ReceiverMainTab = () => {
 			<Tab.Screen name="Withdraws" component={WithdrawsStack} />
 			{/*<Tab.Screen name="Notifications" component={NotificationsStack} />*/}
 			<Tab.Screen name="Profile" component={ReceiverProfileStack} />
-			{/*<Tab.Screen name="More" component={MoreStack} />*/}
+			<Tab.Screen name="More" component={MoreStack} />
 		</Tab.Navigator>
 	);
 };
@@ -123,16 +123,16 @@ function ReceiverProfileStack() {
 	);
 }
 
-// const MoreRoute = createStackNavigator();
-// function MoreStack() {
-// 	return (
-// 		<MoreRoute.Navigator
-// 			screenOptions={{
-// 				headerShown: true,
-// 			}}
-// 			initialRouteName="More"
-// 		>
-// 			<MoreRoute.Screen name="More" component={More} />
-// 		</MoreRoute.Navigator>
-// 	);
-// }
+const MoreRoute = createStackNavigator();
+function MoreStack() {
+	return (
+		<MoreRoute.Navigator
+			screenOptions={{
+				headerShown: true,
+			}}
+			initialRouteName="More"
+		>
+			<MoreRoute.Screen name="More" component={More} />
+		</MoreRoute.Navigator>
+	);
+}

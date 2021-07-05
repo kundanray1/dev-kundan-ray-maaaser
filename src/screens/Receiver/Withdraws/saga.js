@@ -17,14 +17,13 @@ export function* withdraws({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("withdrawsSuccess",res)
 		if (res.success) {
 			yield put(withdrawsSuccess(res.transactionsList));
 		} else {
 			yield put(withdrawsFail(res));
 			showMessage({
 				message: "Error from server or check your credentials!",
-				type: "success",
+				type: "danger",
 			});
 		}
 	} catch (e) {

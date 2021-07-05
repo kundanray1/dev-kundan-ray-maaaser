@@ -82,29 +82,27 @@ Today
 -Receiver end UI and profile API
 
 
--Donations Made listing gap UI
--Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/saga i.e fix session storage problem for first time account creator
-
 Before building APK
 clear donor and receiver lets get started page initial value
-
 logout garda kheri ko response
+
 
 
 UI bugs fixing
 
-Donor end(Also make changes in receiver end as well)
-Make Popup just below the specific field
-Card Shadow of all confirmation detail
-make froma and to date empty  by default and reset after each filter
+-Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/saga i.e fix session storage problem for first time account creator
+-Make Popup just below the specific field
+-Card Shadow of all confirmation detail
 
+Completed
+Make transactions filter more effort less using bottom sheet like used in Transactions also use it in  social share in receiver end UI
+Image Upload API
+Make form and to date empty by default and reset after each filter(Copy Link Schedule Donation Date from same on "Link New Card","remaining...Donations Made, Transactions, Upcoming Donations,Receiver Withdraws Listing Transactions Filter")
+Donor end(Also make changes in receiver end as well)
+Donations Made listing gap UI
 navigate schedule donation lisitng after adding and updating
 Fill address in Link new card update form
 amount when send data multiply by 100 and when get data divide by 100
-Upcoming donations and donations made listing according to date wise like transactions
-
-
-completed
 Receiver end link new account edit
 Change Got It! to Ok
 Link New Account form ko image change as per focus in receiver end as well

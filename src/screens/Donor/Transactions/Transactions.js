@@ -30,23 +30,21 @@ import API from "../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
 const WIDTH = Dimensions.get("window").width;
 const Transactions = ({ navigation, data,loginData, transactions,search }) => {
+
   const [transactionsData, setTransactionsData] = useState();
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [fromDate, setFromDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState("2021-07-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
-  const [toDate, setToDate] = useState(new Date());
+  const [toDate, setToDate] = useState("2021-07-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
   const [transactionsMedium, setTransactionsMedium] = useState();
   const [transactionsMediumId, setTransactionsMediumId] = useState("");
   const [transactionsType, setTransactionsType] = useState();
   const [transactionsTypeId, setTransactionsTypeId] = useState("");
-  console.log("fromDate",new Date(fromDate).getTime())
-  console.log("ToDate",new Date(toDate).getTime())
   const [refreshing, setRefreshing] = useState(false);
-  
   const onChangeFromDate = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
     setShowFromDate(Platform.OS === "ios");
@@ -64,10 +62,11 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
     transactions(loginData.user.account.accountid);
     setRefreshing(false);
   });
-
+console.log("fromDate",new Date(fromDate).getTime())
+console.log("toDate",new Date(toDate).getTime())
   const onPressReset = () => {
-  setFromDate(new Date());
-  setToDate(new Date());
+  setFromDate("2021-07-03T15:21:15.513Z");
+  setToDate("2021-07-03T15:21:15.513Z");
   setTransactionsMedium();
   setTransactionsMediumId("");
   setTransactionsType();
@@ -90,7 +89,9 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
       headerRight: () => (
        <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => setConfirmationSuccessfulVisible(true)}
+              onPress={() => {
+                setConfirmationSuccessfulVisible(true)
+              }}
               style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
                 >
                    <TransactionsSearchIconComponent height={25} width={20}/>
@@ -152,7 +153,6 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
       setTransactionsData(sortedData);
     }
   }, [data.transactions]);
-
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
@@ -199,7 +199,10 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                       color:"#999999",
                     }}
                   >
-                    {moment(fromDate).format("DD/MM/YYYY")}
+                   {
+                      fromDate=="2021-07-03T15:21:15.513Z"?"":
+                       moment(fromDate).format("DD/MM/YYYY")
+                    }
                   </Text>
                   <Block style={{ alignItems: "flex-end" }}>
                     <MaterialCommunityIcons
@@ -212,7 +215,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                 {showFromDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={fromDate}
+                    value={new Date()}
                     mode="date"
                     is24Hour={true}
                     display="default"
@@ -239,7 +242,10 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
 
                     }}
                   >
-                    {moment(toDate).format("DD/MM/YYYY")}
+                    {
+                      toDate=="2021-07-03T15:21:15.513Z"?"":
+                       moment(toDate).format("DD/MM/YYYY")
+                    }
                   </Text>
                   <Block style={{ alignItems: "flex-end" }}>
                     <MaterialCommunityIcons
@@ -252,7 +258,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                 {showToDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={toDate}
+                    value={new Date()}
                     mode="date"
                     is24Hour={true}
                     display="default"
@@ -291,9 +297,8 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
       ) : (
+     
         <Block style={{ flex: 0, marginTop: 6 }}>
-           
-          {/*<Image source={require("./../../assets/icons/searchTransactions.png")} style={{ height: 36, width: 38 }} />*/}
           <SectionList
             sections={transactionsData}
             keyExtractor={(item, index) => item + index}
@@ -330,7 +335,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
 export default Transactions;
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",

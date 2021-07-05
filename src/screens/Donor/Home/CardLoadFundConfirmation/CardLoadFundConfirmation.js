@@ -160,7 +160,6 @@ cardNumber
               </Text>
             </Block>
             <Block>
-              
                <NumberFormat
           value={amount}
           displayType={"text"}

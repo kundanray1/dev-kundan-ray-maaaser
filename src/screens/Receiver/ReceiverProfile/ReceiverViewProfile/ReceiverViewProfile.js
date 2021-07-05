@@ -18,13 +18,12 @@ const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
-  console.log("receiverProfileData",receiverProfileData)
     return (
     <>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
         <Block
           style={{
-            flex: 0.65,
+            flex: 0.8,
             alignItems: "center",
             backgroundColor:"#E5E5E5"
           }}
@@ -34,8 +33,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
               height: "29%",
               width: "100%",
               flex: 1,
-          backgroundColor:"#E5E5E5"
-
+              backgroundColor:"#E5E5E5"
             }}
             imageStyle={{
               borderBottomLeftRadius: 50,
@@ -45,13 +43,12 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
           >
             <Block
               style={{
-                flex: 0.9,
                 paddingHorizontal: 16,
+                paddingBottom:4
               }}
             >
               <Block
                 style={{
-                  flex: 0,
                   borderRadius: 4,
                   elevation: 4,
                   paddingTop: HEIGHT / 14,
@@ -98,7 +95,10 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
                     Bio
                   </Text>
                   <Text color={theme.colors.solidGray} style={{ fontSize: 15 }} numberOfLines={3}>
-                    {receiverProfileData.receiverProfile.bio}
+                    {
+                      receiverProfileData.receiverProfile.bio==""?
+                    "Not available":receiverProfileData.receiverProfile.bio
+                    }
                   </Text>
                 </Block>
 

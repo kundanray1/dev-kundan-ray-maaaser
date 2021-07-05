@@ -58,7 +58,7 @@ useEffect(() => {
     if(data.receiverEditProfile!==null){
        if(data.receiverEditProfile.success){
         receiverEditProfileClear()
-        navigation.navigate("Receiver Profile")
+        navigation.navigate("Receiver View Profile")
        }
     }
   }, [data.receiverEditProfile]); 

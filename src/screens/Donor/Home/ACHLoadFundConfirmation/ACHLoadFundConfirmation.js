@@ -108,7 +108,7 @@ const ACHLoadFundConfirmation = ({
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 24, justifyContent:"center" }}>
       <Block
         style={{
-          flex: 0,
+            flex: 0,
             borderRadius: 4,
             shadowRadius: 4,
             elevation: 2,

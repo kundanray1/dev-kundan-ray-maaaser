@@ -8,6 +8,7 @@ import {
 } from "../../../../components/Index.js";
 import moment from "moment";
 import PaymentProto from "./../../../../protos/payment_pb";
+import NumberFormat from 'react-number-format';
 
 const ScheduleDonationReceiverDetail = ({
   route,
@@ -121,7 +122,7 @@ const ScheduleDonationReceiverDetail = ({
             </Block>
             <Block>
             <NumberFormat
-                    value={scheduleDonationReceiverDetail.amount}
+                    value={scheduleDonationReceiverDetail.amount/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}

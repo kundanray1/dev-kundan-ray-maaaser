@@ -30,7 +30,7 @@ import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editProfileClear }) => {
+const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editProfileClear,imageUpload }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -39,7 +39,7 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
   const [stateFocus, setStateFocus] = useState(false);
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(profileData.profile.profilepic);
   //select image function
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,6 +51,7 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
     console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
+      imageUpload(result.uri);
     }
   };
 

@@ -4,10 +4,9 @@ LINK_SCHEDULE_DONATION_START,
 LINK_SCHEDULE_DONATION_SUCCESS,
 LINK_SCHEDULE_DONATION_CLEAR,
 
-UPDATE_LINK_SCHEDULE_DONATION_FAIL,
 UPDATE_LINK_SCHEDULE_DONATION_START,
 UPDATE_LINK_SCHEDULE_DONATION_SUCCESS,
-UPDATE_LINK_SCHEDULE_DONATION_CLEAR,
+UPDATE_LINK_SCHEDULE_DONATION_FAIL,
 
 DONATION_RECEIVERS_START,
 DONATION_RECEIVERS_SUCCESS,
@@ -17,7 +16,6 @@ DONATION_RECEIVERS_FAIL,
 const initialState = {
   isLoading: false,
   linkScheduleDonation: null,
-  updateLinkScheduleDonation: null,
   donationReceivers:null,
   error: null,
 };
@@ -54,7 +52,7 @@ export const linkScheduleDonationReducer=(state = initialState, { type, payload 
       return {
         ...state,
         isLoading: false,
-        updateLinkScheduleDonation: payload,
+        linkScheduleDonation: payload,
       };
     case UPDATE_LINK_SCHEDULE_DONATION_FAIL:
       return {
@@ -62,8 +60,7 @@ export const linkScheduleDonationReducer=(state = initialState, { type, payload 
         isLoading: false,
         error: payload,
       };
-     case UPDATE_LINK_SCHEDULE_DONATION_CLEAR:
-      return initialState;
+    
 
     case DONATION_RECEIVERS_START:
     return {

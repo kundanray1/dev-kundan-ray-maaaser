@@ -38,12 +38,14 @@ const DonorReceiver = ({
   receiverProfileData,
 receiverProfile
 }) => {
+  console.log("donorsData.donors",donorsData.donors);
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
     donationReceived(loginData.user.account.accountid);
-    donors(), setRefreshing(false);
+    donors(), 
+    setRefreshing(false);
   });
   useEffect(() => {
     if (
@@ -58,7 +60,6 @@ receiverProfile
       receiverProfile(loginData.user.account.accountid);
     }
   }, []);
-  console.log(donationReceivedData.donationReceived);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ||
@@ -176,7 +177,7 @@ receiverProfile
                       Balance
                     </Text>
                     <NumberFormat
-                      value={data.balance}
+                      value={data.balance/100}
                       displayType={"text"}
                       thousandSeparator={true}
                       prefix={"$"}
@@ -269,7 +270,7 @@ receiverProfile
                 />
               </Block>
             </Block>
-
+{/*
             <Block style={{ paddingHorizontal: 20, flex: 2 }}>
               <Block row style={{ flex: 0.1, justifyContent: "space-between" }}>
                 <Text style={{ fontSize: 18, fontWeight: "700" }}>Donors</Text>
@@ -313,7 +314,7 @@ receiverProfile
                   )}
                 />
               </Block>
-            </Block>
+            </Block>*/}
           </Block>
         </>
       )}

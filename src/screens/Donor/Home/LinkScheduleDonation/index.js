@@ -13,7 +13,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => {
 	return {
 		linkScheduleDonation: (values) => dispatch(linkScheduleDonationStart(values)),
-		linkScheduleDonationClear: () => dispatch(linkScheduleDonationStart()),
+		linkScheduleDonationClear: () => dispatch(linkScheduleDonationClear()),
 		updateLinkScheduleDonation: (values) => dispatch(updateLinkScheduleDonationStart(values)),
 	}
 }

@@ -60,6 +60,7 @@ const DonorReceiver = ({
   const [confirmationSuccessfulVisible, setConfirmationSuccessfulVisible] = useState(false);
   const [confirmationMessageVisible, setConfirmationMessageVisible] = useState(false);
 
+console.log(loginData);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
@@ -393,7 +394,7 @@ const DonorReceiver = ({
                       onRefresh={onRefresh}
                     />
                   }
-                  showsVerticalScrollIndicator={true}
+                  showsVerticalScrollIndicator={false}
                   keyExtractor={(item) => {
                     return item.scheduletransactionid.toString();
                   }}
@@ -459,7 +460,7 @@ const DonorReceiver = ({
                       onRefresh={onRefresh}
                     />
                   }
-                  showsVerticalScrollIndicator={true}
+                  showsVerticalScrollIndicator={false}
                   keyExtractor={(item) => {
                     return item.transactionid.toString();
                   }}
@@ -514,7 +515,7 @@ const DonorReceiver = ({
               <Block style={{ flex: 1 }}>
                 <FlatList
                   data={receiversData.receivers.clientsList.slice(0, 2)}
-                  showsVerticalScrollIndicator={true}
+                  showsVerticalScrollIndicator={false}
                   keyExtractor={(item) => {
                     return item.clientid.toString();
                   }}
@@ -528,12 +529,19 @@ const DonorReceiver = ({
                       onRefresh={onRefresh}
                     />
                   }
+                    ListFooterComponent={() => (
+                  <Block middle center style={{ marginBottom:40,flex: 0 }}>
+                  </Block>
+                )}
+                ListFooterComponentStyle={{
+                  paddingVertical:20,
+                }}
                   renderItem={(post) => (
                     <ReceiversDetail
                       profilePic={post.item.profilepic}
                       name={post.item.account.fullname}
                       clientType={post.item.clienttype}
-                     onPress={() => {
+                      onPress={() => {
                         setConfirmationSuccessfulVisible(!confirmationSuccessfulVisible)
                         setAccountData(post.item);
                   }}

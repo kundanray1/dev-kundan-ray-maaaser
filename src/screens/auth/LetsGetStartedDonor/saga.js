@@ -1,13 +1,15 @@
+import { decode as atob, encode as btoa } from "base-64";
 import { call, put, takeLatest } from "redux-saga/effects";
+import { Platform } from "react-native";
 import { LETS_GET_STARTED_DONOR_START, IMAGE_UPLOAD_START } from "./actions";
 import {
   letsGetStartedDonorFail,
   letsGetStartedDonorSuccess,
-imageUploadSuccess,
-imageUploadFail,
+  imageUploadSuccess,
+  imageUploadFail,
 } from "./actions";
 import APIEndpoints from "./../../../constants/APIConstants";
-import { requestProto } from "../../../utility/request";
+import request, { requestProto } from "../../../utility/request";
 import base from "./../../../protos/account_rpc_pb";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../api/API";
@@ -24,13 +26,12 @@ export function* letsGetStartedDonor({ payload }) {
     });
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
     if (res.success) {
-       yield put(letsGetStartedDonorSuccess(res));
+      yield put(letsGetStartedDonorSuccess(res));
       yield put(loginSuccess(res.client));
       showMessage({
         message: "Account created successfully",
         type: "success",
       });
-     
     } else {
       yield put(letsGetStartedDonorFail(res.msg));
       showMessage({
@@ -48,35 +49,47 @@ export function* letsGetStartedDonor({ payload }) {
 }
 
 export function* imageUpload({ payload }) {
-  try {
-    const serializedData = payload.serializeBinary();
-    const response = yield call(requestProto, APIEndpoints.IMAGE, {
-      method: "POST",
-      headers: API.authHeadersForMultipartFormData(),
-      body: serializedData,
-    });
-    const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
-    if (res.success) {
-      yield put(imageUploadSuccess(res));
-      showMessage({
-        message: "Image uploaded successfully",
-        type: "success",
-      });
-    } else {
-      yield put(imageUploadFail(res.msg));
-      showMessage({
-        message: res.msg,
-        type: "danger",
-      });
-    }
-  } catch (e) {
-    yield put(imageUploadFail(e));
-    showMessage({
-      message: "Error from server or check your credentials!",
-      type: "danger",
-    });
-  }
+  const fileType = "jpeg";
+  const formData = new FormData();
+  formData.append("file", {
+    payload,
+    name: `photo.${fileType}`,
+    type: `image/${fileType}`,
+  });
+  const options = {
+    method: "POST",
+    body: formData,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  fetch(APIEndpoints.IMAGE, options)
+    .then((response) => console.log("response", response))
+    .catch((e) => console.log(e));
 }
+
+// const formdata = new FormData();
+// formdata.append("image", {
+//   name: "image",
+//   type: "image/jpeg",
+//   uri: payload,
+// });
+// try {
+//   const res = yield call(request, APIEndpoints.IMAGE, {
+//     method: "POST",
+//     headers: API.authHeadersForMultipartFormData(),
+//     body: formdata,
+//   });
+//   if (res.error === true) {
+//     yield put(imageUploadFail(res.msg));
+//   } else {
+//     yield put(imageUploadSuccess(res.fileUrl));
+//   }
+// } catch (e) {
+//   yield put(imageUploadFail(e));
+// }
+// }
 
 export default function* letsGetStartedDonorSaga() {
   yield takeLatest(LETS_GET_STARTED_DONOR_START, letsGetStartedDonor);

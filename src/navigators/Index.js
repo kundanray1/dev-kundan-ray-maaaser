@@ -15,7 +15,6 @@ const MyTheme = {
     background: theme.colors.white,
   },
 };
-console.log(API.token());
 const App = ({ data }) => {
   return (
     <NavigationContainer theme={MyTheme}>

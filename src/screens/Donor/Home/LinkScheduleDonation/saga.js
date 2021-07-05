@@ -1,7 +1,17 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { LINK_SCHEDULE_DONATION_START,UPDATE_LINK_SCHEDULE_DONATION_START,DONATION_RECEIVERS_START } from "./actions";
-import { linkScheduleDonationSuccess, linkScheduleDonationFail,updateLinkScheduleDonationSuccess,
-updateLinkScheduleDonationFail,donationReceiversSuccess,donationReceiversFail } from "./actions";
+import {
+	LINK_SCHEDULE_DONATION_START,
+	UPDATE_LINK_SCHEDULE_DONATION_START,
+	DONATION_RECEIVERS_START,
+} from "./actions";
+import {
+	linkScheduleDonationSuccess,
+	linkScheduleDonationFail,
+	updateLinkScheduleDonationSuccess,
+	updateLinkScheduleDonationFail,
+	donationReceiversSuccess,
+	donationReceiversFail,
+} from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import accountBase from "./../../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
@@ -39,10 +49,10 @@ export function* linkScheduleDonation({ payload }) {
 			});
 		}
 	} catch (e) {
-		console.log("error1")
 		yield put(linkScheduleDonationFail(e));
 		showMessage({
-			message: "linkScheduleDonation from server or check your credentials!",
+			message:
+				"Error from server or check your credentials!",
 			type: "danger",
 		});
 	}
@@ -70,7 +80,6 @@ export function* updateLinkScheduleDonation({ payload }) {
 				type: "success",
 			});
 		} else {
-			console.log("else2")
 			yield put(updateLinkScheduleDonationFail(res));
 			showMessage({
 				message: res.msg,
@@ -78,22 +87,25 @@ export function* updateLinkScheduleDonation({ payload }) {
 			});
 		}
 	} catch (e) {
-		console.log("error2")
 		yield put(updateLinkScheduleDonationFail(e));
 		showMessage({
-			message: "linkScheduleDonation from server or check your credentials!",
+			message:
+				"Error from server or check your credentials!",
 			type: "danger",
 		});
 	}
 }
 
-
 export function* donationReceivers({ payload }) {
 	try {
-		const response = yield call(requestProto, APIEndpoints.RECEIVERSCLIENT, {
-			method: "GET",
-			headers: API.authProtoHeader(),
-		});
+		const response = yield call(
+			requestProto,
+			APIEndpoints.RECEIVERSCLIENT,
+			{
+				method: "GET",
+				headers: API.authProtoHeader(),
+			}
+		);
 
 		const res = accountBase.AccountBaseResponse.deserializeBinary(
 			response
@@ -119,5 +131,8 @@ export function* donationReceivers({ payload }) {
 export default function* linkScheduleDonationSaga() {
 	yield takeLatest(LINK_SCHEDULE_DONATION_START, linkScheduleDonation);
 	yield takeLatest(DONATION_RECEIVERS_START, donationReceivers);
-	yield takeLatest(UPDATE_LINK_SCHEDULE_DONATION_START, updateLinkScheduleDonation);
+	yield takeLatest(
+		UPDATE_LINK_SCHEDULE_DONATION_START,
+		updateLinkScheduleDonation
+	);
 }

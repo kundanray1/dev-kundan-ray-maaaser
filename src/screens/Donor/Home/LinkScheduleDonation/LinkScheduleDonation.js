@@ -75,9 +75,9 @@ const LinkScheduleDonation = ({
   );
   const [amountFocus, setAmountFocus] = useState(scheduleTypeRoute);
   const [scheduleType, setScheduleType] = useState(scheduleTypeRoute);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState("2021-07-03T15:21:15.513Z");
   const [showStartDate, setShowStartDate] = useState(false);
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState("2021-07-03T15:21:15.513Z");
   const [showEndDate, setShowEndDate] = useState(false);
   const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
@@ -111,7 +111,7 @@ const LinkScheduleDonation = ({
     }
     scheduleTransactionProto.setScheduledetail(scheduleDetailProto);
 
-    scheduleTransactionProto.setAmount(values.amount);
+    scheduleTransactionProto.setAmount(values.amount*100);
     scheduleTransactionProto.setTransactionstatus(
       PaymentProto.TransactionStatus.TRANSACTION_APPROVED
     );
@@ -148,16 +148,14 @@ const LinkScheduleDonation = ({
     setEndDate(currentDate);
     setShowEndDate(false);
   };
-
  useEffect(() => {
     if(data.linkScheduleDonation!==null){
        if(data.linkScheduleDonation.success){
         linkScheduleDonationClear()
-        navigation.navigate("Link Schedule Donation")
+        navigation.navigate("Schedule Donation")
        }
     }
-  }, [data.linkScheduleDonation,data.updateLinkScheduleDonation]); 
-
+  }, [data.linkScheduleDonation]); 
 
   return (
     <KeyboardAwareScrollView
@@ -173,7 +171,7 @@ const LinkScheduleDonation = ({
                 : "",
             amount:
               route.params != undefined
-                ? route.params.scheduleDonationData.amount.toString()
+                ? (route.params.scheduleDonationData.amount/100).toString()
                 : "",
           }}
           onSubmit={(values) => {
@@ -241,7 +239,10 @@ const LinkScheduleDonation = ({
                       bold
                       style={{ fontSize: 16, color: theme.colors.solidGray }}
                     >
-                      {moment(startDate).format("DD/MM/YYYY")}
+                    {
+                      startDate=="2021-07-03T15:21:15.513Z"?"":
+                       moment(startDate).format("DD/MM/YYYY")
+                    }
                     </Text>
                   </Block>
                   <Block style={{ alignItems: "flex-end" }}>
@@ -255,10 +256,11 @@ const LinkScheduleDonation = ({
                 {showStartDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={startDate}
+                    value={new Date()}
                     mode="date"
                     is24Hour={true}
                     display="default"
+                    minimumDate={new Date()}
                     onChange={onChangeStartDate}
                   />
                 )}
@@ -278,7 +280,10 @@ const LinkScheduleDonation = ({
                       bold
                       style={{ fontSize: 16, color: theme.colors.solidGray }}
                     >
-                      {moment(endDate).format("DD/MM/YYYY")}
+                     {
+                      endDate=="2021-07-03T15:21:15.513Z"?"":
+                       moment(endDate).format("DD/MM/YYYY")
+                    }
                     </Text>
                   </Block>
                   <Block style={{ alignItems: "flex-end" }}>
@@ -292,11 +297,11 @@ const LinkScheduleDonation = ({
                 {showEndDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={endDate}
+                    value={new Date()}
                     mode="date"
+                    minimumDate={new Date()}
                     is24Hour={true}
                     display="default"
-                    textColor="red"
                     onChange={onChangeEndDate}
                   />
                 )}

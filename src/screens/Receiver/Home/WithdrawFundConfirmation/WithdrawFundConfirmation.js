@@ -106,15 +106,9 @@ const WithdrawFundConfirmation = ({
       <Block
         style={{
           flex: 0,
-          borderRadius: 4,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
+            borderRadius: 4,
+            shadowRadius: 4,
+            elevation: 2,
         }}
       >
         <Block
@@ -201,7 +195,7 @@ const WithdrawFundConfirmation = ({
             </Block>
             <Block>
                 <NumberFormat
-          value={amount/100}
+          value={amount}
           displayType={"text"}
           thousandSeparator={true}
           prefix={"$"}

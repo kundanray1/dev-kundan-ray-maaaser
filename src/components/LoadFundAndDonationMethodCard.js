@@ -7,12 +7,13 @@ import ArrowRightIconComponent from "../assets/icons/arrowRightIconComponent";
 
 export default LoadFundAndDonationMethodCard = ({ iconComponent, label, ...props }) => {
 	return (
-		<Block
-			activeOpacity={0.8}
+		<TouchableOpacity
+			activeOpacity={1}
 			style={{
 				paddingHorizontal: 16,
 				marginVertical: 4,
 			}}
+			{...props}
 		>
 			<Block
 				row
@@ -46,18 +47,15 @@ export default LoadFundAndDonationMethodCard = ({ iconComponent, label, ...props
 						{label}
 					</Text>
 				</Block>
-				<TouchableOpacity
-					activeOpacity={0.8}
+				<Block
 					style={{
-						flex: 1,
 						alignItems: "flex-end",
 						justifyContent:"center",
 					}}
-					{...props}
 				>
 					<ArrowRightIconComponent/>
-				</TouchableOpacity>
+				</Block>
 			</Block>
-		</Block>
+		</TouchableOpacity>
 	);
 };

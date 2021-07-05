@@ -13,7 +13,6 @@ import {
 const initialState = {
   isLoading: false,
   linkNewCard: null,
-  updateLinkNewCard:null,
   error: null,
 };
 
@@ -49,7 +48,7 @@ export const linkNewCardReducer=(state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
-        updateLinkNewCard: payload,
+        linkNewCard: payload,
       };
     case UPDATE_LINK_NEW_CARD_FAIL:
       return {

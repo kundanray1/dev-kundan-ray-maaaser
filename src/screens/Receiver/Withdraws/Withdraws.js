@@ -34,9 +34,9 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [fromDate, setFromDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState("2021-07-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
-  const [toDate, setToDate] = useState(new Date());
+  const [toDate, setToDate] = useState("2021-07-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
   const [withdrawsMedium, setWithdrawsMedium] = useState();
   const [withdrawsMediumId, setWithdrawsMediumId] = useState("");
@@ -64,8 +64,8 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
   });
 
   const onPressReset = () => {
-  setFromDate(new Date());
-  setToDate(new Date());
+  setFromDate("2021-07-03T15:21:15.513Z");
+  setToDate("2021-07-03T15:21:15.513Z");
   setWithdrawsMedium();
   setWithdrawsMediumId("");
   setWithdrawsType();
@@ -81,6 +81,8 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
       medium:withdrawsMediumId,
       type:withdrawsTypeId
     })
+    onPressReset();
+
   };
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -196,7 +198,10 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
                       color:"#999999",
                     }}
                   >
-                    {moment(fromDate).format("DD/MM/YYYY")}
+                  {
+                      fromDate=="2021-07-03T15:21:15.513Z"?"":
+                       moment(fromDate).format("DD/MM/YYYY")
+                    }
                   </Text>
                   <Block style={{ alignItems: "flex-end" }}>
                     <MaterialCommunityIcons
@@ -209,9 +214,8 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
                 {showFromDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={fromDate}
+                    value={new Date()}
                     mode="date"
-                    is24Hour={true}
                     display="default"
                     textColor="red"
                     onChange={onChangeFromDate}
@@ -236,7 +240,10 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
 
                     }}
                   >
-                    {moment(toDate).format("DD/MM/YYYY")}
+                    {
+                      toDate=="2021-07-03T15:21:15.513Z"?"":
+                       moment(toDate).format("DD/MM/YYYY")
+                    }
                   </Text>
                   <Block style={{ alignItems: "flex-end" }}>
                     <MaterialCommunityIcons
@@ -249,9 +256,8 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
                 {showToDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={toDate}
+                    value={new Date()}
                     mode="date"
-                    is24Hour={true}
                     display="default"
                     textColor="red"
                     onChange={onChangeToDate}

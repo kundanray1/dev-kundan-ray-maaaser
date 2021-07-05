@@ -10,13 +10,16 @@ import API from "./../../../../api/API";
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* donors({ payload }) {
 	try {
+		console.log("1")
 		const response = yield call(requestProto, APIEndpoints.DONORSCLIENT, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
+		console.log("2")
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("donors res",res)
 		if (res.success) {
 			yield put(donorsSuccess(res));
 		} else {

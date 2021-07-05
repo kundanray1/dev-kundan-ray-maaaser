@@ -62,7 +62,7 @@ const LinkNewAccount = ({
         }
       }
     }
-  }, [data.linkNewAccount, data.updateLinkNewAccount]);
+  }, [data.linkNewAccount]);
 
   return (
     <KeyboardAwareScrollView

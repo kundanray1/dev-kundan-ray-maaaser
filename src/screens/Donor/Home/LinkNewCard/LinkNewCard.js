@@ -42,34 +42,15 @@ const LinkNewCard = ({
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState("2021-07-03T15:21:15.513Z");
   const [show, setShow] = useState(false);
   const [countryCode, setCountryCode] = useState(
     route.params != undefined ? route.params.card.countrycode : ""
   );
   //set all the required proto for updating and submitting
   const onSubmitLinkNewCard = (values) => {
-
-      // "cardId": "5dbe08f097354a04b0f156c3e9dd1089",
-      //   "cardHolderName": "Sanjit Shrestha",
-      //   "refId": "card_1IyAoPIVnmWuo9jMWOyfRe3O",
-      //   "accountId": "0bc2135f03164dd486143945af1f3ad3",
-      //   "cardNumber": "5555555555554444",
-      //   "expiryDate": "1740068023000",
-      //   "cvc": 233,
-      //   "cardStatus": "ACTIVE_CARD",
-      //   "billingAddress": {
-      //       "addressId": "35a62fc6f62d4868a0fffbab4e8dfe42",
-      //       "street1": "Baneswor1",
-      //       "street2": "Chow123k",
-      //       "city": "Kathmand1u",
-      //       "state": "MA",
-      //       "zip": 44600,
-      //       "countryCode": "NPE"
-        // }
     const linkNewCardData = new PaymentProto.Card();
     const addressData = new AddressProto.Address();
-    const AddressList = [];
 
     if(route.params!=undefined){
        linkNewCardData.setCardid(route.params.card.cardid);
@@ -77,7 +58,7 @@ const LinkNewCard = ({
     linkNewCardData.setCardstatus(
       PaymentProto.Card.CardStatus.ACTIVE_CARD
     );
-    linkNewCardData.setCardid(loginData.user.account.accountid);
+    linkNewCardData.setAccountid(loginData.user.account.accountid);
     }
     linkNewCardData.setCardnumber(values.cardNumber);
     linkNewCardData.setCardholdername(values.cardholderName);
@@ -100,16 +81,6 @@ const LinkNewCard = ({
    }
   };
 
-     useEffect(() => {
-    if(data.linkNewCard!==null ){
-       if(data.linkNewCard.success ){
-        linkNewCardClear()
-        navigation.navigate("Card")
-       }
-    }
-  }, [data.linkNewCard,data.updateLinkNewCard]); 
-
-
   const onChange = (event, selectedDate) => {
     console.log("selectedDate", selectedDate);
     const currentDate = selectedDate || date;
@@ -117,6 +88,15 @@ const LinkNewCard = ({
     setDate(currentDate);
     setShow(false);
   };
+
+  useEffect(() => {
+    if(data.linkNewCard!==null ){
+       if(data.linkNewCard.success ){
+        linkNewCardClear()
+        navigation.navigate("Card")
+       }
+    }
+  }, [data.linkNewCard]); 
 
   return (
     <KeyboardAwareScrollView
@@ -232,7 +212,10 @@ const LinkNewCard = ({
                         bold
                         style={{ fontSize: 16, color: theme.colors.solidGray }}
                       >
-                        {moment(date).format("DD/MM/YYYY")}
+                       {
+                      date=="2021-07-03T15:21:15.513Z"?"":
+                       moment(date).format("DD/MM/YYYY")
+                    }
                       </Text>
                     </Block>
                     <Block style={{ alignItems: "flex-end" }}>
@@ -246,7 +229,7 @@ const LinkNewCard = ({
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={date}
+                      value={new Date()}
                       mode="date"
                       is24Hour={true}
                       display="default"

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  Image,
-  TouchableOpacity,
-  Dimensions
-} from "react-native";
+import { Image, TouchableOpacity, Dimensions } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LetsGetStartedDonorValidationSchema } from "./../../../utility/ValidationSchema.js";
@@ -15,7 +11,7 @@ import {
   Text,
   Input,
   ErrorMessage,
-  CustomActivityIndicator
+  CustomActivityIndicator,
 } from "./../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
 import AccountProto from "./../../../protos/account_pb";
@@ -27,7 +23,14 @@ import CameraIconComponent from "../../../assets/icons/cameraIconComponent.js";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStartedDonor,imageUpload }) => {
+const LetsGetStartedDonor = ({
+  navigation,
+  route,
+  loginData,
+  data,
+  letsGetStartedDonor,
+  imageUpload,
+}) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -38,7 +41,7 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
   const [image, setImage] = useState(null);
 
-//select image function 
+  //select image function
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -46,19 +49,18 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
     if (!result.cancelled) {
-      setImage(result.uri);
+        setImage(result.uri);
+        imageUpload(result.uri);
     }
   };
-//set all the required proto for updating and submitting
+  //set all the required proto for updating and submitting
   const onSubmitSaveAndContinue = (values) => {
-
     const clientData = new AccountProto.Client();
     const accountData = new AccountProto.Account();
     const addressData = new AddressProto.Address();
     const AddressList = [];
-   
+
     accountData.setAccountid(loginData.user.account.accountid);
     accountData.setEmail(loginData.user.account.email);
     accountData.setFullname(values.fullName);
@@ -84,7 +86,7 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
   };
 
   useEffect(() => {
-    if (loginData.user.account.isfirstlogin===true) {
+    if (loginData.user.account.isfirstlogin === true) {
       navigation.navigate("DonorMainTab");
     }
   }, [loginData.user]);
@@ -97,9 +99,9 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
       <Block center middle>
         <Block style={{ marginTop: 20 }}>
           <Block center>
-             <Text
+            <Text
               center
-              style={{paddingTop: 5,fontSize: 18, fontWeight: "700" }}
+              style={{ paddingTop: 5, fontSize: 18, fontWeight: "700" }}
               color={theme.colors.black}
             >
               Let’s Get Started.
@@ -115,29 +117,29 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
             </Text>
             <TouchableOpacity onPress={pickImage}>
               {image ? (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  height: HEIGHT * 0.105,
-                  width: WIDTH * 0.2,
-                  borderRadius: 100,
-                }}
-              />
-            ) : (
-                <ProfileIconComponent/>
-            )}
+                <Image
+                  source={{ uri: image }}
+                  style={{
+                    height: HEIGHT * 0.105,
+                    width: WIDTH * 0.2,
+                    borderRadius: 100,
+                  }}
+                />
+              ) : (
+                <ProfileIconComponent />
+              )}
 
               <Block
-              style={{
-                padding: 2,
-                borderRadius: 10,
-                position: "absolute",
-                marginLeft: WIDTH * 0.17,
-                marginTop: HEIGHT * 0.074,
-              }}
-            >
-                <CameraIconComponent/>
-            </Block>
+                style={{
+                  padding: 2,
+                  borderRadius: 10,
+                  position: "absolute",
+                  marginLeft: WIDTH * 0.17,
+                  marginTop: HEIGHT * 0.074,
+                }}
+              >
+                <CameraIconComponent />
+              </Block>
             </TouchableOpacity>
           </Block>
         </Block>
@@ -148,12 +150,12 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
                 fullName: "Joshan Pradhan",
                 street1: "Fikkal ",
                 street2: "Phikkal",
-                state: " Ilam",
+                state: "Ilam",
                 city: "Fikkal",
                 zipCode: "44600",
               }}
               onSubmit={(values) => {
-                onSubmitSaveAndContinue(values)
+                onSubmitSaveAndContinue(values);
               }}
               validationSchema={LetsGetStartedDonorValidationSchema}
             >
@@ -169,7 +171,9 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
                   <Input
                     full
                     label={
-                       loginData.user.account.clienttype == 1 ? "Full Name" : "Company Name"
+                      loginData.user.account.clienttype == 1
+                        ? "Full Name"
+                        : "Company Name"
                     }
                     focus={fullNameOrCompanyNameFocus}
                     style={{ marginBottom: 5 }}
@@ -188,12 +192,19 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
                         : theme.colors.solidGray,
                     }}
                   />
-                  <ErrorMessage error={errors.fullName} visible={touched.fullName} />
+                  <ErrorMessage
+                    error={errors.fullName}
+                    visible={touched.fullName}
+                  />
                   <Text
                     bold
                     style={{ fontSize: 16, marginTop: 5 }}
                     color={
-                      street1Focus ||  street2Focus || stateFocus || cityFocus || zipCodeFocus
+                      street1Focus ||
+                      street2Focus ||
+                      stateFocus ||
+                      cityFocus ||
+                      zipCodeFocus
                         ? theme.colors.primary2
                         : theme.colors.black
                     }
@@ -333,21 +344,21 @@ const LetsGetStartedDonor = ({ navigation, route, loginData,data, letsGetStarted
                       }}
                       onPress={handleSubmit}
                     >
-                     {data.isLoading ? (
-                    <>
-                    <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Requesting..."
-                    />
-                    <Text button style={{ fontSize: 18 }}>
-                      Save and Conitnue
-                    </Text>
-                    </>
-                  ) : (
-                    <Text button style={{ fontSize: 18 }}>
-                      Save and Conitnue
-                    </Text>
-                  )}
+                      {data.isLoading ? (
+                        <>
+                          <CustomActivityIndicator
+                            isLoading={data.isLoading}
+                            label="Requesting..."
+                          />
+                          <Text button style={{ fontSize: 18 }}>
+                            Save and Conitnue
+                          </Text>
+                        </>
+                      ) : (
+                        <Text button style={{ fontSize: 18 }}>
+                          Save and Conitnue
+                        </Text>
+                      )}
                     </Button>
                   ) : (
                     <Button

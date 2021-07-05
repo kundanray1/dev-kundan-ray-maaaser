@@ -13,7 +13,6 @@ import {
   CustomActivityIndicator,
 } from "./../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
-
 import { Formik } from "formik";
 import AccountProto from "./../../../protos/account_pb";
 import MaaserProto from "./../../../protos/maaser_pb";
@@ -30,6 +29,7 @@ const letsGetStartedReceiver = ({
   loginData,
   data,
   letsGetStartedReceiver,
+  imageUpload
 }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
@@ -50,9 +50,9 @@ const letsGetStartedReceiver = ({
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
     if (!result.cancelled) {
-      setImage(result.uri);
+       setImage(result.uri);
+       imageUpload(result.uri);
     }
   };
   //set all the required proto for updating and submitting
