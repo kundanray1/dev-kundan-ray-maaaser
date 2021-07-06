@@ -104,9 +104,15 @@ cardNumber
       <Block
         style={{
           flex: 0,
-         borderRadius: 4,
-            shadowRadius: 4,
-            elevation: 2,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+          borderRadius:1.5,
+          elevation: 1.5,
         }}
       >
         <Block

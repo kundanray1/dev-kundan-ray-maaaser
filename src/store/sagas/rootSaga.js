@@ -33,13 +33,18 @@ import scheduleDonationReceiverDetailSaga from "./../../screens/Donor/Home/Sched
 import upcomingDonationsSaga from "./../../screens/Donor/Home/UpcomingDonations/saga";
 import uploadQRSaga from "./../../screens/Donor/Home/UploadQR/saga";
 
+//campaigns
+import campaignsSaga from "./../../screens/Donor/Campaigns/saga";
+import startacampaignSaga from "./../../screens/Donor/Campaigns/StartACampaign/saga";
+import addBeneficiarySaga from "./../../screens/Donor/Campaigns/AddBeneficiary/saga";
+
 //more
 import moreSaga from "./../../screens/Donor/More/saga";
 import addMemberSaga from "./../../screens/Donor/More/AddMember/saga";
 import membersSaga from "./../../screens/Donor/More/Members/saga";
 
 //profile
-import  profileSaga  from "./../../screens/Donor/Profile/saga";
+import profileSaga from "./../../screens/Donor/Profile/saga";
 import editProfileSaga from "./../../screens/Donor/Profile/EditProfile/saga";
 import viewProfileSaga from "./../../screens/Donor/Profile/ViewProfile/saga";
 import changePasswordSaga from "./../../screens/Donor/Profile/ChangePassword/saga";
@@ -63,7 +68,6 @@ import withdrawsSaga from "./../../screens/Receiver/Withdraws/saga";
 import receiverProfileSaga from "./../../screens/Receiver/ReceiverProfile/saga";
 import receiverViewProfileSaga from "./../../screens/Receiver/ReceiverProfile/ReceiverViewProfile/saga";
 import receiverEditProfileSaga from "./../../screens/Receiver/ReceiverProfile/ReceiverEditProfile/saga";
-
 
 export default function* rootSaga() {
 	yield all([
@@ -100,6 +104,11 @@ export default function* rootSaga() {
 		upcomingDonationsSaga(),
 		// uploadQRSaga(),
 
+		//campaigns
+		campaignsSaga(),
+		startacampaignSaga(),
+		addBeneficiarySaga(),
+		
 		//more
 		moreSaga(),
 		addMemberSaga(),

@@ -51,7 +51,7 @@ const ACHLoadFundConfirmation = ({
     const loadFundProto = new PaymentProto.Transaction();
     loadFundProto.setBankid(bankid);
     loadFundProto.setDonoraccountid(accountid);
-    loadFundProto.setAmount(amount*100);
+    loadFundProto.setAmount(amount * 100);
     loadFundProto.setRemark(remarks);
     loadFundProto.setTransactionmedium(transactionMedium);
     loadFundProto.setTransactiontype(transactionType);
@@ -84,34 +84,37 @@ const ACHLoadFundConfirmation = ({
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
               Load Fund Successfull!
             </Text>
-            <View style={{ paddingVertical: 25,alignItems:"center"}}>
-
-             <TickIconComponent/>
-
+            <View style={{ paddingVertical: 25, alignItems: "center" }}>
+              <TickIconComponent />
             </View>
-            <View style={{paddingHorizontal:30}}>
-              <Button
-                onPress={() => navigation.navigate("ACH")}
-              >
+            <View style={{ paddingHorizontal: 30 }}>
+              <Button onPress={() => navigation.navigate("ACH")}>
                 <Text button style={{ fontSize: 18 }}>
-                   OK
+                  OK
                 </Text>
               </Button>
             </View>
-             
           </View>
         </View>
       </Modal>
     </SafeAreaView>
   );
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 24, justifyContent:"center" }}>
+    <SafeAreaView
+      style={{ flex: 1, paddingHorizontal: 24, justifyContent: "center" }}
+    >
       <Block
         style={{
-            flex: 0,
-            borderRadius: 4,
-            shadowRadius: 4,
-            elevation: 2,
+          flex: 0,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+          borderRadius:1.5,
+          elevation: 1.5,
         }}
       >
         <Block
@@ -197,20 +200,19 @@ const ACHLoadFundConfirmation = ({
               </Text>
             </Block>
             <Block>
-             
-               <NumberFormat
-          value={amount}
-          displayType={"text"}
-          thousandSeparator={true}
-          prefix={"$"}
-          decimalScale={2}
-          fixedDecimalScale={true}
-          renderText={(formattedValue) => (
-            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-              {formattedValue}
-            </Text>
-          )}
-        />
+              <NumberFormat
+                value={amount}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                renderText={(formattedValue) => (
+                  <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+                    {formattedValue}
+                  </Text>
+                )}
+              />
             </Block>
           </Block>
 
@@ -254,13 +256,13 @@ const ACHLoadFundConfirmation = ({
           >
             {data.isLoading ? (
               <>
-              <CustomActivityIndicator
-                label="Requesting..."
-                isLoading={data.isLoading}
-              />
+                <CustomActivityIndicator
+                  label="Requesting..."
+                  isLoading={data.isLoading}
+                />
                 <Text button style={{ fontSize: 18 }}>
-                Load Fund
-              </Text>
+                  Load Fund
+                </Text>
               </>
             ) : (
               <Text button style={{ fontSize: 18 }}>

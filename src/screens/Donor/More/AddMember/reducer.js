@@ -2,6 +2,7 @@ import {
   ADD_MEMBER_FAIL,
   ADD_MEMBER_START,
   ADD_MEMBER_SUCCESS,
+  ADD_MEMBER_CLEAR,
   UPDATE_MEMBER_START,
 UPDATE_MEMBER_SUCCESS,
 UPDATE_MEMBER_FAIL,
@@ -34,7 +35,7 @@ export const addMemberReducer=(state = initialState, { type, payload }) => {
         error: payload,
       };
 
-      case ADD_MEMBER_FAIL:
+      case ADD_MEMBER_CLEAR:
       return initialState;
 
       case UPDATE_MEMBER_START:

@@ -29,6 +29,7 @@ const letsGetStartedReceiver = ({
   loginData,
   data,
   letsGetStartedReceiver,
+  letsGetStartedDonorData,
   imageUpload
 }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
@@ -78,7 +79,7 @@ const letsGetStartedReceiver = ({
     AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(image);
+    clientData.setProfilepic(letsGetStartedDonorData.image);
     clientData.setBio(values.bio);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);

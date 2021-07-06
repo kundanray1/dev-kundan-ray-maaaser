@@ -49,47 +49,31 @@ export function* letsGetStartedDonor({ payload }) {
 }
 
 export function* imageUpload({ payload }) {
-  const fileType = "jpeg";
-  const formData = new FormData();
-  formData.append("file", {
-    payload,
-    name: `photo.${fileType}`,
-    type: `image/${fileType}`,
+  const formdata = new FormData();
+  formdata.append("image", {
+    name: "image",
+    type: "image/jpeg",
+    uri: payload,
   });
-  const options = {
-    method: "POST",
-    body: formData,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "multipart/form-data",
-    },
-  };
-  fetch(APIEndpoints.IMAGE, options)
-    .then((response) => console.log("response", response))
-    .catch((e) => console.log(e));
+  try {
+    const res = yield call(request, APIEndpoints.IMAGE, {
+      method: "POST",
+      headers: API.authHeadersForMultipartFormData(),
+      body: formdata,
+    });
+    if (res.success) {
+      yield put(imageUploadSuccess(res.fileUrl));
+    } else {
+      yield put(imageUploadFail(res.msg));
+       showMessage({
+      message: "Failed to upload image on server. Try again!",
+      type: "danger",
+    });
+    }
+  } catch (e) {
+    yield put(imageUploadFail(e));
+  }
 }
-
-// const formdata = new FormData();
-// formdata.append("image", {
-//   name: "image",
-//   type: "image/jpeg",
-//   uri: payload,
-// });
-// try {
-//   const res = yield call(request, APIEndpoints.IMAGE, {
-//     method: "POST",
-//     headers: API.authHeadersForMultipartFormData(),
-//     body: formdata,
-//   });
-//   if (res.error === true) {
-//     yield put(imageUploadFail(res.msg));
-//   } else {
-//     yield put(imageUploadSuccess(res.fileUrl));
-//   }
-// } catch (e) {
-//   yield put(imageUploadFail(e));
-// }
-// }
 
 export default function* letsGetStartedDonorSaga() {
   yield takeLatest(LETS_GET_STARTED_DONOR_START, letsGetStartedDonor);

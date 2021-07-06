@@ -9,6 +9,7 @@ import DonorReceiver from "../../screens/Donor/Home/DonorReceiver/index";
 import Profile from "../../screens/Donor/Profile/index";
 import Transactions from "../../screens/Donor/Transactions/index";
 import More from "../../screens/Donor/More/index";
+import Campaigns from "../../screens/Donor/Campaigns/index";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
@@ -24,7 +25,7 @@ const screenOptions = ({ route }) => ({
 					color={color}
 				/>
 			);
-		} else if (route.name === "Notifications") {
+		} else if (route.name === "Campaigns") {
 			iconName = "notifications-sharp";
 		} else if (route.name === "Profile") {
 			iconName = "person-circle";
@@ -54,7 +55,7 @@ export default MainTab = () => {
 		>
 			<Tab.Screen name="Home" component={HomeStack} />
 			<Tab.Screen name="Transactions" component={TransactionsStack} />
-			{/*<Tab.Screen name="Notifications" component={NotificationsStack} />*/}
+			<Tab.Screen name="Campaigns" component={CampaignsStack} />
 			<Tab.Screen name="Profile" component={ProfileStack} />
 			<Tab.Screen name="More" component={MoreStack} />
 		</Tab.Navigator>
@@ -93,20 +94,20 @@ function TransactionsStack() {
 	);
 }
 
-const NotificationsRoute = createStackNavigator();
-function NotificationsStack() {
+const CampaignsRoute = createStackNavigator();
+function CampaignsStack() {
 	return (
-		<NotificationsRoute.Navigator
+		<CampaignsRoute.Navigator
 			screenOptions={{
 				headerShown: true,
 			}}
-			initialRouteName="Notifications"
+			initialRouteName="Campaigns"
 		>
-			<NotificationsRoute.Screen
-				name="Notifications"
-				component={More}
+			<CampaignsRoute.Screen
+				name="Campaigns"
+				component={Campaigns}
 			/>
-		</NotificationsRoute.Navigator>
+		</CampaignsRoute.Navigator>
 	);
 }
 

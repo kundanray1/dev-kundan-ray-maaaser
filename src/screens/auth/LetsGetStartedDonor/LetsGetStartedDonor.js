@@ -77,7 +77,7 @@ const LetsGetStartedDonor = ({
     AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(image);
+    clientData.setProfilepic(data.image);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);
     clientData.setAddressesList(AddressList);

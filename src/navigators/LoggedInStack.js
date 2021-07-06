@@ -5,6 +5,7 @@ import { createStructuredSelector } from "reselect";
 import DonorMainTab from "./DonorMenu/DonorMainTab";
 import ReceiverMainTab from "./ReceiverMenu/ReceiverMainTab";
 import DonateTabStack from "./DonorMenu/DonateTabStack";
+import CampaignTabStack from "./DonorMenu/CampaignTabStack";
 
 //auth
 import LetsGetStartedDonor from "../screens/auth/LetsGetStartedDonor/index";
@@ -28,6 +29,14 @@ import LinkNewAccount from "../screens/Donor/Home/LinkNewAccount/index";
 import LinkScheduleDonation from "../screens/Donor/Home/LinkScheduleDonation/index";
 import ScanQRCodeTabStack from "./DonorMenu/ScanQRCodeTabStack";
 import ScheduleDonationReceiverDetail from "../screens/Donor/Home/ScheduleDonationReceiverDetail/index";
+
+
+//campaigns
+import StartACampaign from "../screens/Donor/Campaigns/StartACampaign/index";
+import StartACampaignSecond from "../screens/Donor/Campaigns/StartACampaignSecond/index";
+import StartACampaignThird from "../screens/Donor/Campaigns/StartACampaignThird/index";
+import AddBeneficiary from "../screens/Donor/Campaigns/AddBeneficiary/index";
+
 
 //more
 import AddMember from "../screens/Donor/More/AddMember/index";
@@ -141,6 +150,7 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={ManualDonateConfirmation}
       />
+
     
       <AuthStack.Screen
         name="ACH"
@@ -262,6 +272,32 @@ const LoggedInStack = ({ data }) => {
         name="My QR Code"
         options={{ headerShown: true }}
         component={MyQRCode}
+      />
+
+      <AuthStack.Screen
+        name="Start a campaign"
+        options={{ headerShown: true }}
+        component={StartACampaign}
+      />
+       <AuthStack.Screen
+        name="Add Beneficiary"
+        options={{ headerShown: true }}
+        component={AddBeneficiary}
+      />
+        <AuthStack.Screen
+        name="Start a campaign second"
+        options={{ headerShown: true,title:'Start a campaign'}}
+        component={StartACampaignSecond}
+      />
+      <AuthStack.Screen
+        name="Start a campaign third"
+        options={{ headerShown: true,title:'Start a campaign'}}
+        component={StartACampaignThird}
+      />
+      <AuthStack.Screen
+        name="Campaign Details"
+        options={{ headerShown: true }}
+        component={CampaignTabStack}
       />
 
     </AuthStack.Navigator>

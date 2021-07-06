@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 	},
 	modal: {
 		flexDirection: "row",
-		borderRadius: 6,
+		borderRadius: 2,
 		borderWidth: 1,
 		borderColor: theme.colors.gray,
 		backgroundColor: theme.colors.white,

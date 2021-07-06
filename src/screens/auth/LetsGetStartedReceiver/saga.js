@@ -20,7 +20,6 @@ export function* letsGetStartedReceiver({ payload }) {
       body: serializedData,
     });
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
-    console.log("letsGetStartedReceiver",res);
     if (res.error) {
       yield put(letsGetStartedReceiverFail(res.msg));
       showMessage({

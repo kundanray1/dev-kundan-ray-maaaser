@@ -60,7 +60,6 @@ const DonorReceiver = ({
   const [confirmationSuccessfulVisible, setConfirmationSuccessfulVisible] = useState(false);
   const [confirmationMessageVisible, setConfirmationMessageVisible] = useState(false);
 
-console.log(loginData);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);

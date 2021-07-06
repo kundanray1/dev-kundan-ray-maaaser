@@ -92,11 +92,13 @@ UI bugs fixing
 
 -Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/saga i.e fix session storage problem for first time account creator
 -Make Popup just below the specific field
--Card Shadow of all confirmation detail
+-Change Logo of bottom tab of receiver end with withdraw logo
+-Make campaign UI from campaign empty UI
 
 Completed
-Make transactions filter more effort less using bottom sheet like used in Transactions also use it in  social share in receiver end UI
 Image Upload API
+Card Shadow of all confirmation detail
+Make transactions filter more effort less using bottom sheet like used in Transactions also use it in  social share in receiver end UI
 Make form and to date empty by default and reset after each filter(Copy Link Schedule Donation Date from same on "Link New Card","remaining...Donations Made, Transactions, Upcoming Donations,Receiver Withdraws Listing Transactions Filter")
 Donor end(Also make changes in receiver end as well)
 Donations Made listing gap UI

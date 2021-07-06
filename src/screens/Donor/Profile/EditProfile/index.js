@@ -8,6 +8,7 @@ import { imageUploadStart } from "./../../../auth/LetsGetStartedDonor/actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.editProfile,
+	letsGetStartedDonorData: (state) => state.letsGetStartedDonor,
 	profileData: (state) => state.profile,
 	loginData: (state) => state.login,
 });

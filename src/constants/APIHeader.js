@@ -12,4 +12,5 @@ export const ProtoHeaders = {
 
 export const APIHeadersForMultipartFormData = {
   Accept: 'application/json',
+  'Content-Type': 'multipart/form-data',
 };

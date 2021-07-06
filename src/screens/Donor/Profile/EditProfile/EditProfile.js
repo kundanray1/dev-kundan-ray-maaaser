@@ -30,7 +30,7 @@ import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editProfileClear,imageUpload }) => {
+const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfile,data,profileData,editProfileClear,imageUpload }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -76,7 +76,7 @@ const EditProfile = ({ navigation, loginData, editProfile,data,profileData,editP
     AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(image);
+    clientData.setProfilepic(letsGetStartedDonorData.image);
     clientData.setBio(values.bio);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);

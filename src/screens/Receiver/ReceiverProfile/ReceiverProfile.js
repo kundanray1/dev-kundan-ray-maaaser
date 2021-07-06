@@ -86,7 +86,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
               </Block>
 
               <NumberFormat
-                value={balanceData.balance}
+                value={balanceData.balance/100}
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"$"}

@@ -36,6 +36,11 @@ import { scheduleDonationReducer } from "./../../screens/Donor/Home/ScheduleDona
 import { scheduleDonationReceiverDetailReducer } from "./../../screens/Donor/Home/ScheduleDonationReceiverDetail/reducer";
 
 import { upcomingDonationsReducer } from "./../../screens/Donor/Home/UpcomingDonations/reducer";
+//campaigns
+import { campaignsReducer } from "./../../screens/Donor/Campaigns/reducer";
+import { startACampaignReducer } from "./../../screens/Donor/Campaigns/StartACampaign/reducer";
+import { addBeneficiaryReducer } from "./../../screens/Donor/Campaigns/AddBeneficiary/reducer";
+
 
 //more
 import { moreReducer } from "./../../screens/Donor/More/reducer";
@@ -105,13 +110,18 @@ const rootReducer = combineReducers({
 	scheduleDonationReceiverDetail: scheduleDonationReceiverDetailReducer,
 	upcomingDonations: upcomingDonationsReducer,
 
+	//campaigns
+	campaigns: campaignsReducer,
+	startACampaign:startACampaignReducer,
+	addBeneficiary:addBeneficiaryReducer,
+
 	//more
-	more:moreReducer,
+	more: moreReducer,
 	addMember: addMemberReducer,
 	members: membersReducer,
 
 	//profile
-	profile:profileReducer,
+	profile: profileReducer,
 	editProfile: editProfileReducer,
 	viewProfile: viewProfileReducer,
 	changePassword: changePasswordReducer,
@@ -135,7 +145,6 @@ const rootReducer = combineReducers({
 	receiverProfile: receiverProfileReducer,
 	receiverEditProfile: receiverEditProfileReducer,
 	receiverViewProfile: receiverViewProfileReducer,
-
 });
 
 export default rootReducer;
