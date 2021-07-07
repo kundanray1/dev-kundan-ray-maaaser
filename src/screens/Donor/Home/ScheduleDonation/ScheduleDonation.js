@@ -83,7 +83,7 @@ const ScheduleDonation = ({
                 )}
                 ListEmptyComponent={() => (
                   <Empty
-                    iconName="calendar-month"
+                    iconName="transactions"
                     title="You haven’t scheduled any donations yet."
                   />
                 )}

@@ -77,6 +77,8 @@ const LinkScheduleDonation = ({
   const [scheduleType, setScheduleType] = useState(scheduleTypeRoute);
   const [startDate, setStartDate] = useState("2021-07-03T15:21:15.513Z");
   const [showStartDate, setShowStartDate] = useState(false);
+  const [startTime, setStartTime] = useState("12:00 AM");
+  const [showStartTime, setShowStartTime] = useState(false);
   const [endDate, setEndDate] = useState("2021-07-03T15:21:15.513Z");
   const [showEndDate, setShowEndDate] = useState(false);
   const [remarksFocus, setRemarksFocus] = useState();
@@ -97,10 +99,10 @@ const LinkScheduleDonation = ({
         : scheduleType == "YEARLY"
         ? PaymentProto.ScheduleType.YEARLY
         : PaymentProto.ScheduleType.NTH_DAY;
-
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
     const scheduleDetailProto = new PaymentProto.ScheduleDetail();
     scheduleDetailProto.setStartdate(new Date(startDate).getTime());
+    // scheduleDetailProto.setStarttime(new Date(startTime).getTime());
     scheduleDetailProto.setEnddate(new Date(endDate).getTime());
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
 
@@ -147,6 +149,12 @@ const LinkScheduleDonation = ({
     setShowEndDate(Platform.OS === "ios");
     setEndDate(currentDate);
     setShowEndDate(false);
+  };
+  const onChangeStartTime = (event, selectedTime) => {
+   const currentTime = selectedTime || startTime;
+    setShowStartTime(Platform.OS === "ios");
+    setStartTime(currentTime);
+    setShowStartTime(false);
   };
  useEffect(() => {
     if(data.linkScheduleDonation!==null){
@@ -262,6 +270,45 @@ const LinkScheduleDonation = ({
                     display="default"
                     minimumDate={new Date()}
                     onChange={onChangeStartDate}
+                  />
+                )}
+              </Block>
+               <Block style={{ paddingVertical: 8 }}>
+                <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
+                  Start Time
+                </Text>
+                <TouchableOpacity
+                  style={styles.customPicker}
+                  activeOpacity={0.8}
+                  onPress={() => setShowStartTime(true)}
+                >
+                  <Block>
+                    <Text
+                      bold
+                      style={{ fontSize: 16, color: theme.colors.solidGray }}
+                    >
+                    {
+                      startTime=="12:00 AM"?"":
+                       moment(startTime).format("hh:mm A")
+                    }
+                    </Text>
+                  </Block>
+                  <Block style={{ alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="clock"
+                      size={20}
+                      color={theme.colors.primary2}
+                    />
+                  </Block>
+                </TouchableOpacity>
+                {showStartTime && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    mode="time"
+                    is24Hour={false}
+                    display="default"
+                    onChange={onChangeStartTime}
                   />
                 )}
               </Block>

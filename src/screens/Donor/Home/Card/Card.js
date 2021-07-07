@@ -73,7 +73,7 @@ const Card = ({ navigation, data, loginData, card }) => {
                 />
               }
               ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
-              ListEmptyComponent={() => <Empty  iconName="credit-card-multiple" title="You haven’t added any accounts yet."/>}
+              ListEmptyComponent={() => <Empty  iconName="cards" title="You haven’t added any accounts yet."/>}
                 ListFooterComponent={() => (
                   <Block middle center style={{ marginBottom:120,flex: 0 }}>
                   </Block>

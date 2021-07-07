@@ -1,0 +1,1 @@
+InactiveTransactionsIconComponent.js

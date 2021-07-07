@@ -1,30 +1,62 @@
 import React from "react";
-import { Image, TouchableOpacity, Pressable } from "react-native";
+import {
+	Image,
+	TouchableOpacity,
+	Pressable,
+	Dimensions,
+	ImageBackground,
+} from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
-import moment from "moment";
-import ArrowRightIconComponent from "../assets/icons/arrowRightIconComponent";
+import CampaignsEditIconComponent from "./../assets/icons/campaignEditIconComponent.js";
+import CampaignsDeleteIconComponent from "./../assets/icons/campaignDeleteIconComponent.js";
 
+const HEIGHT = Dimensions.get("window").height;
 export default CampaignCard = ({ label, image, ...props }) => {
 	return (
-		<Block style={{paddingHorizontal:16}}>
-			<Block style={{flex:0}}>
-				{/*{image !== "" ? (
-					<Image
-						source={{ uri: image }}
-						style={{ height: 45, width: 45, borderRadius: 30 }}
-					/>
-				) : (
-					<ArrowRightIconComponent height={45} width={45} />
-				)}*/}
-				<Image
-						source={image}
-						style={{ height: 200, width: "100%", borderRadius: 30 }}
-					/>
+		<TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: 16 }} {...props}>
+			<Block style={{ flex: 0 }}>
+				<ImageBackground
+					style={{
+						height: HEIGHT / 4,
+						width: "100%",
+						alignItems: "flex-end",
+						borderRadius:6,
+						overflow:"hidden"
+					}}
+					source={{ uri: image }}
+				>
+					<Block
+						row
+						style={{
+							flex: 0,
+
+							paddingVertical: 4,
+						}}
+					>
+						<TouchableOpacity activeOpacity={0.8}>
+							<CampaignsEditIconComponent
+								style={{ marginRight: 10, marginTop: 10 }}
+							/>
+						</TouchableOpacity>
+						<TouchableOpacity activeOpacity={0.8}>
+							<CampaignsDeleteIconComponent
+								style={{ marginRight: 10, marginTop: 10 }}
+							/>
+						</TouchableOpacity>
+					</Block>
+				</ImageBackground>
 			</Block>
 
-			<Block style={{flex:0,borderBottomWidth:1,borderColor: theme.colors.gray2,paddingVertical:8}}>
+			<Block
+				style={{
+					flex: 0,
+					borderBottomWidth: 1,
+					borderColor: theme.colors.gray2,
+					paddingVertical: 8,
+				}}
+			>
 				<Text
 					style={{
 						fontSize: 18,
@@ -36,6 +68,6 @@ export default CampaignCard = ({ label, image, ...props }) => {
 					{label}
 				</Text>
 			</Block>
-		</Block>
+		</TouchableOpacity>
 	);
 };

@@ -22,9 +22,12 @@ import { Formik } from "formik";
 import { WithdrawFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import StartACampaignOneIconComponent from "./../../../../assets/icons/startACampaignOneIconComponent";
+import StartACampaignThreeIconComponent from "./../../../../assets/icons/StartACampaignThreeIconComponent";
 import AddImageIconComponent from "./../../../../assets/icons/addImageIconComponent";
 
 const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
+
 
 const StartACampaignThird = ({
   data,
@@ -56,7 +59,7 @@ const StartACampaignThird = ({
             paddingVertical: 10,
           }}
         >
-          <StartACampaignOneIconComponent />
+          <StartACampaignThreeIconComponent />
         </Block>
         <Text
           center
@@ -73,22 +76,20 @@ const StartACampaignThird = ({
           activeOpacity={0.8}
           style={{
             flex: 0,
-            alignItems:"center",
-            borderStyle: "dashed",
             borderWidth: 1,
-            paddingVertical: 40,
+            height:HEIGHT/3,
+            overflow:"hidden"
           }}
         >
-          
-         
+        <Text color="#BABABA" style={{padding:10}} numberOfLines={14}>
+        Explain about the campaign.
+        </Text>
         </TouchableOpacity>
-
         <Button
           style={{
             marginTop: 12,
             marginBottom: 12,
           }}
-          onPress={() => navigation.navigate("Campaign Details")}
         >
           <Text button style={{ fontSize: 18 }}>
             Proceed

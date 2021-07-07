@@ -306,7 +306,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="bank" title="You don't any transactions yet." />
+              <Empty iconName="transactions" title="You don't any donations made yet." />
             )}
             refreshControl={
                     <RefreshControl

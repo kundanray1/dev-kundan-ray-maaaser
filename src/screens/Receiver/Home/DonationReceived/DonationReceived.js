@@ -40,7 +40,7 @@ const DonationReceived = ({ navigation, data, donationReceived }) => {
             ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
             ListEmptyComponent={() => (
               <Empty
-                iconName="calendar-month"
+                iconName="transactions"
                 title="You don't have made any donation received yet."
               />
             )}

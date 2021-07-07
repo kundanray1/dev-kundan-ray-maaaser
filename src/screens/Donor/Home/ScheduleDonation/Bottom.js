@@ -19,7 +19,7 @@ export const Bottom = ({ navigation, bs, scheduleDonationData }) => {
 	};
 	const handleDelete = () => {
 		Alert.alert(
-			"Account Deletion",
+			"Schedule Donation Deletion",
 			"Are you sure you want to delete this schedule donation?",
 			[
 				{

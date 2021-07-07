@@ -305,7 +305,7 @@ console.log("toDate",new Date(toDate).getTime())
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="bank" title="You don't any transactions yet." />
+              <Empty iconName="transactions" title="You don't any transactions yet." />
             )}
             refreshControl={
                     <RefreshControl

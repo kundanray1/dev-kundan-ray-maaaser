@@ -124,7 +124,7 @@ const Profile = ({ navigation, loginData,data,balanceData }) => {
               style={{
                 height: HEIGHT * 0.105,
                 width: WIDTH * 0.2,
-                borderRadius: 100,
+                borderRadius: 100
               }}
             />
           ) : (

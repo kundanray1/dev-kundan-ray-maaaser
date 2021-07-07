@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as theme from "../../constants/theme";
 //two tab screens
-// import CampaignDetails from "../../screens/Donor/Campaigns/CampaignDetails/index";
+import CampaignDetails from "../../screens/Donor/Campaigns/CampaignDetails/index";
 import CampaignDonors from "../../screens/Donor/Campaigns/CampaignDonors/index";
 import CampaignComments from "../../screens/Donor/Campaigns/CampaignComments/index";
 // import SubCampaigns from "../../screens/Donor/Campaigns/SubCampaigns/index";
@@ -38,7 +38,7 @@ export default CampaignTabStack=()=> {
       }}>
       <CampaignTab.Screen
         name="Campaign Details"
-        component={CampaignDonors}
+        component={CampaignDetails}
         options={{ headerShown: true,title:'Details'}}
 
           />

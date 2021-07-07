@@ -285,9 +285,8 @@ const Receivers = ({ navigation, data, loginData,receivers,manualDonateConfirmat
                 ListFooterComponentStyle={{
                   paddingVertical:20,
                 }}
-            ListEmptyComponent={() => (
-              <Empty iconName="account-group" title="No receivers avaialble!" />
-            )}
+          ListEmptyComponent={() => <Empty iconName="receivers" title="You don't have any receivers"/>}
+
             renderItem={(post) => (
               <Block style={{ flex: 0, paddingHorizontal: 16 }}>
                 <ReceiversDetail

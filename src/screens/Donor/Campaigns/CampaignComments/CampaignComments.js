@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, FlatList, SafeAreaView, RefreshControl } from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, RefreshControl,StyleSheet,TextInput,TouchableOpacity } from "react-native";
 import * as theme from "../../../../constants/theme.js";
-import { Block, Empty, CampaignCommentCard } from "../../../../components/Index.js";
+import { Block, Empty, CampaignCommentCard,Text } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
 import {Dummy} from "./Dummy";
+import EmptyMembersIconComponent from "./../../../../assets/icons/emptyMembersIconComponent.js";
 
 const CampaignDonors = ({ navigation, data, campaignDonors }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -37,8 +38,8 @@ const CampaignDonors = ({ navigation, data, campaignDonors }) => {
             ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
             ListEmptyComponent={() => (
               <Empty
-                iconName="calendar-month"
-                title="There is no comments yet."
+                iconName="comments"
+                // title="No comments yet."
               />
             )}
             ListFooterComponent={() => (
@@ -55,8 +56,49 @@ const CampaignDonors = ({ navigation, data, campaignDonors }) => {
               }
           />
         </Block>
+         <Block style={{ paddingHorizontal: 18,backgroundColor:"white",justifyContent:"flex-end",bottom:0,paddingVertical:10,position:"absolute",width:"100%"}}>
+           <Block style={styles.amountSection}>
+              <Block style={{flex:6}}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="write something"
+                  placeholderTextColor={theme.colors.solidGray}
+                  keyboardType="default"
+                  multiline={true}
+                  maxHeight={80}
+                />
+                </Block>
+              <TouchableOpacity  activeOpacity={1} style={{flex:1}}>
+                  <Text
+                  center
+                  style={{ fontSize: 16, fontWeight: "700", color: "#0BB3F3" }}
+                >
+                  Post
+                </Text>
+                </TouchableOpacity>
+              </Block>
+        </Block>
     </SafeAreaView>
   );
 };
 
 export default CampaignDonors;
+
+const styles = StyleSheet.create({
+  input: {
+    fontSize: 16,
+    backgroundColor: "#F0FBFF",
+    color: theme.colors.solidGray,
+    paddingHorizontal: 14,
+    borderRadius:40,
+
+  },
+  amountSection: {
+    flex: 1,
+    borderRadius:40,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical:10,
+    backgroundColor: "#F0FBFF",
+  },
+});

@@ -88,13 +88,6 @@ logout garda kheri ko response
 
 
 
-UI bugs fixing
-
--Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/saga i.e fix session storage problem for first time account creator
--Make Popup just below the specific field
--Change Logo of bottom tab of receiver end with withdraw logo
--Make campaign UI from campaign empty UI
-
 Completed
 Image Upload API
 Card Shadow of all confirmation detail
@@ -112,3 +105,24 @@ number format in all confirmation detail screen
 Fill data in profile update form
 Show members on more screen only when accout type is organization
 Remove bell icon from receiver end dashboard
+
+UI bugs fixing
+
+-Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/  saga i.e fix session storage problem for first time account creator
+
+-Make Popup just below the specific field
+-Schedule Donation Form Add Time also
+-Change receiver end share from My QR Code->Share with native share functionality
+-Lets get started and profile screen image and camera location after selections of image
+
+-Campaign Details UI(Ongoing)
+
+-Active transactions and inactive withdraws icon as whole download ans use it in bottom tab
+-Change Logo of bottom tab of receiver end with withdraw logo
+-Change Logo of bottom tab of donor end with campaign logo
+-Make campaign UI from campaign empty UI
+-Campaign listing page with edit and delete icon on image
+-Start a campaign second add function to add picture and also change photo text in image
+-Show Change empty logo on all screens of listing
+-Make Textinput for comments in campaign comments page
+-Make Donate Now button for donors in campaign donors page

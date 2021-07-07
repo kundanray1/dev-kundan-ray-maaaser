@@ -303,7 +303,7 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="bank" title="You don't any transactions yet." />
+              <Empty iconName="transactions" title="You don't any upcoming donations yet." />
             )}
             refreshControl={
                     <RefreshControl

@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   TextInput,
+  ImageBackground,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -17,6 +18,7 @@ import {
   CustomActivityIndicator,
 } from "../../../../components/Index.js";
 import moment from "moment";
+import * as ImagePicker from "expo-image-picker";
 import PaymentProto from "./../../../../protos/payment_pb";
 import { Formik } from "formik";
 import { WithdrawFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
@@ -24,6 +26,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import StartACampaignOneIconComponent from "./../../../../assets/icons/startACampaignOneIconComponent";
 import AddImageIconComponent from "./../../../../assets/icons/addImageIconComponent";
 
+const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const StartACampaignSecond = ({
@@ -32,6 +35,21 @@ const StartACampaignSecond = ({
   startACampaignClear,
   navigation,
 }) => {
+  const [image, setImage] = useState(null);
+
+  //select image function
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setImage(result.uri);
+      // imageUpload(result.uri);
+    }
+  };
   const onSubmitStartACampaignSecondLoadFund = () => {};
 
   useEffect(() => {
@@ -73,23 +91,57 @@ const StartACampaignSecond = ({
           activeOpacity={0.8}
           style={{
             flex: 0,
-            alignItems:"center",
+            alignItems: "center",
             borderStyle: "dashed",
-            borderWidth: 1,
-            paddingVertical: 40,
+            borderWidth: image ? 0 : 1,
+            borderRadius: image ? 0 : 1,
+            paddingVertical: image ? 0 : 40,
           }}
+          onPress={pickImage}
         >
-          <AddImageIconComponent />
-          <Text
-            style={{
-              fontSize: 18,
-              marginTop: 10,
-              fontWeight: "700",
-              color: "#5F6062",
-            }}
-          >
-            Click to upload
-          </Text>
+          {image ? (
+            <ImageBackground
+              style={{
+                height: HEIGHT / 3,
+                width: "100%",
+                justifyContent: "flex-end",
+              }}
+              source={{ uri: image }}
+            >
+              <Block
+                style={{
+                  flex:0,
+                  backgroundColor:"rgba(52, 52, 52, 0.6)",
+                  paddingVertical:4
+                }}
+              >
+                <Text
+                  center
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "700",
+                    color: "white",
+                  }}
+                >
+                  Change Picture
+                </Text>
+              </Block>
+            </ImageBackground>
+          ) : (
+            <>
+              <AddImageIconComponent />
+              <Text
+                style={{
+                  fontSize: 18,
+                  marginTop: 10,
+                  fontWeight: "700",
+                  color: "#5F6062",
+                }}
+              >
+                Click to upload
+              </Text>
+            </>
+          )}
         </TouchableOpacity>
 
         <Button

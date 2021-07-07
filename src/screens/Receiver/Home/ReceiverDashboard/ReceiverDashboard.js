@@ -38,7 +38,6 @@ const DonorReceiver = ({
   receiverProfileData,
 receiverProfile
 }) => {
-  console.log("donorsData.donors",donorsData.donors);
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -138,7 +137,7 @@ receiverProfile
                   <Block
                     style={{
                       flex: 4,
-                      marginLeft: 10,
+                      marginLeft: 20,
                     }}
                   >
                     <Text
@@ -240,20 +239,12 @@ receiverProfile
                     <Block style={{ marginTop: 2 }} />
                   )}
                   ListEmptyComponent={() => (
-                    <Block center style={{ marginTop: 30 }}>
-                      <FontAwesome5
-                        name="box-open"
-                        size={45}
-                        color={theme.colors.gray}
-                      />
-                      <Text
-                        color={theme.colors.gray}
-                        style={{ fontSize: 16, fontWeight: "700" }}
-                      >
-                        You don't have made any donation received yet.
-                      </Text>
-                    </Block>
-                  )}
+              <Empty
+                iconName="transactions"
+                dashboard={0}
+                title="You don't have made any donation received yet."
+              />
+            )}
                   renderItem={(post) =>
                     post.item.clientList[1] != undefined ? (
                       <DonationsDetail
@@ -270,7 +261,7 @@ receiverProfile
                 />
               </Block>
             </Block>
-{/*
+
             <Block style={{ paddingHorizontal: 20, flex: 2 }}>
               <Block row style={{ flex: 0.1, justifyContent: "space-between" }}>
                 <Text style={{ fontSize: 18, fontWeight: "700" }}>Donors</Text>
@@ -300,11 +291,12 @@ receiverProfile
                     />
                   }
                   ListEmptyComponent={() => (
-                    <Empty
-                      iconName="account-group"
-                      title="No donors avaialble!"
-                    />
-                  )}
+              <Empty
+                iconName="donors"
+                dashboard={0}
+                title="You don't have made any donation received yet."
+              />
+            )}
                   renderItem={(post) => (
                     <DonorsDetail
                       profilePic={post.item.profilepic}
@@ -314,7 +306,7 @@ receiverProfile
                   )}
                 />
               </Block>
-            </Block>*/}
+            </Block>
           </Block>
         </>
       )}

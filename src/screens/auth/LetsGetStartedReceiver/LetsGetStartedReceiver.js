@@ -120,7 +120,7 @@ const letsGetStartedReceiver = ({
               style={{
                 zIndex: 1,
                 position: "absolute",
-                marginTop: HEIGHT / 22,
+                marginTop: HEIGHT / 12,
               }}
             >
               {image ? (
@@ -156,7 +156,7 @@ const letsGetStartedReceiver = ({
             </TouchableOpacity>
         </Block>
 
-        <Block center style={{ marginTop: 20 }}>
+          <Block center style={{ marginTop: HEIGHT/10 }}>
           <Formik
             initialValues={{
               fullName: "Joshan Pradhan",

@@ -34,6 +34,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
               width: "100%",
               flex: 1,
               backgroundColor:"#E5E5E5"
+
             }}
             imageStyle={{
               borderBottomLeftRadius: 50,
@@ -44,7 +45,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
             <Block
               style={{
                 paddingHorizontal: 16,
-                paddingBottom:4
+                paddingBottom:4,
               }}
             >
               <Block

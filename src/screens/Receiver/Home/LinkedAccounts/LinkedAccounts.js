@@ -66,7 +66,7 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
                   ItemSeparatorComponent={() => (
                     <Block style={{ marginTop: 2 }} />
                   )}
-                  ListEmptyComponent={() => <Empty iconName="bank" title="You haven’t added any accounts yet."/>}
+                  ListEmptyComponent={() => <Empty iconName="linkedAccounts" title="You haven’t added any accounts yet."/>}
                     ListFooterComponent={() => (
                   <Block middle center style={{ marginBottom:120,flex: 0 }}>
                   </Block>

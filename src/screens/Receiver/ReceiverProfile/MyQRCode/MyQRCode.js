@@ -8,6 +8,7 @@ import {
   Modal,
   View,
   FlatList,
+  Share
 } from "react-native";
 import {
   Button,
@@ -35,6 +36,25 @@ export default MyQRCode = ({ navigation }) => {
         <Block style={{ flex: 0}}><Text style={{fontSize:12}}>{label}</Text></Block>
       </Block>
     );
+  };
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:'What the user wants to share to other it could be link or any msg',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -193,7 +213,8 @@ export default MyQRCode = ({ navigation }) => {
 
           <OutlinedButton
             full
-            onPress={() => setConfirmationSuccessfulVisible(true)}
+            // onPress={() => setConfirmationSuccessfulVisible(true)}
+            onPress={onShare}
           >
             <Text
               outlinedButton

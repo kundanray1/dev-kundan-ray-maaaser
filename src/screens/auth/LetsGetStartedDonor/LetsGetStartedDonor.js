@@ -115,7 +115,7 @@ const LetsGetStartedDonor = ({
                 ? "Tell us a bit about you."
                 : "Tell us a bit about your company."}
             </Text>
-            <TouchableOpacity onPress={pickImage}>
+            {/*<TouchableOpacity onPress={pickImage}>
               {image ? (
                 <Image
                   source={{ uri: image }}
@@ -140,11 +140,50 @@ const LetsGetStartedDonor = ({
               >
                 <CameraIconComponent />
               </Block>
+            </TouchableOpacity>*/}
+            <TouchableOpacity
+              onPress={pickImage}
+              style={{
+                zIndex: 1,
+                position: "absolute",
+                marginTop: HEIGHT / 12,
+              }}
+            >
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={{
+                    height: HEIGHT * 0.105,
+                    width: WIDTH * 0.2,
+                    borderRadius: 100,
+                  }}
+                />
+              ) : (
+                <ProfileIconComponent
+                  height={HEIGHT * 0.105}
+                  width={WIDTH * 0.2}
+                />
+              )}
+
+              <Block
+                style={{
+                  padding: 2,
+                  borderRadius: 10,
+                  position: "absolute",
+                  marginLeft: WIDTH * 0.126,
+                  marginTop: HEIGHT * 0.064,
+                }}
+              >
+                <CameraIconComponent
+                  height={HEIGHT * 0.034}
+                  width={WIDTH * 0.12}
+                />
+              </Block>
             </TouchableOpacity>
           </Block>
         </Block>
-        <Block flex={2.5} center>
-          <Block center style={{ marginTop: 20 }}>
+        <Block flex={2.5}>
+          <Block style={{ marginTop: HEIGHT/8 }}>
             <Formik
               initialValues={{
                 fullName: "Joshan Pradhan",

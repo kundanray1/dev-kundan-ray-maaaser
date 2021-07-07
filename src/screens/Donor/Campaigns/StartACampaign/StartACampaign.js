@@ -96,7 +96,7 @@ const StartACampaign = ({
                   Enter your goal
                 </Text>
                 <Block style={{flex:0,paddingBottom:10}}>
-              <Block style={styles.searchSection}>
+              <Block style={styles.amountSection}>
                 <Text
                   center
                   style={{ fontSize: 20, fontWeight: "700", color: "#0DB952" }}
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     color: "#0DB952",
     paddingHorizontal: 4,
   },
-  searchSection: {
+  amountSection: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",

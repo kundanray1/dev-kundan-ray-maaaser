@@ -11,28 +11,45 @@ import Transactions from "../../screens/Donor/Transactions/index";
 import More from "../../screens/Donor/More/index";
 import Campaigns from "../../screens/Donor/Campaigns/index";
 
+import CampaignBottomMenuIconComponent from "./../../assets/icons/campaignBottomMenuIconComponent.js";
+import EmptyCampaignsIconComponent from "./../../assets/icons/emptyCampaignsIconComponent.js";
+
+import ActiveHomeIconComponent from "./../../assets/icons/ActiveHomeIconComponent.js";
+import ActiveProfileIconComponent from "./../../assets/icons/ActiveProfileIconComponent.js";
+import ActiveMoreIconComponent from "./../../assets/icons/ActiveMoreIconComponent.js";
+import ActiveTransactionsIconComponent from "./../../assets/icons/ActiveTransactionsIconComponent.js";
+
+import InactiveHomeIconComponent from "./../../assets/icons/InactiveHomeIconComponent.js";
+import InactiveProfileIconComponent from "./../../assets/icons/InactiveProfileIconComponent.js"
+import InactiveMoreIconComponent from "./../../assets/icons/InactiveMoreIconComponent.js";
+import InactiveTransactionsIconComponent from "./../../assets/icons/InactiveTransactionsIconComponent.js";
+
+
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
-	tabBarIcon: ({ color }) => {
+	tabBarIcon: ({ focused,color }) => {
 		let iconName;
 		if (route.name === "Home") {
-			iconName = "home-sharp";
+			return (
+              focused?<ActiveHomeIconComponent/>:<InactiveHomeIconComponent/>
+			);
 		} else if (route.name === "Transactions") {
 			return (
-				<MaterialIcons
-					name="swap-horizontal-circle"
-					size={22}
-					color={color}
-				/>
+              focused?<ActiveTransactionsIconComponent/>:<InactiveTransactionsIconComponent/>
 			);
 		} else if (route.name === "Campaigns") {
-			iconName = "notifications-sharp";
+			return (
+              focused?<EmptyCampaignsIconComponent/>:<CampaignBottomMenuIconComponent/>
+			);
 		} else if (route.name === "Profile") {
-			iconName = "person-circle";
+			return (
+              focused?<ActiveProfileIconComponent/>:<InactiveProfileIconComponent/>
+			);
 		} else if (route.name === "More") {
-			iconName = "md-ellipsis-horizontal";
+			return (
+              focused?<ActiveMoreIconComponent/>:<InactiveMoreIconComponent/>
+			);
 		}
-		return <Ionicons name={iconName} color={color} size={22} />;
 	},
 });
 //main tab screen for logged in users
@@ -42,11 +59,12 @@ export default MainTab = () => {
 			initialRouteName="HomeStack"
 			screenOptions={screenOptions}
 			tabBarOptions={{
-				activeTintColor: theme.colors.primary2,
+				activeTintColor: theme.colors.gray2,
 				inactiveTintColor: theme.colors.gray2,
 				style: {
 					paddingBottom:5,
 					height:50,
+					
 				},
 				labelStyle: {
 					fontSize: 10,

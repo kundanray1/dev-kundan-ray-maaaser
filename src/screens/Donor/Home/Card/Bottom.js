@@ -21,8 +21,8 @@ export const Bottom = ({ navigation, bs, cardData }) => {
 	};
 	const handleDelete = () => {
 		Alert.alert(
-			"Account Deletion",
-			"Are you sure you want to delete this account?",
+			"Card Deletion",
+			"Are you sure you want to delete this card?",
 			[
 				{
 					text: "Cancel",

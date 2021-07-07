@@ -84,7 +84,7 @@ const Members = ({ navigation, data,loginData, members }) => {
                   )}
                   ListEmptyComponent={
                     <Empty
-                      iconName="account-group"
+                      iconName="members"
                       title="You haven’t added any members yet."
                     />
                   }

@@ -302,7 +302,7 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="bank" title="You don't any withdraws yet." />
+              <Empty iconName="withdraws" title="You don't any withdraws yet." />
             )}
             refreshControl={
                     <RefreshControl

@@ -397,21 +397,7 @@ const DonorReceiver = ({
                   keyExtractor={(item) => {
                     return item.scheduletransactionid.toString();
                   }}
-                  ListEmptyComponent={() => (
-                    <Block center style={{ marginTop: 30 }}>
-                      <FontAwesome5
-                        name="box-open"
-                        size={45}
-                        color={theme.colors.gray}
-                      />
-                      <Text
-                        color={theme.colors.gray}
-                        style={{ fontSize: 16, fontWeight: "700" }}
-                      >
-                        You don't have any upcoming donations data.
-                      </Text>
-                    </Block>
-                  )}
+                  ListEmptyComponent={() => <Empty iconName="transactions" dashboard={0} title="You don't have any upcoming donations data."/>}
                   renderItem={(post) => (
                     <DonationsDetail
                       profilePic={post.item.clientList[1].profilepic}
@@ -466,21 +452,7 @@ const DonorReceiver = ({
                   ItemSeparatorComponent={() => (
                     <Block style={{ marginTop: 2 }} />
                   )}
-                  ListEmptyComponent={() => (
-                    <Block center style={{ marginTop: 30 }}>
-                      <FontAwesome5
-                        name="box-open"
-                        size={45}
-                        color={theme.colors.gray}
-                      />
-                      <Text
-                        color={theme.colors.gray}
-                        style={{ fontSize: 16, fontWeight: "700" }}
-                      >
-                        You don't have any donations made data.
-                      </Text>
-                    </Block>
-                  )}
+                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any donations made data."/>}
                   renderItem={(post) =>
                     post.item.clientList[1] != undefined ? (
                       <DonationsDetail
@@ -521,6 +493,8 @@ const DonorReceiver = ({
                   ItemSeparatorComponent={() => (
                     <Block style={{ marginTop: 2 }} />
                   )}
+                  ListEmptyComponent={() => <Empty iconName="receivers" title="You don't have any receivers"/>}
+
                   refreshControl={
                     <RefreshControl
                       colors={[theme.colors.primary2]}

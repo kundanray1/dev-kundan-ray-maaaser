@@ -8,29 +8,47 @@ import ReceiverDashboard from "../../screens/Receiver/Home/ReceiverDashboard/ind
 import ReceiverProfile from "../../screens/Receiver/ReceiverProfile/index";
 import Withdraws from "../../screens/Receiver/Withdraws/index";
 import More from "../../screens/Donor/More/index";
+import Campaigns from "../../screens/Donor/Campaigns/index";
+
+import CampaignBottomMenuIconComponent from "./../../assets/icons/campaignBottomMenuIconComponent.js";
+import EmptyCampaignsIconComponent from "./../../assets/icons/emptyCampaignsIconComponent.js";
+
+import ActiveHomeIconComponent from "./../../assets/icons/ActiveHomeIconComponent.js";
+import ActiveProfileIconComponent from "./../../assets/icons/ActiveProfileIconComponent.js";
+import ActiveMoreIconComponent from "./../../assets/icons/ActiveMoreIconComponent.js";
+import ActiveWithdrawsIconComponent from "./../../assets/icons/ActiveWithdrawsIconComponent.js";
+
+import InactiveHomeIconComponent from "./../../assets/icons/InactiveHomeIconComponent.js";
+import InactiveProfileIconComponent from "./../../assets/icons/InactiveProfileIconComponent.js"
+import InactiveMoreIconComponent from "./../../assets/icons/InactiveMoreIconComponent.js";
+import InactiveWithdrawsIconComponent from "./../../assets/icons/InactiveWithdrawsIconComponent.js";
+
 
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
-	tabBarIcon: ({ color }) => {
+	tabBarIcon: ({ focused,color }) => {
 		let iconName;
 		if (route.name === "Home") {
-			iconName = "home-sharp";
+			return (
+              focused?<ActiveHomeIconComponent/>:<InactiveHomeIconComponent/>
+			);
 		} else if (route.name === "Withdraws") {
 			return (
-				<MaterialIcons
-					name="swap-horizontal-circle"
-					size={22}
-					color={color}
-				/>
+              focused?<ActiveWithdrawsIconComponent/>:<InactiveWithdrawsIconComponent/>
 			);
-		} else if (route.name === "Notifications") {
-			iconName = "notifications-sharp";
+		} else if (route.name === "Campaigns") {
+			return (
+              focused?<EmptyCampaignsIconComponent/>:<CampaignBottomMenuIconComponent/>
+			);
 		} else if (route.name === "Profile") {
-			iconName = "person-circle";
+			return (
+              focused?<ActiveProfileIconComponent/>:<InactiveProfileIconComponent/>
+			);
 		} else if (route.name === "More") {
-			iconName = "md-ellipsis-horizontal";
+			return (
+              focused?<ActiveMoreIconComponent/>:<InactiveMoreIconComponent/>
+			);
 		}
-		return <Ionicons name={iconName} color={color} size={22} />;
 	},
 });
 //main tab screen for logged in users
@@ -40,7 +58,7 @@ export default ReceiverMainTab = () => {
 			initialRouteName="HomeStack"
 			screenOptions={screenOptions}
 			tabBarOptions={{
-				activeTintColor: theme.colors.primary2,
+			    activeTintColor: theme.colors.primary2,
 				inactiveTintColor: theme.colors.gray2,
 				style: {
 					paddingBottom:5,
@@ -48,12 +66,13 @@ export default ReceiverMainTab = () => {
 				},
 				labelStyle: {
 					fontSize: 10,
+					color:theme.colors.solidGray,
 				},
 			}}
 		>
 			<Tab.Screen name="Home" component={HomeStack} />
 			<Tab.Screen name="Withdraws" component={WithdrawsStack} />
-			{/*<Tab.Screen name="Notifications" component={NotificationsStack} />*/}
+			<Tab.Screen name="Campaigns" component={CampaignsStack} />
 			<Tab.Screen name="Profile" component={ReceiverProfileStack} />
 			<Tab.Screen name="More" component={MoreStack} />
 		</Tab.Navigator>
@@ -92,22 +111,22 @@ function WithdrawsStack() {
 	);
 }
 
-// const NotificationsRoute = createStackNavigator();
-// function NotificationsStack() {
-// 	return (
-// 		<NotificationsRoute.Navigator
-// 			screenOptions={{
-// 				headerShown: true,
-// 			}}
-// 			initialRouteName="Notifications"
-// 		>
-// 			<NotificationsRoute.Screen
-// 				name="Notifications"
-// 				component={More}
-// 			/>
-// 		</NotificationsRoute.Navigator>
-// 	);
-// }
+const CampaignsRoute = createStackNavigator();
+function CampaignsStack() {
+	return (
+		<CampaignsRoute.Navigator
+			screenOptions={{
+				headerShown: true,
+			}}
+			initialRouteName="Campaigns"
+		>
+			<CampaignsRoute.Screen
+				name="Campaigns"
+				component={Campaigns}
+			/>
+		</CampaignsRoute.Navigator>
+	);
+}
 
 const ReceiverProfileRoute = createStackNavigator();
 function ReceiverProfileStack() {
