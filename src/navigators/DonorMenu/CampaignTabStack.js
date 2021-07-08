@@ -8,7 +8,7 @@ import * as theme from "../../constants/theme";
 import CampaignDetails from "../../screens/Donor/Campaigns/CampaignDetails/index";
 import CampaignDonors from "../../screens/Donor/Campaigns/CampaignDonors/index";
 import CampaignComments from "../../screens/Donor/Campaigns/CampaignComments/index";
-// import SubCampaigns from "../../screens/Donor/Campaigns/SubCampaigns/index";
+import SubCampaigns from "../../screens/Donor/Campaigns/SubCampaigns/index";
 
 const CampaignTab = createMaterialTopTabNavigator();
 
@@ -40,20 +40,25 @@ export default CampaignTabStack=()=> {
         name="Campaign Details"
         component={CampaignDetails}
         options={{ headerShown: true,title:'Details'}}
-
           />
       <CampaignTab.Screen
-        name="Donors"
+        name="Campaign Donors"
         component={CampaignDonors}
+        options={{ headerShown: true,title:'Donors'}}
+
         />
 
         <CampaignTab.Screen
-        name="Comments"
+        name="Campaign Comments"
         component={CampaignComments}
+        options={{ headerShown: true,title:'Comments'}}
+
         />
         <CampaignTab.Screen
-        name="Sub-campaigns"
-        component={CampaignComments}
+        name="Sub Campaigns"
+        component={SubCampaigns}
+        options={{ headerShown: true,title:'Sub Campaigns'}}
+        
         />
         
     </CampaignTab.Navigator>

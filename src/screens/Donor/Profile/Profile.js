@@ -21,7 +21,7 @@ import NumberFormat from "react-number-format";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const Profile = ({ navigation, loginData,data,balanceData }) => {
+const Profile = ({ navigation, loginData,data,balanceData,route }) => {
   return (
     <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
       {data.isLoading ? (

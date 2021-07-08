@@ -20,7 +20,7 @@ import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import BlueBankIconComponent from "./../../../../assets/icons/blueBankIconComponent";
 
-const ACH = ({ navigation, data,loginData, ACH }) => {
+const ACH = ({ navigation, data,loginData, ACH,route }) => {
   const [amountFocus, setAmountFocus] = useState(false);
   const [accountData, setAccountData] = useState();
   const [refreshing, setRefreshing] = useState(false);
@@ -35,6 +35,7 @@ const ACH = ({ navigation, data,loginData, ACH }) => {
         ACH(loginData.user.clientid);
     }
   }, [data.ACH]);
+  console.log(route.params)
   return (
     <>
       <TouchableWithoutFeedback

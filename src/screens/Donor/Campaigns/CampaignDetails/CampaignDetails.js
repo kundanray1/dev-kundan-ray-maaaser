@@ -3,7 +3,7 @@ import {
   ActivityIndicator,
   FlatList,
   Dimensions,
-  image,
+  Image,
   ImageBackground,
   SafeAreaView,
   RefreshControl,
@@ -24,6 +24,8 @@ import PercentageBar from "../../../../components/PercentageBar.js";
 import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import { Dummy } from "./Dummy";
+import NumberFormat from 'react-number-format';
+import moment from 'moment';
 
 import ShareCampaignIconComponent from "./../../../../assets/icons/ShareCampaignIconComponent.js";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
@@ -35,20 +37,15 @@ import TagsIconComponent from "./../../../../assets/icons/TagsIconComponent";
 
 const HEIGHT = Dimensions.get("window").height;
 
-const CampaignDetails = ({ navigation, data, campaignDonors }) => {
+const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
   const [refreshing, setRefreshing] = useState(false);
-  const profilePic = "";
-  const description = "Joshan Pradhan Foundation";
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    campaignDonors(API.user().account.accountid);
+    campaignDetails(API.user().account.accountid);
     setRefreshing(false);
   });
-  // useEffect(() => {
-  //   if (data.campaignDonors == null) {
-  //     campaignDonors(API.user().account.accountid);
-  //   }
-  // }, []);
+
+  const {campaignDetailsData}=route.params
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ paddingBottom: 100 }}>
@@ -60,7 +57,7 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
               alignItems: "flex-end",
               overflow: "hidden",
             }}
-            source={{ uri: "https://picsum.photos/seed/picsum/200/300" }}
+            source={{ uri: "https://storage.googleapis.com/maaser_resources/7b6029f28c154583af0adc5f3c5f74f9.jpg" }}
           >
             <Block
               row
@@ -89,39 +86,38 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
             style={{
               fontSize: 18,
               fontWeight: "700",
-              textTransform: "capitalize",
             }}
             color="#3B414B"
           >
-            Donate for hunger
+           {campaignDetailsData.title}
           </Text>
         
            <PercentageBar
             height={6}
             backgroundColor={'grey'}
             completedColor={theme.colors.primary2}
-            percentage={'70%'}
+            percentage={`${(campaignDetailsData.collectedamount*100)/campaignDetailsData.targetAmount}%`}
           />
           <Block row style={{flex:0}}>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "700",
-              textTransform: "capitalize",
-            }}
-            color={theme.colors.primary2}
-          >
-            $7000
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "700",
-            }}
-            color="#5F6062"
-          >
-           {" "} raised from $10000
-          </Text>
+        <NumberFormat
+                    value={campaignDetailsData.collectedamount/100}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    renderText={formattedValue => <Text   color={theme.colors.primary2} style={{ fontSize: 14, fontWeight: "700",textTransform: "capitalize",}}>{formattedValue}</Text>} 
+                    />
+
+                    <NumberFormat
+                    value={campaignDetailsData.targetamount/100}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    renderText={formattedValue => <Text   color="#5F6062" style={{ fontSize: 14, fontWeight: "700"}}>{" "}raised from {formattedValue}</Text>} 
+                    />
         </Block>
 
         </Block>
@@ -143,11 +139,11 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
           >
             <Block>
               <Block row center style={{ flex: 0 }}>
-                {profilePic == "" ? (
+                {campaignDetailsData.campaignstarter.profilepic == "" ? (
                   <UserIconComponent height={30} width={30} />
                 ) : (
                   <Image
-                    source={{ uri: profilePic }}
+                    source={{ uri: "https://storage.googleapis.com/maaser_resources/7b6029f28c154583af0adc5f3c5f74f9.jpg" }}
                     style={{ height: 30, width: 30, borderRadius: 30 }}
                   />
                 )}
@@ -160,7 +156,7 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
                     marginLeft: 10,
                   }}
                 >
-                  {description.substring(0, 14) + "..."}
+                  {campaignDetailsData.campaignstarter.account.fullname.substring(0, 14) + "..."}
                 </Text>
               </Block>
 
@@ -182,11 +178,11 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
               <Block row center style={{ flex: 0, overflow: "hidden" }}>
                 <BeneficiaryIconComponent style={{marginRight:8}}/>
 
-                {profilePic == "" ? (
+                {campaignDetailsData.campaignbeneficiary.profilepic == "" ? (
                   <UserIconComponent height={30} width={30}  />
                 ) : (
                   <Image
-                    source={{ uri: profilePic }}
+                    source={{ uri: campaignDetailsData.campaignbeneficiary.profilepic }}
                     style={{ height: 30, width: 30, borderRadius: 30 }}
                   />
                 )}
@@ -200,7 +196,7 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
                     marginLeft: 6,
                   }}
                 >
-                  {description.substring(0, 10) + "..."}
+                  {campaignDetailsData.campaignbeneficiary.account.fullname.substring(0, 10) + "..."}
                 </Text>
               </Block>
 
@@ -234,16 +230,19 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
             <Block row style={{ flex: 0, overflow: "hidden" }}>
               <TargetAmountIconComponent height={38} width={38} />
               <Block column>
-                <Text
-                  style={{
-                    fontSize: 18,
+               <NumberFormat
+                    value={campaignDetailsData.targetamount/100}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'$'}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    renderText={formattedValue => <Text   color="#5F6062" style={{fontSize: 18,
                     fontWeight: "700",
                     textTransform: "capitalize",
-                    marginLeft: 10,
-                  }}
-                >
-                  $10000
-                </Text>
+                    marginLeft: 6}}>{" "}{formattedValue}</Text>} 
+                    />
+               
                 <Text
                   style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
                 >
@@ -265,7 +264,7 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
                     marginLeft: 10,
                   }}
                 >
-                  Children
+                  {campaignDetailsData.category}
                 </Text>
                 <Text
                   style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
@@ -304,7 +303,7 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
                       marginLeft: 10,
                     }}
                   >
-                    5 May, 2021
+                  {moment(campaignDetailsData.createdat).format("DD MMM YYYY")}
                   </Text>
                   <Text
                     style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
@@ -320,11 +319,7 @@ const CampaignDetails = ({ navigation, data, campaignDonors }) => {
           style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: 80 }}
         >
           <Text style={{ fontSize: 16, color: "#5F6062" }} numberOfLines={10}>
-            Children with special needs seldom graduate in India. And this is
-            not entirely because of their inability to cope with high school and
-            college. Our educational system uses standardized methods that are
-            ineffective in imparting knowledge and evaluating skills of
-            differentially abled learners.
+            {campaignDetailsData.description}
           </Text>
           <TouchableOpacity
             activeOpacity={0.8}

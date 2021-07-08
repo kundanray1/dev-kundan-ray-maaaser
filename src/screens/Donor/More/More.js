@@ -10,12 +10,13 @@ import * as theme from "../../../constants/theme.js";
 import { Block, Text,CustomActivityIndicator } from "../../../components/Index.js";
 import {Individual,Organization} from "./Dummy.js";
 
-const More = ({navigation,logout,loginData,logoutClear,loginClear,data}) => {
+const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,data}) => {
   useEffect(()=>{
     if(data.logout!==null){
       if(data.logout.success){
         loginClear();
         logoutClear();
+        userLoggedOut()
       }
     }
   },[data.logout])

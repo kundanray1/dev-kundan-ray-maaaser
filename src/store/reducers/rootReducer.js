@@ -38,6 +38,7 @@ import { scheduleDonationReceiverDetailReducer } from "./../../screens/Donor/Hom
 import { upcomingDonationsReducer } from "./../../screens/Donor/Home/UpcomingDonations/reducer";
 //campaigns
 import { campaignsReducer } from "./../../screens/Donor/Campaigns/reducer";
+// import { campaignsReducer } from "./../../screens/Donor/Campaigns/reducer";
 import { startACampaignReducer } from "./../../screens/Donor/Campaigns/StartACampaign/reducer";
 import { addBeneficiaryReducer } from "./../../screens/Donor/Campaigns/AddBeneficiary/reducer";
 
@@ -74,7 +75,7 @@ import { receiverViewProfileReducer } from "./../../screens/Receiver/ReceiverPro
 import { receiverEditProfileReducer } from "./../../screens/Receiver/ReceiverProfile/ReceiverEditProfile/reducer";
 
 // add all the reducer, abd lets use this format of combineReducers so you can add more later if you need to.
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
 	//auth
 	createNewPassword: createNewPasswordReducer,
 	forgotPassword: forgotPasswordReducer,
@@ -146,5 +147,14 @@ const rootReducer = combineReducers({
 	receiverEditProfile: receiverEditProfileReducer,
 	receiverViewProfile: receiverViewProfileReducer,
 });
+
+const rootReducer = (state, action) => {
+  // when a logout action is dispatched it will reset redux state
+  if (action.type === 'USER_LOGGED_OUT') {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export default rootReducer;

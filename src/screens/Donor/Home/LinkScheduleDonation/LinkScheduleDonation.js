@@ -83,7 +83,6 @@ const LinkScheduleDonation = ({
   const [showEndDate, setShowEndDate] = useState(false);
   const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
-
   const onSubmitLinkScheduleDonation = (values) => {
     const scheduleTypeProto =
       scheduleType == "One Time"
@@ -101,9 +100,15 @@ const LinkScheduleDonation = ({
         : PaymentProto.ScheduleType.NTH_DAY;
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
     const scheduleDetailProto = new PaymentProto.ScheduleDetail();
+    if(scheduleType == "One Time"){
     scheduleDetailProto.setStartdate(new Date(startDate).getTime());
-    // scheduleDetailProto.setStarttime(new Date(startTime).getTime());
+    scheduleDetailProto.setEnddate(new Date(startDate).getTime());
+    }else{
+    scheduleDetailProto.setStartdate(new Date(startDate).getTime());
     scheduleDetailProto.setEnddate(new Date(endDate).getTime());
+    
+    }
+    // scheduleDetailProto.setStarttime(startTime.getTime());
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
 
     if (route.params != undefined) {
@@ -321,6 +326,8 @@ const LinkScheduleDonation = ({
                   style={styles.customPicker}
                   activeOpacity={0.8}
                   onPress={() => setShowEndDate(true)}
+                  disabled={scheduleType == "One Time"?true:false}
+
                 >
                   <Block>
                     <Text
@@ -328,7 +335,8 @@ const LinkScheduleDonation = ({
                       style={{ fontSize: 16, color: theme.colors.solidGray }}
                     >
                      {
-                      endDate=="2021-07-03T15:21:15.513Z"?"":
+                      scheduleType == "One Time"? moment(startDate).format("DD/MM/YYYY"):
+                       endDate=="2021-07-03T15:21:15.513Z"?"":
                        moment(endDate).format("DD/MM/YYYY")
                     }
                     </Text>

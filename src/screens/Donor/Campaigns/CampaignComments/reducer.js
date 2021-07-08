@@ -1,29 +1,29 @@
 import {
-  RECEIVERS_FAIL,
-  RECEIVERS_START,
-  RECEIVERS_SUCCESS,
+  CAMPAIGN_COMMENTS_FAIL,
+  CAMPAIGN_COMMENTS_START,
+  CAMPAIGN_COMMENTS_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: true,
-  receivers: null,
+  campaignComments: null,
   error: null,
 };
 
-export const receiversReducer=(state = initialState, { type, payload }) => {
+export const campaignCommentsReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case RECEIVERS_START:
+    case CAMPAIGN_COMMENTS_START:
     return {
         ...state,
         isLoading: true,
       };
-    case RECEIVERS_SUCCESS:
+    case CAMPAIGN_COMMENTS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        receivers: payload,
+        campaignComments: payload,
       };
-    case RECEIVERS_FAIL:
+    case CAMPAIGN_COMMENTS_FAIL:
       return {
         ...state,
         isLoading: false,

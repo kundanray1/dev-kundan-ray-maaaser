@@ -18,7 +18,7 @@ export default DateWiseDonationDetailCard = ({
 	textColor,
 	...props
 }) => {
-	
+	console.log(profilePic);
 	return (
 		<Block
 			row

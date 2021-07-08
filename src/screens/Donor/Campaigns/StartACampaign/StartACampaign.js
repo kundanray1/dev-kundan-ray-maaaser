@@ -16,6 +16,7 @@ import {
   Button,
   CustomActivityIndicator,
 } from "../../../../components/Index.js";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
@@ -42,6 +43,7 @@ const StartACampaign = ({
   const [beneficiaryType, setBeneficiaryType] = useState("");
   const [categoryType, setCategoryType] = useState("");
   const [country, setCountry] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const onSubmitStartACampaignLoadFund = () => {};
 
@@ -88,31 +90,38 @@ const StartACampaign = ({
             errors,
           }) => (
             <Block>
-
-               <Text
-                  center
-                  style={{ fontSize: 20,paddingVertical:20, fontWeight: "700", color: "#5F6062" }}
-                >
-                  Enter your goal
-                </Text>
-                <Block style={{flex:0,paddingBottom:10}}>
-              <Block style={styles.amountSection}>
-                <Text
-                  center
-                  style={{ fontSize: 20, fontWeight: "700", color: "#0DB952" }}
-                >
-                  $
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  textAlign={"center"}
-                  placeholder="1000"
-                  placeholderTextColor="#0DB952"
-                  keyboardType="numeric"
-                />
+              <Text
+                center
+                style={{
+                  fontSize: 20,
+                  paddingVertical: 20,
+                  fontWeight: "700",
+                  color: "#5F6062",
+                }}
+              >
+                Enter your goal
+              </Text>
+              <Block style={{ flex: 0, paddingBottom: 10 }}>
+                <Block style={styles.amountSection}>
+                  <Text
+                    center
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "700",
+                      color: "#0DB952",
+                    }}
+                  >
+                    $
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    textAlign={"center"}
+                    placeholder="1000"
+                    placeholderTextColor="#0DB952"
+                    keyboardType="numeric"
+                  />
+                </Block>
               </Block>
-              </Block>
-
 
               <Country country={country} setCountry={setCountry} />
               <Input
@@ -147,14 +156,54 @@ const StartACampaign = ({
                 categoryType={categoryType}
                 setCategoryType={setCategoryType}
               />
-
-              {!errors.title ? (
+               <Block style={{ flex: 0 }}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => setChecked(!checked)}
+                  style={{ flexDirection: "row" }}
+                >
+                  {checked ? (
+                    <MaterialCommunityIcons
+                      name="checkbox-marked"
+                      size={22}
+                      color={theme.colors.primary2}
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="checkbox-blank-outline"
+                      size={22}
+                      color={theme.colors.solidGray}
+                    />
+                  )}
+                  <Text bold style={{ fontSize:16, paddingHorizontal: 8, marginTop: 2 }} color={theme.colors.solidGray}>
+                   Allow sub-campaigns
+                  </Text>
+                </TouchableOpacity>
+              </Block>
+              {!errors.title ||
+              raisingMoneyType == "" ||
+              beneficiaryType == "" ||
+              categoryType == "" ||
+              country == "" ? (
+               <Button
+                  style={{
+                    marginTop: 12,
+                    marginBottom: 12,
+                  }}
+                  onPress={() => navigation.navigate("Start a campaign second")}
+                >
+                    <Text button style={{ fontSize: 18 }}>
+                      Proceed
+                    </Text>
+                </Button>
+              ) : (
+                
                 <Button
                   style={{
                     marginTop: 12,
                     marginBottom: 12,
                   }}
-                  onPress={()=>navigation.navigate("Start a campaign second")}
+                  onPress={() => navigation.navigate("Start a campaign second")}
                 >
                   {data.isLoading ? (
                     <>
@@ -166,23 +215,6 @@ const StartACampaign = ({
                         Proceed
                       </Text>
                     </>
-                  ) : (
-                    <Text button style={{ fontSize: 18 }}>
-                      Proceed
-                    </Text>
-                  )}
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                >
-                  {route.params != undefined ? (
-                    <Text button style={{ fontSize: 18 }}>
-                      Proceed
-                    </Text>
                   ) : (
                     <Text button style={{ fontSize: 18 }}>
                       Proceed
@@ -225,7 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical:10,
+    paddingVertical: 10,
     backgroundColor: "#E9F9FF",
   },
 });

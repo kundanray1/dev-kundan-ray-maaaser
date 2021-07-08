@@ -13,7 +13,7 @@ import CampaignsEditIconComponent from "./../assets/icons/campaignEditIconCompon
 import CampaignsDeleteIconComponent from "./../assets/icons/campaignDeleteIconComponent.js";
 
 const HEIGHT = Dimensions.get("window").height;
-export default CampaignCard = ({ label, image, ...props }) => {
+export default CampaignCard = ({ label, image,routeCampaignData, ...props }) => {
 	return (
 		<TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: 16 }} {...props}>
 			<Block style={{ flex: 0 }}>
@@ -25,7 +25,7 @@ export default CampaignCard = ({ label, image, ...props }) => {
 						borderRadius:6,
 						overflow:"hidden"
 					}}
-					source={{ uri: image }}
+					source={{ uri: "https://storage.googleapis.com/maaser_resources/7b6029f28c154583af0adc5f3c5f74f9.jpg" }}
 				>
 					<Block
 						row

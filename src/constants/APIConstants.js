@@ -1,5 +1,5 @@
 //all the url for API endpoints
-const MainAPI = 'http://34.102.69.148:9000';
+const MainAPI = 'https://maaser-api.brilltech.com';
 const APIEndPoints = {
     LOGIN: MainAPI + '/login',
     SIGNUP: MainAPI + '/client',
@@ -24,6 +24,13 @@ const APIEndPoints = {
     EMPLOYEE : MainAPI + '/employee',
     IMAGE:MainAPI + '/upload/image',
     PROFILE:MainAPI + '/account/profile',
+
+    //CAMPAIGN
+    CAMPAIGN_GET_BY_ACCOUNT_ID:MainAPI + '/campaign/account',
+    CAMPAIGN_POST:MainAPI + '/campaign',
+    // CAMPAIGN_GET_ALL:MainAPI + '/account/profile',
+    // CAMPAIGN_GET_BY_ACCOUNT_ID:MainAPI + '/account/profile',
+
     LOGOUT:MainAPI + '/logout'
 };
 

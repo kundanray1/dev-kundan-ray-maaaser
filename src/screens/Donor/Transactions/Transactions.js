@@ -62,8 +62,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
     transactions(loginData.user.account.accountid);
     setRefreshing(false);
   });
-console.log("fromDate",new Date(fromDate).getTime())
-console.log("toDate",new Date(toDate).getTime())
+
   const onPressReset = () => {
   setFromDate("2021-07-03T15:21:15.513Z");
   setToDate("2021-07-03T15:21:15.513Z");

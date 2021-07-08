@@ -30,13 +30,12 @@ import LinkScheduleDonation from "../screens/Donor/Home/LinkScheduleDonation/ind
 import ScanQRCodeTabStack from "./DonorMenu/ScanQRCodeTabStack";
 import ScheduleDonationReceiverDetail from "../screens/Donor/Home/ScheduleDonationReceiverDetail/index";
 
-
 //campaigns
 import StartACampaign from "../screens/Donor/Campaigns/StartACampaign/index";
 import StartACampaignSecond from "../screens/Donor/Campaigns/StartACampaignSecond/index";
 import StartACampaignThird from "../screens/Donor/Campaigns/StartACampaignThird/index";
+import StartASubCampaign from "../screens/Donor/Campaigns/StartASubCampaign/index";
 import AddBeneficiary from "../screens/Donor/Campaigns/AddBeneficiary/index";
-
 
 //more
 import AddMember from "../screens/Donor/More/AddMember/index";
@@ -60,8 +59,6 @@ import WithdrawFundConfirmation from "../screens/Receiver/Home/WithdrawFundConfi
 import ReceiverEditProfile from "../screens/Receiver/ReceiverProfile/ReceiverEditProfile/index";
 import ReceiverViewProfile from "../screens/Receiver/ReceiverProfile/ReceiverViewProfile/index";
 import MyQRCode from "../screens/Receiver/ReceiverProfile/MyQRCode/index";
-
-
 
 //navigator for logged in users
 const AuthStack = createStackNavigator();
@@ -88,13 +85,12 @@ const LoggedInStack = ({ data }) => {
     }
   } else if (data.user.account.accounttype == 3) {
     routeName = "ReceiverMainTab";
-  }else{
+  } else {
     routeName = "DonorMainTab";
   }
 
   return (
     <AuthStack.Navigator initialRouteName={routeName}>
-
       <AuthStack.Screen
         name="DonorMainTab"
         options={{ headerShown: false }}
@@ -151,7 +147,6 @@ const LoggedInStack = ({ data }) => {
         component={ManualDonateConfirmation}
       />
 
-    
       <AuthStack.Screen
         name="ACH"
         options={{ headerShown: true }}
@@ -243,22 +238,22 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={Donors}
       />
-       <AuthStack.Screen
+      <AuthStack.Screen
         name="Linked Accounts"
         options={{ headerShown: true }}
         component={LinkedAccounts}
       />
-        <AuthStack.Screen
+      <AuthStack.Screen
         name="Withdraw Fund"
         options={{ headerShown: true }}
         component={WithdrawFund}
       />
-        <AuthStack.Screen
+      <AuthStack.Screen
         name="Withdraw Fund Confirmation"
         options={{ headerShown: true }}
         component={WithdrawFundConfirmation}
       />
-        <AuthStack.Screen
+      <AuthStack.Screen
         name="Receiver View Profile"
         options={{ headerShown: false }}
         component={ReceiverViewProfile}
@@ -268,7 +263,7 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: false }}
         component={ReceiverEditProfile}
       />
-       <AuthStack.Screen
+      <AuthStack.Screen
         name="My QR Code"
         options={{ headerShown: true }}
         component={MyQRCode}
@@ -279,19 +274,26 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={StartACampaign}
       />
-       <AuthStack.Screen
+
+      <AuthStack.Screen
+        name="Start a sub campaign"
+        options={{ headerShown: true }}
+        component={StartASubCampaign}
+      />
+
+      <AuthStack.Screen
         name="Add Beneficiary"
         options={{ headerShown: true }}
         component={AddBeneficiary}
       />
-        <AuthStack.Screen
+      <AuthStack.Screen
         name="Start a campaign second"
-        options={{ headerShown: true,title:'Start a campaign'}}
+        options={{ headerShown: true, title: "Start a campaign" }}
         component={StartACampaignSecond}
       />
       <AuthStack.Screen
         name="Start a campaign third"
-        options={{ headerShown: true,title:'Start a campaign'}}
+        options={{ headerShown: true, title: "Start a campaign" }}
         component={StartACampaignThird}
       />
       <AuthStack.Screen
@@ -299,7 +301,6 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={CampaignTabStack}
       />
-
     </AuthStack.Navigator>
   );
 };

@@ -76,7 +76,7 @@ const ACHLoadFundConfirmation = ({
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
+          setConfirmationSuccessfulVisible(false)
         }
       >
         <View style={styles.container}>

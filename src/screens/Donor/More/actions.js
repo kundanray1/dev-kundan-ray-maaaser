@@ -7,6 +7,9 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAIL = "LOGOUT_FAIL";
 export const LOGOUT_CLEAR = "LOGOUT_CLEAR";
 
+export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
+
+
 
 
 export const moreStart = (payload) => {
@@ -41,5 +44,10 @@ export const logoutFail = (payload) => ({
 
 export const logoutClear = (payload) => ({
 	type: LOGOUT_CLEAR,
+	payload,
+});
+
+export const userLoggedOut = (payload) => ({
+	type: USER_LOGGED_OUT,
 	payload,
 });

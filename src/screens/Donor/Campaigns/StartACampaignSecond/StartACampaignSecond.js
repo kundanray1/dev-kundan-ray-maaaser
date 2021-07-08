@@ -110,9 +110,9 @@ const StartACampaignSecond = ({
             >
               <Block
                 style={{
-                  flex:0,
-                  backgroundColor:"rgba(52, 52, 52, 0.6)",
-                  paddingVertical:4
+                  flex: 0,
+                  backgroundColor: "rgba(52, 52, 52, 0.6)",
+                  paddingVertical: 4,
                 }}
               >
                 <Text
@@ -143,18 +143,37 @@ const StartACampaignSecond = ({
             </>
           )}
         </TouchableOpacity>
-
-        <Button
-          style={{
-            marginTop: 12,
-            marginBottom: 12,
-          }}
-          onPress={() => navigation.navigate("Start a campaign third")}
+        <Block style={{ paddingVertical: 30,borderBottomWidth:1,borderColor:theme.colors.gray2 }}>
+          {image == "" ? (
+            <Button disabled={true}>
+              <Text button style={{ fontSize: 18 }}>
+                Proceed
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              
+              onPress={() => navigation.navigate("Start a campaign third")}
+            >
+              <Text button style={{ fontSize: 18 }}>
+                Proceed
+              </Text>
+            </Button>
+          )}
+        </Block>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{paddingVertical:24}}
+          onPress={() => navigation.navigate("Start a campaign")}
         >
-          <Text button style={{ fontSize: 18 }}>
-            Proceed
+          <Text
+          center
+            color={theme.colors.primary2}
+            style={{ fontSize: 16, fontWeight: "700" }}
+          >
+            Go Back
           </Text>
-        </Button>
+        </TouchableOpacity>
       </Block>
     </KeyboardAwareScrollView>
   );

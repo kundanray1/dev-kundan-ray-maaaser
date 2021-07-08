@@ -28,7 +28,6 @@ import AddImageIconComponent from "./../../../../assets/icons/addImageIconCompon
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-
 const StartACampaignThird = ({
   data,
   startACampaignStart,
@@ -70,32 +69,48 @@ const StartACampaignThird = ({
             color: "#5F6062",
           }}
         >
-         Describe why are you are fundraising
+          Describe why are you are fundraising
         </Text>
         <TouchableOpacity
           activeOpacity={0.8}
           style={{
             flex: 0,
             borderWidth: 1,
-            height:HEIGHT/3,
-            overflow:"hidden"
+            height: HEIGHT / 3,
+            overflow: "hidden",
           }}
         >
-        <Text color="#BABABA" style={{padding:10}} numberOfLines={14}>
-        Explain about the campaign.
-        </Text>
-        </TouchableOpacity>
-        <Button
-          style={{
-            marginTop: 12,
-            marginBottom: 12,
-          }}
-        >
-          <Text button style={{ fontSize: 18 }}>
-            Proceed
+          <Text color="#BABABA" style={{ padding: 10 }} numberOfLines={14}>
+            Explain about the campaign.
           </Text>
-        </Button>
+        </TouchableOpacity>
+        <Block
+          style={{
+            paddingVertical: 30,
+            borderBottomWidth: 1,
+            borderColor: theme.colors.gray2,
+          }}
+        >
+          <Button>
+            <Text button style={{ fontSize: 18 }}>
+              Proceed
+            </Text>
+          </Button>
+        </Block>
       </Block>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={{ paddingVertical: 24 }}
+        onPress={() => navigation.navigate("Start a campaign second")}
+      >
+        <Text
+          center
+          color={theme.colors.primary2}
+          style={{ fontSize: 16, fontWeight: "700" }}
+        >
+          Go Back
+        </Text>
+      </TouchableOpacity>
     </KeyboardAwareScrollView>
   );
 };

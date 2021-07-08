@@ -26,14 +26,14 @@ export function* donorReceiver({ payload }) {
 		} else {
 			yield put(donorReceiverFail(res));
 			showMessage({
-				message: "donorReceiver, error from server or check your credentials!",
+				message: "Error from server or check your credentials!",
 				type: "danger",
 			});
 		}
 	} catch (e) {
 		yield put(donorReceiverFail(e));
 		showMessage({
-			message: "donorReceiver, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}

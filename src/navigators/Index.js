@@ -18,7 +18,7 @@ const MyTheme = {
 const App = ({ data }) => {
   return (
     <NavigationContainer theme={MyTheme}>
-      {(data.isLoggedIn && API.token()!==null)  ? (
+      {(data.isLoggedIn && API.token()!==null && data.user!==null)  ? (
         <LoggedInStack />
       ) : (
         <LoggedOutStack />

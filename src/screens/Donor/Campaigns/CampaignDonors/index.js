@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import CampaignDonors from "./CampaignDonors";
-import { donationReceivedStart } from "./actions";
+import { campaignDonorsStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.donationReceived,
+	data: (state) => state.campaignDonors,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		donationReceived: (values) => dispatch(donationReceivedStart(values)),
+		campaignDonors: (values) => dispatch(campaignDonorsStart(values)),
 	};
 };
 

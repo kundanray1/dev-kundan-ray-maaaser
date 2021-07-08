@@ -86,8 +86,6 @@ Before building APK
 clear donor and receiver lets get started page initial value
 logout garda kheri ko response
 
-
-
 Completed
 Image Upload API
 Card Shadow of all confirmation detail
@@ -107,16 +105,16 @@ Show members on more screen only when accout type is organization
 Remove bell icon from receiver end dashboard
 
 UI bugs fixing
-
+-
+-Make Popup just below the specific field
+-Schedule Donation Form Add Time also(One Time...should have same start and end date and how to send start time in backend)
 -Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/  saga i.e fix session storage problem for first time account creator
 
--Make Popup just below the specific field
--Schedule Donation Form Add Time also
+
+
 -Change receiver end share from My QR Code->Share with native share functionality
 -Lets get started and profile screen image and camera location after selections of image
-
 -Campaign Details UI(Ongoing)
-
 -Active transactions and inactive withdraws icon as whole download ans use it in bottom tab
 -Change Logo of bottom tab of receiver end with withdraw logo
 -Change Logo of bottom tab of donor end with campaign logo

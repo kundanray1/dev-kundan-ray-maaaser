@@ -1,18 +1,18 @@
-export const RECEIVERS_START = "RECEIVERS_START";
-export const RECEIVERS_SUCCESS = "RECEIVERS_SUCCESS";
-export const RECEIVERS_FAIL = "RECEIVERS_FAIL";
+export const CAMPAIGN_COMMENTS_START = "CAMPAIGN_COMMENTS_START";
+export const CAMPAIGN_COMMENTS_SUCCESS = "CAMPAIGN_COMMENTS_SUCCESS";
+export const CAMPAIGN_COMMENTS_FAIL = "CAMPAIGN_COMMENTS_FAIL";
 
-export const receiversStart = (payload) => {
+export const campaignCommentsStart = (payload) => {
 	return {
-		type: RECEIVERS_START,
+		type: CAMPAIGN_COMMENTS_START,
 		payload,
 	};
 };
-export const receiversSuccess = (payload) => ({
-	type: RECEIVERS_SUCCESS,
+export const campaignCommentsSuccess = (payload) => ({
+	type: CAMPAIGN_COMMENTS_SUCCESS,
 	payload,
 });
-export const receiversFail = (payload) => ({
-	type: RECEIVERS_FAIL,
+export const campaignCommentsFail = (payload) => ({
+	type: CAMPAIGN_COMMENTS_FAIL,
 	payload,
 });

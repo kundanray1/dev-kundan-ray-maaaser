@@ -27,7 +27,7 @@ export function* transactions({ payload }) {
 			});
 		}
 	} catch (e) {
-		yield put(receiversFail(e));
+		yield put(transactionsFail(e));
 		showMessage({
 			message: "Error from server or check your credentials!",
 			type: "danger",
@@ -55,7 +55,7 @@ export function* search({ payload }) {
 			});
 		}
 	} catch (e) {
-		yield put(searchFail(e));
+		yield put(transactionsFail(e));
 		showMessage({
 			message: "Error from server or check your credentials!",
 			type: "danger",

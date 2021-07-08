@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CAMPAIGN_DONORS_START } from "./actions";
-import { campaignDonorsSuccess, campaignDonorsFail } from "./actions";
+import { SUB_CAMPAIGNS_START } from "./actions";
+import { subCampaignsSuccess, subCampaignsFail } from "./actions";
 import base from "./../../../../protos/campaign_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -8,11 +8,11 @@ import { showMessage } from "react-native-flash-message";
 import API from "./../../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* campaignDonors({ payload }) {
+export function* subCampaigns({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.CAMPAIGN_DONORS}/${payload}?medium=3&type=2`,
+			`${APIEndpoints.SUB_CAMPAIGNS}/${payload}?medium=3&type=2`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
@@ -23,12 +23,12 @@ export function* campaignDonors({ payload }) {
 		).toObject();
 		if (res.success) {
 			if (res.transactionsList == undefined) {
-				yield put(campaignDonorsSuccess([]));
+				yield put(subCampaignsSuccess([]));
 			} else {
-				yield put(campaignDonorsSuccess(res.transactionsList));
+				yield put(subCampaignsSuccess(res.transactionsList));
 			}
 		} else {
-			yield put(campaignDonorsFail(res));
+			yield put(subCampaignsFail(res));
 			showMessage({
 				message:
 					"Error from server or check your credentials!",
@@ -36,7 +36,7 @@ export function* campaignDonors({ payload }) {
 			});
 		}
 	} catch (e) {
-		yield put(campaignDonorsFail(e));
+		yield put(subCampaignsFail(e));
 		showMessage({
 			message:
 				"Error from server or check your credentials!",
@@ -45,6 +45,6 @@ export function* campaignDonors({ payload }) {
 	}
 }
 
-export default function* campaignDonorsSaga() {
-	yield takeLatest(CAMPAIGN_DONORS_START, campaignDonors);
+export default function* subCampaignsSaga() {
+	yield takeLatest(SUB_CAMPAIGNS_START, subCampaigns);
 }

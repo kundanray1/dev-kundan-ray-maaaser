@@ -56,8 +56,6 @@ const DonorReceiver = ({
   manualDonateConfirmationStart,
   manualDonateConfirmationClear,
   manualDonateConfirmationData,
-  campaigns,
-  campaignsData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
@@ -80,15 +78,16 @@ const DonorReceiver = ({
   });
   useEffect(() => {
     if (profileData.profile == null) {
+      console.log("useEffect");
+      console.log(loginData.user.account.accountid);
+
       profile(loginData.user.account.accountid);
       upcomingDonations(loginData.user.account.accountid);
       balance(loginData.user.account.accountid);
       donationsMade(loginData.user.account.accountid);
-      campaigns(loginData.user.account.accountid);
       receivers();
     }
   }, [profileData.profile]);
-  
   useEffect(() => {
     if (manualDonateConfirmationData.manualDonateConfirmation !== null) {
       if (manualDonateConfirmationData.manualDonateConfirmation.success) {
@@ -99,6 +98,8 @@ const DonorReceiver = ({
     }
   }, [manualDonateConfirmationData.manualDonateConfirmation]);
 
+  console.log(profileData.profile);
+  console.log(upcomingDonationsData.upcomingDonations);
   const onSubmitDonateConfirmation = (values) => {
     const donationProto = new PaymentProto.Transaction();
     donationProto.setDonoraccountid(loginData.user.account.accountid);
@@ -330,8 +331,7 @@ const DonorReceiver = ({
       upcomingDonationsData.isLoading ||
       donationsMadeData.isLoading ||
       receiversData.isLoading ||
-      profileData.isLoading ||
-      campaignsData.isLoading ? (
+      profileData.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
@@ -473,7 +473,11 @@ const DonorReceiver = ({
                 <Block style={{ flex: 1,borderBottomWidth:1,borderColor:theme.colors.gray2,paddingTop:10 }}>
                   
                 <FlatList
-                  data={campaignsData.campaigns.campaignsList}
+                  data={donationsMadeData.donationsMade
+                    .filter((transaction) => {
+                      return transaction.transactiontype === 2;
+                    })
+                    .slice(0, 2)}
                   refreshControl={
                     <RefreshControl
                       colors={[theme.colors.primary2]}
@@ -485,21 +489,20 @@ const DonorReceiver = ({
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   keyExtractor={(item) => {
-                    return item.campaignid.toString();
+                    return item.transactionid.toString();
                   }}
                   ItemSeparatorComponent={() => (
                     <Block style={{ marginTop: 2 }} />
                   )}
                   ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any donations made data."/>}
                   renderItem={(post) =>
+                    post.item.clientList[1] != undefined ? (
                       <NeedHelpFirstCard
-                    image={post.item.thumbnailurl}
-                    label={post.item.title}
-                    collectedAmount={post.item.collectedamount}
-                    targetAmount={post.item.targetamount}
-                    onPress={()=>navigation.navigate("Campaign Details",{"campaignData":post.item})}
+                       
                       />
-                     
+                    ) : (
+                      <Block style={{ paddingHorizontal: 18 }} />
+                    )
                   }
                 />
                 </Block>

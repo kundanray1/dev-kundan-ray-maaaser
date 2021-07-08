@@ -4,9 +4,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
+  StyleSheet,
   ImageBackground,
   ActivityIndicator,
   RefreshControl,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -17,12 +20,15 @@ import {
   Button,
   FloatingButton,
   DonorsDetail,
+  NeedHelpFirstCard,
 } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
 import LocalDB from "./../../../../api/LocalStorage";
 import NumberFormat from "react-number-format";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
 import BellIconComponent from "./../../../../assets/icons/bellIconComponent";
+const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
 
 import { FontAwesome5 } from "@expo/vector-icons";
 const DonorReceiver = ({
@@ -36,29 +42,59 @@ const DonorReceiver = ({
   donationReceived,
   donors,
   receiverProfileData,
-receiverProfile
+  receiverProfile,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
     donationReceived(loginData.user.account.accountid);
-    donors(), 
-    setRefreshing(false);
+    donors(), setRefreshing(false);
   });
   useEffect(() => {
-    if (
-      donationReceivedData.donationReceived == null ||
-      data.donationDashboard == null ||
-      donorsData.donors == null ||
-      receiverProfileData.receiverProfile == null
-    ) {
+    if (receiverProfileData.receiverProfile == null) {
+      receiverProfile(loginData.user.account.accountid);
       balance(loginData.user.account.accountid);
       donationReceived(loginData.user.account.accountid);
       donors();
-      receiverProfile(loginData.user.account.accountid);
     }
   }, []);
+
+  const renderDonationsReceived = () => {
+    return donationReceivedData.donationReceived
+      .filter((transaction) => {
+        return transaction.transactiontype === 2;
+      })
+      .slice(0, 2)
+      .map((item, index) => {
+        return item.clientList[1] != undefined ? (
+          <DonationsDetail
+            key={index}
+            profilePic={item.clientList[0].profilepic}
+            name={item.clientList[0].account.fullname}
+            amount={item.amount}
+            date={item.createdat}
+            textColor={theme.colors.green}
+          />
+        ) : (
+          <Block style={{ paddingHorizontal: 18 }} />
+        );
+      });
+  };
+
+  const renderDonors = () => {
+    return donorsData.donors.clientsList.slice(0, 8).map((item, index) => {
+      return (
+        <DonorsDetail
+          key={index}
+          profilePic={item.profilepic}
+          name={item.account.fullname}
+          clientType={item.clienttype}
+        />
+      );
+    });
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ||
@@ -69,20 +105,20 @@ receiverProfile
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
       ) : (
-        <>
-          <Block
-            style={{
-              flex: 0.24,
-              // flex: 0.26,
-
-            }}
-          >
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              colors={[theme.colors.primary2]}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
+          <Block>
             <ImageBackground
               style={{
-                height: "90%",
+                height: "95%",
                 width: "100%",
-                flex: 1,
-                justifyContent: "flex-end",
               }}
               imageStyle={{
                 borderBottomLeftRadius: 40,
@@ -90,54 +126,38 @@ receiverProfile
               }}
               source={require("../../../../assets/images/backgroundColor.png")}
             >
-             {/* <TouchableOpacity
-                activeOpacity={0.8}
-                style={{
-                  flex: 0,
-                  alignItems: "flex-end",
-                  paddingHorizontal: 16,
-                }}
-              >
-                <BellIconComponent
-                  style={{ marginBottom: 10, marginRight: 8 }}
-                />
-              </TouchableOpacity>*/}
               <Block
                 style={{
-                  // flex: 0.65,
-                  flex: 0.5,
                   paddingHorizontal: 16,
+                  flex: 0,
+                  marginTop: HEIGHT / 10,
                 }}
               >
                 <Block
                   row
                   center
                   style={{
+                    flex: 0,
                     paddingHorizontal: 20,
+                    paddingVertical: 16,
                     borderRadius: 4,
                     shadowRadius: 4,
                     elevation: 4,
                     backgroundColor: theme.colors.white,
                   }}
                 >
+                  {receiverProfileData.receiverProfile.profilepic == "" ? (
+                    <UserIconComponent height={45} width={45} />
+                  ) : (
+                    <Image
+                      source={{ uri: receiverProfileData.receiverProfile.profilepic }}
+                      style={{ height: 50, width: 50, borderRadius: 30 }}
+                    />
+                  )}
                   <Block
                     style={{
-                      flex: 1,
-                    }}
-                  >
-                    {receiverProfileData.receiverProfile.profilepic == "" ? (
-                      <UserIconComponent height={45} width={45}/>
-                    ) : (
-                      <Image
-                        source={{ uri: receiverProfileData.receiverProfile.profilepic }}
-                        style={{ height: 50, width: 50, borderRadius: 30 }}
-                      />
-                    )}
-                  </Block>
-                  <Block
-                    style={{
-                      flex: 4,
-                      marginLeft: 20,
+                      marginLeft: 6,
+                      flex: 0,
                     }}
                   >
                     <Text
@@ -145,20 +165,26 @@ receiverProfile
                         fontSize: 20,
                         fontWeight: "700",
                         textTransform: "capitalize",
+                        color: theme.colors.solidGray,
                       }}
                     >
-                      Hi, {receiverProfileData.receiverProfile.account.fullname.split(" ")[0]}!
+                      Hi,{" "}
+                      {
+                        receiverProfileData.receiverProfile.account.fullname.split(
+                          " "
+                        )[0]
+                      }
+                      !
                     </Text>
                     <Button
                       style={{ height: 30, width: 100, marginTop: 4 }}
                       onPress={() => navigation.navigate("Linked Accounts")}
-                      // onPress={() =>  API.removeTokens()}
                     >
                       <Text
                         color={theme.colors.white}
                         style={{ fontSize: 16, fontWeight: "700" }}
                       >
-                        Withdraw
+                        Load Fund
                       </Text>
                     </Button>
                   </Block>
@@ -171,12 +197,13 @@ receiverProfile
                     <Text
                       center
                       color={theme.colors.solidGray}
-                      style={{ fontSize: 16, fontWeight: "700" }}
+                      style={{ fontSize: 18, fontWeight: "700" }}
                     >
                       Balance
                     </Text>
+
                     <NumberFormat
-                      value={data.balance/100}
+                      value={data.balance / 100}
                       displayType={"text"}
                       thousandSeparator={true}
                       prefix={"$"}
@@ -185,7 +212,11 @@ receiverProfile
                       renderText={(formattedValue) => (
                         <Text
                           center
-                          style={{ fontSize: 20, fontWeight: "700" }}
+                          style={{
+                            fontSize: 20,
+                            fontWeight: "700",
+                            color: theme.colors.solidGray,
+                          }}
                         >
                           {formattedValue}
                         </Text>
@@ -197,121 +228,106 @@ receiverProfile
             </ImageBackground>
           </Block>
 
-          <Block style={{ flex: 0.74, marginTop: 10 }}>
-            <Block style={{ paddingHorizontal: 20, flex: 1.2,paddingTop: 10 }}>
-              <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                  Donation Received
-                </Text>
-                <Text
-                  onPress={() => navigation.navigate("Donation Received")}
-                  style={{ fontSize: 16, fontWeight: "500" }}
-                  color={theme.colors.solidGray}
-                >
-                  View All
-                </Text>
-              </Block>
-              <Block style={{ flex: 1 }}>
-                <Text
-                  style={{ fontSize: 16, fontWeight: "700" }}
-                  color={theme.colors.primary2}
-                >
-                  Recent
-                </Text>
-                <FlatList
-                  data={donationReceivedData.donationReceived
-                    .filter((transaction) => {
-                      return transaction.transactiontype === 2;
-                    })
-                    .slice(0, 2)}
-                  refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
-                  showsVerticalScrollIndicator={false}
-                  keyExtractor={(item) => {
-                    return item.transactionid.toString();
-                  }}
-                  ItemSeparatorComponent={() => (
-                    <Block style={{ marginTop: 2 }} />
-                  )}
-                  ListEmptyComponent={() => (
-              <Empty
-                iconName="transactions"
-                dashboard={0}
-                title="You don't have made any donation received yet."
-              />
-            )}
-                  renderItem={(post) =>
-                    post.item.clientList[1] != undefined ? (
-                      <DonationsDetail
-                        profilePic={post.item.clientList[0].profilepic}
-                        name={post.item.clientList[0].account.fullname}
-                        amount={post.item.amount}
-                        date={post.item.createdat}
-                        textColor={theme.colors.green}
-                      />
-                    ) : (
-                      <Block style={{ paddingHorizontal: 18 }} />
-                    )
-                  }
-                />
-              </Block>
+          <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                Need to help first
+              </Text>
+              <Text
+                onPress={() => navigation.navigate("Campaigns")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
             </Block>
-
-            <Block style={{ paddingHorizontal: 20, flex: 2 }}>
-              <Block row style={{ flex: 0.1, justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 18, fontWeight: "700" }}>Donors</Text>
-                <Text
-                  onPress={() => navigation.navigate("Donors")}
-                  style={{ fontSize: 16, fontWeight: "500" }}
-                  color={theme.colors.solidGray}
-                >
-                  View All
-                </Text>
-              </Block>
-              <Block style={{ flex: 1 }}>
-                <FlatList
-                  data={donorsData.donors.clientsList.slice(0, 8)}
-                  showsVerticalScrollIndicator={false}
-                  keyExtractor={(item) => {
-                    return item.clientid.toString();
-                  }}
-                  ItemSeparatorComponent={() => (
-                    <Block style={{ marginTop: 2 }} />
-                  )}
-                  refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
-                  ListEmptyComponent={() => (
-              <Empty
-                iconName="donors"
-                dashboard={0}
-                title="You don't have made any donation received yet."
+            <Block
+              style={{
+                flex: 1,
+                borderBottomWidth: 1,
+                borderColor: theme.colors.gray2,
+                paddingTop: 10,
+              }}
+            >
+              <FlatList
+                data={donorsData.donors.clientsList.slice(0, 4)}
+                refreshControl={
+                  <RefreshControl
+                    colors={[theme.colors.primary2]}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                nestedScrollEnabled
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => {
+                  return index.toString();
+                }}
+                ItemSeparatorComponent={() => (
+                  <Block style={{ marginTop: 2 }} />
+                )}
+                ListEmptyComponent={() => (
+                  <Empty
+                    iconName="transactions"
+                    dashboard={0}
+                    title="You don't have any donations made data."
+                  />
+                )}
+                renderItem={(post) => <NeedHelpFirstCard />}
               />
-            )}
-                  renderItem={(post) => (
-                    <DonorsDetail
-                      profilePic={post.item.profilepic}
-                      name={post.item.account.fullname}
-                      clientType={post.item.clienttype}
-                    />
-                  )}
-                />
-              </Block>
             </Block>
           </Block>
-        </>
+
+          <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                Donation Received
+              </Text>
+              <Text
+                onPress={() => navigation.navigate("Donation Received")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
+            </Block>
+            <Block style={{ flex: 1 }}>{renderDonationsReceived()}</Block>
+          </Block>
+
+          <Block style={{ paddingHorizontal: 20, paddingBottom: 40 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>Donors</Text>
+              <Text
+                onPress={() => navigation.navigate("Donors")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
+            </Block>
+            <Block style={{ flex: 1 }}>{renderDonors()}</Block>
+          </Block>
+        </ScrollView>
       )}
     </SafeAreaView>
   );
 };
 
 export default DonorReceiver;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modal: {
+    borderRadius: 4,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+  },
+});

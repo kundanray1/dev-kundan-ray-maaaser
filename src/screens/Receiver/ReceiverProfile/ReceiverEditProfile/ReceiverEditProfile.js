@@ -30,7 +30,7 @@ import { LetsGetStartedReceiverValidationSchema } from "./../../../../utility/Va
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const ReceiverEditProfile = ({ navigation, loginData, data,receiverProfileData,receiverEditProfile,receiverEditProfileClear }) => {
+const ReceiverEditProfile = ({ navigation, loginData, data,receiverProfileData,receiverEditProfile,receiverEditProfileClear,imageUpload,letsGetStartedDonorData }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -40,7 +40,7 @@ const ReceiverEditProfile = ({ navigation, loginData, data,receiverProfileData,r
   const [stateFocus, setStateFocus] = useState(false);
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(receiverProfileData.receiverProfile.profilepic);
   //select image function
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -52,6 +52,7 @@ const ReceiverEditProfile = ({ navigation, loginData, data,receiverProfileData,r
     console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
+       imageUpload(result.uri);
     }
   };
 useEffect(() => {
@@ -83,7 +84,7 @@ useEffect(() => {
     AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(image);
+    clientData.setProfilepic(letsGetStartedDonorData.image);
     clientData.setBio(values.bio);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);

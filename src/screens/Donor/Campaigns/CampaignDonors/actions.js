@@ -1,18 +1,18 @@
-export const DONATION_RECEIVED_START = "DONATION_RECEIVED_START";
-export const DONATION_RECEIVED_SUCCESS = "DONATION_RECEIVED_SUCCESS";
-export const DONATION_RECEIVED_FAIL = "DONATION_RECEIVED_FAIL";
+export const CAMPAIGN_DONORS_START = "CAMPAIGN_DONORS_START";
+export const CAMPAIGN_DONORS_SUCCESS = "CAMPAIGN_DONORS_SUCCESS";
+export const CAMPAIGN_DONORS_FAIL = "CAMPAIGN_DONORS_FAIL";
 
-export const donationReceivedStart = (payload) => {
+export const campaignDonorsStart = (payload) => {
 	return {
-		type: DONATION_RECEIVED_START,
+		type: CAMPAIGN_DONORS_START,
 		payload,
 	};
 };
-export const donationReceivedSuccess = (payload) => ({
-	type: DONATION_RECEIVED_SUCCESS,
+export const campaignDonorsSuccess = (payload) => ({
+	type: CAMPAIGN_DONORS_SUCCESS,
 	payload,
 });
-export const donationReceivedFail = (payload) => ({
-	type: DONATION_RECEIVED_FAIL,
+export const campaignDonorsFail = (payload) => ({
+	type: CAMPAIGN_DONORS_FAIL,
 	payload,
 });

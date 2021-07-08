@@ -71,6 +71,7 @@ let status=scheduleTransactionStatus==1?"SCHEDULING":
 			<Block
 				style={{
 					flex: 4,
+					marginLeft:10,
 					justifyContent: "center",
 				}}
 			>

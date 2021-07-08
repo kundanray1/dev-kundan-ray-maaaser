@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import More from "./More";
-import { logoutStart,logoutClear } from "./actions";
+import { logoutStart,logoutClear,userLoggedOut } from "./actions";
 import { loginClear} from "./../../auth/Login/actions";
 
 const mapStateToProps = createStructuredSelector({
@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 		logout: () => dispatch(logoutStart()),
 		loginClear: () => dispatch(loginClear()),
 		logoutClear: () => dispatch(logoutClear()),
+		userLoggedOut: () => dispatch(userLoggedOut()),
 	};
 };
 

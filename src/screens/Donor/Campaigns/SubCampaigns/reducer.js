@@ -1,29 +1,29 @@
 import {
-  CAMPAIGN_DONORS_FAIL,
-  CAMPAIGN_DONORS_START,
-  CAMPAIGN_DONORS_SUCCESS,
+  SUB_CAMPAIGNS_FAIL,
+  SUB_CAMPAIGNS_START,
+  SUB_CAMPAIGNS_SUCCESS,
 } from './actions';
 
 const initialState = {
   isLoading: false,
-  campaignDonors: null,
+  subCampaigns: null,
   error: null,
 };
 
-export const campaignDonorsReducer=(state = initialState, { type, payload }) => {
+export const subCampaignsReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case CAMPAIGN_DONORS_START:
+    case SUB_CAMPAIGNS_START:
     return {
         ...state,
         isLoading: true,
       };
-    case CAMPAIGN_DONORS_SUCCESS:
+    case SUB_CAMPAIGNS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        campaignDonors: payload,
+        subCampaigns: payload,
       };
-    case CAMPAIGN_DONORS_FAIL:
+    case SUB_CAMPAIGNS_FAIL:
       return {
         ...state,
         isLoading: false,

@@ -8,6 +8,7 @@ const PercentageBar = ({
   height,
   backgroundColor,
   completedColor,
+  ...props
 }) => {
   const [getPercentage, setPercentage] = useState(percentage);
   const [getheight, setHeight] = useState(height);
@@ -32,17 +33,9 @@ const PercentageBar = ({
             height: getheight,
             backgroundColor: getCompletedColor,
             position: 'absolute',
-            bottom:16
+            bottom:10
           }}
         />
-        <View
-          style={{
-            width: getPercentage ? getPercentage : 0,
-            height: getheight,
-            bottom:10
-          }}>
-          <Text style={{textAlign: 'right'}}>{getPercentage}</Text>
-        </View>
       </View>
     </View>
   );

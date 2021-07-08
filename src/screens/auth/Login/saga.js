@@ -30,11 +30,13 @@ export function* login({ payload }) {
 		} else {
 			yield LocalDB.setSessions(res, (resolve, reject) => {
 				if (resolve) {
-					API.setToken();
+					resolve
 				} else {
-					API.resetToken();
+				reject
 				}
 			});
+			yield API.setToken();
+			console.log(API.token())
 			yield put(loginSuccess(res.loginresponse.loginaccount.client));
 			showMessage({
 				message: "Logged In successfully",
