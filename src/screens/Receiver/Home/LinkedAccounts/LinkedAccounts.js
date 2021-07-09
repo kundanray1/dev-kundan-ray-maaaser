@@ -10,7 +10,6 @@ import {
 import * as theme from "../../../../constants/theme.js";
 import {
   Block,
-  Text,
   Empty,
   FloatingButton,
   LinkedAccountsAndLinkedCard,

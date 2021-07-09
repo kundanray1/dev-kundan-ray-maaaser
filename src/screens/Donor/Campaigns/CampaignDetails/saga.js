@@ -1,45 +1,45 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CAMPAIGNS_START } from "./actions";
-import { campaignsSuccess, campaignsFail} from "./actions";
-import base from "./../../../protos/payment_rpc_pb";
-import APIEndpoints from "./../../../constants/APIConstants";
-import { requestProto } from "../../../utility/request";
+import { CAMPAIGN_DETAILS_START } from "./actions";
+import { campaignDetailsSuccess, campaignDetailsFail} from "./actions";
+import base from "./../../../../protos/campaign_rpc_pb";
+import APIEndpoints from "./../../../../constants/APIConstants";
+import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
-import API from "./../../../api/API";
+import API from "./../../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* ach({ payload }) {
+export function* campaignDetails({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.BANK}/${payload}`,
+			`${APIEndpoints.CAMPAIGN}/${payload}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
 			}
 		);
-		const res = base.PaymentBaseResponse.deserializeBinary(
+		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
 		if (res.success) {
-			yield put(campaignsSuccess(res));
+			yield put(campaignDetailsSuccess(res));
 		} else {
-			yield put(campaignsFail(res));
+			yield put(campaignDetailsFail(res));
 			showMessage({
 				message: "Error from server or check your credentials!",
 				type: "danger",
 			});
 		}
 	} catch (e) {
-		yield put(campaignsFail(e));
+		yield put(campaignDetailsFail(e));
 		showMessage({
 			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}
 }
-export default function* campaignsSaga() {
-	yield takeLatest(CAMPAIGNS_START, ach);
+export default function* campaignDetailsSaga() {
+	yield takeLatest(CAMPAIGN_DETAILS_START, campaignDetails);
 }
 
 

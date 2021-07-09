@@ -3,8 +3,6 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
-  Image,
-  ImageBackground,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text,CustomActivityIndicator } from "../../../components/Index.js";

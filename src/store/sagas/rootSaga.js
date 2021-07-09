@@ -35,7 +35,13 @@ import uploadQRSaga from "./../../screens/Donor/Home/UploadQR/saga";
 
 //campaigns
 import campaignsSaga from "./../../screens/Donor/Campaigns/saga";
-import startacampaignSaga from "./../../screens/Donor/Campaigns/StartACampaign/saga";
+import campaignDetailsSaga from "./../../screens/Donor/Campaigns/CampaignDetails/saga";
+// import campaignCommentsSaga from "./../../screens/Donor/Campaigns/CampaignComments/saga";
+// import campaignDonorsSaga from "./../../screens/Donor/Campaigns/CampaignDonors/saga";
+import allCampaignsSaga from "./../../screens/Donor/Campaigns/AllCampaigns/saga";
+import startACampaignThirdSaga from "./../../screens/Donor/Campaigns/StartACampaignThird/saga";
+import startACampaignSaga from "./../../screens/Donor/Campaigns/StartACampaign/saga";
+import startASubCampaignSaga from "./../../screens/Donor/Campaigns/StartASubCampaign/saga";
 import addBeneficiarySaga from "./../../screens/Donor/Campaigns/AddBeneficiary/saga";
 
 //more
@@ -106,9 +112,16 @@ export default function* rootSaga() {
 
 		//campaigns
 		campaignsSaga(),
-		startacampaignSaga(),
+		campaignDetailsSaga(),
+		// campaignDonorsSaga(),
+		// campaignCommentsSaga(),
+		// subCampaignsSaga(),
+		allCampaignsSaga(),
+		startACampaignThirdSaga(),
+		startACampaignSaga(),
+		startASubCampaignSaga(),
 		addBeneficiarySaga(),
-		
+
 		//more
 		moreSaga(),
 		addMemberSaga(),

@@ -7,7 +7,6 @@ import {
   LoadFundAndDonationMethodCard,
 } from "../../../../components/Index.js";
 import Dummy from "./Dummy.js";
-import YellowBankIconComponent from "./../../../../assets/icons/yellowBankIconComponent";
 
 const LoadFund = ({navigation}) => {
   return (

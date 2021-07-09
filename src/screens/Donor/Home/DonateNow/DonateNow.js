@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, SafeAreaView } from "react-native";
 import {
   Block,
@@ -9,8 +9,6 @@ import {
 import Dummy from "./Dummy.js";
 
 const DonateNow = ({navigation}) => {
-  const [loading, setLoading] = useState(false);
-
   return (
     <SafeAreaView >
       <Block style={{flex:0,paddingVertical:15,paddingHorizontal:16}}>

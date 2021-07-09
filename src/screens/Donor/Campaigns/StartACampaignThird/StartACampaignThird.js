@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Modal,
   View,
-  Image,
   Dimensions,
   TextInput,
 } from "react-native";
@@ -16,34 +15,82 @@ import {
   Button,
   CustomActivityIndicator,
 } from "../../../../components/Index.js";
-import moment from "moment";
-import PaymentProto from "./../../../../protos/payment_pb";
-import { Formik } from "formik";
-import { WithdrawFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
+import CampaignProto from "./../../../../protos/campaign_pb";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import StartACampaignOneIconComponent from "./../../../../assets/icons/startACampaignOneIconComponent";
-import StartACampaignThreeIconComponent from "./../../../../assets/icons/StartACampaignThreeIconComponent";
-import AddImageIconComponent from "./../../../../assets/icons/addImageIconComponent";
+import StartACampaignSecondIconComponent from "./../../../../assets/icons/StartACampaignSecondIconComponent";
+import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 
 const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
 
 const StartACampaignThird = ({
   data,
-  startACampaignStart,
-  startACampaignClear,
+  startACampaignThirdStart,
+  startACampaignThirdClear,
   navigation,
+  letsGetStartedDonorData,
+  route,
 }) => {
-  const onSubmitStartACampaignThirdLoadFund = () => {};
+  const [
+    confirmationMessageVisible,
+    setConfirmationSuccessfulVisible,
+  ] = useState(false);
+  const [description, setDescription] = useState();
+  const onSubmitStartACampaignThird = () => {
+    const campaignData = new CampaignProto.Campaign();
+    campaignData.setTargetamount(route.params.targetAmount * 100);
+    campaignData.setCountrycode(route.params.countryCode);
+    campaignData.setTitle(route.params.title);
+    campaignData.setBeneficiarytype(
+      route.params.raisingMoneyType == "Myself" ? 1 : 2
+    );
+    campaignData.setBeneficiaryaccountid("b3d9375995f94a32bc9946e8641956ff");
+    campaignData.setCategory(route.params.categoryType);
+    // campaignData.setDescription(route.params.description);
+    campaignData.setDescription(description);
+    campaignData.setThumbnailurl(letsGetStartedDonorData.image);
+    campaignData.setAllowsubcampaign(route.params.allowSubCampaigns);
+    campaignData.setCampaignstatus(1);
+    startACampaignThirdStart(campaignData);
+  };
 
   useEffect(() => {
-    if (data.startACampaign !== null) {
-      if (data.startACampaign.success) {
-        startACampaignClear();
+    if (data.startACampaignThird !== null) {
+      if (data.startACampaignThird.success) {
+        setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+        startACampaignThirdClear();
       }
     }
-  }, [data.startACampaign]);
+  }, [data.startACampaignThird]);
 
+  const ConfirmationMessage = () => (
+    <SafeAreaView>
+      <Modal
+        visible={confirmationMessageVisible}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent={true}
+        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
+      >
+        <View style={styles.container}>
+          <View style={[styles.modal, { width: WIDTH - 45 }]}>
+            <Text center style={{ fontSize: 18, fontWeight: "700" }}>
+              Campaign Started Successfully!
+            </Text>
+            <View style={{ paddingVertical: 25, alignItems: "center" }}>
+              <TickIconComponent />
+            </View>
+            <View style={{ paddingHorizontal: 30 }}>
+              <Button onPress={() => navigation.navigate("Campaigns")}>
+                <Text button style={{ fontSize: 18 }}>
+                  View Campaign
+                </Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
+  );
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -58,7 +105,7 @@ const StartACampaignThird = ({
             paddingVertical: 10,
           }}
         >
-          <StartACampaignThreeIconComponent />
+          <StartACampaignSecondIconComponent />
         </Block>
         <Text
           center
@@ -71,19 +118,17 @@ const StartACampaignThird = ({
         >
           Describe why are you are fundraising
         </Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            flex: 0,
-            borderWidth: 1,
-            height: HEIGHT / 3,
-            overflow: "hidden",
-          }}
-        >
-          <Text color="#BABABA" style={{ padding: 10 }} numberOfLines={14}>
-            Explain about the campaign.
-          </Text>
-        </TouchableOpacity>
+
+        <TextInput
+          style={styles.input}
+          onChangeText={(value)=>setDescription(value)}
+          value={description}
+          placeholder="Explain about the campaign."
+          keyboardType="default"
+          multiline
+          numberOfLines={10}
+        />
+
         <Block
           style={{
             paddingVertical: 30,
@@ -91,13 +136,14 @@ const StartACampaignThird = ({
             borderColor: theme.colors.gray2,
           }}
         >
-          <Button>
+          <Button onPress={() => onSubmitStartACampaignThird()}>
             <Text button style={{ fontSize: 18 }}>
               Proceed
             </Text>
           </Button>
         </Block>
       </Block>
+
       <TouchableOpacity
         activeOpacity={0.8}
         style={{ paddingVertical: 24 }}
@@ -111,6 +157,15 @@ const StartACampaignThird = ({
           Go Back
         </Text>
       </TouchableOpacity>
+      {data.isLoading?
+       <CustomActivityIndicator
+                      isLoading={data.isLoading}
+                      label="Creating..."
+                    />
+                    :
+                    <Block/>
+      }
+      {ConfirmationMessage()}
     </KeyboardAwareScrollView>
   );
 };
@@ -130,19 +185,12 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     paddingVertical: 30,
   },
+
   input: {
     fontSize: 20,
-    fontWeight: "700",
-    backgroundColor: "#E9F9FF",
-    color: "#0DB952",
+    fontWeight: "400",
+    color: theme.colors.solidGray,
     paddingHorizontal: 4,
-  },
-  searchSection: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#E9F9FF",
+    borderWidth:1
   },
 });

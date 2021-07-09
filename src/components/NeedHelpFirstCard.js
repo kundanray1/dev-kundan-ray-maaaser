@@ -15,7 +15,6 @@ import NumberFormat from "react-number-format";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-
 const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }) => {
 	const percentage=(collectedAmount*100)/targetAmount;
 	return (
@@ -30,20 +29,9 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 							borderRadius:6
 						}}
 						source={{
-							uri: "https://storage.googleapis.com/maaser_resources/7b6029f28c154583af0adc5f3c5f74f9.jpg",
+							uri: image
 						}}
 					>
-						<Block
-							row
-							style={{
-								flex: 0,
-								paddingVertical: 4,
-							}}
-						>
-							<TouchableOpacity activeOpacity={0.8} style={{backgroundColor:"white",borderRadius:20,paddingHorizontal:4,marginLeft:6,marginBottom:2}}>
-								<Text color="#5F6062" style={{fontSize:12}}>2 days left</Text>
-							</TouchableOpacity>
-						</Block>
 					</ImageBackground>
 				</Block>
 				<Block

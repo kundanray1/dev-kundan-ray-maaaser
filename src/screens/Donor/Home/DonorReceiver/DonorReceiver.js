@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   FlatList,
   SafeAreaView,
@@ -29,17 +28,13 @@ import {
 import API from "./../../../../api/API";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
-import LocalDB from "./../../../../api/LocalStorage";
 import NumberFormat from "react-number-format";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-
-
 const DonorReceiver = ({
   navigation,
   data,
@@ -56,8 +51,9 @@ const DonorReceiver = ({
   manualDonateConfirmationStart,
   manualDonateConfirmationClear,
   manualDonateConfirmationData,
-  campaigns,
-  campaignsData
+  allCampaignsData,
+  allCampaigns,
+
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
@@ -76,7 +72,9 @@ const DonorReceiver = ({
     balance(loginData.user.account.accountid);
     upcomingDonations(loginData.user.account.accountid);
     donationsMade(loginData.user.account.accountid);
-    receivers(), setRefreshing(false);
+    allCampaigns();
+    receivers();
+    setRefreshing(false);
   });
   useEffect(() => {
     if (profileData.profile == null) {
@@ -84,7 +82,7 @@ const DonorReceiver = ({
       upcomingDonations(loginData.user.account.accountid);
       balance(loginData.user.account.accountid);
       donationsMade(loginData.user.account.accountid);
-      campaigns(loginData.user.account.accountid);
+      allCampaigns();
       receivers();
     }
   }, [profileData.profile]);
@@ -331,7 +329,7 @@ const DonorReceiver = ({
       donationsMadeData.isLoading ||
       receiversData.isLoading ||
       profileData.isLoading ||
-      campaignsData.isLoading ? (
+      allCampaignsData.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
@@ -404,7 +402,6 @@ const DonorReceiver = ({
                       <Button
                         style={{ height: 30, width: 100, marginTop: 4 }}
                         onPress={() => navigation.navigate("Load Fund")}
-                        // onPress={() =>  API.removeTokens()}
                       >
                         <Text
                           color={theme.colors.white}
@@ -463,7 +460,7 @@ const DonorReceiver = ({
                    Need to help first
                   </Text>
                   <Text
-                    onPress={() => navigation.navigate("Campaigns")}
+                    onPress={() => navigation.navigate("All Campaigns")}
                     style={{ fontSize: 16, fontWeight: "500" }}
                     color={theme.colors.solidGray}
                   >
@@ -473,7 +470,7 @@ const DonorReceiver = ({
                 <Block style={{ flex: 1,borderBottomWidth:1,borderColor:theme.colors.gray2,paddingTop:10 }}>
                   
                 <FlatList
-                  data={campaignsData.campaigns.campaignsList}
+                  data={allCampaignsData.allCampaigns.campaignsList.slice(0.6)}
                   refreshControl={
                     <RefreshControl
                       colors={[theme.colors.primary2]}
@@ -490,8 +487,9 @@ const DonorReceiver = ({
                   ItemSeparatorComponent={() => (
                     <Block style={{ marginTop: 2 }} />
                   )}
-                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any donations made data."/>}
+                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any campaigns data."/>}
                   renderItem={(post) =>
+                    post.item.campaignstarter.account.accountid!==loginData.user.account.accountid &&
                       <NeedHelpFirstCard
                     image={post.item.thumbnailurl}
                     label={post.item.title}
@@ -499,7 +497,6 @@ const DonorReceiver = ({
                     targetAmount={post.item.targetamount}
                     onPress={()=>navigation.navigate("Campaign Details",{"campaignData":post.item})}
                       />
-                     
                   }
                 />
                 </Block>

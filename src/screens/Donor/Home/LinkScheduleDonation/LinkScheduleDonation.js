@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
-  SafeAreaView,
-  Image,
-  ActivityIndicator,
   TouchableOpacity,
-  Modal,
   StyleSheet,
-  Dimensions,
-  View,
 } from "react-native";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import {  MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LinkScheduleDonationValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import * as theme from "./../../../../constants/theme.js";
@@ -28,9 +22,6 @@ import ReceiversList from "./ReceiversList";
 import ScheduleType from "./ScheduleType";
 import PaymentProto from "./../../../../protos/payment_pb";
 import API from "./../../../../api/API";
-
-const HEIGHT = Dimensions.get("window").height;
-const WIDTH = Dimensions.get("window").width;
 
 const LinkScheduleDonation = ({
   navigation,

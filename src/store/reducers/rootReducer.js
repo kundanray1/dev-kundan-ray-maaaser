@@ -38,10 +38,14 @@ import { scheduleDonationReceiverDetailReducer } from "./../../screens/Donor/Hom
 import { upcomingDonationsReducer } from "./../../screens/Donor/Home/UpcomingDonations/reducer";
 //campaigns
 import { campaignsReducer } from "./../../screens/Donor/Campaigns/reducer";
-// import { campaignsReducer } from "./../../screens/Donor/Campaigns/reducer";
+import { campaignDetailsReducer } from "./../../screens/Donor/Campaigns/CampaignDetails/reducer";
+// import campaignCommentsReducer from "./../../screens/Donor/Campaigns/CampaignComments/reducer";
+// import campaignDonorsReducer from "./../../screens/Donor/Campaigns/CampaignDonors/reducer";
+import { allCampaignsReducer } from "./../../screens/Donor/Campaigns/AllCampaigns/reducer";
+import { startACampaignThirdReducer } from "./../../screens/Donor/Campaigns/StartACampaignThird/reducer";
 import { startACampaignReducer } from "./../../screens/Donor/Campaigns/StartACampaign/reducer";
+import { startASubCampaignReducer } from "./../../screens/Donor/Campaigns/StartASubCampaign/reducer";
 import { addBeneficiaryReducer } from "./../../screens/Donor/Campaigns/AddBeneficiary/reducer";
-
 
 //more
 import { moreReducer } from "./../../screens/Donor/More/reducer";
@@ -113,8 +117,14 @@ const appReducer = combineReducers({
 
 	//campaigns
 	campaigns: campaignsReducer,
-	startACampaign:startACampaignReducer,
-	addBeneficiary:addBeneficiaryReducer,
+	campaignDetails: campaignDetailsReducer,
+	// campaignDonors:campaignDonorsReducer,
+	// campaignComments:campaignCommentsReducer,
+	allCampaigns: allCampaignsReducer,
+	startACampaignThird: startACampaignThirdReducer,
+	startACampaign: startACampaignReducer,
+	startASubCampaign: startASubCampaignReducer,
+	addBeneficiary: addBeneficiaryReducer,
 
 	//more
 	more: moreReducer,
@@ -149,12 +159,12 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  // when a logout action is dispatched it will reset redux state
-  if (action.type === 'USER_LOGGED_OUT') {
-    state = undefined;
-  }
+	// when a logout action is dispatched it will reset redux state
+	if (action.type === "USER_LOGGED_OUT") {
+		state = undefined;
+	}
 
-  return appReducer(state, action);
+	return appReducer(state, action);
 };
 
 export default rootReducer;

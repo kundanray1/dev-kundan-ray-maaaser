@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import {
-	SafeAreaView,
 	TouchableOpacity,
 	StyleSheet,
 	Modal,
@@ -47,11 +46,6 @@ const WithdrawsType = ({ withdrawsType, setWithdrawsType,setWithdrawsTypeId }) =
 			<TouchableOpacity
 				style={styles.customPicker}
 				activeOpacity={0.8}
-				// onPress={() =>
-				// 	setWithdrawsTypeModalVisible(
-				// 		!withdrawsTypeModalVisible
-				// 	)
-				// }
 			>
 				<Block>
 					<Text
@@ -84,7 +78,7 @@ const WithdrawsType = ({ withdrawsType, setWithdrawsType,setWithdrawsTypeId }) =
 					)
 				}
 			>
-				<View style={styles.container}>
+            	 <View style={[styles.container]}>
 					<View style={[styles.modal, { width: WIDTH - 30 }]}>
 						{RenderWithdrawsTypeOptions}
 					</View>

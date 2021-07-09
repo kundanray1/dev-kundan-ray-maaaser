@@ -36,7 +36,6 @@ export default ClientType = ({ clientType,setClientType }) => {
       </Text>
     </TouchableOpacity>
   ));
-
   return (
   	<SafeAreaView style={{ paddingVertical: 6 }}>
           
@@ -67,7 +66,7 @@ export default ClientType = ({ clientType,setClientType }) => {
         onRequestClose={() => setModalVisible(!isModalVisible)}
       >
         
-        <View style={styles.container}>
+        <View style={[styles.container,{marginTop:"66%"}]}>
           <View style={[styles.modal, { width: WIDTH - 40, height: 90 }]}>
             {renderOptions}
           </View>
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   modal: {
     borderRadius: 4,

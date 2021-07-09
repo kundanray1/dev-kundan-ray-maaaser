@@ -1,19 +1,19 @@
-export const CAMPAIGNS_START = "CAMPAIGNS_START";
-export const CAMPAIGNS_SUCCESS = "CAMPAIGNS_SUCCESS";
-export const CAMPAIGNS_FAIL = "CAMPAIGNS_FAIL";
+export const CAMPAIGN_DETAILS_START = "CAMPAIGN_DETAILS_START";
+export const CAMPAIGN_DETAILS_SUCCESS = "CAMPAIGN_DETAILS_SUCCESS";
+export const CAMPAIGN_DETAILS_FAIL = "CAMPAIGN_DETAILS_FAIL";
 
-export const campaignsStart = (payload) => {
+export const campaignDetailsStart = (payload) => {
 	return {
-		type: CAMPAIGNS_START,
+		type: CAMPAIGN_DETAILS_START,
 		payload,
 	};
 };
-export const campaignsSuccess = (payload) => ({
-	type: CAMPAIGNS_SUCCESS,
+export const campaignDetailsSuccess = (payload) => ({
+	type: CAMPAIGN_DETAILS_SUCCESS,
 	payload,
 });
 
-export const campaignsFail = (payload) => ({
-	type: CAMPAIGNS_FAIL,
+export const campaignDetailsFail = (payload) => ({
+	type: CAMPAIGN_DETAILS_FAIL,
 	payload,
 });

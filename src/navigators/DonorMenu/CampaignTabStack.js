@@ -16,6 +16,8 @@ const CampaignTab = createMaterialTopTabNavigator();
 export default CampaignTabStack=()=> {
   return (
     <CampaignTab.Navigator
+        lazy
+        swipeEnabled
       initialRouteName="Campaign Details"
       tabBarOptions={{
         activeTintColor: theme.colors.primary2,
@@ -58,7 +60,7 @@ export default CampaignTabStack=()=> {
         name="Sub Campaigns"
         component={SubCampaigns}
         options={{ headerShown: true,title:'Sub Campaigns'}}
-        
+
         />
         
     </CampaignTab.Navigator>

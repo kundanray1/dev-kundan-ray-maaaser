@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   FlatList,
-  TouchableOpacity,
   SafeAreaView,
   Image,
-  StyleSheet,
   ImageBackground,
   ActivityIndicator,
   RefreshControl,
@@ -18,19 +16,14 @@ import {
   Empty,
   DonationsDetail,
   Button,
-  FloatingButton,
   DonorsDetail,
   NeedHelpFirstCard,
 } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
-import LocalDB from "./../../../../api/LocalStorage";
 import NumberFormat from "react-number-format";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
 import BellIconComponent from "./../../../../assets/icons/bellIconComponent";
 const HEIGHT = Dimensions.get("window").height;
-const WIDTH = Dimensions.get("window").width;
-
-import { FontAwesome5 } from "@expo/vector-icons";
 const DonorReceiver = ({
   navigation,
   data,
@@ -43,12 +36,15 @@ const DonorReceiver = ({
   donors,
   receiverProfileData,
   receiverProfile,
+  campaigns,
+  campaignsData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
     donationReceived(loginData.user.account.accountid);
+    campaigns(loginData.user.account.accountid);
     donors(), setRefreshing(false);
   });
   useEffect(() => {
@@ -56,10 +52,10 @@ const DonorReceiver = ({
       receiverProfile(loginData.user.account.accountid);
       balance(loginData.user.account.accountid);
       donationReceived(loginData.user.account.accountid);
+      campaigns(loginData.user.account.accountid);
       donors();
     }
   }, []);
-
   const renderDonationsReceived = () => {
     return donationReceivedData.donationReceived
       .filter((transaction) => {
@@ -100,7 +96,8 @@ const DonorReceiver = ({
       {data.isLoading ||
       donationReceivedData.isLoading ||
       donorsData.isLoading ||
-      receiverProfileData.isLoading ? (
+      receiverProfileData.isLoading || 
+       campaignsData.isLoading  ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
@@ -250,7 +247,7 @@ const DonorReceiver = ({
               }}
             >
               <FlatList
-                data={donorsData.donors.clientsList.slice(0, 4)}
+                data={campaignsData.campaigns.campaignsList}
                 refreshControl={
                   <RefreshControl
                     colors={[theme.colors.primary2]}
@@ -269,12 +266,21 @@ const DonorReceiver = ({
                 )}
                 ListEmptyComponent={() => (
                   <Empty
-                    iconName="transactions"
+                    iconName="campaigns"
                     dashboard={0}
-                    title="You don't have any donations made data."
+                    title="You don't have any campaigns data."
                   />
                 )}
-                renderItem={(post) => <NeedHelpFirstCard />}
+                renderItem={(post) => 
+                  <NeedHelpFirstCard 
+                    image={post.item.thumbnailurl}
+                    label={post.item.title}
+                    collectedAmount={post.item.collectedamount}
+                    targetAmount={post.item.targetamount}
+                    onPress={()=>navigation.navigate("Campaign Details",{"campaignData":post.item})}
+                    />
+
+                  }
               />
             </Block>
           </Block>
@@ -315,19 +321,3 @@ const DonorReceiver = ({
 };
 
 export default DonorReceiver;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    borderRadius: 4,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-  },
-});

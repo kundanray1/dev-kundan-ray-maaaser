@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import StartACampaignThird from "./StartACampaignThird";
-import { startACampaignStart,startACampaignClear } from "./actions";
+import { startACampaignThirdStart,startACampaignThirdClear } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.startACampaign,
+	data: (state) => state.startACampaignThird,
 	loginData: (state) => state.login,
-	
+	letsGetStartedDonorData: (state) => state.letsGetStartedDonor,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		startACampaignStart: (values) => dispatch(startACampaignStart(values)),
-		startACampaignClear: () => dispatch(startACampaignClear()),
+		startACampaignThirdStart: (values) => dispatch(startACampaignThirdStart(values)),
+		startACampaignThirdClear: () => dispatch(startACampaignThirdClear()),
 	}
 }
 

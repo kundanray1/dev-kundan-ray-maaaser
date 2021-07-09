@@ -3,17 +3,20 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import StartASubCampaign from "./StartASubCampaign";
-import { startACampaignStart,startACampaignClear } from "./actions";
+import { startASubCampaignStart,startASubCampaignClear } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.startACampaign,
+	data: (state) => state.startASubCampaign,
 	loginData: (state) => state.login,
+	campaignId: (state) => state.campaigns.campaignId,
+	campaignDetailsdata: (state) => state.campaignDetails,
 	
+
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		startACampaignStart: (values) => dispatch(startACampaignStart(values)),
-		startACampaignClear: () => dispatch(startACampaignClear()),
+		startASubCampaignStart: (values) => dispatch(startASubCampaignStart(values)),
+		startASubCampaignClear: () => dispatch(startASubCampaignClear()),
 	}
 }
 

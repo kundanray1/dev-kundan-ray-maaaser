@@ -76,9 +76,10 @@ export default CountryCode = ({
     </TouchableOpacity>
   );
 
+ 
   return (    
   	<SafeAreaView style={{ paddingVertical: 6 }}>
-      <Text bold style={{ fontSize: 16 }}>
+       <Text bold style={{ fontSize: 16 }}>
         Country Code
       </Text>
       <TouchableOpacity
@@ -90,7 +91,7 @@ export default CountryCode = ({
             {countryCode}
           </Text>
         </Block>
-        <Block style={{ alignItems: "flex-end" }}>
+        <Block style={{ alignItems: "flex-end" }} >
           <AntDesign
             name="caretdown"
             size={16}
@@ -107,7 +108,7 @@ export default CountryCode = ({
           setCountryCodeModalVisible(!countryCodeModalVisible)
         }
       >
-        <View style={styles.container}>
+        <View style={[styles.container,{marginTop:"108%"}]}>
           <View
             style={[styles.modal, { width: WIDTH - 40, height: 235 }]}
           >
@@ -164,8 +165,8 @@ export default CountryCode = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  alignItems:"center"
+
   },
   modal: {
     borderRadius: 4,

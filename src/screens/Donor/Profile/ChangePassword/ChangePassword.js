@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from "formik";
 import { ChangePasswordValidationSchema } from "../../../../utility/ValidationSchema.js";

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { ActivityIndicator,FlatList, SafeAreaView, Image } from "react-native";
-import * as theme from "../../../../../constants/theme.js";
+import { FlatList, SafeAreaView } from "react-native";
 import {
   Block,
-  Text,
   Empty,
-  SearchBar,
   LoadFundAndDonationMethodCard,
 } from "../../../../../components/Index.js";
 import Dummy from "./Dummy.js";

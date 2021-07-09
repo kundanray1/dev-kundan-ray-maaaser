@@ -27,8 +27,6 @@ export default MyQRCode = ({ navigation }) => {
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  console.log(shareIcon);
-
   const RenderSocialMediaIcon = ({ image, label }) => {
     return (
       <Block style={{ alignItems: "center",justifyContent:"flex-end",marginRight:30,paddingVertical:8}}>

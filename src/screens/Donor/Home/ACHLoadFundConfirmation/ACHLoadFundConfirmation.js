@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Modal,
   View,
-  Image,
   Dimensions,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";

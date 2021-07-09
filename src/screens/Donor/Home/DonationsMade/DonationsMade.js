@@ -3,13 +3,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  FlatList,
   SafeAreaView,
   RefreshControl,
   SectionList,
   Modal,
   View,
-  Image,
   Dimensions,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";

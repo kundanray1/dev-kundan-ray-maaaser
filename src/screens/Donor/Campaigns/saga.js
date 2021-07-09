@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import { CAMPAIGNS_START } from "./actions";
-import { campaignsSuccess, campaignsFail} from "./actions";
+import { campaignsSuccess, campaignsFail } from "./actions";
 import base from "./../../../protos/campaign_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { requestProto } from "../../../utility/request";
@@ -21,6 +21,7 @@ export function* campaigns({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log(res);
 		if (res.success) {
 			yield put(campaignsSuccess(res));
 		} else {
@@ -38,9 +39,7 @@ export function* campaigns({ payload }) {
 		});
 	}
 }
+
 export default function* campaignsSaga() {
 	yield takeLatest(CAMPAIGNS_START, campaigns);
 }
-
-
-

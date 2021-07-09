@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CAMPAIGN_DONORS_START } from "./actions";
-import { campaignDonorsSuccess, campaignDonorsFail } from "./actions";
+import { CAMPAIGN_DETAILS_START } from "./actions";
+import { campaignDetailsSuccess, campaignDetailsFail} from "./actions";
 import base from "./../../../../protos/campaign_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -8,43 +8,39 @@ import { showMessage } from "react-native-flash-message";
 import API from "./../../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* campaignDonors({ payload }) {
+export function* campaignDetails({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.CAMPAIGN_DONORS}/${payload}?medium=3&type=2`,
+			`${APIEndpoints.CAMPAIGN}/${payload}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
 			}
 		);
-		const res = base.PaymentBaseResponse.deserializeBinary(
+		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
 		if (res.success) {
-			if (res.transactionsList == undefined) {
-				yield put(campaignDonorsSuccess([]));
-			} else {
-				yield put(campaignDonorsSuccess(res.transactionsList));
-			}
+			yield put(campaignDetailsSuccess(res));
 		} else {
-			yield put(campaignDonorsFail(res));
+			yield put(campaignDetailsFail(res));
 			showMessage({
-				message:
-					"Error from server or check your credentials!",
+				message: "Error from server or check your credentials!",
 				type: "danger",
 			});
 		}
 	} catch (e) {
-		yield put(campaignDonorsFail(e));
+		yield put(campaignDetailsFail(e));
 		showMessage({
-			message:
-				"Error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}
 }
-
-export default function* campaignDonorsSaga() {
-	yield takeLatest(CAMPAIGN_DONORS_START, campaignDonors);
+export default function* campaignDetailsSaga() {
+	yield takeLatest(CAMPAIGN_DETAILS_START, campaignDetails);
 }
+
+
+

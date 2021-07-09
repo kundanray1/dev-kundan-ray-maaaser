@@ -2,11 +2,13 @@ import {
   CAMPAIGNS_START,
   CAMPAIGNS_SUCCESS,
   CAMPAIGNS_FAIL,
+  CAMPAIGN_ID,
 } from './actions';
 
 const initialState = {
   isLoading: true,
   campaigns: null,
+  campaignId:null,
   error: null,
 };
 
@@ -29,7 +31,12 @@ export const campaignsReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
-   
+      case CAMPAIGN_ID:
+       return {
+        ...state,
+        isLoading: false,
+        campaignId: payload,
+      };
     default:
       return state;
   }

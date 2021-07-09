@@ -3,13 +3,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  FlatList,
   SafeAreaView,
   RefreshControl,
   SectionList,
   Modal,
   View,
-  Image,
   Dimensions,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
@@ -21,7 +19,6 @@ import {
   Button,
 } from "../../../components/Index.js";
 import moment from "moment";
-import { Bottom } from "./Bottom.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import TransactionsMedium from "./TransactionsMedium";

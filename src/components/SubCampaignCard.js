@@ -9,7 +9,8 @@ import NumberFormat from 'react-number-format';
 import { LinearGradient } from "expo-linear-gradient";
 import UserIconComponent from "./../assets/icons/userIconComponent";
 
-export default SubCampaignCard = ({ profilePic, name, comment, ...props }) => {
+export default SubCampaignCard = ({ profilePic, name, comment,collectedAmount,targetAmount, ...props }) => {
+	const percentage=(collectedAmount*100)/targetAmount;
 	return (
 		<Block
 			style={[
@@ -46,13 +47,12 @@ export default SubCampaignCard = ({ profilePic, name, comment, ...props }) => {
 						height={6}
 						backgroundColor={"grey"}
 						completedColor={theme.colors.primary2}
-						percentage={"70%"}
-
+			            percentage={`${percentage}%`}
 					/>
 					<Block row style={{ flex: 0 }}>
 
 					<NumberFormat
-                    value={700000/100}
+                    value={collectedAmount/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}
@@ -62,7 +62,7 @@ export default SubCampaignCard = ({ profilePic, name, comment, ...props }) => {
                     />
 
                     <NumberFormat
-                    value={1000000/100}
+                    value={targetAmount/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}

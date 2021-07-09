@@ -13,6 +13,7 @@ import {
   Block,
   Text,
 } from "./../../../../components/Index.js";
+import styles from "../../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
 const scheduleTypeOptions = ["One Time","Daily","Weekly", "Monthly","Quarterly","Yearly","Nth Day"];
@@ -70,7 +71,7 @@ const ScheduleType = ({ scheduleType, setScheduleType }) => {
         statusBarTranslucent={true}
         onRequestClose={() => setScheduleTypeModalVisible(!scheduleTypeModalVisible)}
       >
-        <View style={styles.container}>
+        <View style={[styles.container,{marginTop:"72%"}]}>
           <View style={[styles.modal, { width: WIDTH - 30 }]}>
             {RenderScheduleTypeOptions}
           </View>
@@ -80,36 +81,4 @@ const ScheduleType = ({ scheduleType, setScheduleType }) => {
     </SafeAreaView>
   );
 };
-
 export default ScheduleType;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modal: {
-    borderRadius: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    elevation: 4,
-    backgroundColor: theme.colors.white,
-    borderRadius: 3,
-    padding: 10,
-  },
-  option: {
-    alignItems: "flex-start",
-  },
-  customPicker: {
-    height: 28,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: theme.colors.solidGray,
-    alignItems: "center",
-    borderBottomWidth: 1,
-    paddingVertical:6,
-    
-  },
-});

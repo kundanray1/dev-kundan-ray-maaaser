@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  SafeAreaView,
   TouchableOpacity,
-  StyleSheet,
-  Modal,
-  View,
-  Image,
   Dimensions,
-  TextInput,
   ImageBackground,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
@@ -15,25 +9,18 @@ import {
   Block,
   Text,
   Button,
-  CustomActivityIndicator,
 } from "../../../../components/Index.js";
-import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
-import PaymentProto from "./../../../../protos/payment_pb";
-import { Formik } from "formik";
-import { WithdrawFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import StartACampaignOneIconComponent from "./../../../../assets/icons/startACampaignOneIconComponent";
+import StartACampaignSecondIconComponent from "./../../../../assets/icons/StartACampaignSecondIconComponent";
 import AddImageIconComponent from "./../../../../assets/icons/addImageIconComponent";
 
 const HEIGHT = Dimensions.get("window").height;
-const WIDTH = Dimensions.get("window").width;
 
 const StartACampaignSecond = ({
-  data,
-  startACampaignStart,
-  startACampaignClear,
   navigation,
+  imageUpload,
+  route,
 }) => {
   const [image, setImage] = useState(null);
 
@@ -47,18 +34,21 @@ const StartACampaignSecond = ({
     });
     if (!result.cancelled) {
       setImage(result.uri);
-      // imageUpload(result.uri);
+      imageUpload(result.uri);
     }
   };
-  const onSubmitStartACampaignSecondLoadFund = () => {};
-
-  useEffect(() => {
-    if (data.startACampaign !== null) {
-      if (data.startACampaign.success) {
-        startACampaignClear();
-      }
-    }
-  }, [data.startACampaign]);
+  const onSubmitStartACampaignSecond = () => {
+     navigation.navigate("Start a campaign third",{
+      title:route.params.title,
+      raisingMoneyType: route.params.raisingMoneyType,
+      beneficiaryType: route.params.beneficiaryType,
+      categoryType: route.params.categoryType,
+      countryCode: route.params.countryCode,
+      allowSubCampaigns: route.params.allowSubCampaigns,
+      targetAmount: route.params.targetAmount,
+      beneficiaryAccountId: route.params.beneficiaryAccountId,
+     })}
+  
 
   return (
     <KeyboardAwareScrollView
@@ -74,7 +64,7 @@ const StartACampaignSecond = ({
             paddingVertical: 10,
           }}
         >
-          <StartACampaignOneIconComponent />
+          <StartACampaignSecondIconComponent />
         </Block>
         <Text
           center
@@ -152,8 +142,7 @@ const StartACampaignSecond = ({
             </Button>
           ) : (
             <Button
-              
-              onPress={() => navigation.navigate("Start a campaign third")}
+            onPress={()=>onSubmitStartACampaignSecond()}
             >
               <Text button style={{ fontSize: 18 }}>
                 Proceed
@@ -180,33 +169,3 @@ const StartACampaignSecond = ({
 };
 
 export default StartACampaignSecond;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    borderRadius: 10,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 30,
-  },
-  input: {
-    fontSize: 20,
-    fontWeight: "700",
-    backgroundColor: "#E9F9FF",
-    color: "#0DB952",
-    paddingHorizontal: 4,
-  },
-  searchSection: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#E9F9FF",
-  },
-});

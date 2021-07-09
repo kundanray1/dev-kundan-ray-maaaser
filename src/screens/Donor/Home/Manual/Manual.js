@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
@@ -8,7 +8,6 @@ import {
   Block,
   Text,
   ErrorMessage,
-  ActivityIndicator,
   CustomActivityIndicator
 } from "./../../../../components/Index.js";
 import ReceiversList from "./ReceiversList";

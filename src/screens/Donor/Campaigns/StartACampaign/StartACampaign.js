@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  SafeAreaView,
   TouchableOpacity,
-  StyleSheet,
-  Modal,
-  View,
-  Image,
   Dimensions,
   TextInput,
 } from "react-native";
@@ -17,12 +12,8 @@ import {
   CustomActivityIndicator,
 } from "../../../../components/Index.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import moment from "moment";
-import PaymentProto from "./../../../../protos/payment_pb";
-import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
-import NumberFormat from "react-number-format";
 import { Formik } from "formik";
-import { WithdrawFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
+import { StartACampaignValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RaisingMoneyType from "./RaisingMoneyType";
 import BeneficiaryType from "./BeneficiaryType";
@@ -34,8 +25,6 @@ const WIDTH = Dimensions.get("window").width;
 
 const StartACampaign = ({
   data,
-  startACampaignStart,
-  startACampaignClear,
   navigation,
 }) => {
   const [titleFocus, setTitleFocus] = useState();
@@ -43,18 +32,23 @@ const StartACampaign = ({
   const [beneficiaryType, setBeneficiaryType] = useState("");
   const [categoryType, setCategoryType] = useState("");
   const [country, setCountry] = useState("");
-  const [checked, setChecked] = useState(false);
+  const [countryCode, setCountryCode] = useState("");
+  const [allowSubCampaigns, setAllowSubCampaigns] = useState(true);
+  const [targetAmount, setTargetAmount] = useState();
+  const [beneficiaryAccountId, setBeneficiaryAccountId] = useState();
 
-  const onSubmitStartACampaignLoadFund = () => {};
-
-  useEffect(() => {
-    if (data.startACampaign !== null) {
-      if (data.startACampaign.success) {
-        startACampaignClear();
-      }
-    }
-  }, [data.startACampaign]);
-
+  const onSubmitStartACampaign = (values) => {
+    navigation.navigate("Start a campaign second", {
+      title:values.title,
+      raisingMoneyType: raisingMoneyType,
+      beneficiaryType: beneficiaryType,
+      categoryType: categoryType,
+      countryCode: countryCode,
+      allowSubCampaigns: allowSubCampaigns,
+      targetAmount: targetAmount,
+      beneficiaryAccountId:beneficiaryAccountId
+    });
+  };
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -77,9 +71,9 @@ const StartACampaign = ({
             title: "",
           }}
           onSubmit={(values) => {
-            onSubmitStartACampaignLoadFund(values);
+            onSubmitStartACampaign(values);
           }}
-          validationSchema={WithdrawFundValidationSchema}
+          validationSchema={StartACampaignValidationSchema}
         >
           {({
             handleChange,
@@ -116,14 +110,16 @@ const StartACampaign = ({
                   <TextInput
                     style={styles.input}
                     textAlign={"center"}
-                    placeholder="1000"
+                    value={targetAmount}
+                    onChangeText={(value) => setTargetAmount(value)}
+                    placeholder="0"
                     placeholderTextColor="#0DB952"
                     keyboardType="numeric"
                   />
                 </Block>
               </Block>
 
-              <Country country={country} setCountry={setCountry} />
+              <Country country={country} setCountry={setCountry} setCountryCode={setCountryCode} />
               <Input
                 label="Campaign Title"
                 focus={titleFocus}
@@ -156,13 +152,13 @@ const StartACampaign = ({
                 categoryType={categoryType}
                 setCategoryType={setCategoryType}
               />
-               <Block style={{ flex: 0 }}>
+              <Block style={{ flex: 0 }}>
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  onPress={() => setChecked(!checked)}
+                  onPress={() => setAllowSubCampaigns(!allowSubCampaigns)}
                   style={{ flexDirection: "row" }}
                 >
-                  {checked ? (
+                  {allowSubCampaigns ? (
                     <MaterialCommunityIcons
                       name="checkbox-marked"
                       size={22}
@@ -175,8 +171,12 @@ const StartACampaign = ({
                       color={theme.colors.solidGray}
                     />
                   )}
-                  <Text bold style={{ fontSize:16, paddingHorizontal: 8, marginTop: 2 }} color={theme.colors.solidGray}>
-                   Allow sub-campaigns
+                  <Text
+                    bold
+                    style={{ fontSize: 16, paddingHorizontal: 8, marginTop: 2 }}
+                    color={theme.colors.solidGray}
+                  >
+                    Allow sub-campaigns
                   </Text>
                 </TouchableOpacity>
               </Block>
@@ -185,25 +185,24 @@ const StartACampaign = ({
               beneficiaryType == "" ||
               categoryType == "" ||
               country == "" ? (
-               <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                  onPress={() => navigation.navigate("Start a campaign second")}
-                >
-                    <Text button style={{ fontSize: 18 }}>
-                      Proceed
-                    </Text>
-                </Button>
-              ) : (
-                
                 <Button
                   style={{
                     marginTop: 12,
                     marginBottom: 12,
                   }}
-                  onPress={() => navigation.navigate("Start a campaign second")}
+                  onPress={handleSubmit}
+                >
+                  <Text button style={{ fontSize: 18 }}>
+                    Proceed
+                  </Text>
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    marginTop: 12,
+                    marginBottom: 12,
+                  }}
+                  onPress={handleSubmit}
                 >
                   {data.isLoading ? (
                     <>
@@ -231,33 +230,3 @@ const StartACampaign = ({
 };
 
 export default StartACampaign;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    borderRadius: 10,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 30,
-  },
-  input: {
-    fontSize: 20,
-    fontWeight: "700",
-    backgroundColor: "#E9F9FF",
-    color: "#0DB952",
-    paddingHorizontal: 4,
-  },
-  amountSection: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#E9F9FF",
-  },
-});

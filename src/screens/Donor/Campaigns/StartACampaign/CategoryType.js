@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import {
 	SafeAreaView,
-	StyleSheet,
 	View,
 	Dimensions,
 	TouchableOpacity,
@@ -10,13 +9,14 @@ import {
 } from "react-native";
 import * as theme from "../../../../constants/theme";
 import { AntDesign } from "@expo/vector-icons";
+import styles from "../../../../utility/globalStyles.js";
 
-const HEIGHT = Dimensions.get("window").height;
+
 const WIDTH = Dimensions.get("window").width;
 
 export default CategoryType = ({ categoryType, setCategoryType }) => {
 	const [isModalVisible, setModalVisible] = useState(false);
-	const options = ["Individual", "Organization"];
+	const options = ["Education", "Natural Disaster"];
 
 	const onPressItem = useCallback(
 		(option) => {
@@ -69,11 +69,11 @@ export default CategoryType = ({ categoryType, setCategoryType }) => {
 				transparent={true}
 				onRequestClose={() => setModalVisible(!isModalVisible)}
 			>
-				<View style={styles.container}>
+        <View style={[styles.container,{marginTop:"134%"}]}>
 					<View
 						style={[
 							styles.modal,
-							{ width: WIDTH - 40, height: 80 },
+							{ width: WIDTH - 30, height: 80 },
 						]}
 					>
 						{renderOptions}
@@ -83,35 +83,3 @@ export default CategoryType = ({ categoryType, setCategoryType }) => {
 		</SafeAreaView>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	modal: {
-		borderRadius: 4,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.8,
-		shadowRadius: 4,
-		elevation: 4,
-		backgroundColor: theme.colors.white,
-		borderRadius: 4,
-		padding: 10,
-	},
-	option: {
-		alignItems: "flex-start",
-	},
-	customPicker: {
-		height: 28,
-		flexDirection: "row",
-		paddingTop: 6,
-		justifyContent: "space-between",
-		borderColor: theme.colors.solidGray,
-		alignItems: "center",
-		borderBottomWidth: 1,
-		paddingVertical: 6,
-	},
-});

@@ -4,7 +4,6 @@ import * as theme from "../../../../constants/theme.js";
 import { Block, Empty, CampaignCommentCard,Text } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
 import {Dummy} from "./Dummy";
-import EmptyMembersIconComponent from "./../../../../assets/icons/emptyMembersIconComponent.js";
 
 const CampaignDonors = ({ navigation, data, campaignDonors }) => {
   const [refreshing, setRefreshing] = useState(false);

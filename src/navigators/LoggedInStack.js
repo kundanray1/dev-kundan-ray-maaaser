@@ -36,6 +36,8 @@ import StartACampaignSecond from "../screens/Donor/Campaigns/StartACampaignSecon
 import StartACampaignThird from "../screens/Donor/Campaigns/StartACampaignThird/index";
 import StartASubCampaign from "../screens/Donor/Campaigns/StartASubCampaign/index";
 import AddBeneficiary from "../screens/Donor/Campaigns/AddBeneficiary/index";
+import AllCampaigns from "../screens/Donor/Campaigns/AllCampaigns/index";
+
 
 //more
 import AddMember from "../screens/Donor/More/AddMember/index";
@@ -300,6 +302,11 @@ const LoggedInStack = ({ data }) => {
         name="Campaign Details"
         options={{ headerShown: true }}
         component={CampaignTabStack}
+      />
+       <AuthStack.Screen
+        name="All Campaigns"
+        options={{ headerShown: true }}
+        component={AllCampaigns}
       />
     </AuthStack.Navigator>
   );

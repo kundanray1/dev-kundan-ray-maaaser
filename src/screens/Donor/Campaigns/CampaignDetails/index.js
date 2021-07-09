@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import CampaignDetails from "./CampaignDetails";
-import { campaignsStart } from "./actions";
+import { campaignDetailsStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.campaigns,
+	data: (state) => state.campaignDetails,
 	loginData: (state) => state.login,
-
+	campaignId: (state) => state.campaigns.campaignId,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		campaigns: (values) => dispatch(campaignsStart(values)),
+		campaignDetails: (values) => dispatch(campaignDetailsStart(values)),
 	};
 };
 

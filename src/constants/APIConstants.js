@@ -27,7 +27,8 @@ const APIEndPoints = {
 
     //CAMPAIGN
     CAMPAIGN_GET_BY_ACCOUNT_ID:MainAPI + '/campaign/account',
-    CAMPAIGN_POST:MainAPI + '/campaign',
+    CAMPAIGN:MainAPI + '/campaign',
+    SUB_CAMPAIGN:MainAPI + '/sub/campaign',
     // CAMPAIGN_GET_ALL:MainAPI + '/account/profile',
     // CAMPAIGN_GET_BY_ACCOUNT_ID:MainAPI + '/account/profile',
 

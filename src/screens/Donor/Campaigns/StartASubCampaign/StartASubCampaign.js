@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
-  TouchableOpacity,
   StyleSheet,
   Modal,
   View,
-  Image,
   Dimensions,
   TextInput,
 } from "react-native";
@@ -14,39 +12,42 @@ import {
   Block,
   Text,
   Button,
-  CustomActivityIndicator,
 } from "../../../../components/Index.js";
-import moment from "moment";
-import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 import NumberFormat from "react-number-format";
-import { Formik } from "formik";
-import { WithdrawFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import StartACampaignOneIconComponent from "./../../../../assets/icons/startACampaignOneIconComponent";
-
+import CampaignProto from "../../../../protos/campaign_pb";
 const WIDTH = Dimensions.get("window").width;
 
 const StartASubCampaign = ({
   data,
-  startACampaignStart,
-  startACampaignClear,
+  startASubCampaignStart,
+  startASubCampaignClear,
+  campaignDetailsdata,
   navigation,
+  campaignId,
 }) => {
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const onSubmitStartASubCampaignLoadFund = () => {};
+  const [amount, setAmount] = useState();
 
-  // useEffect(() => {
-  //     if (data.ACHLoadFundConfirmation !== null) {
-  //       if (data.ACHLoadFundConfirmation.success) {
-  //         setConfirmationSuccessfulVisible(!confirmationMessageVisible);
-  //         ACHLoadFundConfirmationClear();
-  //       }
-  //     }
-  //   }, [data.ACHLoadFundConfirmation]);
+  const onSubmitStartASubCampaign = () => {
+    const subCampaignData = new CampaignProto.SubCampaign();
+    subCampaignData.setTargetamount(amount * 100);
+    subCampaignData.setCampaignid(campaignId);
+    subCampaignData.setSubcampaignstatus(1);
+    startASubCampaignStart(subCampaignData);
+  };
+  useEffect(() => {
+    if (data.startASubCampaign !== null) {
+      if (data.startASubCampaign.success) {
+        setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+        startASubCampaignClear();
+      }
+    }
+  }, [data.startASubCampaign]);
+
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
@@ -55,7 +56,7 @@ const StartASubCampaign = ({
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
+          setConfirmationSuccessfulVisible(false)
         }
       >
         <View style={styles.container}>
@@ -67,7 +68,7 @@ const StartASubCampaign = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Sub campaigns")}>
+              <Button onPress={() => navigation.navigate("Sub Campaigns")}>
                 <Text button style={{ fontSize: 18 }}>
                   View Sub Campaigns
                 </Text>
@@ -94,7 +95,7 @@ const StartASubCampaign = ({
           Campaign Goal Amount
         </Text>
         <NumberFormat
-          value={1000000 / 100}
+          value={campaignDetailsdata.campaignDetails.campaign.targetamount / 100}
           displayType={"text"}
           thousandSeparator={true}
           prefix={"$"}
@@ -130,12 +131,19 @@ const StartASubCampaign = ({
         <View style={styles.amountSection}>
           <Text
             center
-            style={{ fontSize: 22, fontWeight: "700", color: "#0DB952",paddingHorizontal:6 }}
+            style={{
+              fontSize: 22,
+              fontWeight: "700",
+              color: "#0DB952",
+              paddingHorizontal: 6,
+            }}
           >
             $
           </Text>
           <TextInput
             style={styles.input}
+            value={amount}
+            onChangeText={(value) => setAmount(value)}
             textAlign={"center"}
             placeholder="0"
             placeholderTextColor="#0DB952"
@@ -155,7 +163,7 @@ const StartASubCampaign = ({
           width: "100%",
         }}
       >
-        <Button>
+        <Button onPress={() => onSubmitStartASubCampaign()}>
           <Text button style={{ fontSize: 18 }}>
             Proceed
           </Text>
@@ -186,17 +194,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#E9F9FF",
-    paddingHorizontal:4
-
+    paddingHorizontal: 4,
   },
   input: {
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
     paddingLeft: 0,
-    fontWeight:"700",
-    fontSize:22,
-    color:"#0DB952",
+    fontWeight: "700",
+    fontSize: 22,
+    color: "#0DB952",
     backgroundColor: "#E9F9FF",
   },
 });

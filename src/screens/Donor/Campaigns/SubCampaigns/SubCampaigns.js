@@ -2,33 +2,31 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, RefreshControl } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import { Block, Empty, Text,SubCampaignCard,Button } from "../../../../components/Index.js";
-import API from "./../../../../api/API";
-import MembersIconComponent from "./../../../../assets/icons/membersIconComponent";
-import {Dummy} from "./Dummy";
 
-const SubCampaigns = ({ navigation, data, campaignDonors,route }) => {
+const SubCampaigns = ({ navigation,campaignDetails,campaignDetailsdata,campaignId }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    campaignDonors(API.user().account.accountid);
+    campaignDetails(campaignId);
     setRefreshing(false);
   });
-  // useEffect(() => {
-  //   if (data.campaignDonors == null) {
-  //     campaignDonors(API.user().account.accountid);
-  //   }
-  // }, []);
-  // console.log("route",campaignDetailsData.subcampaignsList)
-  // console.log("route",route.params)
-
+  useEffect(() => {
+    if (campaignDetailsdata.campaignDetails == null) {
+       campaignDetails(campaignId);
+    }
+  }, [campaignId]);
   return (
    <SafeAreaView style={{ flex: 1 }}>
+    {campaignDetailsdata.isLoading ? (
+                <ActivityIndicator size="large" color={theme.colors.primary2} />
+              ) : (
+              <>
         <Block style={{ flex: 0, marginTop: 6,paddingBottom:20 }}>
           <FlatList
-            data={Dummy}
+            data={campaignDetailsdata.campaignDetails.campaign.subcampaignsList}
             showsVerticalScrollIndicator={true}
-            keyExtractor={(item) => {
-              return item.id.toString();
+            keyExtractor={(item,index) => {
+              return index.toString();
             }}
             refreshControl={
               <RefreshControl
@@ -40,8 +38,8 @@ const SubCampaigns = ({ navigation, data, campaignDonors,route }) => {
             ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
             ListEmptyComponent={() => (
               <Empty
-                iconName="donors"
-                title="No donors yet."
+                iconName="campaigns"
+                title="No sub campaign created yet."
               />
             )}
             ListFooterComponent={() => (
@@ -50,11 +48,11 @@ const SubCampaigns = ({ navigation, data, campaignDonors,route }) => {
             renderItem={(post) =>
                 <Block style={{ paddingHorizontal: 18 }}>
                   <SubCampaignCard
-                    profilePic={post.item.profilepic}
-                    name={post.item.name}
-                    amount={post.item.amount}
-                    date={post.item.date}
-                    textColor={post.item.textColor}
+                    profilePic={post.item.subcampaignstarter.profilepic}
+                    name={post.item.subcampaignstarter.account.fullname}
+                    collectedAmount={post.item.collectedamount}
+                    targetAmount={post.item.targetamount}
+                    date={post.item.createdat}
                   />
                 </Block>
               }
@@ -69,6 +67,8 @@ const SubCampaigns = ({ navigation, data, campaignDonors,route }) => {
                 </Text>
           </Button>
         </Block>
+        </>
+        )}
     </SafeAreaView>
        );
 };

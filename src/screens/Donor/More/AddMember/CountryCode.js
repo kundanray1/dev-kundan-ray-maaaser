@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import {
   FlatList,
   SafeAreaView,
-  StyleSheet,
   View,
   Dimensions,
   Modal,
@@ -16,9 +15,8 @@ import {
   Block,
   Text,
 } from "../../../../components/Index.js";
-// import SvgUri from "expo-svg-uri";
+import styles from "../../../../utility/globalStyles.js";
 
-const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 export default CountryCode = ({
@@ -59,13 +57,6 @@ export default CountryCode = ({
       style={{ marginVertical: 2 }}
     >
       <Block row>
-        {/*<SvgUri
-      width="20"
-      height="20"
-      source={{
-        uri:  `https:${url}`
-      }}
-    />*/}
         <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
           {name}
         </Text>
@@ -160,68 +151,3 @@ export default CountryCode = ({
 
 
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modal: {
-    borderRadius: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    elevation: 4,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    borderRadius: 3,
-    paddingTop: 2,
-
-  },
-  option: {
-    alignItems: "flex-start",
-  },
-  customPicker: {
-    height: 28,
-    flexDirection: "row",
-    paddingTop: 6,
-    justifyContent: "space-between",
-    borderColor: theme.colors.solidGray,
-    alignItems: "center",
-    borderBottomWidth: 1,
-    paddingVertical:6,
-    
-  },
-  vwClear: {
-    flex: 0.2,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 18,
-  },
-
-  vwSearch: {
-    flex: 0.1,
-    justifyContent: "center",
-  },
-  icSearch: {
-    height: 20,
-    width: 20,
-  },
-  searchContainer: {
-    backgroundColor: theme.colors.white,
-    width: "100%",
-    height: 35,
-    marginBottom: 6,
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    flex: 0,
-    borderColor:theme.colors.gray2,
-    paddingHorizontal:10,
-    borderRadius: 2,
-  },
-});

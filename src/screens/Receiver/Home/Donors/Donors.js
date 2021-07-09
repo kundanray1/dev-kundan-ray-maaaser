@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
-  StyleSheet,
   RefreshControl,
   TextInput,
   TouchableOpacity,
@@ -11,13 +10,13 @@ import {
 import * as theme from "../../../../constants/theme.js";
 import {
   Block,
-  Text,
   Empty,
   DonorsDetail,
 } from "../../../../components/Index.js";
+import styles  from "../../../../utility/globalStyles.js";
 import { Ionicons } from "@expo/vector-icons";
 
-const Donors = ({ navigation, data, donors }) => {
+const Donors = ({  data, donors }) => {
   const [search, setSearch] = useState();
 const [refreshing, setRefreshing] = useState(false);
   const [filteredDataSource, setFilteredDataSource] = useState(
@@ -127,38 +126,5 @@ const [refreshing, setRefreshing] = useState(false);
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  vwClear: {
-    flex: 0.2,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 18,
-  },
-
-  vwSearch: {
-    flex: 0.1,
-    justifyContent: "center",
-  },
-  icSearch: {
-    height: 20,
-    width: 20,
-  },
-  searchContainer: {
-    backgroundColor: theme.colors.white,
-    width: "100%",
-    height: 38,
-    marginTop: 15,
-    paddingHorizontal: 5,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: theme.colors.solidGray,
-    flex: 0,
-    borderRadius: 2,
-  },
-});
 
 export default Donors;

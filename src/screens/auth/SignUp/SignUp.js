@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { Formik } from "formik";
 import * as theme from "./../../../constants/theme.js";
@@ -23,12 +24,15 @@ import {
   ClientTypePicker,
   CustomActivityIndicator,
 } from "../../../components/Index.js";
-import SvgUri from "expo-svg-uri";
 import AccountProto from "./../../../protos/account_pb";
 import MaaserProto from "./../../../protos/maaser_pb";
 import LoginProto from "./../../../protos/auth_pb";
 import ClientType from "./ClientType";
 import CountryCode from "./CountryCode";
+import FaviconIconComponent from "./../../../assets/icons/FaviconIconComponent";
+
+const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
 
 export default SignUp = ({
   route,
@@ -79,10 +83,8 @@ export default SignUp = ({
   return (
     <Block center middle>
       <Block center style={{ flex: 0, marginBottom: 20 }}>
-        <Image
-          source={require("../../../assets/icons/logo.png")}
-          style={{ height: 100, width: 100 }}
-        />
+      <FaviconIconComponent/>
+       
         <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
           Create your maaser account
         </Text>
@@ -139,6 +141,7 @@ export default SignUp = ({
               <CountryCode
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}
+
               />
               <Input
                 full

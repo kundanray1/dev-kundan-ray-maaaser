@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StatusBar,
   SafeAreaView,
@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {  MaterialIcons } from "@expo/vector-icons";
 import API from "../../../api/API.js";
 import ViewProfileIconComponent from "../../../assets/icons/viewProfileIconComponent.js";
 import ChangePasswordIconComponent from "../../../assets/icons/changePasswordIconComponent.js";

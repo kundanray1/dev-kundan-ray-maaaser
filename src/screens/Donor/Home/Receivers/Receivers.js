@@ -22,12 +22,13 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
+import  styles  from "./../../../../utility/globalStyles.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 
 const WIDTH = Dimensions.get("window").width;
 
-const Receivers = ({ navigation, data, loginData,receivers,manualDonateConfirmationStart,manualDonateConfirmationClear,manualDonateConfirmationData }) => {
+const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,manualDonateConfirmationClear,manualDonateConfirmationData }) => {
   const [search, setSearch] = useState();
   const [accountData, setAccountData] = useState();
   const [amountFocus, setAmountFocus] = useState();
@@ -308,52 +309,4 @@ const Receivers = ({ navigation, data, loginData,receivers,manualDonateConfirmat
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  vwClear: {
-    flex: 0.2,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 18,
-  },
-
-  vwSearch: {
-    flex: 0.1,
-    justifyContent: "center",
-  },
-  icSearch: {
-    height: 20,
-    width: 20,
-  },
-  searchContainer: {
-    backgroundColor: theme.colors.white,
-    width: "100%",
-    height: 38,
-    marginTop: 15,
-    paddingHorizontal: 5,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: theme.colors.solidGray,
-    flex: 0,
-    borderRadius: 2,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    borderRadius: 4,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 20,
-    paddingHorizontal:16
-  },
-
-});
-
 export default Receivers;

@@ -12,14 +12,10 @@ import {
 } from "./../../../../components/Index.js";
 import AccountProto from "./../../../../protos/account_pb";
 import MaaserProto from "./../../../../protos/maaser_pb";
-import CountryCode from "./CountryCode";
 
 const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
   const [nameFocus, setNameFocus] = useState();
   const [emailFocus, setEmailFocus] = useState();
-  const [phoneNumberFocus, setPhoneNumberFocus] = useState();
-  const [passwordFocus, setPasswordFocus] = useState(false);
-  const [countryCode, setCountryCode] = useState("");
 
   //set all the required proto for updating and submitting
   const onSubmitAddMember = (values) => {

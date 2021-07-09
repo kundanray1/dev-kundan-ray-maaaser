@@ -175,5 +175,8 @@ export const ChangePasswordValidationSchema = Yup.object().shape({
   currentPassword: Yup.string().required().min(6).max(50).label("Current Password"),
   password: Yup.string().required().min(6).max(50).label("Password"),
   confirmPassword: Yup.string().required().min(6).max(50).label("Confirm Password"),
+});
 
+export const StartACampaignValidationSchema = Yup.object().shape({
+  title: Yup.string().required().min(6).label("Title"),
 });

@@ -4,23 +4,17 @@ import {
   FlatList,
   SafeAreaView,
   RefreshControl,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
   Block,
   Empty,
   CampaignCard,
-  Text,
   FloatingButton,
 } from "../../../components/Index.js";
-import API from "./../../../api/API";
 import AddIconComponent from "./../../../assets/icons/addIconComponent";
-import { Dummy } from "./Dummy";
 
-const Campaigns = ({ navigation, data, loginData, campaigns }) => {
+const Campaigns = ({ navigation, data, loginData, campaigns,campaignId }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -32,6 +26,7 @@ const Campaigns = ({ navigation, data, loginData, campaigns }) => {
       campaigns(loginData.user.account.accountid);
     }
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (
@@ -65,13 +60,10 @@ const Campaigns = ({ navigation, data, loginData, campaigns }) => {
               <CampaignCard
                 image={post.item.thumbnailurl}
                 label={post.item.title}
-                onPress={() =>
-                  navigation.navigate("Campaign Details", {
-                    screen: "Campaign Details",
-                    params: { campaignDetailsData: post.item },
-                    // screen: "Sub Campaigns",
-                    // params: { campaignDetailsData: post.item },
-                  })
+                onPress={() =>{
+                  campaignId(post.item.campaignid);
+                  navigation.navigate("Campaign Details")
+                  }
                 }
               />
             )}
@@ -87,21 +79,3 @@ const Campaigns = ({ navigation, data, loginData, campaigns }) => {
 };
 
 export default Campaigns;
-
-const styles = StyleSheet.create({
-  input: {
-    fontSize: 16,
-    backgroundColor: "#F0FBFF",
-    color: theme.colors.solidGray,
-    paddingHorizontal: 14,
-    borderRadius: 40,
-  },
-  amountSection: {
-    flex: 1,
-    borderRadius: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#F0FBFF",
-  },
-});

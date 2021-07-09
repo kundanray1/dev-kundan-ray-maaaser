@@ -20,7 +20,7 @@ export function* addBeneficiary({ payload }) {
     if (res.success) {
       yield put(addBeneficiarySuccess(res.msg));
       showMessage({
-        message: "New member added successfully",
+        message: "New beneficier added successfully",
         type: "success",
       });
     } else {

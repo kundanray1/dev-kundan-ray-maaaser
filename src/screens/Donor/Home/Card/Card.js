@@ -20,10 +20,9 @@ import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import CardIconComponent from "./../../../../assets/icons/cardIconComponent";
 
 
-const Card = ({ navigation, data, loginData, card }) => {
+const Card = ({ navigation, data, card }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [cardData, setCardData] = useState();
-  const [amountFocus, setAmountFocus] = useState(false);
 
   let bs = React.createRef();
 

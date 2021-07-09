@@ -10,16 +10,11 @@ import {
   ErrorMessage,
   CustomActivityIndicator,
 } from "./../../../../components/Index.js";
-import AccountProto from "./../../../../protos/account_pb";
-import MaaserProto from "./../../../../protos/maaser_pb";
 
-const AddBeneficiary = ({ navigation, data, addBeneficiary,addBeneficiaryClear }) => {
+const AddBeneficiary = ({ navigation, data,addBeneficiaryClear }) => {
   const [nameFocus, setNameFocus] = useState();
   const [emailFocus, setEmailFocus] = useState();
-  const [phoneNumberFocus, setPhoneNumberFocus] = useState();
-  const [passwordFocus, setPasswordFocus] = useState(false);
-  const [countryCode, setCountryCode] = useState("");
-
+ 
   //set all the required proto for updating and submitting
   const onSubmitAddBeneficiary = (values) => {
    

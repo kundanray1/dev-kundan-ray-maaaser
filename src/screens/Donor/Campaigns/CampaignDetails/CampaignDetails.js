@@ -1,35 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import {
   ActivityIndicator,
-  FlatList,
   Dimensions,
   Image,
   ImageBackground,
   SafeAreaView,
-  RefreshControl,
-  StyleSheet,
-  TextInput,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
   Block,
-  Empty,
-  CampaignCard,
   Text,
-  FloatingButton,
 } from "../../../../components/Index.js";
 import PercentageBar from "../../../../components/PercentageBar.js";
-import API from "./../../../../api/API";
-import AddIconComponent from "./../../../../assets/icons/addIconComponent";
-import { Dummy } from "./Dummy";
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
-
 import ShareCampaignIconComponent from "./../../../../assets/icons/ShareCampaignIconComponent.js";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
-
 import TargetAmountIconComponent from "./../../../../assets/icons/TargetAmountIconComponent";
 import TimeRemainingIconComponent from "./../../../../assets/icons/TimeRemainingIconComponent";
 import BeneficiaryIconComponent from "./../../../../assets/icons/BeneficiaryIconComponent";
@@ -37,18 +25,29 @@ import TagsIconComponent from "./../../../../assets/icons/TagsIconComponent";
 
 const HEIGHT = Dimensions.get("window").height;
 
-const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
-  const [refreshing, setRefreshing] = useState(false);
+const CampaignDetails = ({  data, campaignDetails,campaignId }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    campaignDetails(API.user().account.accountid);
+    campaignDetails(campaignId);
     setRefreshing(false);
   });
 
-  const {campaignDetailsData}=route.params
+  useEffect(() => {
+       campaignDetails(campaignId);
+  }, [campaignId]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ paddingBottom: 100 }}>
+     {data.isLoading ? (
+                <ActivityIndicator size="large" color={theme.colors.primary2} />
+              ) : (
+              <>
+      <ScrollView style={{ paddingBottom: 100 }} refreshControl={
+              <RefreshControl
+                colors={[theme.colors.primary2]}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }>
         <Block style={{ flex: 0 }}>
           <ImageBackground
             style={{
@@ -57,7 +56,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
               alignItems: "flex-end",
               overflow: "hidden",
             }}
-            source={{ uri: "https://storage.googleapis.com/maaser_resources/7b6029f28c154583af0adc5f3c5f74f9.jpg" }}
+            source={{ uri: data.campaignDetails.campaign.thumbnailurl }}
           >
             <Block
               row
@@ -89,18 +88,18 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
             }}
             color="#3B414B"
           >
-           {campaignDetailsData.title}
+           {data.campaignDetails.campaign.title}
           </Text>
         
            <PercentageBar
             height={6}
             backgroundColor={'grey'}
             completedColor={theme.colors.primary2}
-            percentage={`${(campaignDetailsData.collectedamount*100)/campaignDetailsData.targetAmount}%`}
+            percentage={`${(data.campaignDetails.campaign.collectedamount*100)/data.campaignDetails.campaign.targetAmount}%`}
           />
           <Block row style={{flex:0}}>
-        <NumberFormat
-                    value={campaignDetailsData.collectedamount/100}
+                  <NumberFormat
+                    value={data.campaignDetails.campaign.collectedamount/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}
@@ -110,7 +109,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
                     />
 
                     <NumberFormat
-                    value={campaignDetailsData.targetamount/100}
+                    value={data.campaignDetails.campaign.targetamount/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}
@@ -139,11 +138,11 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
           >
             <Block>
               <Block row center style={{ flex: 0 }}>
-                {campaignDetailsData.campaignstarter.profilepic == "" ? (
+                {data.campaignDetails.campaign.campaignstarter.profilepic == "" ? (
                   <UserIconComponent height={30} width={30} />
                 ) : (
                   <Image
-                    source={{ uri: "https://storage.googleapis.com/maaser_resources/7b6029f28c154583af0adc5f3c5f74f9.jpg" }}
+                    source={{ uri: data.campaignDetails.campaign.campaignstarter.profilepic }}
                     style={{ height: 30, width: 30, borderRadius: 30 }}
                   />
                 )}
@@ -156,7 +155,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
                     marginLeft: 10,
                   }}
                 >
-                  {campaignDetailsData.campaignstarter.account.fullname.substring(0, 14) + "..."}
+                  {data.campaignDetails.campaign.campaignstarter.account.fullname.substring(0, 12) + "..."}
                 </Text>
               </Block>
 
@@ -178,11 +177,11 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
               <Block row center style={{ flex: 0, overflow: "hidden" }}>
                 <BeneficiaryIconComponent style={{marginRight:8}}/>
 
-                {campaignDetailsData.campaignbeneficiary.profilepic == "" ? (
+                {data.campaignDetails.campaign.campaignbeneficiary.profilepic == "" ? (
                   <UserIconComponent height={30} width={30}  />
                 ) : (
                   <Image
-                    source={{ uri: campaignDetailsData.campaignbeneficiary.profilepic }}
+                    source={{ uri: data.campaignDetails.campaign.campaignbeneficiary.profilepic }}
                     style={{ height: 30, width: 30, borderRadius: 30 }}
                   />
                 )}
@@ -196,7 +195,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
                     marginLeft: 6,
                   }}
                 >
-                  {campaignDetailsData.campaignbeneficiary.account.fullname.substring(0, 10) + "..."}
+                  {data.campaignDetails.campaign.campaignbeneficiary.account.fullname.substring(0, 10) + "..."}
                 </Text>
               </Block>
 
@@ -231,7 +230,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
               <TargetAmountIconComponent height={38} width={38} />
               <Block column>
                <NumberFormat
-                    value={campaignDetailsData.targetamount/100}
+                    value={data.campaignDetails.campaign.targetamount/100}
                     displayType={'text'}
                     thousandSeparator={true}
                     prefix={'$'}
@@ -257,6 +256,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
               <TagsIconComponent height={38} width={38} />
               <Block column>
                 <Text
+                 color="#5F6062"
                   style={{
                     fontSize: 18,
                     fontWeight: "700",
@@ -264,7 +264,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
                     marginLeft: 10,
                   }}
                 >
-                  {campaignDetailsData.category}
+                  {data.campaignDetails.campaign.category}
                 </Text>
                 <Text
                   style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
@@ -296,6 +296,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
                 <TimeRemainingIconComponent height={38} width={38} />
                 <Block column>
                   <Text
+                   color="#5F6062"
                     style={{
                       fontSize: 18,
                       fontWeight: "700",
@@ -303,7 +304,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
                       marginLeft: 10,
                     }}
                   >
-                  {moment(campaignDetailsData.createdat).format("DD MMM YYYY")}
+                  {moment(data.campaignDetails.campaign.createdat).format("DD MMM YYYY")}
                   </Text>
                   <Text
                     style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
@@ -319,7 +320,7 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
           style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: 80 }}
         >
           <Text style={{ fontSize: 16, color: "#5F6062" }} numberOfLines={10}>
-            {campaignDetailsData.description}
+            {data.campaignDetails.campaign.description}
           </Text>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -354,26 +355,11 @@ const CampaignDetails = ({ navigation, data, campaignDetails,route }) => {
           </Text>
         </Button>
       </Block>
+      </>
+      )}
+
     </SafeAreaView>
   );
 };
 
 export default CampaignDetails;
-
-const styles = StyleSheet.create({
-  input: {
-    fontSize: 16,
-    backgroundColor: "#F0FBFF",
-    color: theme.colors.solidGray,
-    paddingHorizontal: 14,
-    borderRadius: 40,
-  },
-  amountSection: {
-    flex: 1,
-    borderRadius: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#F0FBFF",
-  },
-});

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Dimensions, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import { ACHLoadFundValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import * as theme from "./../../../../constants/theme.js";
@@ -14,7 +13,6 @@ import {
 import PaymentProto from "./../../../../protos/payment_pb";
 import API from "./../../../../api/API";
 
-const WIDTH = Dimensions.get("window").width;
 const ACHLoadFund = ({
   navigation,
   data,
@@ -182,20 +180,3 @@ const ACHLoadFund = ({
 };
 
 export default ACHLoadFund;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    alignItems: "center",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 20,
-  },
-});

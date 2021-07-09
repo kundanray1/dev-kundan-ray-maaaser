@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Dimensions, StyleSheet, Image } from "react-native";
 import { Formik } from "formik";
 import { LinkNewAccountValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import * as theme from "./../../../../constants/theme.js";
@@ -16,15 +15,12 @@ import RoutingNumberGuideIconComponent from "./../../../../assets/icons/routingN
 import AccountNumberGuideIconComponent from "./../../../../assets/icons/accountNumberGuideIconComponent";
 import BankGuideIconComponent from "./../../../../assets/icons/bankGuideIconComponent";
 
-const WIDTH = Dimensions.get("window").width;
-
 const LinkNewAccount = ({
   navigation,
   data,
   linkNewAccount,
   linkNewAccountClear,
   updateLinkNewAccount,
-  updateLinkNewAccountClear,
   route,
 }) => {
   const [bankNameFocus, setBankNameFocus] = useState();
@@ -284,20 +280,3 @@ const LinkNewAccount = ({
 };
 
 export default LinkNewAccount;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    alignItems: "center",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 20,
-  },
-});

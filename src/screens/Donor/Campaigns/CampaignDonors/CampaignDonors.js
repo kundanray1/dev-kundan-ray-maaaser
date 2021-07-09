@@ -3,10 +3,9 @@ import { ActivityIndicator, FlatList, SafeAreaView, RefreshControl } from "react
 import * as theme from "../../../../constants/theme.js";
 import { Block, Empty, Text,CampaignDonorCard,Button } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
-import MembersIconComponent from "./../../../../assets/icons/membersIconComponent";
 import {Dummy} from "./Dummy";
 
-const CampaignDonors = ({ navigation, data, campaignDonors }) => {
+const CampaignDonors = ({  data, campaignDonors }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);

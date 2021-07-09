@@ -18,7 +18,6 @@ import {
   Button,
 } from "../../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import AccountProto from "./../../../../protos/account_pb";
 import MaaserProto from "./../../../../protos/maaser_pb";

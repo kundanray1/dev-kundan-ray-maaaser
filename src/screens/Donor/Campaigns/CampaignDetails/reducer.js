@@ -1,29 +1,29 @@
 import {
-  CAMPAIGNS_START,
-  CAMPAIGNS_SUCCESS,
-  CAMPAIGNS_FAIL,
+  CAMPAIGN_DETAILS_START,
+  CAMPAIGN_DETAILS_SUCCESS,
+  CAMPAIGN_DETAILS_FAIL,
 } from './actions';
 
 const initialState = {
   isLoading: true,
-  campaigns: null,
+  campaignDetails: null,
   error: null,
 };
 
-export const campaignsReducer=(state = initialState, { type, payload }) => {
+export const campaignDetailsReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case CAMPAIGNS_START:
+    case CAMPAIGN_DETAILS_START:
     return {
         ...state,
         isLoading: true,
       };
-    case CAMPAIGNS_SUCCESS:
+    case CAMPAIGN_DETAILS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        campaigns: payload,
+        campaignDetails: payload,
       };
-    case CAMPAIGNS_FAIL:
+    case CAMPAIGN_DETAILS_FAIL:
       return {
         ...state,
         isLoading: false,

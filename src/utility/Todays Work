@@ -110,8 +110,6 @@ UI bugs fixing
 -Schedule Donation Form Add Time also(One Time...should have same start and end date and how to send start time in backend)
 -Change API.user().account.id to loginData Id or fix the sessionStorage after login in login/  saga i.e fix session storage problem for first time account creator
 
-
-
 -Change receiver end share from My QR Code->Share with native share functionality
 -Lets get started and profile screen image and camera location after selections of image
 -Campaign Details UI(Ongoing)
@@ -124,3 +122,7 @@ UI bugs fixing
 -Show Change empty logo on all screens of listing
 -Make Textinput for comments in campaign comments page
 -Make Donate Now button for donors in campaign donors page
+
+-Create campaign
+-Sub Campaign get/create
+-
