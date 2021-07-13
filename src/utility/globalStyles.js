@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from "react-native";
 import * as theme from "../constants/theme.js";
 
 export default StyleSheet.create({
@@ -31,7 +31,7 @@ export default StyleSheet.create({
 		paddingVertical: 6,
 	},
 
-  vwClear: {
+	vwClear: {
 		flex: 0.2,
 		justifyContent: "center",
 		alignItems: "flex-end",
@@ -61,5 +61,24 @@ export default StyleSheet.create({
 		paddingHorizontal: 10,
 		borderRadius: 2,
 	},
-
+	boxSearchContainer: {
+		width: "100%",
+		height: 40,
+		marginTop:8,
+		flexDirection: "row",
+		borderWidth: 1,
+		flex: 0,
+		borderColor: theme.colors.gray2,
+		paddingHorizontal: 10,
+		borderRadius: 2,
+	},
+	boxVwSearch: {
+		flex: 0.1,
+		justifyContent: "center",
+	},
+	boxTextInput: {
+		flex: 1,
+		fontSize: 18,
+		justifyContent: "center",
+	},
 });

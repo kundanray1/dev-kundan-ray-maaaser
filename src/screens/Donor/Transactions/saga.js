@@ -23,7 +23,7 @@ export function* transactions({ payload }) {
 			yield put(transactionsFail(res));
 			showMessage({
 				message: "Error from server or check your credentials!",
-				type: "success",
+				type: "danger",
 			});
 		}
 	} catch (e) {

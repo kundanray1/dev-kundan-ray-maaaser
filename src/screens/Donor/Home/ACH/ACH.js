@@ -34,7 +34,6 @@ const ACH = ({ navigation, data,loginData, ACH,route }) => {
         ACH(loginData.user.clientid);
     }
   }, [data.ACH]);
-  console.log(route.params)
   return (
     <>
       <TouchableWithoutFeedback
@@ -86,7 +85,8 @@ const ACH = ({ navigation, data,loginData, ACH,route }) => {
                 ListFooterComponentStyle={{
                   paddingVertical:20,
                 }}
-                  renderItem={(post) => (
+                renderItem={(post) => (
+                    post.item.bankstatus==1&&
                     <Pressable
                       style={{
                         paddingHorizontal: 16,

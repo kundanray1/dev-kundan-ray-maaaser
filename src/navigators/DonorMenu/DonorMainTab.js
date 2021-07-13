@@ -9,7 +9,8 @@ import DonorReceiver from "../../screens/Donor/Home/DonorReceiver/index";
 import Profile from "../../screens/Donor/Profile/index";
 import Transactions from "../../screens/Donor/Transactions/index";
 import More from "../../screens/Donor/More/index";
-import Campaigns from "../../screens/Donor/Campaigns/index";
+import CampaignSubCampaignTabStack from "./CampaignSubCampaignTabStack";
+
 
 import CampaignBottomMenuIconComponent from "./../../assets/icons/campaignBottomMenuIconComponent.js";
 import EmptyCampaignsIconComponent from "./../../assets/icons/emptyCampaignsIconComponent.js";
@@ -117,13 +118,13 @@ function CampaignsStack() {
 	return (
 		<CampaignsRoute.Navigator
 			screenOptions={{
-				headerShown: true,
+				headerShown: false,
 			}}
 			initialRouteName="Campaigns"
 		>
 			<CampaignsRoute.Screen
 				name="Campaigns"
-				component={Campaigns}
+				component={CampaignSubCampaignTabStack}
 			/>
 		</CampaignsRoute.Navigator>
 	);

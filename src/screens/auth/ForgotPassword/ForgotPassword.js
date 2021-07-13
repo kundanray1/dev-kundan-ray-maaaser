@@ -59,7 +59,7 @@ export default ForgotPassword = ({ navigation, data, forgotPassword }) => {
 
 			<Formik
 				initialValues={{
-					emailPhone: "j@gmail.com",
+					emailPhone: "",
 				}}
 				onSubmit={(values) => {
 					onSubmitForgotPassword(values);

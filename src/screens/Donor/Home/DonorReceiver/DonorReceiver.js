@@ -11,6 +11,7 @@ import {
   View,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -23,7 +24,7 @@ import {
   FloatingButton,
   ReceiversDetail,
   CustomActivityIndicator,
-  NeedHelpFirstCard
+  NeedHelpFirstCard,
 } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
@@ -33,6 +34,7 @@ import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 const DonorReceiver = ({
@@ -53,16 +55,13 @@ const DonorReceiver = ({
   manualDonateConfirmationData,
   allCampaignsData,
   allCampaigns,
-
+  campaignId,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
   const [amountFocus, setAmountFocus] = useState();
   const [remarksFocus, setRemarksFocus] = useState();
-  const [
-    confirmationSuccessfulVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
+  const [donateModalVisible, setDonateModalVisible] = useState(false);
   const [confirmationMessageVisible, setConfirmationMessageVisible] = useState(
     false
   );
@@ -76,6 +75,7 @@ const DonorReceiver = ({
     receivers();
     setRefreshing(false);
   });
+
   useEffect(() => {
     if (profileData.profile == null) {
       profile(loginData.user.account.accountid);
@@ -86,11 +86,11 @@ const DonorReceiver = ({
       receivers();
     }
   }, [profileData.profile]);
-  
+
   useEffect(() => {
     if (manualDonateConfirmationData.manualDonateConfirmation !== null) {
       if (manualDonateConfirmationData.manualDonateConfirmation.success) {
-        setConfirmationSuccessfulVisible(false);
+        setDonateModalVisible(false);
         setConfirmationMessageVisible(true);
         manualDonateConfirmationClear();
       }
@@ -111,7 +111,7 @@ const DonorReceiver = ({
       PaymentProto.TransactionStatus.TRANSACTION_APPROVED
     );
     manualDonateConfirmationStart(donationProto);
-    setConfirmationSuccessfulVisible(false);
+    setDonateModalVisible(false);
   };
 
   const ConfirmationMessage = () => (
@@ -143,16 +143,15 @@ const DonorReceiver = ({
       </Modal>
     </SafeAreaView>
   );
+
   const DonateModal = () => (
     <SafeAreaView>
       <Modal
-        visible={confirmationSuccessfulVisible}
+        visible={donateModalVisible}
         transparent={true}
-        animationType="fade"
+        animationType="slide"
         statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationSuccessfulVisible)
-        }
+        onRequestClose={() => setDonateModalVisible(false)}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -314,7 +313,7 @@ const DonorReceiver = ({
             name={item.account.fullname}
             clientType={item.clienttype}
             onPress={() => {
-              setConfirmationSuccessfulVisible(!confirmationSuccessfulVisible);
+              setDonateModalVisible(!donateModalVisible);
               setAccountData(item);
             }}
           />
@@ -334,238 +333,275 @@ const DonorReceiver = ({
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
       ) : (
-              <ScrollView  refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }>
-            <Block
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              colors={[theme.colors.primary2]}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
+          <Block>
+            <ImageBackground
+              style={{
+                height: "95%",
+                width: "100%",
+              }}
+              imageStyle={{
+                borderBottomLeftRadius: 40,
+                borderBottomRightRadius: 40,
+              }}
+              source={require("../../../../assets/images/backgroundColor.png")}
             >
-              <ImageBackground
+              <Block
                 style={{
-                  height: "95%",
-                  width: "100%",
+                  paddingHorizontal: 16,
+                  flex: 0,
+                  marginTop: HEIGHT / 10,
                 }}
-                imageStyle={{
-                  borderBottomLeftRadius: 40,
-                  borderBottomRightRadius: 40,
-                }}
-                source={require("../../../../assets/images/backgroundColor.png")}
               >
-               <Block
+                <Block
+                  row
+                  center
                   style={{
-                    paddingHorizontal: 16,
-                    flex:0,
-                    marginTop:HEIGHT/10
+                    flex: 0,
+                    paddingHorizontal: 20,
+                    paddingVertical: 16,
+                    borderRadius: 4,
+                    shadowRadius: 4,
+                    elevation: 4,
+                    backgroundColor: theme.colors.white,
                   }}
                 >
+                  {profileData.profile.profilepic == "" ? (
+                    <UserIconComponent height={45} width={45} />
+                  ) : (
+                    <Image
+                      source={{ uri: profileData.profile.profilepic }}
+                      style={{ height: 50, width: 50, borderRadius: 30 }}
+                    />
+                  )}
                   <Block
-                    row
-                    center
                     style={{
-                      flex:0,
-                      paddingHorizontal: 20,
-                      paddingVertical: 16,
-                      borderRadius: 4,
-                      shadowRadius: 4,
-                      elevation: 4,
-                      backgroundColor: theme.colors.white,
+                      marginLeft: 6,
+                      flex: 0,
                     }}
                   >
-                    {profileData.profile.profilepic == "" ? (
-                      <UserIconComponent height={45} width={45} />
-                    ) : (
-                      <Image
-                        source={{ uri: profileData.profile.profilepic }}
-                        style={{ height: 50, width: 50, borderRadius: 30 }}
-                      />
-                    )}
-                    <Block
+                    <Text
                       style={{
-                        marginLeft: 6,
-                        flex:0
+                        fontSize: 20,
+                        fontWeight: "700",
+                        textTransform: "capitalize",
+                        color: theme.colors.solidGray,
                       }}
                     >
+                      Hi, {profileData.profile.account.fullname.split(" ")[0]}!
+                    </Text>
+                    <Button
+                      style={{ height: 30, width: 100, marginTop: 4 }}
+                      onPress={() => navigation.navigate("Load Fund")}
+                    >
                       <Text
-                        style={{
-                          fontSize: 20,
-                          fontWeight: "700",
-                          textTransform: "capitalize",
-                          color: theme.colors.solidGray,
-                        }}
+                        color={theme.colors.white}
+                        style={{ fontSize: 16, fontWeight: "700" }}
                       >
-                        Hi, {profileData.profile.account.fullname.split(" ")[0]}
-                        !
+                        Load Fund
                       </Text>
-                      <Button
-                        style={{ height: 30, width: 100, marginTop: 4 }}
-                        onPress={() => navigation.navigate("Load Fund")}
-                      >
+                    </Button>
+                  </Block>
+
+                  <Block
+                    style={{
+                      flex: 2,
+                    }}
+                  >
+                    <Text
+                      center
+                      color={theme.colors.solidGray}
+                      style={{ fontSize: 18, fontWeight: "700" }}
+                    >
+                      Balance
+                    </Text>
+
+                    <NumberFormat
+                      value={data.balance / 100}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      renderText={(formattedValue) => (
                         <Text
-                          color={theme.colors.white}
-                          style={{ fontSize: 16, fontWeight: "700" }}
+                          center
+                          style={{
+                            fontSize: 20,
+                            fontWeight: "700",
+                            color: theme.colors.solidGray,
+                          }}
                         >
-                          Load Fund
+                          {formattedValue}
                         </Text>
-                      </Button>
-                    </Block>
-
-                    <Block
-                      style={{
-                        flex: 2,
-                      }}
-                    >
-                      <Text
-                        center
-                        color={theme.colors.solidGray}
-                        style={{ fontSize: 18, fontWeight: "700" }}
-                      >
-                        Balance
-                      </Text>
-
-                      <NumberFormat
-                        value={data.balance / 100}
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        prefix={"$"}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        renderText={(formattedValue) => (
-                          <Text
-                            center
-                            style={{
-                              fontSize: 20,
-                              fontWeight: "700",
-                              color: theme.colors.solidGray,
-                            }}
-                          >
-                            {formattedValue}
-                          </Text>
-                        )}
-                      />
-                    </Block>
+                      )}
+                    />
                   </Block>
                 </Block>
-              </ImageBackground>
+              </Block>
+            </ImageBackground>
+          </Block>
+
+          <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                Need to help first
+              </Text>
+              <Text
+                onPress={() => navigation.navigate("All Campaigns")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
+            </Block>
+            <Block
+              style={{
+                flex: 1,
+                borderBottomWidth: 1,
+                borderColor: theme.colors.gray2,
+                paddingTop: 10,
+              }}
+            >
+              <FlatList
+                data={allCampaignsData.allCampaigns.campaignsList.slice(0.6)}
+                refreshControl={
+                  <RefreshControl
+                    colors={[theme.colors.primary2]}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                nestedScrollEnabled
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => {
+                  return item.campaignid.toString();
+                }}
+                ItemSeparatorComponent={() => (
+                  <Block style={{ marginTop: 2 }} />
+                )}
+                ListEmptyComponent={() => (
+                  <Empty
+                    iconName="transactions"
+                    dashboard={0}
+                    title="You don't have any campaigns data."
+                  />
+                )}
+                renderItem={(post) =>
+                  post.item.campaignstarter.account.accountid !==
+                    loginData.user.account.accountid && (
+                    <NeedHelpFirstCard
+                      image={post.item.thumbnailurl}
+                      label={post.item.title}
+                      collectedAmount={post.item.collectedamount}
+                      targetAmount={post.item.targetamount}
+                      onPress={() => {
+                        campaignId(post.item.campaignid);
+                        navigation.navigate("Campaign Details");
+                      }}
+                    />
+                  )
+                }
+              />
+            </Block>
+          </Block>
+
+          <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                Upcoming Donations
+              </Text>
+              <Text
+                onPress={() => navigation.navigate("Upcoming Donations")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
             </Block>
 
-              <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
-                <Block
-                  row
-                  style={{ flex: 0.2, justifyContent: "space-between", }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                   Need to help first
-                  </Text>
-                  <Text
-                    onPress={() => navigation.navigate("All Campaigns")}
-                    style={{ fontSize: 16, fontWeight: "500" }}
-                    color={theme.colors.solidGray}
-                  >
-                    View All
-                  </Text>
-                </Block>
-                <Block style={{ flex: 1,borderBottomWidth:1,borderColor:theme.colors.gray2,paddingTop:10 }}>
-                  
-                <FlatList
-                  data={allCampaignsData.allCampaigns.campaignsList.slice(0.6)}
-                  refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
-                  nestedScrollEnabled
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item) => {
-                    return item.campaignid.toString();
-                  }}
-                  ItemSeparatorComponent={() => (
-                    <Block style={{ marginTop: 2 }} />
-                  )}
-                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any campaigns data."/>}
-                  renderItem={(post) =>
-                    post.item.campaignstarter.account.accountid!==loginData.user.account.accountid &&
-                      <NeedHelpFirstCard
-                    image={post.item.thumbnailurl}
-                    label={post.item.title}
-                    collectedAmount={post.item.collectedamount}
-                    targetAmount={post.item.targetamount}
-                    onPress={()=>navigation.navigate("Campaign Details",{"campaignData":post.item})}
-                      />
-                  }
+            {upcomingDonationsData.upcomingDonations == undefined ||
+            upcomingDonationsData.upcomingDonations.length == 0 ? (
+              <Block style={{ flex: 1 }}>
+                <Empty
+                  iconName="transactions"
+                  dashboard={0}
+                  title="You don't have any upcoming donations data."
                 />
-                </Block>
               </Block>
+            ) : (
+              <Block style={{ flex: 1 }}>{renderUpcomingDonations()}</Block>
+            )}
+          </Block>
 
+          <Block style={{ paddingHorizontal: 20 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                Donations Made
+              </Text>
+              <Text
+                onPress={() => navigation.navigate("Donations Made")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
+            </Block>
 
-              <Block style={{ paddingHorizontal: 20,paddingTop:10}}>
-                <Block
-                  row
-                  style={{ flex: 0.2, justifyContent: "space-between" }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                    Upcoming Donations
-                  </Text>
-                  <Text
-                    onPress={() => navigation.navigate("Upcoming Donations")}
-                    style={{ fontSize: 16, fontWeight: "500" }}
-                    color={theme.colors.solidGray}
-                  >
-                    View All
-                  </Text>
-                </Block>
-                <Block style={{ flex: 1 }}>{renderUpcomingDonations()}</Block>
+            {donationsMadeData.donationsMade == undefined ||
+            donationsMadeData.donationsMade.length == 0 ? (
+              <Block style={{ flex: 1 }}>
+                <Empty
+                  iconName="transactions"
+                  dashboard={0}
+                  title="You don't have any donations made data."
+                />
               </Block>
-             
-               <Block style={{ paddingHorizontal: 20 }}>
-                <Block
-                  row
-                  style={{ flex: 0.2, justifyContent: "space-between" }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                    Donations Made
-                  </Text>
-                  <Text
-                    onPress={() => navigation.navigate("Donations Made")}
-                    style={{ fontSize: 16, fontWeight: "500" }}
-                    color={theme.colors.solidGray}
-                  >
-                    View All
-                  </Text>
-                </Block>
-                <Block style={{ flex: 1 }}>{renderDonationsMade()}</Block>
+            ) : (
+              <Block style={{ flex: 1 }}>{renderDonationsMade()}</Block>
+            )}
+          </Block>
+          <Block style={{ paddingHorizontal: 20, paddingBottom: 80 }}>
+            <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 18, fontWeight: "700" }}>Receivers</Text>
+              <Text
+                onPress={() => navigation.navigate("Receivers")}
+                style={{ fontSize: 16, fontWeight: "500" }}
+                color={theme.colors.solidGray}
+              >
+                View All
+              </Text>
+            </Block>
+            {receiversData.receivers == undefined ||
+            receiversData.receivers.length == 0 ? (
+              <Block style={{ flex: 1 }}>
+                <Empty
+                  iconName="transactions"
+                  dashboard={0}
+                  title="You don't have any receivers data."
+                />
               </Block>
-              <Block style={{ paddingHorizontal: 20,  paddingBottom:80}}>
-                <Block
-                  row
-                  style={{ flex: 0.2, justifyContent: "space-between" }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                    Receivers
-                  </Text>
-                  <Text
-                    onPress={() => navigation.navigate("Receivers")}
-                    style={{ fontSize: 16, fontWeight: "500" }}
-                    color={theme.colors.solidGray}
-                  >
-                    View All
-                  </Text>
-                </Block>
-                <Block style={{ flex: 1 }}>{renderReceivers()}</Block>
-              </Block>
-              </ScrollView>
+            ) : (
+              <Block style={{ flex: 1 }}>{renderReceivers()}</Block>
+            )}
+          </Block>
+        </ScrollView>
       )}
       {DonateModal()}
       {ConfirmationMessage()}
-       <FloatingButton
-              onPress={() => navigation.navigate("Donate")}
-              iconComponent={<DonateIconComponent />}
-        />
+      <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
     </SafeAreaView>
   );
 };

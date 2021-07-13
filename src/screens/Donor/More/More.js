@@ -18,12 +18,13 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
       }
     }
   },[data.logout])
-  const RenderOptions = ({ image, label }) => (
+  const RenderOptions = ({ image, label,navigate }) => (
     <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 10 }} onPress={()=>{
       if(label=="Logout"){
-        logout();
+        // logout();
+      navigation.navigate(navigate)
       }else{
-      navigation.navigate("Members")
+      navigation.navigate(navigate)
       }
     }}>
     <Block row style={{
@@ -61,7 +62,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
           }}
           ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
           renderItem={(post) => (
-            <RenderOptions image={post.item.image} label={post.item.label}/>
+            <RenderOptions image={post.item.image} label={post.item.label} navigate={post.item.navigate}/>
           )}
         />
       </Block>

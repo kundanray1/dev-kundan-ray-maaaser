@@ -764,7 +764,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.brilltech.maaser.rpc.PaymentBaseResponse.repeatedFields_ = [8,10,12,15];
+proto.brilltech.maaser.rpc.PaymentBaseResponse.repeatedFields_ = [8,10,12,15,16];
 
 
 
@@ -813,7 +813,9 @@ proto.brilltech.maaser.rpc.PaymentBaseResponse.toObject = function(includeInstan
     balance: (f = msg.getBalance()) && payment_pb.Balance.toObject(includeInstance, f),
     scheduletransaction: (f = msg.getScheduletransaction()) && payment_pb.ScheduleTransaction.toObject(includeInstance, f),
     scheduletransactionsList: jspb.Message.toObjectList(msg.getScheduletransactionsList(),
-    payment_pb.ScheduleTransaction.toObject, includeInstance)
+    payment_pb.ScheduleTransaction.toObject, includeInstance),
+    donationsList: jspb.Message.toObjectList(msg.getDonationsList(),
+    payment_pb.CampaignDonation.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -919,6 +921,11 @@ proto.brilltech.maaser.rpc.PaymentBaseResponse.deserializeBinaryFromReader = fun
       var value = new payment_pb.ScheduleTransaction;
       reader.readMessage(value,payment_pb.ScheduleTransaction.deserializeBinaryFromReader);
       msg.addScheduletransactions(value);
+      break;
+    case 16:
+      var value = new payment_pb.CampaignDonation;
+      reader.readMessage(value,payment_pb.CampaignDonation.deserializeBinaryFromReader);
+      msg.addDonations(value);
       break;
     default:
       reader.skipField();
@@ -1062,6 +1069,14 @@ proto.brilltech.maaser.rpc.PaymentBaseResponse.serializeBinaryToWriter = functio
       15,
       f,
       payment_pb.ScheduleTransaction.serializeBinaryToWriter
+    );
+  }
+  f = message.getDonationsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      16,
+      f,
+      payment_pb.CampaignDonation.serializeBinaryToWriter
     );
   }
 };
@@ -1447,6 +1462,37 @@ proto.brilltech.maaser.rpc.PaymentBaseResponse.prototype.addScheduletransactions
 
 proto.brilltech.maaser.rpc.PaymentBaseResponse.prototype.clearScheduletransactionsList = function() {
   this.setScheduletransactionsList([]);
+};
+
+
+/**
+ * repeated brilltech.maaser.entities.CampaignDonation donations = 16;
+ * @return {!Array<!proto.brilltech.maaser.entities.CampaignDonation>}
+ */
+proto.brilltech.maaser.rpc.PaymentBaseResponse.prototype.getDonationsList = function() {
+  return /** @type{!Array<!proto.brilltech.maaser.entities.CampaignDonation>} */ (
+    jspb.Message.getRepeatedWrapperField(this, payment_pb.CampaignDonation, 16));
+};
+
+
+/** @param {!Array<!proto.brilltech.maaser.entities.CampaignDonation>} value */
+proto.brilltech.maaser.rpc.PaymentBaseResponse.prototype.setDonationsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 16, value);
+};
+
+
+/**
+ * @param {!proto.brilltech.maaser.entities.CampaignDonation=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.brilltech.maaser.entities.CampaignDonation}
+ */
+proto.brilltech.maaser.rpc.PaymentBaseResponse.prototype.addDonations = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 16, opt_value, proto.brilltech.maaser.entities.CampaignDonation, opt_index);
+};
+
+
+proto.brilltech.maaser.rpc.PaymentBaseResponse.prototype.clearDonationsList = function() {
+  this.setDonationsList([]);
 };
 
 

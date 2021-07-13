@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CARD_START } from "./actions";
-import { cardSuccess, cardFail } from "./actions";
+import { CARD_START,CARD_UPDATE_STATUS_START } from "./actions";
+import { cardSuccess, cardFail,cardUpdateStatusSuccess, cardUpdateStatusFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -35,6 +35,41 @@ export function* card({ payload }) {
 	}
 }
 
+export function* cardUpdateStatus({ payload }) {
+	try {
+		const serializedData = payload.serializeBinary();
+		const response = yield call(requestProto, APIEndpoints.CARD, {
+			method: "PATCH",
+			headers: API.authProtoHeader(),
+			body: serializedData,
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(cardUpdateStatusSuccess(res));
+			showMessage({
+				message: "Card deleted successfully!",
+				type: "success",
+			});
+		} else {
+			yield put(cardUpdateStatusFail(res));
+			showMessage({
+				message: "Error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(cardUpdateStatusFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
+
 export default function* cardSaga() {
 	yield takeLatest(CARD_START, card);
+	yield takeLatest(CARD_UPDATE_STATUS_START, cardUpdateStatus);
 }

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
- 
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import * as theme from "../constants/theme.js";
  
 const PercentageBar = ({
   navigation,
@@ -19,21 +19,20 @@ const PercentageBar = ({
       <View style={{justifyContent: 'center'}}>
         <View
           style={{
-            
-            width: '100%',
-            height: getheight,
+            height: 4,
             marginVertical: 10,
             borderColor: getBackgroundColor,
-            borderWidth: 1,
+            backgroundColor:"#D3D3D3",
+            width:"100%"
           }}
         />
         <View
           style={{
-            width: getPercentage ? getPercentage : 0,
-            height: getheight,
+            width: getPercentage>=100?"100%": getPercentage<100? `${getPercentage}%` : `${0}%`,
+            height: 4,
             backgroundColor: getCompletedColor,
             position: 'absolute',
-            bottom:10
+            bottom:10,
           }}
         />
       </View>

@@ -38,4 +38,3 @@ export const balanceFail = (payload) => ({
 	type: BALANCE_FAIL,
 	payload,
 });
-

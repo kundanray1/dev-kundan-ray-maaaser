@@ -5,17 +5,26 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Block, Text } from "../../../../components/Index.js";
 import * as theme from "../../../../constants/theme.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch } from 'react-redux'
+import { ACHUpdateStatusStart } from "./actions";
+import PaymentProto from "./../../../../protos/payment_pb";
 
 export const Bottom = ({ navigation, bs, accountData }) => {
+	const dispatch = useDispatch()
 	let fall = new Animated.Value(1);
 
 	const handleDeleteConfirm = () => {
-		console.log("Confirm Delete Presssed");
 		bs.current.snapTo(1);
-
+		const updateData = new PaymentProto.Bank();
+		updateData.setBankid(accountData.bankid);
+    	updateData.setBankname(accountData.bankname);
+	    updateData.setAccountholdername(accountData.accountholdername);
+	    updateData.setAccountnumber(accountData.accountnumber);
+	    updateData.setRoutingnumber(accountData.routingnumber);
+	    updateData.setBankstatus(PaymentProto.Bank.BankStatus.INACTIVE_STATUS);
+    	dispatch(ACHUpdateStatusStart(updateData))
 	};
 	const handleEdit = () => {
-		console.log("handleEdit");
 		bs.current.snapTo(1);
 		navigation.navigate("Link New Account", { account: accountData,screenName:"ACH"} );
 	};

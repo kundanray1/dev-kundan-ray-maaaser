@@ -17,6 +17,7 @@ export function* receiverProfile({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("receiverProfile");
 		if (res.success) {
 			yield put(receiverProfileSuccess(res.loginaccount.client));
 		} else {

@@ -8,7 +8,6 @@ import { cardStart } from "./actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.card,
 	loginData: (state) => state.login,
-	
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

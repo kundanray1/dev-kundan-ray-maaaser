@@ -5,10 +5,12 @@ import {
   Block,
   Text,
   CustomActivityIndicator,
+  Button,
+  OutlinedButton,
 } from "../../../../components/Index.js";
 import moment from "moment";
 import PaymentProto from "./../../../../protos/payment_pb";
-import NumberFormat from 'react-number-format';
+import NumberFormat from "react-number-format";
 
 const ScheduleDonationReceiverDetail = ({
   route,
@@ -21,7 +23,7 @@ const ScheduleDonationReceiverDetail = ({
   let scheduleTypeString =
     scheduleDonationReceiverDetail.scheduledetail.scheduletype;
   if (scheduleTypeString == 1) {
-    scheduleTypeString = "ONE_TIME";
+    scheduleTypeString = "ONE TIME";
   } else if (scheduleTypeString == 2) {
     scheduleTypeString = "DAILY";
   } else if (scheduleTypeString == 3) {
@@ -39,10 +41,16 @@ const ScheduleDonationReceiverDetail = ({
   }
 
   let status =
-    scheduleDonationReceiverDetail.scheduletransactionstatus == 1
-      ? "SCHEDULING"
-      : scheduleDonationReceiverDetail.scheduletransactionstatus == 2
-      ? "DISABLED": "CANCELLED";
+      scheduleDonationReceiverDetail.scheduletransactionstatus == 1
+      ? "SCHEDULE_PENDING" :
+      scheduleDonationReceiverDetail.scheduletransactionstatus == 2
+      ? "APPROVED":
+      scheduleDonationReceiverDetail.scheduletransactionstatus == 3
+      ? "SCHEDULING" :
+      scheduleDonationReceiverDetail.scheduletransactionstatus == 4
+      ? "CLOSED" :
+      scheduleDonationReceiverDetail.scheduletransactionstatus == 5
+      ? "DISABLED" : "CANCELLED" 
 
   const onSubmitScheduleDonationReceiverDetail = (values) => {
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
@@ -54,13 +62,13 @@ const ScheduleDonationReceiverDetail = ({
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.CANCELLED
       );
-    } else if (values == "disable") {
+    } else if (values == "delete") {
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.DISABLED
       );
-    } else if (values == "schedule") {
+    } else if (values == "close") {
       scheduleTransactionProto.setScheduletransactionstatus(
-        PaymentProto.ScheduleTransactionStatus.SCHEDULING
+        PaymentProto.ScheduleTransactionStatus.CLOSED
       );
     }
     scheduleDonationReceiverDetailStart(scheduleTransactionProto);
@@ -75,191 +83,174 @@ const ScheduleDonationReceiverDetail = ({
     }
   }, [data.scheduleDonationReceiverDetail]);
   return (
-    <SafeAreaView
-      style={{ flex: 1, paddingHorizontal: 35, justifyContent: "center" }}
-    >
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          Receiver’s Name
+        </Text>
+        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+          {scheduleDonationReceiverDetail.clientList[1].account.fullname}
+        </Text>
+      </Block>
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          Amount
+        </Text>
+        <NumberFormat
+          value={scheduleDonationReceiverDetail.amount / 100}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={"$"}
+          decimalScale={2}
+          fixedDecimalScale={true}
+          renderText={(formattedValue) => (
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              {formattedValue}
+            </Text>
+          )}
+        />
+      </Block>
+
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          Schedule Type
+        </Text>
+        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+          {scheduleTypeString}
+        </Text>
+      </Block>
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          Start Date
+        </Text>
+        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+          {moment(
+            scheduleDonationReceiverDetail.scheduledetail.startDate
+          ).format("Do MMMM YYYY")}
+        </Text>
+      </Block>
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          End Date
+        </Text>
+        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+          {moment(scheduleDonationReceiverDetail.scheduledetail.enddate).format(
+            "Do MMMM YYYY"
+          )}
+        </Text>
+      </Block>
+
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          Remarks
+        </Text>
+        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+          {scheduleDonationReceiverDetail.remark}
+        </Text>
+      </Block>
+      <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Text
+          bold
+          style={{ fontSize: 16, fontWeight: "700" }}
+          color={theme.colors.solidGray}
+        >
+          Status
+        </Text>
+
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "700",
+            backgroundColor:
+                  status == "SCHEDULING"
+                ? theme.colors.schedulingBackground
+                : status == "CLOSED"
+                ? "#FFD8D3"
+                :  status == "CANCELLED"
+                ? theme.colors.cancelledBackground
+                :  theme.colors.schedulingBackground ,
+            paddingVertical: 4,
+            paddingHorizontal: 8,
+            width: 140,
+          }}
+          color={
+             status == "SCHEDULING"
+                ? theme.colors.schedulingText
+                : status == "CLOSED"
+                ? "#DE4C3C"
+                :  status == "CANCELLED"
+                ? theme.colors.cancelledText
+                :  theme.colors.schedulingText
+          }
+        >
+          {status}
+        </Text>
+      </Block>
+
       <Block
         style={{
           flex: 0,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-          borderRadius:1.5,
-          elevation: 1.5,
+          paddingHorizontal: 20,
+          bottom: 0,
+          paddingVertical: 10,
+          position: "absolute",
         }}
       >
-        <Block
-          style={{
-            flex: 0,
-            paddingVertical: 18,
-            paddingHorizontal: 25,
-            borderRadius: 10,
-          }}
-        >
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                Receiver’s Name
+        {status == "SCHEDULING" || status == "APPROVED" || status == "SCHEDULE_PENDING"? (
+          <Button
+            full
+            onPress={() => onSubmitScheduleDonationReceiverDetail("cancel")}
+          >
+            {data.isLoading ? (
+              <>
+                <CustomActivityIndicator
+                  label="Requesting..."
+                  isLoading={data.isLoading}
+                />
+                <Text
+                  button
+                  style={{ fontSize: 20, textTransform: "uppercase" }}
+                >
+                  Cancel
+                </Text>
+              </>
+            ) : (
+              <Text button style={{ fontSize: 20, textTransform: "uppercase" }}>
+                Cancel
               </Text>
-            </Block>
-            <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {scheduleDonationReceiverDetail.clientList[1].account.fullname}
-              </Text>
-            </Block>
-          </Block>
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                Amount
-              </Text>
-            </Block>
-            <Block>
-            <NumberFormat
-                    value={scheduleDonationReceiverDetail.amount/100}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'$'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                    renderText={formattedValue => <Text  color={theme.colors.solidGray} style={{ fontSize: 15 }}>{formattedValue}</Text>} 
-                    />
-            </Block>
-          </Block>
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                Schedule Type
-              </Text>
-            </Block>
-            <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {scheduleTypeString}
-              </Text>
-            </Block>
-          </Block>
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                Start Date
-              </Text>
-            </Block>
-            <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {moment(
-                  scheduleDonationReceiverDetail.scheduledetail.startDate
-                ).format("Do MMMM YYYY")}
-              </Text>
-            </Block>
-          </Block>
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                End Date
-              </Text>
-            </Block>
-            <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {moment(
-                  scheduleDonationReceiverDetail.scheduledetail.enddate
-                ).format("Do MMMM YYYY")}
-              </Text>
-            </Block>
-          </Block>
-
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                Remarks
-              </Text>
-            </Block>
-            <Block>
-              <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {scheduleDonationReceiverDetail.remark}
-              </Text>
-            </Block>
-          </Block>
-          <Block row style={{ flex: 0, paddingVertical: 8 }}>
-            <Block>
-              <Text
-                bold
-                style={{ fontSize: 16, fontWeight: "700" }}
-                color={theme.colors.solidGray}
-              >
-                Status
-              </Text>
-            </Block>
-            <Block
+            )}
+          </Button>
+        ) : status == "CANCELLED" ? (
+          <>
+            <Button
+              full
+              onPress={() => onSubmitScheduleDonationReceiverDetail("delete")}
               style={{
-                backgroundColor:
-                  status == "SCHEDULING"
-                    ? theme.colors.schedulingBackground
-                    : status == "DISABLED"
-                    ? theme.colors.disabledBackground
-                    : theme.colors.cancelledBackground,
-                paddingVertical: 4,
-                paddingHorizontal: 8,
-                borderRadius: 14,
-              }}
-            >
-              <Text
-                center
-                style={{
-                  fontSize: 16,
-                  fontWeight: "700",
-                }}
-                color={
-                  status == "SCHEDULING"
-                    ? theme.colors.schedulingText
-                    : status == "DISABLED"
-                    ? theme.colors.disabledText
-                    : theme.colors.cancelledText
-                }
-              >
-                {status}
-              </Text>
-            </Block>
-          </Block>
-        </Block>
-
-        <Block style={{ flex: 0 }}>
-          {status == "SCHEDULING" ? (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => onSubmitScheduleDonationReceiverDetail("cancel")}
-              style={{
-                flex: 0,
-                paddingVertical: 12,
-                borderTopWidth: 2,
-                borderColor: theme.colors.gray2,
+                marginVertical: 12,
               }}
             >
               {data.isLoading ? (
@@ -269,99 +260,79 @@ const ScheduleDonationReceiverDetail = ({
                     isLoading={data.isLoading}
                   />
                   <Text
-                    center
-                    color={theme.colors.gray}
-                    style={{ fontSize: 18, fontWeight: "700" }}
+                    button
+                    style={{ fontSize: 20, textTransform: "uppercase" }}
                   >
-                    Cancel Donation
+                    Delete
                   </Text>
                 </>
               ) : (
                 <Text
-                  center
-                  color={theme.colors.gray}
-                  style={{ fontSize: 18, fontWeight: "700" }}
+                  button
+                  style={{ fontSize: 20, textTransform: "uppercase" }}
                 >
-                  Cancel Donation
+                  Delete
                 </Text>
               )}
-            </TouchableOpacity>
-          ) : status == "CANCELLED" ? (
-            <>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => onSubmitScheduleDonationReceiverDetail("schedule")}
-                style={{
-                  flex: 0,
-                  paddingVertical: 12,
-                  borderTopWidth: 2,
-                  borderColor: theme.colors.gray2,
-                }}
-              >
-                {data.isLoading ? (
-                  <>
-                    <CustomActivityIndicator
-                      label="Requesting..."
-                      isLoading={data.isLoading}
-                    />
-                    <Text
-                      center
-                      color={theme.colors.gray}
-                      style={{ fontSize: 18, fontWeight: "700" }}
-                    >
-                      Schedule
-                    </Text>
-                  </>
-                ) : (
+            </Button>
+            <OutlinedButton
+              full
+              onPress={() => onSubmitScheduleDonationReceiverDetail("close")}
+            >
+              {data.isLoading ? (
+                <>
+                  <CustomActivityIndicator
+                    label="Requesting..."
+                    isLoading={data.isLoading}
+                  />
                   <Text
-                    center
-                    color={theme.colors.gray}
-                    style={{ fontSize: 18, fontWeight: "700" }}
+                    outlinedButton
+                    style={{ fontSize: 20, textTransform: "uppercase",color:theme.colors.primary2 }}
                   >
-                    Schedule
+                    Close
                   </Text>
-                )}
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => onSubmitScheduleDonationReceiverDetail("disable")}
-                style={{
-                  flex: 0,
-                  paddingVertical: 12,
-                  borderTopWidth: 2,
-                  borderColor: theme.colors.gray2,
-                }}
-              >
-                {data.isLoading ? (
-                  <>
-                    <CustomActivityIndicator
-                      label="Requesting..."
-                      isLoading={data.isLoading}
-                    />
-                    <Text
-                      center
-                      color={theme.colors.red}
-                      style={{ fontSize: 18, fontWeight: "700" }}
-                    >
-                      Disable
-                    </Text>
-                  </>
-                ) : (
+                </>
+              ) : (
+                <Text
+                  outlinedButton
+                  style={{ fontSize: 20, textTransform: "uppercase",color:theme.colors.primary2 }}
+                >
+                  close
+                </Text>
+              )}
+            </OutlinedButton>
+          </>
+        ) : (
+          <Button
+              full
+              onPress={() => onSubmitScheduleDonationReceiverDetail("delete")}
+              style={{
+                marginVertical: 12,
+              }}
+            >
+              {data.isLoading ? (
+                <>
+                  <CustomActivityIndicator
+                    label="Requesting..."
+                    isLoading={data.isLoading}
+                  />
                   <Text
-                    center
-                    color={theme.colors.red}
-                    style={{ fontSize: 18, fontWeight: "700" }}
+                    button
+                    style={{ fontSize: 20, textTransform: "uppercase" }}
                   >
-                    Disable
+                    Delete
                   </Text>
-                )}
-              </TouchableOpacity>
-            </>
-            )
-            :(
-            <Block style={{flex:0}}/>
-          )}
-        </Block>
+                </>
+              ) : (
+                <Text
+                  button
+                  style={{ fontSize: 20, textTransform: "uppercase" }}
+                >
+                  Delete
+                </Text>
+              )}
+            </Button>
+        )}
       </Block>
     </SafeAreaView>
   );

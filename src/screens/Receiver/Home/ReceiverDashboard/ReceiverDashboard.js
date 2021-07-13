@@ -36,25 +36,26 @@ const DonorReceiver = ({
   donors,
   receiverProfileData,
   receiverProfile,
-  campaigns,
-  campaignsData
+  allCampaigns,
+  allCampaignsData,
+  campaignId
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
     donationReceived(loginData.user.account.accountid);
-    campaigns(loginData.user.account.accountid);
+    allCampaigns(loginData.user.account.accountid);
     donors(), setRefreshing(false);
   });
   useEffect(() => {
-    if (receiverProfileData.receiverProfile == null) {
+    // if (receiverProfileData.receiverProfile == null) {
       receiverProfile(loginData.user.account.accountid);
       balance(loginData.user.account.accountid);
       donationReceived(loginData.user.account.accountid);
-      campaigns(loginData.user.account.accountid);
+      allCampaigns(loginData.user.account.accountid);
       donors();
-    }
+    // }
   }, []);
   const renderDonationsReceived = () => {
     return donationReceivedData.donationReceived
@@ -97,7 +98,7 @@ const DonorReceiver = ({
       donationReceivedData.isLoading ||
       donorsData.isLoading ||
       receiverProfileData.isLoading || 
-       campaignsData.isLoading  ? (
+       allCampaignsData.isLoading  ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
@@ -231,7 +232,7 @@ const DonorReceiver = ({
                 Need to help first
               </Text>
               <Text
-                onPress={() => navigation.navigate("Campaigns")}
+                onPress={() => navigation.navigate("All Campaigns")}
                 style={{ fontSize: 16, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
@@ -246,42 +247,40 @@ const DonorReceiver = ({
                 paddingTop: 10,
               }}
             >
-              <FlatList
-                data={campaignsData.campaigns.campaignsList}
-                refreshControl={
-                  <RefreshControl
-                    colors={[theme.colors.primary2]}
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                  />
-                }
-                nestedScrollEnabled
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item, index) => {
-                  return index.toString();
-                }}
-                ItemSeparatorComponent={() => (
-                  <Block style={{ marginTop: 2 }} />
-                )}
-                ListEmptyComponent={() => (
-                  <Empty
-                    iconName="campaigns"
-                    dashboard={0}
-                    title="You don't have any campaigns data."
-                  />
-                )}
-                renderItem={(post) => 
-                  <NeedHelpFirstCard 
+               <FlatList
+                  data={allCampaignsData.allCampaigns.campaignsList.slice(0.6)}
+                  refreshControl={
+                    <RefreshControl
+                      colors={[theme.colors.primary2]}
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
+                  nestedScrollEnabled
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => {
+                    return item.campaignid.toString();
+                  }}
+                  ItemSeparatorComponent={() => (
+                    <Block style={{ marginTop: 2 }} />
+                  )}
+                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any campaigns data."/>}
+                  renderItem={(post) =>
+                    post.item.campaignstarter.account.accountid!==loginData.user.account.accountid &&
+                      <NeedHelpFirstCard
                     image={post.item.thumbnailurl}
                     label={post.item.title}
                     collectedAmount={post.item.collectedamount}
                     targetAmount={post.item.targetamount}
-                    onPress={()=>navigation.navigate("Campaign Details",{"campaignData":post.item})}
-                    />
-
+                    onPress={()=>
+                      {
+                        campaignId(post.item.campaignid);
+                        navigation.navigate("Campaign Details")
+                      }}
+                      />
                   }
-              />
+                />
             </Block>
           </Block>
 

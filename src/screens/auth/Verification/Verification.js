@@ -136,7 +136,7 @@ export default Verification = ({
 										<>
 										<CustomActivityIndicator
 											isLoading={data.isLoading}
-											label="Requesting..."
+											label="Verifiying..."
 										/>
 										<Text button style={{ fontSize: 18 }}>
 											Send

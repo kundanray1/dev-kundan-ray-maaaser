@@ -92,9 +92,9 @@ export default SignUp = ({
 
       <Formik
         initialValues={{
-          emailOrPhone: "@gmail.com",
-          password: "Joshan@123",
-          confirmPassword: "Joshan@123",
+          emailOrPhone: "",
+          password: "",
+          confirmPassword: "",
         }}
         onSubmit={(values) => {
           onSubmitSignUp(values);

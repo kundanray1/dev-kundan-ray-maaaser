@@ -8,7 +8,7 @@ import ReceiverDashboard from "../../screens/Receiver/Home/ReceiverDashboard/ind
 import ReceiverProfile from "../../screens/Receiver/ReceiverProfile/index";
 import Withdraws from "../../screens/Receiver/Withdraws/index";
 import More from "../../screens/Donor/More/index";
-import Campaigns from "../../screens/Donor/Campaigns/index";
+import Campaigns from "../../screens/Campaigns/index";
 
 import CampaignBottomMenuIconComponent from "./../../assets/icons/campaignBottomMenuIconComponent.js";
 import EmptyCampaignsIconComponent from "./../../assets/icons/emptyCampaignsIconComponent.js";

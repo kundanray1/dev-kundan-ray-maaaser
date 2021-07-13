@@ -30,6 +30,6 @@ export default [
     id: "3",
     image: NfcIconComponent(),
     label: "NFC",
-    navigate:"Manual",
+    navigate:"Donate",
   },
 ];

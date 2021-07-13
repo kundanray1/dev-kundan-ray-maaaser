@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { TouchableOpacity, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LinkNewCardValidationSchema } from "./../../../../utility/ValidationSchema.js";
@@ -22,7 +19,6 @@ import PaymentProto from "./../../../../protos/payment_pb";
 import AddressProto from "./../../../../protos/address_pb";
 import CountryCode from "./CountryCode";
 import styles from "./../../../../utility/globalStyles.js";
-
 
 const LinkNewCard = ({
   navigation,
@@ -53,33 +49,31 @@ const LinkNewCard = ({
     const linkNewCardData = new PaymentProto.Card();
     const addressData = new AddressProto.Address();
 
-    if(route.params!=undefined){
-       linkNewCardData.setCardid(route.params.card.cardid);
-    linkNewCardData.setRefid(route.params.card.refid);
-    linkNewCardData.setCardstatus(
-      PaymentProto.Card.CardStatus.ACTIVE_CARD
-    );
-    linkNewCardData.setAccountid(loginData.user.account.accountid);
+    if (route.params != undefined) {
+      linkNewCardData.setCardid(route.params.card.cardid);
+      linkNewCardData.setRefid(route.params.card.refid);
+      linkNewCardData.setCardstatus(PaymentProto.Card.CardStatus.ACTIVE_CARD);
+      linkNewCardData.setAccountid(loginData.user.account.accountid);
     }
     linkNewCardData.setCardnumber(values.cardNumber);
     linkNewCardData.setCardholdername(values.cardholderName);
     linkNewCardData.setCvc(values.cvc);
     linkNewCardData.setExpirydate(new Date(date).getTime());
-      if(route.params!=undefined){
-          addressData.setAddressid(route.params.card.billingaddress.addressid);
-   }
+    if (route.params != undefined) {
+      addressData.setAddressid(route.params.card.billingaddress.addressid);
+    }
     addressData.setStreet1(values.street1);
-    // addressData.setStreet2(values.street2);
+    addressData.setStreet2(values.street2);
     addressData.setState(values.state);
     addressData.setCity(values.city);
-    // addressData.setZip(values.zipCode);
+    addressData.setZip(values.zipCode);
     addressData.setCountrycode(countryCode);
     linkNewCardData.setBillingaddress(addressData);
-  if(route.params!=undefined){
-          updateLinkNewCard(linkNewCardData);
-   }else{
-    linkNewCard(linkNewCardData);
-   }
+    if (route.params != undefined) {
+      updateLinkNewCard(linkNewCardData);
+    } else {
+      linkNewCard(linkNewCardData);
+    }
   };
 
   const onChange = (event, selectedDate) => {
@@ -91,13 +85,13 @@ const LinkNewCard = ({
   };
 
   useEffect(() => {
-    if(data.linkNewCard!==null ){
-       if(data.linkNewCard.success ){
-        linkNewCardClear()
-        navigation.navigate("Card")
-       }
+    if (data.linkNewCard !== null) {
+      if (data.linkNewCard.success) {
+        linkNewCardClear();
+        navigation.navigate("Card");
+      }
     }
-  }, [data.linkNewCard]); 
+  }, [data.linkNewCard]);
 
   return (
     <KeyboardAwareScrollView
@@ -108,9 +102,7 @@ const LinkNewCard = ({
         <Formik
           initialValues={{
             cardholderName:
-              route.params != undefined
-                ? route.params.card.cardholdername
-                : "",
+              route.params != undefined ? route.params.card.cardholdername : "",
             cardNumber:
               route.params != undefined ? route.params.card.cardnumber : "",
             cvc:
@@ -118,18 +110,26 @@ const LinkNewCard = ({
                 ? route.params.card.cvc.toString()
                 : " ",
             street1:
-              route.params != undefined ? route.params.card.billingaddress.street1 : "",
-            // street2:
-            //   route.params != undefined ?  route.params.card.billingaddress.street2 : "",
-            city: route.params != undefined ?  route.params.card.billingaddress.city : "",
-            state: route.params != undefined ?  route.params.card.billingaddress.state : "",
-            // zipCode:
-            //   route.params != undefined
-            //     ? route.params.card.billingaddress.zip.toString()
-            //     : "",
+              route.params != undefined
+                ? route.params.card.billingaddress.street1
+                : "",
+            street2:
+              route.params != undefined ?  route.params.card.billingaddress.street2 : "",
+            city:
+              route.params != undefined
+                ? route.params.card.billingaddress.city
+                : "",
+            state:
+              route.params != undefined
+                ? route.params.card.billingaddress.state
+                : "",
+            zipCode:
+              route.params != undefined
+                ? route.params.card.billingaddress.zip.toString()
+                : "",
           }}
           onSubmit={(values) => {
-            onSubmitLinkNewCard(values)
+            onSubmitLinkNewCard(values);
           }}
           validationSchema={LinkNewCardValidationSchema}
         >
@@ -204,7 +204,7 @@ const LinkNewCard = ({
               <Block row>
                 <Block style={{ flex: 3, marginTop: 10 }}>
                   <TouchableOpacity
-                    style={styles.customPicker}
+                    style={[styles.customPicker,{width:"92%"}]}
                     activeOpacity={0.8}
                     onPress={() => setShow(true)}
                   >
@@ -213,10 +213,9 @@ const LinkNewCard = ({
                         bold
                         style={{ fontSize: 16, color: theme.colors.solidGray }}
                       >
-                       {
-                      date=="2021-07-03T15:21:15.513Z"?"":
-                       moment(date).format("DD/MM/YYYY")
-                    }
+                        {date == "2021-07-03T15:21:15.513Z"
+                          ? ""
+                          : moment(date).format("DD/MM/YYYY")}
                       </Text>
                     </Block>
                     <Block style={{ alignItems: "flex-end" }}>
@@ -227,6 +226,7 @@ const LinkNewCard = ({
                       />
                     </Block>
                   </TouchableOpacity>
+
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
@@ -235,7 +235,7 @@ const LinkNewCard = ({
                       is24Hour={true}
                       display="default"
                       minimumDate={new Date()}
-                      textColor="red" 
+                      textColor="red"
                       onChange={onChange}
                     />
                   )}
@@ -286,7 +286,7 @@ const LinkNewCard = ({
                 }}
               />
               <ErrorMessage error={errors.street1} visible={touched.street1} />
-{/*              <Input
+                            <Input
                 label="Street Address 2"
                 focus={street2Focus}
                 onChangeText={handleChange("street2")}
@@ -305,7 +305,7 @@ const LinkNewCard = ({
                 }}
               />
               <ErrorMessage error={errors.street2} visible={touched.street2} />
-*/}
+
               <Input
                 label="City"
                 focus={cityFocus}
@@ -345,7 +345,7 @@ const LinkNewCard = ({
                 }}
               />
               <ErrorMessage error={errors.state} visible={touched.state} />
-{/*
+              
               <Input
                 label="Zip Code"
                 focus={zipCodeFocus}
@@ -366,12 +366,14 @@ const LinkNewCard = ({
                 }}
               />
               <ErrorMessage error={errors.zipCode} visible={touched.zipCode} />
-*/}
-              {!errors.cardholderName &&
+              {
+              !errors.cardholderName &&
               !errors.cardNumber &&
               !errors.cvc &&
-              !errors.street1 &&
+              !errors.street1 && 
+              !errors.street2 &&
               !errors.city &&
+              !errors.zipCode &&
               !errors.state ? (
                 <Button
                   style={{

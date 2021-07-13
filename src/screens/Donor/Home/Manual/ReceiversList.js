@@ -110,15 +110,15 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
         <View style={[styles.container,{marginTop:"51.5%"}]}>
 
           <View style={[styles.modal, { width: WIDTH - 30, height: 235 }]}>
-            <Block style={styles.searchContainer}>
-              <Block style={styles.vwSearch}>
+            <Block style={styles.boxSearchContainer}>
+              <Block style={styles.boxVwSearch}>
                 <Ionicons name="search" color="#676767" size={18} />
               </Block>
 
               <TextInput
                 placeholder="Search"
                 placeholderTextColor="#999999"
-                style={styles.textInput}
+                style={styles.boxTextInput}
                 onChangeText={(text) => searchFilterFunction(text)}
                 value={search}
               />

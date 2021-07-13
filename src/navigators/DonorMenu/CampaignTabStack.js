@@ -1,33 +1,34 @@
+
 import * as React from 'react';
+import {StatusBar}  from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as theme from "../../constants/theme";
 //two tab screens
-import CampaignDetails from "../../screens/Donor/Campaigns/CampaignDetails/index";
-import CampaignDonors from "../../screens/Donor/Campaigns/CampaignDonors/index";
-import CampaignComments from "../../screens/Donor/Campaigns/CampaignComments/index";
-import SubCampaigns from "../../screens/Donor/Campaigns/SubCampaigns/index";
+import CampaignDetails from "../../screens/Campaigns/CampaignDetails/index";
+import CampaignDonors from "../../screens/Campaigns/CampaignDonors/index";
+import CampaignComments from "../../screens/Campaigns/CampaignComments/index";
+import CampaignSubCampaign from "../../screens/Campaigns/CampaignSubCampaign/index";
 
-const CampaignTab = createMaterialTopTabNavigator();
+const CampaignSubCampaignTab = createMaterialTopTabNavigator();
 
-//Top tab screen for donate now and schedule donation screen
-export default CampaignTabStack=()=> {
+export default CampaignSubCampaignTabStack=()=> {
   return (
-    <CampaignTab.Navigator
+    <CampaignSubCampaignTab.Navigator
         lazy
         swipeEnabled
-      initialRouteName="Campaign Details"
-      tabBarOptions={{
+      	initialRouteName="Campaign Details"
+     	tabBarOptions={{
         activeTintColor: theme.colors.primary2,
 	      inactiveTintColor: "#5F6062",
         style: {
           backgroundColor: theme.colors.white,
         },
-        tabStyle: {
-         width: 'auto' 
-     },
+        tabStyle:{
+        	width:"auto"
+        },
         labelStyle: {
           fontSize:16,
           fontWeight:"700",
@@ -38,31 +39,27 @@ export default CampaignTabStack=()=> {
           borderBottomWidth: 3,
         },
       }}>
-      <CampaignTab.Screen
+      <CampaignSubCampaignTab.Screen
         name="Campaign Details"
         component={CampaignDetails}
         options={{ headerShown: true,title:'Details'}}
           />
-      <CampaignTab.Screen
+      <CampaignSubCampaignTab.Screen
         name="Campaign Donors"
         component={CampaignDonors}
         options={{ headerShown: true,title:'Donors'}}
-
         />
-
-        <CampaignTab.Screen
+        <CampaignSubCampaignTab.Screen
         name="Campaign Comments"
         component={CampaignComments}
         options={{ headerShown: true,title:'Comments'}}
-
         />
-        <CampaignTab.Screen
-        name="Sub Campaigns"
-        component={SubCampaigns}
-        options={{ headerShown: true,title:'Sub Campaigns'}}
-
+        <CampaignSubCampaignTab.Screen
+        name="Campaign Sub Campaigns"
+        component={CampaignSubCampaign}
+        options={{ headerShown: true,title:'Sub-Campaigns'}}
         />
         
-    </CampaignTab.Navigator>
+    </CampaignSubCampaignTab.Navigator>
   );
 }

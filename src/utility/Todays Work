@@ -122,7 +122,17 @@ UI bugs fixing
 -Show Change empty logo on all screens of listing
 -Make Textinput for comments in campaign comments page
 -Make Donate Now button for donors in campaign donors page
-
 -Create campaign
 -Sub Campaign get/create
--
+
+Todays Task
+StartTime in link schedule Donation 
+Password Change API
+
+Sub Campaign update details and status
+Camapaing Update details and Status
+
+Donate now for campaign
+Add beneficiary/Lisiting(Automaically referesh)
+QR code generta and download
+change successfull to successful

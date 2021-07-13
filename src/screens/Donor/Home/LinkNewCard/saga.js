@@ -56,7 +56,6 @@ export function* updateLinkNewCard({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("updateLinkNewCard res",res);
 		if (res.success) {
 			yield put(updateLinkNewCardSuccess(res));
 			showMessage({

@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { ACH_START } from "./actions";
-import { ACHSuccess, ACHFail} from "./actions";
+import { ACH_START,ACH_UPDATE_STATUS_START } from "./actions";
+import { ACHSuccess, ACHFail,ACHUpdateStatusSuccess,ACHUpdateStatusFail} from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -38,8 +38,41 @@ export function* ach({ payload }) {
 		});
 	}
 }
+export function* achUpdateStatus({ payload }) {
+	try {
+		const serializedData = payload.serializeBinary();
+		const response = yield call(requestProto, APIEndpoints.BANK, {
+			method: "PATCH",
+			headers: API.authProtoHeader(),
+			body: serializedData,
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(ACHUpdateStatusSuccess(res));
+			showMessage({
+				message: "Account deleted successfully!",
+				type: "success",
+			});
+		} else {
+			yield put(ACHUpdateStatusFail(res));
+			showMessage({
+				message: "Error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(ACHUpdateStatusFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
 export default function* ACHSaga() {
 	yield takeLatest(ACH_START, ach);
+	yield takeLatest(ACH_UPDATE_STATUS_START, achUpdateStatus);
 }
 
 

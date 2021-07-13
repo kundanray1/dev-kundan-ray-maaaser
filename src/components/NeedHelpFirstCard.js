@@ -3,7 +3,6 @@ import {
 	Dimensions,
 	ImageBackground,
 	SafeAreaView,
-	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
 import * as theme from "../constants/theme.js";
@@ -19,6 +18,7 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 	const percentage=(collectedAmount*100)/targetAmount;
 	return (
 		<SafeAreaView style={{ flex: 1 ,marginRight:16}}>
+		<TouchableOpacity activeOpacity={0.8} {...props}>
 				<Block style={{ flex: 0 }}>
 					<ImageBackground
 						style={{
@@ -26,7 +26,7 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 							width: WIDTH-150,
 							justifyContent: "flex-end",
 							overflow: "hidden",
-							borderRadius:6
+							// borderRadius:6
 						}}
 						source={{
 							uri: image
@@ -56,7 +56,7 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 						height={4}
 						backgroundColor={"grey"}
 						completedColor={theme.colors.primary2}
-						percentage={`${percentage}%`}
+						percentage={percentage}
 					/>
 					<Block row style={{ flex: 0 }}>
 						<NumberFormat
@@ -99,26 +99,9 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 						/>
 					</Block>
 				</Block>
+				</TouchableOpacity>
 		</SafeAreaView>
 	);
 };
 
 export default NeedHelpFirstCard;
-
-const styles = StyleSheet.create({
-	input: {
-		fontSize: 16,
-		backgroundColor: "#F0FBFF",
-		color: theme.colors.solidGray,
-		paddingHorizontal: 14,
-		borderRadius: 40,
-	},
-	amountSection: {
-		flex: 1,
-		borderRadius: 40,
-		flexDirection: "row",
-		alignItems: "center",
-		paddingVertical: 10,
-		backgroundColor: "#F0FBFF",
-	},
-});

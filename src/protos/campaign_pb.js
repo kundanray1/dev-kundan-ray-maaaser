@@ -1329,7 +1329,7 @@ proto.brilltech.maaser.entities.CampaignStatus = {
   UNKNOWN_CAMPAIGN_STATUS: 0,
   OPEN: 1,
   CLOSED: 2,
-  DELETED: 3
+  DISABLED_CAMPAIGN: 3
 };
 
 goog.object.extend(exports, proto.brilltech.maaser.entities);

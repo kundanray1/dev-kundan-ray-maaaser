@@ -159,13 +159,13 @@ const letsGetStartedReceiver = ({
           <Block center style={{ marginTop: HEIGHT/10 }}>
           <Formik
             initialValues={{
-              fullName: "Joshan Pradhan",
-              street1: "Fikkal ",
-              street2: "Phikkal",
-              state: " Ilam",
-              city: "Fikkal",
-              zipCode: "44600",
-              bio: "This is my bio",
+              fullName: "",
+              street1: "",
+              street2: "",
+              state: "",
+              city: "",
+              zipCode: "",
+              bio: "",
             }}
             onSubmit={(values) => {
               onSubmitSaveAndContinue(values);

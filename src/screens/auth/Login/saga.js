@@ -28,15 +28,11 @@ export function* login({ payload }) {
 				type: "danger",
 			});
 		} else {
-			yield LocalDB.setSessions(res, (resolve, reject) => {
-				if (resolve) {
-					resolve
-				} else {
-				reject
+			LocalDB.setSessions(res, (err) => {
+				if (err === false) {
+					API.resetToken();
 				}
 			});
-			yield API.setToken();
-			console.log(API.token())
 			yield put(loginSuccess(res.loginresponse.loginaccount.client));
 			showMessage({
 				message: "Logged In successfully",

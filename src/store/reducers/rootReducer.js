@@ -34,19 +34,21 @@ import { uploadQRReducer } from "./../../screens/Donor/Home/UploadQR/reducer";
 import { linkScheduleDonationReducer } from "./../../screens/Donor/Home/LinkScheduleDonation/reducer";
 import { scheduleDonationReducer } from "./../../screens/Donor/Home/ScheduleDonation/reducer";
 import { scheduleDonationReceiverDetailReducer } from "./../../screens/Donor/Home/ScheduleDonationReceiverDetail/reducer";
-
 import { upcomingDonationsReducer } from "./../../screens/Donor/Home/UpcomingDonations/reducer";
 //campaigns
-import { campaignsReducer } from "./../../screens/Donor/Campaigns/reducer";
-import { campaignDetailsReducer } from "./../../screens/Donor/Campaigns/CampaignDetails/reducer";
-// import campaignCommentsReducer from "./../../screens/Donor/Campaigns/CampaignComments/reducer";
-// import campaignDonorsReducer from "./../../screens/Donor/Campaigns/CampaignDonors/reducer";
-import { allCampaignsReducer } from "./../../screens/Donor/Campaigns/AllCampaigns/reducer";
-import { startACampaignThirdReducer } from "./../../screens/Donor/Campaigns/StartACampaignThird/reducer";
-import { startACampaignReducer } from "./../../screens/Donor/Campaigns/StartACampaign/reducer";
-import { startASubCampaignReducer } from "./../../screens/Donor/Campaigns/StartASubCampaign/reducer";
-import { addBeneficiaryReducer } from "./../../screens/Donor/Campaigns/AddBeneficiary/reducer";
-
+import { campaignsReducer } from "./../../screens/Campaigns/reducer";
+import { campaignDetailsReducer } from "./../../screens/Campaigns/CampaignDetails/reducer";
+import { subCampaignsEditReducer } from "./../../screens/Campaigns/CampaignSubCampaign/reducer";
+import { allCampaignsReducer } from "./../../screens/Campaigns/AllCampaigns/reducer";
+import { startACampaignThirdReducer } from "./../../screens/Campaigns/StartACampaignThird/reducer";
+import { startACampaignReducer } from "./../../screens/Campaigns/StartACampaign/reducer";
+import { startASubCampaignReducer } from "./../../screens/Campaigns/StartASubCampaign/reducer";
+import { addBeneficiaryReducer } from "./../../screens/Campaigns/AddBeneficiary/reducer";
+import { subCampaignsReducer } from "./../../screens/Campaigns/SubCampaigns/reducer";
+import { subCampaignDetailsReducer } from "./../../screens/Campaigns/SubCampaignDetails/reducer";
+import { campaignDonateNowConfirmationReducer } from "./../../screens/Campaigns/CampaignDonateNowConfirmation/reducer";
+import { campaignDonorsReducer } from "./../../screens/Campaigns/CampaignDonors/reducer";
+import { subCampaignDonorsReducer } from "./../../screens/Campaigns/SubCampaignDonors/reducer";
 //more
 import { moreReducer } from "./../../screens/Donor/More/reducer";
 import { membersReducer } from "./../../screens/Donor/More/Members/reducer";
@@ -118,13 +120,17 @@ const appReducer = combineReducers({
 	//campaigns
 	campaigns: campaignsReducer,
 	campaignDetails: campaignDetailsReducer,
-	// campaignDonors:campaignDonorsReducer,
-	// campaignComments:campaignCommentsReducer,
+	subCampaignsEdit: subCampaignsEditReducer,
 	allCampaigns: allCampaignsReducer,
 	startACampaignThird: startACampaignThirdReducer,
 	startACampaign: startACampaignReducer,
 	startASubCampaign: startASubCampaignReducer,
 	addBeneficiary: addBeneficiaryReducer,
+	subCampaignDetails: subCampaignDetailsReducer,
+	subCampaigns: subCampaignsReducer,
+	campaignDonateNowConfirmation: campaignDonateNowConfirmationReducer,
+	campaignDonors: campaignDonorsReducer,
+	subCampaignDonors: subCampaignDonorsReducer,
 
 	//more
 	more: moreReducer,
@@ -160,10 +166,10 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
 	// when a logout action is dispatched it will reset redux state
-	if (action.type === "USER_LOGGED_OUT") {
-		state = undefined;
-	}
 
+	if (action.type === "USER_LOGGED_OUT") {
+		return appReducer(undefined, action);
+	}
 	return appReducer(state, action);
 };
 

@@ -22,16 +22,21 @@ export const Individual=[
     id: "1",
     image:AboutIconComponent(),
     label: "About",
+    navigate: "More",
   },
   {
     id: "2",
     image: HelpIconComponent(),
     label: "Help",
+    navigate: "More",
+
   },
   {
     id: "3",
     image:LogoutIconComponent(),
-    label: "Logout",
+    label: "Log Out",
+    navigate: "More",
+
   },
 ];
 
@@ -45,15 +50,18 @@ export const Organization=[
     id: "2",
     image: AboutIconComponent(),
     label: "About",
+    navigate: "More",
+
   },
   {
     id: "3",
     image:HelpIconComponent(),
     label: "Help",
+    navigate: "More",
   },
   {
     id: "4",
     image: LogoutIconComponent(),
-    label: "Logout",
+    label: "More",
   },
 ];

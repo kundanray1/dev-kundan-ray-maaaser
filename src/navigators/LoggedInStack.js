@@ -6,6 +6,7 @@ import DonorMainTab from "./DonorMenu/DonorMainTab";
 import ReceiverMainTab from "./ReceiverMenu/ReceiverMainTab";
 import DonateTabStack from "./DonorMenu/DonateTabStack";
 import CampaignTabStack from "./DonorMenu/CampaignTabStack";
+import SubCampaignTabStack from "./DonorMenu/SubCampaignTabStack";
 
 //auth
 import LetsGetStartedDonor from "../screens/auth/LetsGetStartedDonor/index";
@@ -31,13 +32,17 @@ import ScanQRCodeTabStack from "./DonorMenu/ScanQRCodeTabStack";
 import ScheduleDonationReceiverDetail from "../screens/Donor/Home/ScheduleDonationReceiverDetail/index";
 
 //campaigns
-import StartACampaign from "../screens/Donor/Campaigns/StartACampaign/index";
-import StartACampaignSecond from "../screens/Donor/Campaigns/StartACampaignSecond/index";
-import StartACampaignThird from "../screens/Donor/Campaigns/StartACampaignThird/index";
-import StartASubCampaign from "../screens/Donor/Campaigns/StartASubCampaign/index";
-import AddBeneficiary from "../screens/Donor/Campaigns/AddBeneficiary/index";
-import AllCampaigns from "../screens/Donor/Campaigns/AllCampaigns/index";
-
+import StartACampaign from "../screens/Campaigns/StartACampaign/index";
+import StartACampaignSecond from "../screens/Campaigns/StartACampaignSecond/index";
+import StartACampaignThird from "../screens/Campaigns/StartACampaignThird/index";
+import StartASubCampaign from "../screens/Campaigns/StartASubCampaign/index";
+import AddBeneficiary from "../screens/Campaigns/AddBeneficiary/index";
+import AllCampaigns from "../screens/Campaigns/AllCampaigns/index";
+import CampaignQRCode from "../screens/Campaigns/CampaignQRCode/index";
+import CampaignDonateNow from "../screens/Campaigns/CampaignDonateNow/index";
+import CampaignDonateNowConfirmation from "../screens/Campaigns/CampaignDonateNowConfirmation/index";
+import SubCampaignDonateNow from "../screens/Campaigns/SubCampaignDonateNow/index";
+import SubCampaignDonateNowConfirmation from "../screens/Campaigns/SubCampaignDonateNowConfirmation/index";
 
 //more
 import AddMember from "../screens/Donor/More/AddMember/index";
@@ -61,10 +66,12 @@ import WithdrawFundConfirmation from "../screens/Receiver/Home/WithdrawFundConfi
 import ReceiverEditProfile from "../screens/Receiver/ReceiverProfile/ReceiverEditProfile/index";
 import ReceiverViewProfile from "../screens/Receiver/ReceiverProfile/ReceiverViewProfile/index";
 import MyQRCode from "../screens/Receiver/ReceiverProfile/MyQRCode/index";
+import API from "./../api/API";
 
 //navigator for logged in users
 const AuthStack = createStackNavigator();
 const LoggedInStack = ({ data }) => {
+  console.log("LoggedInStack API.token()", API.token());
   let routeName;
   if (data.user.account.isfirstlogin == false) {
     if (data.user.account.accounttype == 2 && data.user.clienttype == 1) {
@@ -303,10 +310,40 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={CampaignTabStack}
       />
-       <AuthStack.Screen
+      <AuthStack.Screen
         name="All Campaigns"
         options={{ headerShown: true }}
         component={AllCampaigns}
+      />
+      <AuthStack.Screen
+        name="Campaign QR Code"
+        options={{ headerShown: true }}
+        component={CampaignQRCode}
+      />
+      <AuthStack.Screen
+        name="Sub Campaign Details"
+        options={{ headerShown: true }}
+        component={SubCampaignTabStack}
+      />
+      <AuthStack.Screen
+        name="Campaign Donate Now"
+        options={{ headerShown: true, title: "Donate Now" }}
+        component={CampaignDonateNow}
+      />
+      <AuthStack.Screen
+        name="Campaign Donate Now Confirmation"
+        options={{ headerShown: true, title: "Confirmation" }}
+        component={CampaignDonateNowConfirmation}
+      />
+      <AuthStack.Screen
+        name="Sub Campaign Donate Now"
+        options={{ headerShown: true, title: "Donate Now" }}
+        component={SubCampaignDonateNow}
+      />
+      <AuthStack.Screen
+        name="Sub Campaign Donate Now Confirmation"
+        options={{ headerShown: true, title: "Confirmation" }}
+        component={SubCampaignDonateNowConfirmation}
       />
     </AuthStack.Navigator>
   );

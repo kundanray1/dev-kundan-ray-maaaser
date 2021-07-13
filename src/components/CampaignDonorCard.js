@@ -47,6 +47,7 @@ export default CampaignDonorCard = ({
 			>
 				<Text
 					style={{
+						marginTop:10,
 						fontSize: 18,
 						fontWeight: "700",
 						textTransform: "capitalize",
@@ -54,12 +55,12 @@ export default CampaignDonorCard = ({
 				>
 					{name}
 				</Text>
-				<Text
+				{/*<Text
 					style={{ fontSize: 14, fontWeight: "700" }}
 					color={theme.colors.solidGray}
 				>
 					{moment(date).format("DD MMM YYYY")}
-				</Text>
+				</Text>*/}
 			</Block>
 			<Block
 				middle

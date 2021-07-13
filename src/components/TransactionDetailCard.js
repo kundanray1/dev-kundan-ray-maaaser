@@ -5,10 +5,9 @@ import Block from "./Block";
 import Text from "./Text";
 import moment from "moment";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import YellowBankIconComponent from "./../assets/icons/yellowBankIconComponent";
 import CardIconComponent from "./../assets/icons/cardIconComponent";
-import ManualBankIconComponent from "./../assets/icons/manualIconComponent";
+import ManualDonationIconComponent from "./../assets/icons/ManualDonationIconComponent";
 import NumberFormat from "react-number-format";
 
 // import YellowBankIconComponent from "./../assets/icons/YellowBankIconComponent";
@@ -33,7 +32,7 @@ export default TransactionDetailCard = ({
 			) : transactionMedium == 2 ? (
 				<CardIconComponent />
 			) : (
-				<ManualBankIconComponent />
+				<ManualDonationIconComponent />
 			);
 
 		fullname = data.clientList[0].account.fullname;
@@ -45,7 +44,7 @@ export default TransactionDetailCard = ({
 			) : transactionMedium == 2 ? (
 				<CardIconComponent />
 			) : (
-				<ManualBankIconComponent />
+				<ManualDonationIconComponent />
 			);
 
 		fullname = data.clientList[1].account.fullname;
@@ -56,7 +55,7 @@ export default TransactionDetailCard = ({
 			) : transactionMedium == 2 ? (
 				<CardIconComponent />
 			) : (
-				<ManualBankIconComponent />
+				<ManualDonationIconComponent />
 			);
 
 		fullname = data.clientList[0].account.fullname;

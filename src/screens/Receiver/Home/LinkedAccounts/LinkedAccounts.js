@@ -74,6 +74,7 @@ const LinkedAccounts = ({ navigation, data, linkedAccounts }) => {
                   paddingVertical:20,
                 }}
                   renderItem={(post) => (
+                     post.item.bankstatus==1&&
                     <Pressable
                       style={{
                         paddingHorizontal: 16,

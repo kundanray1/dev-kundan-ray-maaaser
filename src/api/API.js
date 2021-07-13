@@ -77,9 +77,11 @@ export class API {
         return { ...APIHeaders, Authorization: API.token };
     }
     authProtoHeader() {
+        this.setToken()
         return { ...ProtoHeaders, Authorization: API.token };
     }
     authHeadersForMultipartFormData() {
+        this.setToken()
         return { ...APIHeadersForMultipartFormData, Authorization: API.token };
     }
 }

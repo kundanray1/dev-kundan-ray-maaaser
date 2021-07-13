@@ -6,7 +6,7 @@ import APIEndpoints from "./../../../constants/APIConstants";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../api/API";
-import LocalDb from "../../../api/LocalStorage";
+import LocalDB from "../../../api/LocalStorage";
 
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
@@ -23,7 +23,7 @@ export function* logout({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
-			yield API.removeTokens();
+			API.removeTokens();
 			yield put(logoutSuccess(res));
 			showMessage({
 				message: res.msg,

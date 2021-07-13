@@ -13,10 +13,12 @@ var global = Function('return this')();
 
 var account_pb = require('./account_pb.js');
 var address_pb = require('./address_pb.js');
+var campaign_pb = require('./campaign_pb.js');
 var treeleaf_pb = require('./treeleaf_pb.js');
 goog.exportSymbol('proto.brilltech.maaser.entities.Balance', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Bank', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Bank.BankStatus', null, global);
+goog.exportSymbol('proto.brilltech.maaser.entities.CampaignDonation', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Card', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Card.CardStatus', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.CardProvider', null, global);
@@ -1258,7 +1260,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.brilltech.maaser.entities.Transaction.repeatedFields_ = [17];
+proto.brilltech.maaser.entities.Transaction.repeatedFields_ = [18];
 
 
 
@@ -1302,13 +1304,16 @@ proto.brilltech.maaser.entities.Transaction.toObject = function(includeInstance,
     addedby: jspb.Message.getFieldWithDefault(msg, 11, ""),
     cardid: jspb.Message.getFieldWithDefault(msg, 12, ""),
     bankid: jspb.Message.getFieldWithDefault(msg, 13, ""),
-    createdat: jspb.Message.getFieldWithDefault(msg, 14, 0),
-    updatedat: jspb.Message.getFieldWithDefault(msg, 15, 0),
-    transactiontimestamp: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    campaignid: jspb.Message.getFieldWithDefault(msg, 14, ""),
+    createdat: jspb.Message.getFieldWithDefault(msg, 15, 0),
+    updatedat: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    transactiontimestamp: jspb.Message.getFieldWithDefault(msg, 17, 0),
     clientList: jspb.Message.toObjectList(msg.getClientList(),
     account_pb.Client.toObject, includeInstance),
     bank: (f = msg.getBank()) && proto.brilltech.maaser.entities.Bank.toObject(includeInstance, f),
-    card: (f = msg.getCard()) && proto.brilltech.maaser.entities.Card.toObject(includeInstance, f)
+    card: (f = msg.getCard()) && proto.brilltech.maaser.entities.Card.toObject(includeInstance, f),
+    campaign: (f = msg.getCampaign()) && campaign_pb.Campaign.toObject(includeInstance, f),
+    subcampaign: (f = msg.getSubcampaign()) && campaign_pb.SubCampaign.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1398,31 +1403,45 @@ proto.brilltech.maaser.entities.Transaction.deserializeBinaryFromReader = functi
       msg.setBankid(value);
       break;
     case 14:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setCreatedat(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCampaignid(value);
       break;
     case 15:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setUpdatedat(value);
+      msg.setCreatedat(value);
       break;
     case 16:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setTransactiontimestamp(value);
+      msg.setUpdatedat(value);
       break;
     case 17:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTransactiontimestamp(value);
+      break;
+    case 18:
       var value = new account_pb.Client;
       reader.readMessage(value,account_pb.Client.deserializeBinaryFromReader);
       msg.addClient(value);
       break;
-    case 18:
+    case 19:
       var value = new proto.brilltech.maaser.entities.Bank;
       reader.readMessage(value,proto.brilltech.maaser.entities.Bank.deserializeBinaryFromReader);
       msg.setBank(value);
       break;
-    case 19:
+    case 20:
       var value = new proto.brilltech.maaser.entities.Card;
       reader.readMessage(value,proto.brilltech.maaser.entities.Card.deserializeBinaryFromReader);
       msg.setCard(value);
+      break;
+    case 21:
+      var value = new campaign_pb.Campaign;
+      reader.readMessage(value,campaign_pb.Campaign.deserializeBinaryFromReader);
+      msg.setCampaign(value);
+      break;
+    case 22:
+      var value = new campaign_pb.SubCampaign;
+      reader.readMessage(value,campaign_pb.SubCampaign.deserializeBinaryFromReader);
+      msg.setSubcampaign(value);
       break;
     default:
       reader.skipField();
@@ -1544,31 +1563,38 @@ proto.brilltech.maaser.entities.Transaction.serializeBinaryToWriter = function(m
       f
     );
   }
-  f = message.getCreatedat();
-  if (f !== 0) {
-    writer.writeInt64(
+  f = message.getCampaignid();
+  if (f.length > 0) {
+    writer.writeString(
       14,
       f
     );
   }
-  f = message.getUpdatedat();
+  f = message.getCreatedat();
   if (f !== 0) {
     writer.writeInt64(
       15,
       f
     );
   }
-  f = message.getTransactiontimestamp();
+  f = message.getUpdatedat();
   if (f !== 0) {
     writer.writeInt64(
       16,
       f
     );
   }
+  f = message.getTransactiontimestamp();
+  if (f !== 0) {
+    writer.writeInt64(
+      17,
+      f
+    );
+  }
   f = message.getClientList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      17,
+      18,
       f,
       account_pb.Client.serializeBinaryToWriter
     );
@@ -1576,7 +1602,7 @@ proto.brilltech.maaser.entities.Transaction.serializeBinaryToWriter = function(m
   f = message.getBank();
   if (f != null) {
     writer.writeMessage(
-      18,
+      19,
       f,
       proto.brilltech.maaser.entities.Bank.serializeBinaryToWriter
     );
@@ -1584,9 +1610,25 @@ proto.brilltech.maaser.entities.Transaction.serializeBinaryToWriter = function(m
   f = message.getCard();
   if (f != null) {
     writer.writeMessage(
-      19,
+      20,
       f,
       proto.brilltech.maaser.entities.Card.serializeBinaryToWriter
+    );
+  }
+  f = message.getCampaign();
+  if (f != null) {
+    writer.writeMessage(
+      21,
+      f,
+      campaign_pb.Campaign.serializeBinaryToWriter
+    );
+  }
+  f = message.getSubcampaign();
+  if (f != null) {
+    writer.writeMessage(
+      22,
+      f,
+      campaign_pb.SubCampaign.serializeBinaryToWriter
     );
   }
 };
@@ -1788,63 +1830,78 @@ proto.brilltech.maaser.entities.Transaction.prototype.setBankid = function(value
 
 
 /**
- * optional int64 createdAt = 14;
- * @return {number}
+ * optional string campaignId = 14;
+ * @return {string}
  */
-proto.brilltech.maaser.entities.Transaction.prototype.getCreatedat = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+proto.brilltech.maaser.entities.Transaction.prototype.getCampaignid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
-/** @param {number} value */
-proto.brilltech.maaser.entities.Transaction.prototype.setCreatedat = function(value) {
-  jspb.Message.setProto3IntField(this, 14, value);
+/** @param {string} value */
+proto.brilltech.maaser.entities.Transaction.prototype.setCampaignid = function(value) {
+  jspb.Message.setProto3StringField(this, 14, value);
 };
 
 
 /**
- * optional int64 updatedAt = 15;
+ * optional int64 createdAt = 15;
  * @return {number}
  */
-proto.brilltech.maaser.entities.Transaction.prototype.getUpdatedat = function() {
+proto.brilltech.maaser.entities.Transaction.prototype.getCreatedat = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 15, 0));
 };
 
 
 /** @param {number} value */
-proto.brilltech.maaser.entities.Transaction.prototype.setUpdatedat = function(value) {
+proto.brilltech.maaser.entities.Transaction.prototype.setCreatedat = function(value) {
   jspb.Message.setProto3IntField(this, 15, value);
 };
 
 
 /**
- * optional int64 transactionTimestamp = 16;
+ * optional int64 updatedAt = 16;
  * @return {number}
  */
-proto.brilltech.maaser.entities.Transaction.prototype.getTransactiontimestamp = function() {
+proto.brilltech.maaser.entities.Transaction.prototype.getUpdatedat = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
 };
 
 
 /** @param {number} value */
-proto.brilltech.maaser.entities.Transaction.prototype.setTransactiontimestamp = function(value) {
+proto.brilltech.maaser.entities.Transaction.prototype.setUpdatedat = function(value) {
   jspb.Message.setProto3IntField(this, 16, value);
 };
 
 
 /**
- * repeated Client client = 17;
+ * optional int64 transactionTimestamp = 17;
+ * @return {number}
+ */
+proto.brilltech.maaser.entities.Transaction.prototype.getTransactiontimestamp = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
+};
+
+
+/** @param {number} value */
+proto.brilltech.maaser.entities.Transaction.prototype.setTransactiontimestamp = function(value) {
+  jspb.Message.setProto3IntField(this, 17, value);
+};
+
+
+/**
+ * repeated Client client = 18;
  * @return {!Array<!proto.brilltech.maaser.entities.Client>}
  */
 proto.brilltech.maaser.entities.Transaction.prototype.getClientList = function() {
   return /** @type{!Array<!proto.brilltech.maaser.entities.Client>} */ (
-    jspb.Message.getRepeatedWrapperField(this, account_pb.Client, 17));
+    jspb.Message.getRepeatedWrapperField(this, account_pb.Client, 18));
 };
 
 
 /** @param {!Array<!proto.brilltech.maaser.entities.Client>} value */
 proto.brilltech.maaser.entities.Transaction.prototype.setClientList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 17, value);
+  jspb.Message.setRepeatedWrapperField(this, 18, value);
 };
 
 
@@ -1854,7 +1911,7 @@ proto.brilltech.maaser.entities.Transaction.prototype.setClientList = function(v
  * @return {!proto.brilltech.maaser.entities.Client}
  */
 proto.brilltech.maaser.entities.Transaction.prototype.addClient = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 17, opt_value, proto.brilltech.maaser.entities.Client, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 18, opt_value, proto.brilltech.maaser.entities.Client, opt_index);
 };
 
 
@@ -1864,18 +1921,18 @@ proto.brilltech.maaser.entities.Transaction.prototype.clearClientList = function
 
 
 /**
- * optional Bank bank = 18;
+ * optional Bank bank = 19;
  * @return {?proto.brilltech.maaser.entities.Bank}
  */
 proto.brilltech.maaser.entities.Transaction.prototype.getBank = function() {
   return /** @type{?proto.brilltech.maaser.entities.Bank} */ (
-    jspb.Message.getWrapperField(this, proto.brilltech.maaser.entities.Bank, 18));
+    jspb.Message.getWrapperField(this, proto.brilltech.maaser.entities.Bank, 19));
 };
 
 
 /** @param {?proto.brilltech.maaser.entities.Bank|undefined} value */
 proto.brilltech.maaser.entities.Transaction.prototype.setBank = function(value) {
-  jspb.Message.setWrapperField(this, 18, value);
+  jspb.Message.setWrapperField(this, 19, value);
 };
 
 
@@ -1889,23 +1946,23 @@ proto.brilltech.maaser.entities.Transaction.prototype.clearBank = function() {
  * @return {!boolean}
  */
 proto.brilltech.maaser.entities.Transaction.prototype.hasBank = function() {
-  return jspb.Message.getField(this, 18) != null;
+  return jspb.Message.getField(this, 19) != null;
 };
 
 
 /**
- * optional Card card = 19;
+ * optional Card card = 20;
  * @return {?proto.brilltech.maaser.entities.Card}
  */
 proto.brilltech.maaser.entities.Transaction.prototype.getCard = function() {
   return /** @type{?proto.brilltech.maaser.entities.Card} */ (
-    jspb.Message.getWrapperField(this, proto.brilltech.maaser.entities.Card, 19));
+    jspb.Message.getWrapperField(this, proto.brilltech.maaser.entities.Card, 20));
 };
 
 
 /** @param {?proto.brilltech.maaser.entities.Card|undefined} value */
 proto.brilltech.maaser.entities.Transaction.prototype.setCard = function(value) {
-  jspb.Message.setWrapperField(this, 19, value);
+  jspb.Message.setWrapperField(this, 20, value);
 };
 
 
@@ -1919,7 +1976,67 @@ proto.brilltech.maaser.entities.Transaction.prototype.clearCard = function() {
  * @return {!boolean}
  */
 proto.brilltech.maaser.entities.Transaction.prototype.hasCard = function() {
-  return jspb.Message.getField(this, 19) != null;
+  return jspb.Message.getField(this, 20) != null;
+};
+
+
+/**
+ * optional Campaign campaign = 21;
+ * @return {?proto.brilltech.maaser.entities.Campaign}
+ */
+proto.brilltech.maaser.entities.Transaction.prototype.getCampaign = function() {
+  return /** @type{?proto.brilltech.maaser.entities.Campaign} */ (
+    jspb.Message.getWrapperField(this, campaign_pb.Campaign, 21));
+};
+
+
+/** @param {?proto.brilltech.maaser.entities.Campaign|undefined} value */
+proto.brilltech.maaser.entities.Transaction.prototype.setCampaign = function(value) {
+  jspb.Message.setWrapperField(this, 21, value);
+};
+
+
+proto.brilltech.maaser.entities.Transaction.prototype.clearCampaign = function() {
+  this.setCampaign(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.brilltech.maaser.entities.Transaction.prototype.hasCampaign = function() {
+  return jspb.Message.getField(this, 21) != null;
+};
+
+
+/**
+ * optional SubCampaign SubCampaign = 22;
+ * @return {?proto.brilltech.maaser.entities.SubCampaign}
+ */
+proto.brilltech.maaser.entities.Transaction.prototype.getSubcampaign = function() {
+  return /** @type{?proto.brilltech.maaser.entities.SubCampaign} */ (
+    jspb.Message.getWrapperField(this, campaign_pb.SubCampaign, 22));
+};
+
+
+/** @param {?proto.brilltech.maaser.entities.SubCampaign|undefined} value */
+proto.brilltech.maaser.entities.Transaction.prototype.setSubcampaign = function(value) {
+  jspb.Message.setWrapperField(this, 22, value);
+};
+
+
+proto.brilltech.maaser.entities.Transaction.prototype.clearSubcampaign = function() {
+  this.setSubcampaign(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.brilltech.maaser.entities.Transaction.prototype.hasSubcampaign = function() {
+  return jspb.Message.getField(this, 22) != null;
 };
 
 
@@ -3199,6 +3316,246 @@ proto.brilltech.maaser.entities.TransactionFilter.prototype.setTransactiontype =
 };
 
 
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.brilltech.maaser.entities.CampaignDonation = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.brilltech.maaser.entities.CampaignDonation, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.brilltech.maaser.entities.CampaignDonation.displayName = 'proto.brilltech.maaser.entities.CampaignDonation';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.toObject = function(opt_includeInstance) {
+  return proto.brilltech.maaser.entities.CampaignDonation.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.brilltech.maaser.entities.CampaignDonation} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.brilltech.maaser.entities.CampaignDonation.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    refid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    client: (f = msg.getClient()) && account_pb.Client.toObject(includeInstance, f),
+    amount: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    txnid: jspb.Message.getFieldWithDefault(msg, 4, "")
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.brilltech.maaser.entities.CampaignDonation}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.brilltech.maaser.entities.CampaignDonation;
+  return proto.brilltech.maaser.entities.CampaignDonation.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.brilltech.maaser.entities.CampaignDonation} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.brilltech.maaser.entities.CampaignDonation}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRefid(value);
+      break;
+    case 2:
+      var value = new account_pb.Client;
+      reader.readMessage(value,account_pb.Client.deserializeBinaryFromReader);
+      msg.setClient(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setAmount(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTxnid(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.brilltech.maaser.entities.CampaignDonation.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.brilltech.maaser.entities.CampaignDonation} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.brilltech.maaser.entities.CampaignDonation.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getRefid();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getClient();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      account_pb.Client.serializeBinaryToWriter
+    );
+  }
+  f = message.getAmount();
+  if (f !== 0) {
+    writer.writeInt64(
+      3,
+      f
+    );
+  }
+  f = message.getTxnid();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string refId = 1;
+ * @return {string}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.getRefid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/** @param {string} value */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.setRefid = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional Client client = 2;
+ * @return {?proto.brilltech.maaser.entities.Client}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.getClient = function() {
+  return /** @type{?proto.brilltech.maaser.entities.Client} */ (
+    jspb.Message.getWrapperField(this, account_pb.Client, 2));
+};
+
+
+/** @param {?proto.brilltech.maaser.entities.Client|undefined} value */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.setClient = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.brilltech.maaser.entities.CampaignDonation.prototype.clearClient = function() {
+  this.setClient(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.hasClient = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional int64 amount = 3;
+ * @return {number}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.getAmount = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/** @param {number} value */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.setAmount = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional string txnId = 4;
+ * @return {string}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.getTxnid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/** @param {string} value */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.setTxnid = function(value) {
+  jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
 /**
  * @enum {number}
  */
@@ -3226,7 +3583,9 @@ proto.brilltech.maaser.entities.TransactionType = {
   LOAD_FUND: 1,
   DONATE_FUND: 2,
   WITHDRAW_FUND: 3,
-  OTHER_TRANSACTION: 4
+  CAMPAIGN_FUND: 4,
+  SUB_CAMPAIGN_FUND: 5,
+  OTHER_TRANSACTION: 6
 };
 
 /**

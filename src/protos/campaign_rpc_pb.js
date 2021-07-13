@@ -588,7 +588,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.brilltech.maaser.rpc.CampaignBaseResponse.repeatedFields_ = [8];
+proto.brilltech.maaser.rpc.CampaignBaseResponse.repeatedFields_ = [8,10];
 
 
 
@@ -629,7 +629,8 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.toObject = function(includeInsta
     campaignsList: jspb.Message.toObjectList(msg.getCampaignsList(),
     campaign_pb.Campaign.toObject, includeInstance),
     subcampaign: (f = msg.getSubcampaign()) && campaign_pb.SubCampaign.toObject(includeInstance, f),
-    subcampaigns: (f = msg.getSubcampaigns()) && campaign_pb.SubCampaign.toObject(includeInstance, f)
+    subcampaignsList: jspb.Message.toObjectList(msg.getSubcampaignsList(),
+    campaign_pb.SubCampaign.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -709,7 +710,7 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.deserializeBinaryFromReader = fu
     case 10:
       var value = new campaign_pb.SubCampaign;
       reader.readMessage(value,campaign_pb.SubCampaign.deserializeBinaryFromReader);
-      msg.setSubcampaigns(value);
+      msg.addSubcampaigns(value);
       break;
     default:
       reader.skipField();
@@ -807,9 +808,9 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.serializeBinaryToWriter = functi
       campaign_pb.SubCampaign.serializeBinaryToWriter
     );
   }
-  f = message.getSubcampaigns();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getSubcampaignsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
       10,
       f,
       campaign_pb.SubCampaign.serializeBinaryToWriter
@@ -1019,32 +1020,33 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.hasSubcampaign = funct
 
 
 /**
- * optional brilltech.maaser.entities.SubCampaign subCampaigns = 10;
- * @return {?proto.brilltech.maaser.entities.SubCampaign}
+ * repeated brilltech.maaser.entities.SubCampaign subCampaigns = 10;
+ * @return {!Array<!proto.brilltech.maaser.entities.SubCampaign>}
  */
-proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.getSubcampaigns = function() {
-  return /** @type{?proto.brilltech.maaser.entities.SubCampaign} */ (
-    jspb.Message.getWrapperField(this, campaign_pb.SubCampaign, 10));
+proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.getSubcampaignsList = function() {
+  return /** @type{!Array<!proto.brilltech.maaser.entities.SubCampaign>} */ (
+    jspb.Message.getRepeatedWrapperField(this, campaign_pb.SubCampaign, 10));
 };
 
 
-/** @param {?proto.brilltech.maaser.entities.SubCampaign|undefined} value */
-proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.setSubcampaigns = function(value) {
-  jspb.Message.setWrapperField(this, 10, value);
-};
-
-
-proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.clearSubcampaigns = function() {
-  this.setSubcampaigns(undefined);
+/** @param {!Array<!proto.brilltech.maaser.entities.SubCampaign>} value */
+proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.setSubcampaignsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 10, value);
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {!boolean}
+ * @param {!proto.brilltech.maaser.entities.SubCampaign=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.brilltech.maaser.entities.SubCampaign}
  */
-proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.hasSubcampaigns = function() {
-  return jspb.Message.getField(this, 10) != null;
+proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.addSubcampaigns = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 10, opt_value, proto.brilltech.maaser.entities.SubCampaign, opt_index);
+};
+
+
+proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.clearSubcampaignsList = function() {
+  this.setSubcampaignsList([]);
 };
 
 

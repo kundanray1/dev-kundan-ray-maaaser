@@ -9,17 +9,21 @@ import NumberFormat from 'react-number-format';
 import { LinearGradient } from "expo-linear-gradient";
 import UserIconComponent from "./../assets/icons/userIconComponent";
 
-export default SubCampaignCard = ({ profilePic, name, comment,collectedAmount,targetAmount, ...props }) => {
+export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,collectedAmount,targetAmount, ...props }) => {
+	console.log("subcampaignid",subcampaignid);
 	const percentage=(collectedAmount*100)/targetAmount;
 	return (
-		<Block
+		<TouchableOpacity
+		activeOpacity={0.8}
 			style={[
 				{
+					flex:1,
 					borderBottomWidth: 1,
 					paddingVertical: 12,
 					borderColor: theme.colors.gray2,
 				},
 			]}
+			{...props}
 		>
 			<Block row>
 				<Block style={{ flex: 1}}>
@@ -47,7 +51,7 @@ export default SubCampaignCard = ({ profilePic, name, comment,collectedAmount,ta
 						height={6}
 						backgroundColor={"grey"}
 						completedColor={theme.colors.primary2}
-			            percentage={`${percentage}%`}
+			            percentage={percentage}
 					/>
 					<Block row style={{ flex: 0 }}>
 
@@ -73,7 +77,7 @@ export default SubCampaignCard = ({ profilePic, name, comment,collectedAmount,ta
 					</Block>
 				</Block>
 			</Block>
-		</Block>
+		</TouchableOpacity>
 	);
 };
 

@@ -57,15 +57,15 @@ const [refreshing, setRefreshing] = useState(false);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Block style={{ flex: 0, paddingHorizontal: 16 }}>
-        <Block style={styles.searchContainer}>
-          <Block style={styles.vwSearch}>
+        <Block style={styles.boxSearchContainer}>
+          <Block style={styles.boxVwSearch}>
             <Ionicons name="search" color={theme.colors.solidGray} size={18} />
           </Block>
 
           <TextInput
             placeholder="Search"
             placeholderTextColor={theme.colors.solidGray}
-            style={styles.textInput}
+            style={styles.boxTextInput}
             onChangeText={(text) => searchFilterFunction(text)}
             value={search}
           />

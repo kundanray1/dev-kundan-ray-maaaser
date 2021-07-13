@@ -5,17 +5,27 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Block, Text } from "../../../../components/Index.js";
 import * as theme from "../../../../constants/theme.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { cardUpdateStatusStart } from "./actions";
+import PaymentProto from "./../../../../protos/payment_pb";
 
-export const Bottom = ({ navigation, bs, cardData }) => {
-	let fall = new Animated.Value();
+export const Bottom = ({ navigation, bs, cardData,loginData }) => {
+	const dispatch = useDispatch();
+	let fall = new Animated.Value(1);
 
 	const handleDeleteConfirm = () => {
-		console.log("Confirm Delete Presssed");
 		bs.current.snapTo(1);
-
+		const updateData = new PaymentProto.Card();
+		updateData.setCardid(cardData.cardid);
+		updateData.setRefid(cardData.refid);
+		updateData.setCardstatus(PaymentProto.Card.CardStatus.INACTIVE_CARD);
+		updateData.setAccountid(loginData.user.account.accountid);
+		updateData.setCardnumber(cardData.cardnumber);
+		updateData.setCardholdername(cardData.cardholdername);
+		updateData.setExpirydate(new Date().getTime());
+		dispatch(cardUpdateStatusStart(updateData));
 	};
 	const handleEdit = () => {
-		console.log("handleEdit");
 		bs.current.snapTo(1);
 		navigation.navigate("Link New Card", { card: cardData });
 	};
@@ -32,7 +42,7 @@ export const Bottom = ({ navigation, bs, cardData }) => {
 						color: theme.colors.primary2,
 					},
 				},
-				{ text: "Confirm", onPress:()=> handleDeleteConfirm() },
+				{ text: "Confirm", onPress: () => handleDeleteConfirm() },
 			],
 			{
 				cancelable: true,
@@ -103,7 +113,7 @@ export const Bottom = ({ navigation, bs, cardData }) => {
 				<Block
 					style={{
 						flex: 0,
-						borderTopWidth:1,
+						borderTopWidth: 1,
 						borderColor: theme.colors.gray2,
 					}}
 				/>

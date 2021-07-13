@@ -2,11 +2,15 @@ import {
   CARD_FAIL,
   CARD_START,
   CARD_SUCCESS,
+  CARD_UPDATE_STATUS_START,
+CARD_UPDATE_STATUS_SUCCESS,
+CARD_UPDATE_STATUS_FAIL,
 } from "./actions";
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   card: null,
-  cardLoadAmount: "",
+  isUpdateLoading:false,
+  cardUpdateStatus:null,
   error: null,
 };
 
@@ -27,6 +31,24 @@ export const cardReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
+        error: payload,
+      };
+
+      case CARD_UPDATE_STATUS_START:
+      return {
+        ...state,
+        isUpdateLoading: true,
+      };
+    case CARD_UPDATE_STATUS_SUCCESS:
+      return {
+        ...state,
+        isUpdateLoading: false,
+        cardUpdateStatus: payload,
+      };
+    case CARD_UPDATE_STATUS_FAIL:
+      return {
+        ...state,
+        isUpdateLoading: false,
         error: payload,
       };
 

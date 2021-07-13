@@ -19,13 +19,10 @@ import { Bottom } from "./Bottom.js";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import CardIconComponent from "./../../../../assets/icons/cardIconComponent";
 
-
-const Card = ({ navigation, data, card }) => {
+const Card = ({ navigation, data, card,loginData }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [cardData, setCardData] = useState();
-
   let bs = React.createRef();
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     card();
@@ -64,13 +61,13 @@ const Card = ({ navigation, data, card }) => {
               keyExtractor={(item) => {
                 return item.cardid.toString();
               }}
-              refreshControl={
-                <RefreshControl
-                  colors={[theme.colors.primary2]}
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-              }
+               refreshControl={
+                    <RefreshControl
+                      colors={[theme.colors.primary2]}
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
               ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
               ListEmptyComponent={() => <Empty  iconName="cards" title="You haven’t added any accounts yet."/>}
                 ListFooterComponent={() => (
@@ -81,6 +78,7 @@ const Card = ({ navigation, data, card }) => {
                   paddingVertical:20,
                 }}
               renderItem={(post) => (
+                post.item.cardstatus==1&&
                 <Pressable
                   style={{
                     paddingHorizontal: 16,
@@ -111,7 +109,7 @@ const Card = ({ navigation, data, card }) => {
         iconComponent={<AddIconComponent/>}
         onPress={() => navigation.navigate("Link New Card")}
       />
-      <Bottom bs={bs} cardData={cardData} navigation={navigation} />
+      <Bottom bs={bs} cardData={cardData} loginData={loginData} navigation={navigation} />
     </>
   );
 };

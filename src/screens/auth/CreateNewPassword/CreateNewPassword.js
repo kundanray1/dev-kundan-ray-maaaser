@@ -72,8 +72,8 @@ export default CreateNewPassword = ({
 			
 				<Formik
 					initialValues={{
-						password: "Josh@123",
-						confirmPassword: "Josh@123",
+						password: "",
+						confirmPassword: "",
 					}}
 					onSubmit={(values) => {
 						onSubmitCreateNewPassword(values);

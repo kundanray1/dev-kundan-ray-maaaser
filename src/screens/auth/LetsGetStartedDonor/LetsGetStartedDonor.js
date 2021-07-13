@@ -186,12 +186,12 @@ const LetsGetStartedDonor = ({
           <Block style={{ marginTop: HEIGHT/8 }}>
             <Formik
               initialValues={{
-                fullName: "Joshan Pradhan",
-                street1: "Fikkal ",
-                street2: "Phikkal",
-                state: "Ilam",
-                city: "Fikkal",
-                zipCode: "44600",
+                fullName: "",
+                street1: "",
+                street2: "",
+                state: "",
+                city: "",
+                zipCode: "",
               }}
               onSubmit={(values) => {
                 onSubmitSaveAndContinue(values);

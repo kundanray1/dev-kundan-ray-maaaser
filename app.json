@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MaaserApp",
-    "slug": "MaaserApp",
+    "name": "Maaser",
+    "slug": "Maaser",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,10 +16,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
+      "ios": {
+      "bundleIdentifier": "com.DemoApp.DemoApp",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.maaserDemoApp.maaserDemoApp",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

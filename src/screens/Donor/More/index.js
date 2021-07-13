@@ -9,7 +9,6 @@ import { loginClear} from "./../../auth/Login/actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.more,
 	loginData: (state) => state.login,
-	
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

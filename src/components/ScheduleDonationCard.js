@@ -35,8 +35,17 @@ export default ScheduleDonationCard = ({
 	} else {
 		scheduleTypeString = "Nth Day";
 	}
-let status=scheduleTransactionStatus==1?"SCHEDULING":
-  scheduleTransactionStatus==2?"DISABLED":"CANCELLED"
+let status =
+      scheduleTransactionStatus == 1
+      ? "SCHEDULE_PENDING" :
+      scheduleTransactionStatus == 2
+      ? "APPROVED":
+      scheduleTransactionStatus == 3
+      ? "SCHEDULING" :
+      scheduleTransactionStatus == 4
+      ? "CLOSED" :
+      scheduleTransactionStatus == 5
+      ? "DISABLED" : "CANCELLED" 
 
 	return (
 		<Block
@@ -105,9 +114,13 @@ let status=scheduleTransactionStatus==1?"SCHEDULING":
 				</Text>
 				
 				<Block style={{flex:0,marginLeft:10, backgroundColor: 
-								status=="SCHEDULING"?theme.colors.schedulingBackground:
-								status=="DISABLED"?theme.colors.disabledBackground:
-                theme.colors.cancelledBackground,
+								 status == "SCHEDULING"
+                ? theme.colors.schedulingBackground
+                : status == "CLOSED"
+                ? "#FFD8D3"
+                :  status == "CANCELLED"
+                ? theme.colors.cancelledBackground
+                :  theme.colors.schedulingBackground,
                paddingVertical:4,paddingHorizontal:8,borderRadius:14}}>
 				<Text
 						style={{
@@ -115,9 +128,13 @@ let status=scheduleTransactionStatus==1?"SCHEDULING":
 							fontWeight: "700",
 						}}
 						 color={
-						 	  status=="SCHEDULING"?theme.colors.schedulingText:
-								status=="DISABLED"?theme.colors.disabledText:
-                theme.colors.cancelledText
+						 	   status == "SCHEDULING"
+                ? theme.colors.schedulingText
+                : status == "CLOSED"
+                ? "#DE4C3C"
+                :  status == "CANCELLED"
+                ? theme.colors.cancelledText
+                :  theme.colors.schedulingText
               }
 					>
 						{status}
