@@ -22,19 +22,22 @@ import TimeRemainingIconComponent from "./../../../assets/icons/TimeRemainingIco
 import BeneficiaryIconComponent from "./../../../assets/icons/BeneficiaryIconComponent";
 import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
+import EditIconComponent from "./../../../assets/icons/EditIconComponent";
+import CampaignsDeleteIconComponent from "./../../../assets/icons/campaignDeleteIconComponent.js";
 
 const HEIGHT = Dimensions.get("window").height;
 
-const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId }) => {
+const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    subCampaignDetails(subCampaignId);
+    campaignDetails(campaignId);
     setRefreshing(false);
   });
+
   useEffect(() => {
-    subCampaignDetails(subCampaignId);
-  }, [subCampaignId]);
+    campaignDetails(campaignId);
+  }, [campaignId]);
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -54,6 +57,269 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
       alert(error.message);
     }
   };
+
+//   const EditTitleModal = () => (
+//     <SafeAreaView>
+//       <Modal
+//         visible={descriptionModalVisible}
+//         transparent={true}
+//         animationType="slide"
+//         statusBarTranslucent={true}
+//         onRequestClose={() => setDescriptionModalVisible(false)}
+//       >
+//         <View style={styles.container}>
+//           <View style={[styles.modal, { width: WIDTH - 45 }]}>
+//             <Formik
+//               initialValues={{
+//                 title: "",
+//               }}
+//               onSubmit={(values) => {
+//                 onSubmitDonateConfirmation(values);
+//               }}
+//               validationSchema={ManualValidationSchema}
+//             >
+//               {({
+//                 handleChange,
+//                 touched,
+//                 setFieldTouched,
+//                 handleSubmit,
+//                 values,
+//                 errors,
+//               }) => (
+//                 <>
+//                   <Input
+//                     label="Title"
+//                     focus={descriptionFocus}
+//                     onChangeText={handleChange("description")}
+//                     onBlur={() => {
+//                       setFieldTouched("description");
+//                       setDescriptionFocus(false);
+//                     }}
+//                     number
+//                     onFocus={() => setDescriptionFocus(true)}
+//                     value={values.description}
+//                     style={{
+//                       borderBottomColor: descriptionFocus
+//                         ? theme.colors.primary2
+//                         : touched.description && errors.description
+//                         ? theme.colors.red
+//                         : theme.colors.solidGray,
+//                     }}
+//                   />
+//                   <ErrorMessage
+//                     error={errors.description}
+//                     visible={touched.description}
+//                   />
+//                   <Block style={{ flex: 0, paddingVertical: 10 }}>
+//                     {!errors.description ? (
+//                       <Button onPress={handleSubmit}>
+//                             <Text button style={{ fontSize: 18 }}>
+//                               Proceed
+//                             </Text>
+                          
+//                       </Button>
+//                     ) : (
+//                       <Button>
+//                         <Text button style={{ fontSize: 18 }}>
+//                           Proceed
+//                         </Text>
+//                       </Button>
+//                     )}
+//                   </Block>
+//                 </>
+//               )}
+//             </Formik>
+//           </View>
+//         </View>
+//       </Modal>
+//     </SafeAreaView>
+//   );
+
+
+//     const EditCountryCodeModal = () => (
+//     <SafeAreaView>
+//       <Modal
+//         visible={countryCodeModalVisible}
+//         transparent={true}
+//         animationType="slide"
+//         statusBarTranslucent={true}
+//         onRequestClose={() => setCountryCodeModalVisible(false)}
+//       >
+//         <View style={styles.container}>
+//           <View style={[styles.modal, { width: WIDTH - 45 }]}>
+//               <Country country={country} setCountry={setCountry} setCountryCode={setCountryCode} />
+//           </View>
+//         </View>
+//       </Modal>
+//     </SafeAreaView>
+//   );
+
+
+//  const EditPictureModal=()=>(
+//   <>
+// <Text
+//           center
+//           style={{
+//             fontSize: 20,
+//             paddingVertical: 20,
+//             fontWeight: "700",
+//             color: "#5F6062",
+//           }}
+//         >
+//           Upload a cover photo or video
+//         </Text>
+//         <TouchableOpacity
+//           activeOpacity={0.8}
+//           style={{
+//             flex: 0,
+//             alignItems: "center",
+//             borderStyle: "dashed",
+//             borderWidth: image ? 0 : 1,
+//             borderRadius: image ? 0 : 1,
+//             paddingVertical: image ? 0 : 40,
+//           }}
+//           onPress={pickImage}
+//         >
+//           {image ? (
+//             <ImageBackground
+//               style={{
+//                 height: HEIGHT / 3,
+//                 width: "100%",
+//                 justifyContent: "flex-end",
+//               }}
+//               source={{ uri: image }}
+//             >
+//               <Block
+//                 style={{
+//                   flex: 0,
+//                   backgroundColor: "rgba(52, 52, 52, 0.6)",
+//                   paddingVertical: 4,
+//                 }}
+//               >
+//                 <Text
+//                   center
+//                   style={{
+//                     fontSize: 14,
+//                     fontWeight: "700",
+//                     color: "white",
+//                   }}
+//                 >
+//                   Change Picture
+//                 </Text>
+//               </Block>
+//             </ImageBackground>
+//           ) : (
+//             <>
+//               <AddImageIconComponent />
+//               <Text
+//                 style={{
+//                   fontSize: 18,
+//                   marginTop: 10,
+//                   fontWeight: "700",
+//                   color: "#5F6062",
+//                 }}
+//               >
+//                 Click to upload
+//               </Text>
+//             </>
+//           )}
+//         </TouchableOpacity>
+//         <Block style={{ paddingVertical: 30,borderBottomWidth:1,borderColor:theme.colors.gray2 }}>
+//           {image == "" ? (
+//             <Button disabled={true}>
+//               <Text button style={{ fontSize: 18 }}>
+//                 Proceed
+//               </Text>
+//             </Button>
+//           ) : (
+//             <Button
+//             onPress={()=>onSubmitStartACampaignSecond()}
+//             >
+//               <Text button style={{ fontSize: 18 }}>
+//                 Proceed
+//               </Text>
+//             </Button>
+//           )}
+//         </Block>
+//         </>
+//   )
+// const EditTitleModal = () => (
+//     <SafeAreaView>
+//       <Modal
+//         visible={titleModalVisible}
+//         transparent={true}
+//         animationType="slide"
+//         statusBarTranslucent={true}
+//         onRequestClose={() => setTitleModalVisible(false)}
+//       >
+//         <View style={styles.container}>
+//           <View style={[styles.modal, { width: WIDTH - 45 }]}>
+//             <Formik
+//               initialValues={{
+//                 title: "",
+//               }}
+//               onSubmit={(values) => {
+//                 onSubmitDonateConfirmation(values);
+//               }}
+//               validationSchema={ManualValidationSchema}
+//             >
+//               {({
+//                 handleChange,
+//                 touched,
+//                 setFieldTouched,
+//                 handleSubmit,
+//                 values,
+//                 errors,
+//               }) => (
+//                 <>
+//                   <Input
+//                     label="Title"
+//                     focus={descriptionFocus}
+//                     onChangeText={handleChange("title")}
+//                     onBlur={() => {
+//                       setFieldTouched("title");
+//                       setDescriptionFocus(false);
+//                     }}
+//                     number
+//                     onFocus={() => setDescriptionFocus(true)}
+//                     value={values.title}
+//                     style={{
+//                       borderBottomColor: descriptionFocus
+//                         ? theme.colors.primary2
+//                         : touched.title && errors.title
+//                         ? theme.colors.red
+//                         : theme.colors.solidGray,
+//                     }}
+//                   />
+//                   <ErrorMessage
+//                     error={errors.title}
+//                     visible={touched.title}
+//                   />
+//                   <Block style={{ flex: 0, paddingVertical: 10 }}>
+//                     {!errors.title ? (
+//                       <Button onPress={handleSubmit}>
+//                             <Text button style={{ fontSize: 18 }}>
+//                               Proceed
+//                             </Text>
+                          
+//                       </Button>
+//                     ) : (
+//                       <Button>
+//                         <Text button style={{ fontSize: 18 }}>
+//                           Proceed
+//                         </Text>
+//                       </Button>
+//                     )}
+//                   </Block>
+//                 </>
+//               )}
+//             </Formik>
+//           </View>
+//         </View>
+//       </Modal>
+//     </SafeAreaView>
+//   );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (
@@ -78,7 +344,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   alignItems: "flex-end",
                   overflow: "hidden",
                 }}
-                source={{ uri: data.subCampaignDetails.subcampaign.campaign.thumbnailurl }}
+                source={{ uri: data.campaignDetails.campaign.thumbnailurl }}
               >
                 <Block
                   row
@@ -87,7 +353,17 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     paddingVertical: 4,
                   }}
                 >
-                  <TouchableOpacity activeOpacity={0.8} onPress={onShare}>
+                  {data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}
+                   <TouchableOpacity activeOpacity={0.8} onPress={onShare}>
                     <ShareCampaignIconComponent
                       style={{ marginRight: 10, marginTop: 10 }}
                     />
@@ -109,17 +385,29 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 style={{
                   fontSize: 18,
                   fontWeight: "700",
+                textTransform: "capitalize",
+
                 }}
                 color="#3B414B"
               >
-                {data.subCampaignDetails.subcampaign.campaign.title}
+                {data.campaignDetails.campaign.title}
               </Text>
+             {/* {data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}*/}
               </Block>
               <TouchableOpacity onPress={()=>navigation.navigate("Campaign QR Code")} activeOpacity={0.8} style={{flex:1.5,alignItems:"flex-end"}}>
               <Text
                 style={{
                   fontSize: 16,
-                  marginTop:4,
+                  marginTop:2,
                   fontWeight: "700",
                 }}
                 color={theme.colors.primary2}
@@ -138,21 +426,28 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 }}
                 color={theme.colors.solidGray}
               >
-                {data.subCampaignDetails.subcampaign.campaign.countrycode}
+                {data.campaignDetails.campaign.countrycode}
               </Text>
+              {/*{data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}*/}
             </Block>
               <PercentageBar
                 height={6}
                 backgroundColor={"grey"}
                 completedColor={theme.colors.primary2}
-                percentage={
-                  (data.subCampaignDetails.subcampaign.collectedamount * 100) /
-                  data.subCampaignDetails.subcampaign.targetamount
-                }
+                percentage={(data.campaignDetails.campaign.collectedamount*100)/data.campaignDetails.campaign.targetamount}
               />
               <Block row style={{ flex: 0 }}>
                 <NumberFormat
-                  value={data.subCampaignDetails.subcampaign.collectedamount / 100}
+                  value={data.campaignDetails.campaign.collectedamount / 100}
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"$"}
@@ -173,7 +468,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 />
 
                 <NumberFormat
-                  value={data.subCampaignDetails.subcampaign.targetamount / 100}
+                  value={data.campaignDetails.campaign.targetamount / 100}
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"$"}
@@ -185,7 +480,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                       style={{ fontSize: 14, fontWeight: "700" }}
                     >
                       {" "}
-                      raised of {formattedValue}
+                      raised from {formattedValue}
                     </Text>
                   )}
                 />
@@ -209,14 +504,14 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
               >
                 <Block>
                   <Block row center style={{ flex: 0 }}>
-                    {data.subCampaignDetails.subcampaign.subcampaignstarter.profilepic ==
+                    {data.campaignDetails.campaign.campaignstarter.profilepic ==
                     "" ? (
                       <UserIconComponent height={30} width={30} />
                     ) : (
                       <Image
                         source={{
                           uri:
-                            data.subCampaignDetails.subcampaign.subcampaignstarter
+                            data.campaignDetails.campaign.campaignstarter
                               .profilepic,
                         }}
                         style={{ height: 30, width: 30, borderRadius: 30 }}
@@ -228,10 +523,10 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                         fontSize: 18,
                         fontWeight: "700",
                         textTransform: "capitalize",
-                        marginLeft: 10,
+                        marginLeft: 6,
                       }}
                     >
-                      {data.subCampaignDetails.subcampaign.subcampaignstarter.account.fullname.substring(
+                      {data.campaignDetails.campaign.campaignstarter.account.fullname.substring(
                         0,
                         12
                       ) + "..."}
@@ -256,14 +551,14 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   <Block row center style={{ flex: 0, overflow: "hidden" }}>
                     <BeneficiaryIconComponent style={{ marginRight: 8 }} />
 
-                    {data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary
+                    {data.campaignDetails.campaign.campaignbeneficiary
                       .profilepic == "" ? (
                       <UserIconComponent height={30} width={30} />
                     ) : (
                       <Image
                         source={{
                           uri:
-                            data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary
+                            data.campaignDetails.campaign.campaignbeneficiary
                               .profilepic,
                         }}
                         style={{ height: 30, width: 30, borderRadius: 30 }}
@@ -278,11 +573,21 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                         marginLeft: 6,
                       }}
                     >
-                      {data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary.account.fullname.substring(
+                      {data.campaignDetails.campaign.campaignbeneficiary.account.fullname.substring(
                         0,
                         10
                       ) + "..."}
                     </Text>
+                     {/*{data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}*/}
                   </Block>
 
                   <Block
@@ -316,7 +621,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   <TargetAmountIconComponent height={38} width={38} />
                   <Block column>
                     <NumberFormat
-                      value={data.subCampaignDetails.subcampaign.targetamount / 100}
+                      value={data.campaignDetails.campaign.targetamount / 100}
                       displayType={"text"}
                       thousandSeparator={true}
                       prefix={"$"}
@@ -343,6 +648,16 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     >
                       Target Amount
                     </Text>
+                   {/* {data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}*/}
                   </Block>
                 </Block>
               </Block>
@@ -360,13 +675,23 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                         marginLeft: 10,
                       }}
                     >
-                      {data.subCampaignDetails.subcampaign.campaign.category}
+                      {data.campaignDetails.campaign.category}
                     </Text>
                     <Text
                       style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
                     >
                       Tags
                     </Text>
+                   {/* {data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}*/}
                   </Block>
                 </Block>
               </Block>
@@ -400,7 +725,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                           marginLeft: 10,
                         }}
                       >
-                        {moment(data.subCampaignDetails.subcampaign.campaign.createdat).format(
+                        {moment(data.campaignDetails.campaign.createdat).format(
                           "DD MMM YYYY"
                         )}
                       </Text>
@@ -429,8 +754,18 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 style={{ fontSize: 16, color: "#5F6062" }}
                 numberOfLines={10}
               >
-                {data.subCampaignDetails.subcampaign.campaign.description.replace( /(<([^>]+)>)/ig, '')}
+                {data.campaignDetails.campaign.description.replace( /(<([^>]+)>)/ig, '')}
               </Text>
+             {/*  {data.campaignDetails.campaign.campaignstarter.account.accountid !==
+            loginData.user.account.accountid && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flex: 0, alignItems: "flex-end" }}
+              >
+                          <EditIconComponent/>
+
+              </TouchableOpacity>
+          )}*/}
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={{ flex: 0, alignItems: "flex-end" }}
@@ -448,7 +783,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             </Block>
           </ScrollView>
 
-          {data.subCampaignDetails.subcampaign.subcampaignstarter.account.accountid !==
+          {data.campaignDetails.campaign.campaignstarter.account.accountid !==
             loginData.user.account.accountid && (
             <Block
               style={{
@@ -461,7 +796,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 width: "100%",
               }}
             >
-              <Button onPress={()=>navigation.navigate("Sub Campaign Donate Now",{refId: data.subCampaignDetails.subcampaign.subcampaignid,receiverName:data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary.account.fullname})}>
+              <Button onPress={()=>navigation.navigate("Campaign Donate Now",{refId: data.campaignDetails.campaign.campaignid,receiverName:data.campaignDetails.campaign.campaignbeneficiary.account.fullname})}>
                 <Text button style={{ fontSize: 18 }}>
                   Donate Now
                 </Text>
@@ -474,4 +809,4 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
   );
 };
 
-export default SubCampaignDetails;
+export default CampaignDetails;

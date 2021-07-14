@@ -93,7 +93,7 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 									style={{ fontSize: 14, fontWeight: "700" }}
 								>
 									{" "}
-									raised from {formattedValue}
+									raised of {formattedValue}
 								</Text>
 							)}
 						/>

@@ -18,7 +18,7 @@ export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,coll
 			style={[
 				{
 					flex:1,
-					borderBottomWidth: 1,
+					borderBottomWidth: 0.6,
 					paddingVertical: 12,
 					borderColor: theme.colors.gray2,
 				},

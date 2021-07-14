@@ -34,6 +34,10 @@ const APIEndPoints = {
     SUB_CAMPAIGN_STATUS:MainAPI + '/sub/campaign/status',
     SUB_CAMPAIGN:MainAPI + '/sub/campaign',
     CAMPAIGN_SUBCAMPAIGN_DONATION:MainAPI + '/campaign/donations',
+    GET_ALL_CAMPAIGN_COMMENTS_BY_REFID:MainAPI + '/comment/campaign',
+    POST_CAMPAIGN_COMMENTS:MainAPI + '/comment',
+
+
     // CAMPAIGN_GET_ALL:MainAPI + '/account/profile',
     // CAMPAIGN_GET_BY_ACCOUNT_ID:MainAPI + '/account/profile',
 

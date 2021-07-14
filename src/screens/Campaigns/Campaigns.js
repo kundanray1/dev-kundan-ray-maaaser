@@ -29,14 +29,12 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
     setRefreshing(false);
   });
   useEffect(() => {
-    if (data.campaigns == null) {
       campaigns(loginData.user.account.accountid);
-    }
-  }, [data.campaigns]);
+  }, [campaignId]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (
-        <ActivityIndicator size="large" color={theme.colors.primary2} />
+        <ActivityIndicator size="large" color={theme.colors.primary2} style={{marginTop:30}} />
       ) : (
         <Block style={{ flex: 0, marginTop: HEIGHT/20 }}>
           <FlatList
@@ -75,6 +73,7 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
                     image={post.item.thumbnailurl}
                     label={post.item.title}
                     campaignstatus={post.item.campaignstatus}
+                    date={post.item.createdat}
                     campaignDetailData={post.item}
                     navigation={navigation}
                     mycampaign={"mycampaign"}

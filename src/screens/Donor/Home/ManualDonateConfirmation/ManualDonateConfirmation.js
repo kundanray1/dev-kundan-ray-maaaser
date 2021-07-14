@@ -78,7 +78,7 @@ const ManualDonateConfirmation = ({
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-              Donation Successfull!
+              Donation Successful!
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
              <TickIconComponent/>

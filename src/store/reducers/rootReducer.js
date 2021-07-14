@@ -49,6 +49,10 @@ import { subCampaignDetailsReducer } from "./../../screens/Campaigns/SubCampaign
 import { campaignDonateNowConfirmationReducer } from "./../../screens/Campaigns/CampaignDonateNowConfirmation/reducer";
 import { campaignDonorsReducer } from "./../../screens/Campaigns/CampaignDonors/reducer";
 import { subCampaignDonorsReducer } from "./../../screens/Campaigns/SubCampaignDonors/reducer";
+import { campaignCommentsReducer } from "./../../screens/Campaigns/CampaignComments/reducer";
+import { subCampaignCommentsReducer } from "./../../screens/Campaigns/SubCampaignComments/reducer";
+
+
 //more
 import { moreReducer } from "./../../screens/Donor/More/reducer";
 import { membersReducer } from "./../../screens/Donor/More/Members/reducer";
@@ -131,6 +135,8 @@ const appReducer = combineReducers({
 	campaignDonateNowConfirmation: campaignDonateNowConfirmationReducer,
 	campaignDonors: campaignDonorsReducer,
 	subCampaignDonors: subCampaignDonorsReducer,
+	campaignComments:campaignCommentsReducer,
+	subCampaignComments:subCampaignCommentsReducer,
 
 	//more
 	more: moreReducer,

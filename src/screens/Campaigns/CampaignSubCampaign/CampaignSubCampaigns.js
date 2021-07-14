@@ -53,7 +53,6 @@ const CampaignSubCampaigns = ({
                   onRefresh={onRefresh}
                 />
               }
-              ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
               ListEmptyComponent={() => (
                 <Empty
                   iconName="campaigns"

@@ -20,7 +20,7 @@ export default CampaignSubCampaignTabStack=()=> {
         lazy
         swipeEnabled
       	initialRouteName="Campaign Details"
-     	tabBarOptions={{
+      	tabBarOptions={{
         activeTintColor: theme.colors.primary2,
 	      inactiveTintColor: "#5F6062",
         style: {

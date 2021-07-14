@@ -3,19 +3,18 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import SubCampaignComments from "./SubCampaignComments";
-import { campaignCommentsStart } from "./actions";
+import { subCampaignCommentsStart, postSubCampaignCommentsStart} from "./actions";
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.campaignComments,
+	data: (state) => state.subCampaignComments,
 	loginData: (state) => state.login,
-	subCampaignId: (state) => state.subCampaignsEdit,
+	subCampaignId: (state) => state.subCampaignsEdit.subCampaignId,
 	
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		campaignComments: () => dispatch(campaignCommentsStart()),
+		subCampaignComments: (values) => dispatch(subCampaignCommentsStart(values)),
+		postSubCampaignComments: (values) => dispatch(postSubCampaignCommentsStart(values)),
 	};
 };
-
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
 export default compose(withConnect, memo)(SubCampaignComments);

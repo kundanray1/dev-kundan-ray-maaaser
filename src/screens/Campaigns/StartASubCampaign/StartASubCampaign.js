@@ -38,7 +38,6 @@ const StartASubCampaign = ({
   const [amount, setAmount] = useState();
 
   const onSubmitStartASubCampaign = () => {
-
     const subCampaignData = new CampaignProto.SubCampaign();
     subCampaignData.setTargetamount(amount * 100);
     subCampaignData.setCampaignid(campaignId);

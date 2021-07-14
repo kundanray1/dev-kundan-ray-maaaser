@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import CampaignComments from "./CampaignComments";
-import { campaignCommentsStart } from "./actions";
+import { campaignCommentsStart,postCampaignCommentsStart } from "./actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.campaignComments,
 	loginData: (state) => state.login,
@@ -11,7 +11,8 @@ const mapStateToProps = createStructuredSelector({
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		campaignComments: () => dispatch(campaignCommentsStart()),
+		campaignComments: (values) => dispatch(campaignCommentsStart(values)),
+		postCampaignComments: (values) => dispatch(postCampaignCommentsStart(values)),
 	};
 };
 

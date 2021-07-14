@@ -47,6 +47,8 @@ import subCampaignDetailsSaga from "./../../screens/Campaigns/SubCampaignDetails
 import campaignDonateNowConfirmationSaga from "./../../screens/Campaigns/CampaignDonateNowConfirmation/saga";
 import campaignDonorsSaga from "./../../screens/Campaigns/CampaignDonors/saga";
 import subCampaignDonorsSaga from "./../../screens/Campaigns/SubCampaignDonors/saga";
+import campaignCommentsSaga from "./../../screens/Campaigns/CampaignComments/saga";
+import subCampaignCommentsSaga from "./../../screens/Campaigns/SubCampaignComments/saga";
 
 
 //more
@@ -129,6 +131,8 @@ export default function* rootSaga() {
 		campaignDonateNowConfirmationSaga(),
 		campaignDonorsSaga(),
 		subCampaignDonorsSaga(),
+		campaignCommentsSaga(),
+		subCampaignCommentsSaga(),
 
 		//more
 		moreSaga(),

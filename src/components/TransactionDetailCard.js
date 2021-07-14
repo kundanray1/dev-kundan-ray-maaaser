@@ -59,6 +59,17 @@ export default TransactionDetailCard = ({
 			);
 
 		fullname = data.clientList[0].account.fullname;
+	}else{
+		transactionImage =
+			transactionMedium == 1 ? (
+				<YellowBankIconComponent />
+			) : transactionMedium == 2 ? (
+				<CardIconComponent />
+			) : (
+				<ManualDonationIconComponent />
+			);
+
+		fullname = data.clientList[1].account.fullname;
 	}
 	return (
 		<Block
@@ -93,7 +104,7 @@ export default TransactionDetailCard = ({
 				):
 				 (
 					<Text style={{ fontSize: 16, fontWeight: "700" }}>
-						Not available {fullname}
+						Fund donated to {fullname}
 					</Text>
 				)
 

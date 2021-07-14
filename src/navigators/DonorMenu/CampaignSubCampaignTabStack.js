@@ -39,12 +39,12 @@ export default CampaignSubCampaignTabStack=()=> {
       <CampaignSubCampaignTab.Screen
         name="Campaigns"
         component={Campaigns}
-        options={{ headerShown: true,title:'Campaigns'}}
+        options={{ headerShown: true,title:'My Campaigns'}}
           />
       <CampaignSubCampaignTab.Screen
         name="Sub Campaigns"
         component={SubCampaigns}
-        options={{ headerShown: true,title:'Sub-Campaigns'}}
+        options={{ headerShown: true,title:'My Sub-Campaigns'}}
         />
         
     </CampaignSubCampaignTab.Navigator>

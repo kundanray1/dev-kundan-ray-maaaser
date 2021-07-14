@@ -20,8 +20,8 @@ export default CampaignDonorCard = ({
 		<Block
 			row
 			style={{
-				borderBottomWidth: 1,
-				paddingVertical: 14,
+				borderBottomWidth: 0.6,
+				paddingVertical: 12,
 				borderColor: theme.colors.gray2,
 			}}
 		>
@@ -32,22 +32,21 @@ export default CampaignDonorCard = ({
 				}}
 			>
 				{profilePic == "" ? (
-					<UserIconComponent height={45} width={45} />
+					<UserIconComponent height={40} width={40} />
 				) : (
 					<Image
 						source={{ uri: profilePic }}
-						style={{ height: 45, width: 45, borderRadius: 30 }}
+						style={{ height: 40, width: 40, borderRadius: 30 }}
 					/>
 				)}
 			</Block>
 			<Block
 				style={{
-					flex: 4,
+					flex: 5,
 				}}
 			>
 				<Text
 					style={{
-						marginTop:10,
 						fontSize: 18,
 						fontWeight: "700",
 						textTransform: "capitalize",
@@ -55,13 +54,14 @@ export default CampaignDonorCard = ({
 				>
 					{name}
 				</Text>
-				{/*<Text
-					style={{ fontSize: 14, fontWeight: "700" }}
+				<Text
+					style={{ fontSize: 14 }}
 					color={theme.colors.solidGray}
 				>
 					{moment(date).format("DD MMM YYYY")}
-				</Text>*/}
+				</Text>
 			</Block>
+
 			<Block
 				middle
 				style={{

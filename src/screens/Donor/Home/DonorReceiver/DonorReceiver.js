@@ -119,14 +119,14 @@ const DonorReceiver = ({
       <Modal
         visible={confirmationMessageVisible}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() => setConfirmationMessageVisible(false)}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-              Donation Successfull!
+              Donation Successful!
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
               <TickIconComponent />
@@ -379,7 +379,7 @@ const DonorReceiver = ({
                   ) : (
                     <Image
                       source={{ uri: profileData.profile.profilepic }}
-                      style={{ height: 50, width: 50, borderRadius: 30 }}
+                      style={{ height: 45, width: 45, borderRadius: 30 }}
                     />
                   )}
                   <Block

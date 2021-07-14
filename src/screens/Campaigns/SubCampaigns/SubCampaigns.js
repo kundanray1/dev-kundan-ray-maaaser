@@ -40,7 +40,7 @@ const SubCampaigns = ({
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (
-        <ActivityIndicator size="large" color={theme.colors.primary2} />
+        <ActivityIndicator size="large" color={theme.colors.primary2} style={{marginTop:30}} />
       ) : (
         <Block style={{ flex: 0, marginTop: HEIGHT / 20 }}>
           <FlatList
@@ -81,6 +81,7 @@ const SubCampaigns = ({
                     label={post.item.campaign.title}
                     campaignstatus={post.item.subcampaignstatus}
                     campaignDetailData={post.item}
+                    date={post.item.createdat}
                     navigation={navigation}
                     mycampaign={"subcampaign"}
                     onPress={() => {

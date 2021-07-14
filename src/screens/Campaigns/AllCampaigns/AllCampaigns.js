@@ -57,6 +57,7 @@ const AllCampaigns = ({
             )}
             renderItem={(post) => (
               post.item.campaignstarter.account.accountid !==loginData.user.account.accountid &&
+             <Block style={{marginTop:12}}>
               <CampaignCard
                 image={post.item.thumbnailurl}
                 label={post.item.title}
@@ -67,6 +68,7 @@ const AllCampaigns = ({
                       navigation.navigate("Campaign Details");
                 }}
               />
+             </Block>
             )}
           />
         </Block>

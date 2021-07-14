@@ -14,7 +14,6 @@ export function* campaignDonors({ payload }) {
 		const response = yield call(
 			requestProto,
 			`${APIEndpoints.CAMPAIGN_SUBCAMPAIGN_DONATION}/${payload}?type=CAMPAIGN_FUND`,
-			// "https://maaser-api.brilltech.com/campaign/donations/ce35d0e310214fc4a74323bacb1150cf?type=CAMPAIGN_FUND",
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
@@ -23,7 +22,6 @@ export function* campaignDonors({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("campaignDonors",res);
 		if (res.success) {
 			yield put(campaignDonorsSuccess(res));
 		} else {

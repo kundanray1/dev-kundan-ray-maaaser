@@ -3,18 +3,21 @@ import {
   SUB_CAMPAIGNS_SUCCESS,
   SUB_CAMPAIGNS_FAIL,
   SUB_CAMPAIGNS_EDIT_START,
-SUB_CAMPAIGNS_EDIT_SUCCESS,
-SUB_CAMPAIGNS_EDIT_FAIL,
+  SUB_CAMPAIGNS_EDIT_SUCCESS,
+  SUB_CAMPAIGNS_EDIT_FAIL,
 } from "./actions";
 
 const initialState = {
   isLoading: true,
   subCampaigns: null,
-  subCampaignsEdit:null,
+  subCampaignsEdit: null,
   error: null,
 };
 
-export const subCampaignsReducer = (state = initialState, { type, payload }) => {
+export const subCampaignsReducer = (
+  state = initialState,
+  { type, payload }
+) => {
   switch (type) {
     case SUB_CAMPAIGNS_START:
       return {

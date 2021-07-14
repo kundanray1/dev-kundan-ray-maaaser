@@ -4,6 +4,7 @@ import {
   FlatList,
   SafeAreaView,
   RefreshControl,
+  ScrollView
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -33,10 +34,62 @@ const SubCampaignDonors = ({
   }, [subCampaignId]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      
       {data.isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.primary2} />
       ) : (
+       <ScrollView nestedScrollEnabled={true}>
+        <>
         <Block style={{ flex: 0, marginTop: 6, paddingBottom: 20 }}>
+          <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "700",
+                  textTransform: "capitalize",
+                  marginLeft: 18,
+                  paddingVertical: 6,
+                }}
+              >
+                Top Donors
+              </Text>
+
+              <FlatList
+                data={data.subCampaignDonors.donationsList
+                  .sort((a, b) => b.amount - a.amount)
+                  .slice(0, 3)}
+                showsVerticalScrollIndicator={true}
+                keyExtractor={(item, index) => {
+                  return item.txnid.toString();
+                }}
+                nestedScrollEnabled
+                refreshControl={
+                  <RefreshControl
+                    colors={[theme.colors.primary2]}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                nestedScrollEnabled
+                ItemSeparatorComponent={() => (
+                  <Block style={{ marginTop: 2 }} />
+                )}
+                ListEmptyComponent={() => (
+                  <Empty iconName="donors" title="No donors yet." />
+                )}
+                // ListFooterComponent={() => (
+                //   <Block style={{ marginVertical: 40, flex: 0 }} />
+                // )}
+                renderItem={(post) => (
+                  <Block style={{ flex: 0, paddingHorizontal: 18 }}>
+                    <CampaignDonorCard
+                      profilePic={post.item.client.profilepic}
+                      name={post.item.client.account.fullname}
+                      amount={post.item.amount}
+                    />
+                  </Block>
+                )}
+              />
+            
           <Text
             style={{
               fontSize: 18,
@@ -61,6 +114,7 @@ const SubCampaignDonors = ({
                 onRefresh={onRefresh}
               />
             }
+            nestedScrollEnabled
             ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
             ListEmptyComponent={() => (
               <Empty iconName="donors" title="No donors yet." />
@@ -79,7 +133,10 @@ const SubCampaignDonors = ({
             )}
           />
         </Block>
+        </>
+      </ScrollView>
       )}
+       
     </SafeAreaView>
   );
 };
