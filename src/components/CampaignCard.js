@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+	SafeAreaView,
+	Modal,
+	View,
 	Image,
 	TouchableOpacity,
 	Pressable,
 	Dimensions,
+	StyleSheet,
 	ImageBackground,
 	Alert,
 } from "react-native";
@@ -11,7 +15,7 @@ import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
 import HorizontalDotsIconComponent from "./../assets/icons/HorizontalDotsIconComponent.js";
-import CampaignsDeleteIconComponent from "./../assets/icons/campaignDeleteIconComponent.js";
+import CampaignsEditIconComponent from "./../assets/icons/campaignEditIconComponent.js";
 import PercentageBar from "./PercentageBar.js";
 import NumberFormat from "react-number-format";
 import { useDispatch } from "react-redux";
@@ -20,8 +24,12 @@ import { subCampaignsEditStart } from "./../screens/Campaigns/SubCampaigns/actio
 import CampaignProto from "./../protos/campaign_pb";
 import moment from "moment";
 import TimeRemainingIconComponent from "./../assets/icons/TimeRemainingIconComponent";
+import { campaignId } from "./../screens/Campaigns/actions";
+import { subCampaignId } from "./../screens/Campaigns/CampaignSubCampaign/actions";
 
 const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
+  				
 export default CampaignCard = ({
 	label,
 	navigation,
@@ -35,9 +43,22 @@ export default CampaignCard = ({
 	...props
 }) => {
 	const dispatch = useDispatch();
+	const [editModalVisible, setEditModalVisible] = useState(false);
+	const handleCloseConfirm = () => {
+		if (mycampaign == "subcampaign") {
+			const updateData = new CampaignProto.SubCampaign();
+			updateData.setSubcampaignid(campaignDetailData.subcampaignid);
+			updateData.setSubcampaignstatus(2);
+			dispatch(subCampaignsEditStart(updateData));
+		} else {
+			const updateData = new CampaignProto.Campaign();
+			updateData.setCampaignid(campaignDetailData.campaignid);
+			updateData.setCampaignstatus(2);
+			dispatch(campaignsEditStart(updateData));
+		}
+	};
 
-	const handleDeleteConfirm = () => {
-		console.log(campaignstatus);
+	const handleDisableConfirm = () => {
 		if (mycampaign == "subcampaign") {
 			const updateData = new CampaignProto.SubCampaign();
 			updateData.setSubcampaignid(campaignDetailData.subcampaignid);
@@ -52,13 +73,104 @@ export default CampaignCard = ({
 	};
 
 	const handleEdit = () => {
-		navigation.navigate("Link New Account", {
-			campaignDetailData: campaignDetailData,
-		});
+		if (mycampaign == "subcampaign") {
+			dispatch(subCampaignId(campaignDetailData.subcampaignid));
+			navigation.navigate("Start a sub campaign", {
+				campaignDetailData: campaignDetailData,
+			});
+		} else {
+			dispatch(campaignId(campaignDetailData.campaignid));
+			navigation.navigate("Campaign Details", {
+				screen: "Campaign Details",
+				params: { editEnable: true },
+			});
+		}
 	};
-	const handleDelete = () => {
+	const EditModal = () => (
+		<SafeAreaView>
+			<Modal
+				visible={editModalVisible}
+				transparent={true}
+				animationType="fade"
+				statusBarTranslucent={true}
+				onRequestClose={() => setEditModalVisible(false)}
+			>
+				<View style={styles.container}>
+					<View
+						style={[
+							styles.modal,
+							{ width: 100, marginTop: HEIGHT / 5 },
+						]}
+					>
+						<TouchableOpacity
+							activeOpacity={0.8}
+							style={{
+								paddingVertical: 12,
+								borderBottomWidth: 1,
+								borderColor: "#F8F8F8",
+							}}
+							onPress={() => {
+								DisableWarning();
+								setEditModalVisible(false);
+							}}
+						>
+							<Text
+								style={{
+									color: "#5F6062",
+									fontWeight: "700",
+									fontSize: 16,
+								}}
+							>
+								Disable
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							activeOpacity={0.8}
+							style={{ paddingVertical: 12 }}
+							onPress={() => {
+								CloseWarning();
+								setEditModalVisible(false);
+							}}
+						>
+							<Text
+								style={{
+									color: "#5F6062",
+									fontWeight: "700",
+									fontSize: 16,
+								}}
+							>
+								Close
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</Modal>
+		</SafeAreaView>
+	);
+
+	const CloseWarning = () => {
 		Alert.alert(
-			"Campaign Disable",
+			"Close Campaign",
+			"Are you sure you want to close this campaign?",
+			[
+				{
+					text: "Cancel",
+					style: {
+						textTransform: "capitalize",
+						color: theme.colors.primary2,
+					},
+				},
+				{ text: "Confirm", onPress: () => handleCloseConfirm() },
+			],
+			{
+				cancelable: true,
+			}
+		);
+	};
+
+	const DisableWarning = () => {
+		Alert.alert(
+			"Disable Campaign",
 			"Are you sure you want to disable this campaign?",
 			[
 				{
@@ -68,7 +180,7 @@ export default CampaignCard = ({
 						color: theme.colors.primary2,
 					},
 				},
-				{ text: "Confirm", onPress: () => handleDeleteConfirm() },
+				{ text: "Confirm", onPress: () => handleDisableConfirm() },
 			],
 			{
 				cancelable: true,
@@ -83,17 +195,16 @@ export default CampaignCard = ({
 				style={{
 					shadowRadius: 3,
 					elevation: 3,
-					borderRadius:6
+					borderRadius: 6,
 				}}
 				{...props}
 			>
 				<Block style={{ flex: 0 }}>
 					<ImageBackground
 						style={{
-							height: HEIGHT / 4,
+							height: HEIGHT / 3.5,
 							width: "100%",
-					      borderRadius:6
-
+							borderRadius: 6,
 						}}
 						source={{ uri: image }}
 					>
@@ -104,24 +215,28 @@ export default CampaignCard = ({
 									activeOpacity={0.8}
 									onPress={() => handleEdit()}
 								>
-									<HorizontalDotsIconComponent
+									<CampaignsEditIconComponent
 										style={{
 											marginRight: 10,
 											marginTop: 10,
 										}}
 									/>
 								</TouchableOpacity>
-								<TouchableOpacity
-									activeOpacity={0.8}
-									onPress={() => handleDelete()}
-								>
-									<CampaignsDeleteIconComponent
-										style={{
-											marginRight: 10,
-											marginTop: 10,
-										}}
-									/>
-								</TouchableOpacity>
+								{campaignstatus !== 2 && (
+									<TouchableOpacity
+										activeOpacity={0.8}
+										onPress={() =>
+											setEditModalVisible(true)
+										}
+									>
+										<HorizontalDotsIconComponent
+											style={{
+												marginRight: 10,
+												marginTop: 10,
+											}}
+										/>
+									</TouchableOpacity>
+								)}
 							</Block>
 						) : (
 							<Block style={{ flex: 0 }} />
@@ -134,8 +249,7 @@ export default CampaignCard = ({
 						flex: 0,
 						borderColor: theme.colors.gray2,
 						paddingTop: 8,
-						paddingBottom: 16,
-						paddingHorizontal: 10,
+						paddingLeft: 10,
 					}}
 				>
 					<Text
@@ -148,6 +262,7 @@ export default CampaignCard = ({
 					>
 						{label}
 					</Text>
+
 					{targetAmount != undefined && collectedAmount != undefined && (
 						<>
 							<PercentageBar
@@ -203,15 +318,18 @@ export default CampaignCard = ({
 							</Block>
 						</>
 					)}
-					{date != undefined && (
-						<Block
-							row
-							style={{
-								flex: 0,
-								overflow: "hidden",
-								paddingTop: 12,
-							}}
-						>
+
+					<Block
+						row
+						style={{
+							flex: 0,
+							overflow: "hidden",
+							paddingTop: 12,
+						}}
+					>
+						<Block row style={{
+							paddingBottom:16
+						}}>
 							<TimeRemainingIconComponent
 								height={38}
 								width={38}
@@ -238,56 +356,72 @@ export default CampaignCard = ({
 									Created date
 								</Text>
 							</Block>
-							{campaignstatus != undefined && (
-								<Block
-									style={{
-										justifyContent: "flex-end",
-										alignItems: "flex-end",
-									}}
-								>
-									{campaignstatus == 1 ? (
-										<Block style={{ flex: 0 }} />
-									) : campaignstatus == 2 ? (
-										<Text
-											style={{
-												fontSize: 14,
-												fontWeight: "700",
-												textTransform: "capitalize",
-												backgroundColor: "red",
-												paddingHorizontal: 6,
-												paddingVertical: 2,
-												borderRadius: 30,
-												marginRight: 8,
-												marginBottom: 8,
-											}}
-											color="white"
-										>
-											Close
-										</Text>
-									) : (
-										<Text
-											style={{
-												fontSize: 14,
-												fontWeight: "700",
-												textTransform: "capitalize",
-												backgroundColor: "#C4C4C4",
-												paddingHorizontal: 6,
-												paddingVertical: 2,
-												borderRadius: 30,
-												marginRight: 8,
-												marginBottom: 8,
-											}}
-											color="white"
-										>
-											Disabled
-										</Text>
-									)}
-								</Block>
-							)}
 						</Block>
-					)}
+
+						<Block>
+							<Block
+								style={{
+									justifyContent: "flex-end",
+									alignItems: "flex-end",
+								}}
+							>
+								{campaignstatus == 1 ? (
+									<Block style={{ flex: 0 }} />
+								) : campaignstatus == 2 ? (
+									<Text
+										style={{
+											fontSize: 14,
+											fontWeight: "700",
+											textTransform: "capitalize",
+											backgroundColor: "#DE4C3C",
+											paddingVertical: 6,
+											borderTopLeftRadius: 6,
+											paddingHorizontal: 36,
+										}}
+										color="white"
+									>
+										Closed
+									</Text>
+								) : (
+									<Text
+										style={{
+											fontSize: 14,
+											fontWeight: "700",
+											textTransform: "capitalize",
+											backgroundColor: "#C4C4C4",
+											paddingVertical: 6,
+											borderTopLeftRadius: 6,
+											paddingHorizontal: 36,
+										}}
+										color="white"
+									>
+										Disabled
+									</Text>
+								)}
+							</Block>
+						</Block>
+
+
+					</Block>
 				</Block>
 			</TouchableOpacity>
+			{EditModal()}
 		</Block>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "flex-end",
+		// justifyContent: "center",
+		paddingHorizontal: 24,
+		// backgroundColor: "rgba(52, 52, 52, 0.8)",
+	},
+	modal: {
+		borderRadius: 2,
+		borderColor: theme.colors.gray,
+		backgroundColor: theme.colors.white,
+		paddingHorizontal: 12,
+	},
+});

@@ -294,7 +294,7 @@ const DonorReceiver = ({
             name={item.clientList[1].account.fullname}
             amount={item.amount}
             date={item.createdat}
-            textColor={theme.colors.green}
+            textColor={theme.colors.black}
           />
         ) : (
           <Block style={{ paddingHorizontal: 18 }} />

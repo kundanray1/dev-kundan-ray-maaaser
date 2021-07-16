@@ -105,7 +105,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
           name={item.clientList[1].account.fullname}
           amount={item.amount}
           date={item.createdat}
-          textColor={theme.colors.green}
+          textColor={theme.colors.black}
         />
       </Block>
       :

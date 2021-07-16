@@ -21,10 +21,12 @@ import TimeRemainingIconComponent from "./../../../assets/icons/TimeRemainingIco
 import BeneficiaryIconComponent from "./../../../assets/icons/BeneficiaryIconComponent";
 import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
+import EditIconComponent from "./../../../assets/icons/EditIconComponent.js";
+import CampaignEditIconComponent from "./../../../assets/icons/campaignEditIconComponent.js";
 
 const HEIGHT = Dimensions.get("window").height;
 
-const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId }) => {
+const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId,route }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -68,6 +70,11 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                     paddingVertical: 4,
                   }}
                 >
+                <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate("Start a campaign second update",{campaignDetails:data.campaignDetails})}>
+                    <CampaignEditIconComponent
+                      style={{ marginRight: 10, marginTop: 10 }}
+                    />
+                  </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.8}>
                     <ShareCampaignIconComponent
                       style={{ marginRight: 10, marginTop: 10 }}
@@ -85,18 +92,24 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
               }}
             >
             <Block row style={{flex:0}}>
-            <Block style={{flex:2}}>
+            <Block row style={{flex:2}}>
               <Text
                 style={{
                   fontSize: 18,
                   fontWeight: "700",
-                textTransform: "capitalize",
-
+                  textTransform: "capitalize",
+                  marginRight:10
                 }}
                 color="#3B414B"
               >
                 {data.campaignDetails.campaign.title}
               </Text>
+              {
+            route.params!=undefined &&
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:2}} onPress={()=>navigation.navigate("Start a campaign update",{campaignDetails:data.campaignDetails})}>
+               <EditIconComponent/>
+              </TouchableOpacity>
+          }
               </Block>
               <TouchableOpacity onPress={()=>navigation.navigate("Campaign QR Code")} activeOpacity={0.8} style={{flex:1.5,alignItems:"flex-end"}}>
               <Text
@@ -117,12 +130,19 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                 style={{
                   fontSize: 16,
                   fontWeight: "700",
-                  marginLeft:8
+                  marginLeft:8,
+                  marginRight:10
                 }}
                 color={theme.colors.solidGray}
               >
                 {data.campaignDetails.campaign.countrycode}
               </Text>
+              {
+            route.params!=undefined &&
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:2}} onPress={()=>navigation.navigate("Start a campaign update",{campaignDetails:data.campaignDetails})}>
+               <EditIconComponent/>
+              </TouchableOpacity>
+          }
             </Block>
               <PercentageBar
                 height={6}
@@ -162,13 +182,19 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                   renderText={(formattedValue) => (
                     <Text
                       color="#5F6062"
-                      style={{ fontSize: 14, fontWeight: "700" }}
+                      style={{ fontSize: 14, fontWeight: "700", marginRight:10 }}
                     >
                       {" "}
                       raised from {formattedValue}
                     </Text>
                   )}
                 />
+               {
+            route.params!=undefined &&
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:2}} onPress={()=>navigation.navigate("Start a campaign update",{campaignDetails:data.campaignDetails})}>
+               <EditIconComponent/>
+              </TouchableOpacity>
+          }
               </Block>
             </Block>
 
@@ -256,6 +282,7 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 6,
+                        marginRight:10
                       }}
                     >
                       {data.campaignDetails.campaign.campaignbeneficiary.account.fullname.substring(
@@ -263,18 +290,26 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                         10
                       ) + "..."}
                     </Text>
+                      
                   </Block>
 
                   <Block
+                  row
                     style={{
                       flex: 0,
                     }}
                   >
                     <Text
-                      style={{ fontSize: 16, marginLeft: 74, color: "#5F6062" }}
+                      style={{ fontSize: 16, marginLeft: 74, color: "#5F6062",marginRight:10 }}
                     >
                       Beneficiary
                     </Text>
+                   {
+            route.params!=undefined &&
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:2}} onPress={()=>navigation.navigate("Start a campaign update",{campaignDetails:data.campaignDetails})}>
+               <EditIconComponent/>
+              </TouchableOpacity>
+          }
                   </Block>
                 </Block>
               </Block>
@@ -323,6 +358,7 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                     >
                       Target Amount
                     </Text>
+                     
                   </Block>
                 </Block>
               </Block>
@@ -338,6 +374,8 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 10,
+                        marginRight:10
+
                       }}
                     >
                       {data.campaignDetails.campaign.category}
@@ -399,21 +437,39 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
               </Block>
             </Block>
             <Block
+              row 
+              style={{
+                paddingHorizontal: 16,
+                paddingTop: 10,
+              }}
+            >
+              <Text
+                       
+                style={{ fontSize: 16, color: "#5F6062", marginRight:10}}
+                numberOfLines={10}
+              >
+                {data.campaignDetails.campaign.description.replace( /(<([^>]+)>)/ig, '')}
+              </Text>
+               
+                {
+            route.params!=undefined &&
+            <TouchableOpacity activeOpacity={0.8} style={{marginTop:2}} onPress={()=>navigation.navigate("Start a campaign third update",{campaignDetails:data.campaignDetails})}>
+               <EditIconComponent/>
+              </TouchableOpacity>
+          }
+             
+            </Block>
+            <Block
+              row 
               style={{
                 paddingHorizontal: 16,
                 paddingTop: 10,
                 paddingBottom: 80,
               }}
             >
-              <Text
-                style={{ fontSize: 16, color: "#5F6062" }}
-                numberOfLines={10}
-              >
-                {data.campaignDetails.campaign.description.replace( /(<([^>]+)>)/ig, '')}
-              </Text>
-              <TouchableOpacity
+             <TouchableOpacity
                 activeOpacity={0.8}
-                style={{ flex: 0, alignItems: "flex-end" }}
+                style={{ flex: 1,alignItems: "flex-end" }}
               >
                 <Text
                   style={{
@@ -424,8 +480,10 @@ const CampaignDetails = ({ data,navigation, loginData,campaignDetails,campaignId
                 >
                   View More
                 </Text>
+
               </TouchableOpacity>
             </Block>
+
           </ScrollView>
 
           {data.campaignDetails.campaign.campaignstarter.account.accountid !==

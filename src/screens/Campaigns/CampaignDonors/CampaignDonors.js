@@ -80,6 +80,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
                       profilePic={post.item.client.profilepic}
                       name={post.item.client.account.fullname}
                       amount={post.item.amount}
+                      date={post.item.txndate}
                     />
                   </Block>
                 )}
@@ -123,6 +124,8 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
                       profilePic={post.item.client.profilepic}
                       name={post.item.client.account.fullname}
                       amount={post.item.amount}
+                      date={post.item.txndate}
+                      
                     />
                   </Block>
                 )}

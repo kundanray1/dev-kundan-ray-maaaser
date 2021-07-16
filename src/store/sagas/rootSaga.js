@@ -40,6 +40,7 @@ import campaignDetailsSaga from "./../../screens/Campaigns/CampaignDetails/saga"
 import subCampaignsEditSaga from "./../../screens/Campaigns/CampaignSubCampaign/saga";
 import allCampaignsSaga from "./../../screens/Campaigns/AllCampaigns/saga";
 import startACampaignThirdSaga from "./../../screens/Campaigns/StartACampaignThird/saga";
+import startACampaignThirdUpdateSaga from "./../../screens/Campaigns/StartACampaignThirdUpdate/saga";
 import startACampaignSaga from "./../../screens/Campaigns/StartACampaign/saga";
 import startASubCampaignSaga from "./../../screens/Campaigns/StartASubCampaign/saga";
 import addBeneficiarySaga from "./../../screens/Campaigns/AddBeneficiary/saga";
@@ -123,6 +124,7 @@ export default function* rootSaga() {
 		subCampaignsEditSaga(),
 		allCampaignsSaga(),
 		startACampaignThirdSaga(),
+		startACampaignThirdUpdateSaga(),
 		startACampaignSaga(),
 		startASubCampaignSaga(),
 		addBeneficiarySaga(),

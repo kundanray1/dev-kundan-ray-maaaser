@@ -26,7 +26,89 @@ export default function App() {
   );
 }
 
+// import React,{useState} from "react";
+// import { Text, View, StyleSheet, Button } from "react-native";
+// import SvgQRCode from "react-native-qrcode-svg";
+// import * as Print from "expo-print";
 
+// function Simple() {
+//   return <SvgQRCode
+//   value="http://example.com"
+//   getRef={(ref?) => (this.svg = ref)}
+//     />;
+// }
+ 
+// function getDataURL() {
+//   svg.toDataURL(callback);
+// }
+
+// function callback(dataURL) {
+//   console.log(dataURL);
+// }
+// async function downloadFile() {
+//   try {
+//     let filePath = await Print.printToFileAsync({
+//       html:
+//         ' <div style = "margin-top: 40%; margin-left: 30%;"><h2 style = "margin-left: 50px; font-size: 45px;">LetMeIn</h2>' +
+//         '<img src="' +
+//         base64_qr +
+//         '"' +
+//         'alt="Red dot" style = "margin-left: 20px; margin-top: 10px;" />' +
+//         '<h2 style = "margin-top: 50px;">Scan the QR Code to check in</h2>' +
+//         "</div>",
+//       width: 612,
+//       height: 792,
+//     });
+
+//     const pdfName = `${filePath.uri.slice(
+//       0,
+//       filePath.uri.lastIndexOf("/") + 1
+//     )}QRCode.pdf`;
+
+//     await FileSystem.moveAsync({
+//       from: filePath.uri,
+//       to: pdfName,
+//     });
+
+//     console.log("PDF Generated", pdfName);
+//     this.saveFile(pdfName);
+//   } catch (error) {
+//     console.error(error);
+//   }
+
+// export default function App() {
+//   const [svg,setSvg]=useState()
+//   return (
+//     <View style={styles.container}>
+//       <View
+//         style={{
+//           width: "100%",
+//           flexDirection: "row",
+//           justifyContent: "space-around",
+//           alignItems: "center",
+//         }}
+//       >
+//         <Simple />
+//         <Button
+//           onPress={()=>downloadFile()}
+//           title="Download"
+//           color="#841584"
+//           accessibilityLabel="Learn more about this purple button"
+//         />
+//       </View>
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "space-around",
+//     paddingTop: 20,
+//     alignItems: "center",
+//     backgroundColor: "#ecf0f1",
+//   },
+// });
 
 // import React, { useRef, useState } from "react";
 // import { StyleSheet, Text, ScrollView } from "react-native";
@@ -161,3 +243,4 @@ export default function App() {
 //     color: "#515156",
 //   },
 // });
+

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
   Image,
   TouchableOpacity,
   Dimensions,
@@ -23,31 +22,22 @@ import BottomLeftBorderIconComponent from "./../../../assets/icons/BottomLeftBor
 import BottomRightBorderIconComponent from "./../../../assets/icons/BottomRightBorderIconComponent";
 import * as theme from "./../../../constants/theme.js";
 import { shareIcon } from "./Dummy";
-
+import SvgQRCode from "react-native-qrcode-svg";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-export default CampaignQRCode = ({ navigation, campaignDetailsdata }) => {
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
-  const RenderSocialMediaIcon = ({ image, label }) => {
-    return (
-      <Block
-        style={{
-          alignItems: "center",
-          justifyContent: "flex-end",
-          marginRight: 30,
-          paddingVertical: 8,
-        }}
-      >
-        <Block style={{ flex: 0, paddingVertical: 6 }}>{image}</Block>
-        <Block style={{ flex: 0 }}>
-          <Text style={{ fontSize: 12 }}>{label}</Text>
-        </Block>
-      </Block>
-    );
-  };
+export default CampaignQRCode = ({
+  navigation,
+  campaignDetailsdata,
+  campaignId,
+}) => {
+  const [svg, setSvg] = useState();
+  function getDataURL() {
+    svg.toDataURL(callback);
+  }
+
+  function callback(dataURL) {
+    console.log(dataURL);
+  }
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -67,77 +57,6 @@ export default CampaignQRCode = ({ navigation, campaignDetailsdata }) => {
       alert(error.message);
     }
   };
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
-      >
-        <View style={styles.container}>
-          <View
-            style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-          >
-            <Block style={{ flex: 0, alignItems: "center" }}>
-              <Block
-                style={{
-                  flex: 0,
-                  alignItems: "center",
-                  backgroundColor: "#E2E2E2",
-                  width: WIDTH - 280,
-                  borderRadius: 10,
-                  paddingVertical: 2,
-                }}
-              />
-            </Block>
-            <Block style={{ paddingTop: 6, paddingBottom: 14, flex: 0 }}>
-              <Text center style={{ fontWeight: "700" }}>
-                Share to
-              </Text>
-            </Block>
-            <FlatList
-              horizontal
-              pagingEnabled={true}
-              showsHorizontalScrollIndicator={false}
-              legacyImplementation={false}
-              data={shareIcon}
-              renderItem={(post) => (
-                <RenderSocialMediaIcon
-                  image={post.item.image}
-                  label={post.item.label}
-                />
-              )}
-              keyExtractor={(item) => {
-                return item.id.toString();
-              }}
-            />
-          </View>
-          <View style={{ width: "100%", backgroundColor: theme.colors.white }}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setConfirmationSuccessfulVisible(false)}
-              style={{
-                flex: 0,
-                backgroundColor: theme.colors.white,
-                paddingVertical: 14,
-                borderTopWidth: 0.5,
-              }}
-            >
-              <Text
-                center
-                color={theme.colors.primary2}
-                style={{ fontSize: 14, fontWeight: "700" }}
-              >
-                Cancel
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
-  );
 
   return (
     <Block>
@@ -152,32 +71,35 @@ export default CampaignQRCode = ({ navigation, campaignDetailsdata }) => {
             style={{ height: 70, width: 70 }}
           />
         </Block>
-        <Block row style={{paddingHorizontal:100,marginTop:HEIGHT * 0.08}}>
-          <Block style={{alignItems:"flex-start"}}>
-            <TopLeftBorderIconComponent
-            />
+        <Block row style={{ paddingHorizontal: 100, marginTop: HEIGHT * 0.08 }}>
+          <Block style={{ alignItems: "flex-start" }}>
+            <TopLeftBorderIconComponent />
           </Block>
-          <Block style={{alignItems:"flex-end"}}>
-            <TopRightBorderIconComponent
-            />
+          <Block style={{ alignItems: "flex-end" }}>
+            <TopRightBorderIconComponent />
           </Block>
         </Block>
-        <Block style={{flex:1,justifyContent:"center",paddingVertical:HEIGHT/16}}>
-          <ProfileQRcodeIcon height={HEIGHT * 0.4} width={WIDTH * 0.4} />
-
+        <Block
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            paddingVertical: HEIGHT / 16,
+          }}
+        >
+          <SvgQRCode
+            size={HEIGHT / 6}
+            value={`https://maaser-api.brilltech.com/campaign/${campaignId}`}
+            getRef={(c) => setSvg(c)}
+          />
         </Block>
-        <Block row style={{paddingHorizontal:100}}>
-          <Block style={{alignItems:"flex-start"}}>
-            <BottomLeftBorderIconComponent
-            />
+        <Block row style={{ paddingHorizontal: 100 }}>
+          <Block style={{ alignItems: "flex-start" }}>
+            <BottomLeftBorderIconComponent />
           </Block>
-          <Block style={{alignItems:"flex-end"}}>
-            <BottomRightBorderIconComponent
-            />
+          <Block style={{ alignItems: "flex-end" }}>
+            <BottomRightBorderIconComponent />
           </Block>
         </Block>
-
-
       </Block>
       <Block center>
         <Block center style={{ flex: 0 }}>
@@ -218,7 +140,7 @@ export default CampaignQRCode = ({ navigation, campaignDetailsdata }) => {
           </Text>
         </Block>
         <Block middle>
-          <Button full>
+          <Button full onPress={()=>getDataURL()}>
             <Text button style={{ fontSize: 18 }}>
               Download QR
             </Text>
@@ -260,32 +182,6 @@ export default CampaignQRCode = ({ navigation, campaignDetailsdata }) => {
           </OutlinedButton>
         </Block>
       </Block>
-      {ConfirmationMessage()}
     </Block>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
-  },
-  modal: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderColor: theme.colors.gray,
-    backgroundColor: theme.colors.white,
-    paddingVertical: 10,
-  },
-  customPicker: {
-    height: 28,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: "#E7E7E7",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    paddingVertical: 6,
-  },
-});

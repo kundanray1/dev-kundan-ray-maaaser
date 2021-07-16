@@ -77,6 +77,7 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
                     campaignDetailData={post.item}
                     navigation={navigation}
                     mycampaign={"mycampaign"}
+                    editCampaignId={post.item.campaignid}
                     onPress={() => {
                       campaignId(post.item.campaignid)
                       navigation.navigate("Campaign Details");

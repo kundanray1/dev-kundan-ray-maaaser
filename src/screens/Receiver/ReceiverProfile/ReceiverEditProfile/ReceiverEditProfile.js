@@ -75,7 +75,7 @@ useEffect(() => {
     accountData.setAccounttype(loginData.user.account.accounttype);
 
     addressData.setStreet1(values.street1);
-    addressData.setStreet2(values.street2);
+    // addressData.setStreet2(values.street2);
     addressData.setState(values.state);
     addressData.setCity(values.city);
     addressData.setZip(values.zipCode);
@@ -133,7 +133,7 @@ useEffect(() => {
                   initialValues={{
                     fullName:  receiverProfileData.receiverProfile.account.fullname!==undefined? receiverProfileData.receiverProfile.account.fullname:"",
                     street1: receiverProfileData.receiverProfile.addressesList[0].street1!==undefined? receiverProfileData.receiverProfile.addressesList[0].street1:"",
-                    street2: receiverProfileData.receiverProfile.addressesList[0].street2!==undefined? receiverProfileData.receiverProfile.addressesList[0].street2:"",
+                    // street2: receiverProfileData.receiverProfile.addressesList[0].street2!==undefined? receiverProfileData.receiverProfile.addressesList[0].street2:"",
                     state: receiverProfileData.receiverProfile.addressesList[0].state!==undefined? receiverProfileData.receiverProfile.addressesList[0].state:"",
                     city: receiverProfileData.receiverProfile.addressesList[0].city!==undefined? receiverProfileData.receiverProfile.addressesList[0].city:"",
                     zipCode:  receiverProfileData.receiverProfile.addressesList[0].zip!==undefined? receiverProfileData.receiverProfile.addressesList[0].zip.toString():"",
@@ -253,7 +253,7 @@ useEffect(() => {
                           error={errors.street1}
                           visible={touched.street1}
                         />
-
+{/*
                         <Input
                           placeholder="Street 2"
                           style={{ marginBottom: 5 }}
@@ -277,7 +277,7 @@ useEffect(() => {
                           error={errors.street2}
                           visible={touched.street2}
                         />
-
+*/}
                        
                         <Input
                           placeholder="State"

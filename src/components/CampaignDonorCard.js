@@ -58,7 +58,7 @@ export default CampaignDonorCard = ({
 					style={{ fontSize: 14 }}
 					color={theme.colors.solidGray}
 				>
-					{moment(date).format("DD MMM YYYY")}
+					{moment(date).fromNow(true)}
 				</Text>
 			</Block>
 

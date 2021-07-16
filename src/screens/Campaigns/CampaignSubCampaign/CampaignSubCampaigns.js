@@ -22,6 +22,7 @@ const CampaignSubCampaigns = ({
   campaignId,
   subCampaignId,
   loginData,
+  startASubCampaign
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [subCampaignData, setSubCampaignData] = useState();
@@ -30,6 +31,10 @@ const CampaignSubCampaigns = ({
     campaignDetails(campaignId);
     setRefreshing(false);
   });
+ useEffect(() => {
+    campaignDetails(campaignId);
+  }, [startASubCampaign.startASubCampaign]);
+
   let bs = React.createRef();
   return (
     <SafeAreaView style={{ flex: 1 }}>

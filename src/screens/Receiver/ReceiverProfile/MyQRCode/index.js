@@ -7,6 +7,7 @@ import { welcomeStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.welcome,
+	loginData: (state) => state.login,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

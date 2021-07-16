@@ -21,32 +21,33 @@ const WIDTH = Dimensions.get("window").width;
 
 const StartASubCampaign = ({
   data,
+  navigation: { goBack }, 
   loginData,
   startASubCampaignStart,
   startASubCampaignClear,
   startASubCampaignEditStart,
   campaignDetailsdata,
-  navigation,
   campaignId,
   route
 }) => {
-  console.log()
+
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [amount, setAmount] = useState();
-
+  const [amount, setAmount] = useState(route.params!=undefined?(route.params.campaignDetailData.targetamount/100).toString():"");
   const onSubmitStartASubCampaign = () => {
     const subCampaignData = new CampaignProto.SubCampaign();
     subCampaignData.setTargetamount(amount * 100);
-    subCampaignData.setCampaignid(campaignId);
     subCampaignData.setSubcampaignstatus(1);
-    if(route.params!==undefined){
-    subCampaignData.setSubcampaignid(route.params.subCampaignId);
-    subCampaignData.setAccountid(route.params.accountId);
+    if(route.params!=undefined){
+      console.log(loginData);
+    subCampaignData.setSubcampaignid(route.params.campaignDetailData.subcampaignid);
+    subCampaignData.setAccountid(loginData.user.account.accountid);
+    subCampaignData.setCampaignid(route.params.campaignDetailData.campaign.campaignid);
     startASubCampaignEditStart(subCampaignData);
     }else{
+    subCampaignData.setCampaignid(campaignId);
     startASubCampaignStart(subCampaignData);
     }
   };
@@ -74,7 +75,7 @@ const StartASubCampaign = ({
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
             {route.params!=undefined?
- <Text center style={{ fontSize: 18, fontWeight: "700" }}>
+              <Text center style={{ fontSize: 18, fontWeight: "700" }}>
               Sub-Campaign Updated Successfully!
             </Text>
               :
@@ -87,7 +88,7 @@ const StartASubCampaign = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Sub Campaigns")}>
+              <Button onPress={() => goBack()}>
                 <Text button style={{ fontSize: 18 }}>
                   View Sub Campaigns
                 </Text>
@@ -114,7 +115,7 @@ const StartASubCampaign = ({
           Campaign Goal Amount
         </Text>
         <NumberFormat
-          value={route.params!==undefined?route.params.targetAmount/100:campaignDetailsdata.campaignDetails.campaign.targetamount / 100}
+          value={route.params!=undefined?route.params.campaignDetailData.campaign.targetamount/100:campaignDetailsdata.campaignDetails.campaign.targetamount/100}
           displayType={"text"}
           thousandSeparator={true}
           prefix={"$"}
@@ -199,7 +200,7 @@ const StartASubCampaign = ({
         data.isLoading &&
          <CustomActivityIndicator
               isLoading={data.isLoading}
-              label="Creating..."
+              label="Requesting..."
           />
       }
       {ConfirmationMessage()}

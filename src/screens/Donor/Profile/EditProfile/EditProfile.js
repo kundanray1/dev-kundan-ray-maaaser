@@ -67,7 +67,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
     accountData.setAccounttype(loginData.user.account.accounttype);
 
     addressData.setStreet1(values.street1);
-    addressData.setStreet2(values.street2);
+    // addressData.setStreet2(values.street2);
     addressData.setState(values.state);
     addressData.setCity(values.city);
     addressData.setZip(values.zipCode);
@@ -132,7 +132,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                   initialValues={{
                     fullName:  profileData.profile.account.fullname!==undefined? profileData.profile.account.fullname:"",
                     street1: profileData.profile.addressesList[0].street1!==undefined? profileData.profile.addressesList[0].street1:"",
-                    street2: profileData.profile.addressesList[0].street2!==undefined? profileData.profile.addressesList[0].street2:"",
+                    // street2: profileData.profile.addressesList[0].street2!==undefined? profileData.profile.addressesList[0].street2:"",
                     state: profileData.profile.addressesList[0].state!==undefined? profileData.profile.addressesList[0].state:"",
                     city: profileData.profile.addressesList[0].city!==undefined? profileData.profile.addressesList[0].city:"",
                     zipCode:  profileData.profile.addressesList[0].zip!==undefined? profileData.profile.addressesList[0].zip.toString():""
@@ -223,7 +223,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                           visible={touched.street1}
                         />
 
-                        <Input
+                       {/* <Input
                           placeholder="Street 2"
                           style={{ marginBottom: 5 }}
                           onChangeText={handleChange("street2")}
@@ -245,7 +245,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                         <ErrorMessage
                           error={errors.street2}
                           visible={touched.street2}
-                        />
+                        />*/}
 
                        
                         <Input

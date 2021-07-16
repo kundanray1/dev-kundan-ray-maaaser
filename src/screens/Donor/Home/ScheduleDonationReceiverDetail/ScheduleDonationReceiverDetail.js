@@ -195,7 +195,7 @@ const ScheduleDonationReceiverDetail = ({
                 :  theme.colors.schedulingBackground ,
             paddingVertical: 4,
             paddingHorizontal: 8,
-            width: 140,
+            width: 160,
           }}
           color={
              status == "SCHEDULING"
@@ -216,13 +216,15 @@ const ScheduleDonationReceiverDetail = ({
           flex: 0,
           paddingHorizontal: 20,
           bottom: 0,
+          right:0,
+          left:0,
           paddingVertical: 10,
           position: "absolute",
         }}
       >
         {status == "SCHEDULING" || status == "APPROVED" || status == "SCHEDULE_PENDING"? (
           <Button
-            full
+            
             onPress={() => onSubmitScheduleDonationReceiverDetail("cancel")}
           >
             {data.isLoading ? (

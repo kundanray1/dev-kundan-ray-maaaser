@@ -63,10 +63,10 @@ const LinkNewCard = ({
       addressData.setAddressid(route.params.card.billingaddress.addressid);
     }
     addressData.setStreet1(values.street1);
-    addressData.setStreet2(values.street2);
+    // addressData.setStreet2(values.street2);
     addressData.setState(values.state);
     addressData.setCity(values.city);
-    addressData.setZip(values.zipCode);
+    // addressData.setZip(values.zipCode);
     addressData.setCountrycode(countryCode);
     linkNewCardData.setBillingaddress(addressData);
     if (route.params != undefined) {
@@ -113,8 +113,8 @@ const LinkNewCard = ({
               route.params != undefined
                 ? route.params.card.billingaddress.street1
                 : "",
-            street2:
-              route.params != undefined ?  route.params.card.billingaddress.street2 : "",
+            // street2:
+            //   route.params != undefined ?  route.params.card.billingaddress.street2 : "",
             city:
               route.params != undefined
                 ? route.params.card.billingaddress.city
@@ -123,10 +123,10 @@ const LinkNewCard = ({
               route.params != undefined
                 ? route.params.card.billingaddress.state
                 : "",
-            zipCode:
-              route.params != undefined
-                ? route.params.card.billingaddress.zip.toString()
-                : "",
+            // zipCode:
+            //   route.params != undefined
+            //     ? route.params.card.billingaddress.zip.toString()
+            //     : "",
           }}
           onSubmit={(values) => {
             onSubmitLinkNewCard(values);
@@ -286,7 +286,7 @@ const LinkNewCard = ({
                 }}
               />
               <ErrorMessage error={errors.street1} visible={touched.street1} />
-                            <Input
+                {/*<Input
                 label="Street Address 2"
                 focus={street2Focus}
                 onChangeText={handleChange("street2")}
@@ -305,7 +305,7 @@ const LinkNewCard = ({
                 }}
               />
               <ErrorMessage error={errors.street2} visible={touched.street2} />
-
+*/}
               <Input
                 label="City"
                 focus={cityFocus}
@@ -346,7 +346,7 @@ const LinkNewCard = ({
               />
               <ErrorMessage error={errors.state} visible={touched.state} />
               
-              <Input
+              {/*<Input
                 label="Zip Code"
                 focus={zipCodeFocus}
                 onChangeText={handleChange("zipCode")}
@@ -365,15 +365,13 @@ const LinkNewCard = ({
                     : theme.colors.solidGray,
                 }}
               />
-              <ErrorMessage error={errors.zipCode} visible={touched.zipCode} />
+              <ErrorMessage error={errors.zipCode} visible={touched.zipCode} />*/}
               {
               !errors.cardholderName &&
               !errors.cardNumber &&
               !errors.cvc &&
               !errors.street1 && 
-              !errors.street2 &&
               !errors.city &&
-              !errors.zipCode &&
               !errors.state ? (
                 <Button
                   style={{

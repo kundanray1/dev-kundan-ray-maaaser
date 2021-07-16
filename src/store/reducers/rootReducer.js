@@ -41,6 +41,7 @@ import { campaignDetailsReducer } from "./../../screens/Campaigns/CampaignDetail
 import { subCampaignsEditReducer } from "./../../screens/Campaigns/CampaignSubCampaign/reducer";
 import { allCampaignsReducer } from "./../../screens/Campaigns/AllCampaigns/reducer";
 import { startACampaignThirdReducer } from "./../../screens/Campaigns/StartACampaignThird/reducer";
+import { startACampaignThirdUpdateReducer } from "./../../screens/Campaigns/StartACampaignThirdUpdate/reducer";
 import { startACampaignReducer } from "./../../screens/Campaigns/StartACampaign/reducer";
 import { startASubCampaignReducer } from "./../../screens/Campaigns/StartASubCampaign/reducer";
 import { addBeneficiaryReducer } from "./../../screens/Campaigns/AddBeneficiary/reducer";
@@ -127,6 +128,7 @@ const appReducer = combineReducers({
 	subCampaignsEdit: subCampaignsEditReducer,
 	allCampaigns: allCampaignsReducer,
 	startACampaignThird: startACampaignThirdReducer,
+	startACampaignThirdUpdate:startACampaignThirdUpdateReducer,
 	startACampaign: startACampaignReducer,
 	startASubCampaign: startASubCampaignReducer,
 	addBeneficiary: addBeneficiaryReducer,

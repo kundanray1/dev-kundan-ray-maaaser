@@ -8,6 +8,7 @@ import { campaignQRCodeStart } from "./actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.campaignQRCode,
 	campaignDetailsdata: (state) => state.campaignDetails,
+	campaignId: (state) => state.campaigns.campaignId,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

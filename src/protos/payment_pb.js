@@ -3366,7 +3366,8 @@ proto.brilltech.maaser.entities.CampaignDonation.toObject = function(includeInst
     refid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     client: (f = msg.getClient()) && account_pb.Client.toObject(includeInstance, f),
     amount: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    txnid: jspb.Message.getFieldWithDefault(msg, 4, "")
+    txnid: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    txndate: jspb.Message.getFieldWithDefault(msg, 5, 0)
   };
 
   if (includeInstance) {
@@ -3419,6 +3420,10 @@ proto.brilltech.maaser.entities.CampaignDonation.deserializeBinaryFromReader = f
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setTxnid(value);
+      break;
+    case 5:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTxndate(value);
       break;
     default:
       reader.skipField();
@@ -3475,6 +3480,13 @@ proto.brilltech.maaser.entities.CampaignDonation.serializeBinaryToWriter = funct
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getTxndate();
+  if (f !== 0) {
+    writer.writeInt64(
+      5,
       f
     );
   }
@@ -3553,6 +3565,21 @@ proto.brilltech.maaser.entities.CampaignDonation.prototype.getTxnid = function()
 /** @param {string} value */
 proto.brilltech.maaser.entities.CampaignDonation.prototype.setTxnid = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional int64 txnDate = 5;
+ * @return {number}
+ */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.getTxndate = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+};
+
+
+/** @param {number} value */
+proto.brilltech.maaser.entities.CampaignDonation.prototype.setTxndate = function(value) {
+  jspb.Message.setProto3IntField(this, 5, value);
 };
 
 

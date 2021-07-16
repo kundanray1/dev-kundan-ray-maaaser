@@ -63,8 +63,11 @@ const AllCampaigns = ({
                 label={post.item.title}
                 targetAmount={post.item.targetamount}
                 collectedAmount={post.item.collectedamount}
+                date={post.item.createdat}
+                navigation={navigation}
+                campaignstatus={post.item.campaignstatus}
                 onPress={() => {
-                 campaignId(post.item.campaignid)
+                      campaignId(post.item.campaignid)
                       navigation.navigate("Campaign Details");
                 }}
               />

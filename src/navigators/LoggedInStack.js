@@ -35,6 +35,9 @@ import ScheduleDonationReceiverDetail from "../screens/Donor/Home/ScheduleDonati
 import StartACampaign from "../screens/Campaigns/StartACampaign/index";
 import StartACampaignSecond from "../screens/Campaigns/StartACampaignSecond/index";
 import StartACampaignThird from "../screens/Campaigns/StartACampaignThird/index";
+import StartACampaignUpdate from "../screens/Campaigns/StartACampaignUpdate/index";
+import StartACampaignSecondUpdate from "../screens/Campaigns/StartACampaignSecondUpdate/index";
+import StartACampaignThirdUpdate from "../screens/Campaigns/StartACampaignThirdUpdate/index";
 import StartASubCampaign from "../screens/Campaigns/StartASubCampaign/index";
 import AddBeneficiary from "../screens/Campaigns/AddBeneficiary/index";
 import AllCampaigns from "../screens/Campaigns/AllCampaigns/index";
@@ -283,17 +286,15 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={StartACampaign}
       />
-
+ <AuthStack.Screen
+        name="Add Beneficiary"
+        options={{ headerShown: true }}
+        component={AddBeneficiary}
+      />
       <AuthStack.Screen
         name="Start a sub campaign"
         options={{ headerShown: true }}
         component={StartASubCampaign}
-      />
-
-      <AuthStack.Screen
-        name="Add Beneficiary"
-        options={{ headerShown: true }}
-        component={AddBeneficiary}
       />
       <AuthStack.Screen
         name="Start a campaign second"
@@ -304,6 +305,21 @@ const LoggedInStack = ({ data }) => {
         name="Start a campaign third"
         options={{ headerShown: true, title: "Start a campaign" }}
         component={StartACampaignThird}
+      />
+       <AuthStack.Screen
+        name="Start a campaign update"
+        options={{ headerShown: true, title: "Update Campaign" }}
+        component={StartACampaignUpdate}
+      />
+      <AuthStack.Screen
+        name="Start a campaign second update"
+        options={{ headerShown: true, title: "Update Campaign" }}
+        component={StartACampaignSecondUpdate}
+      />
+      <AuthStack.Screen
+        name="Start a campaign third update"
+        options={{ headerShown: true, title: "Update Campaign" }}
+        component={StartACampaignThirdUpdate}
       />
       <AuthStack.Screen
         name="Campaign Details"

@@ -49,7 +49,7 @@ export const LetsGetStartedDonorValidationSchema = Yup.object().shape({
 export const ProfileValidationSchema = Yup.object().shape({
   fullName: Yup.string().required().label("Name"),
   street1: Yup.string().required().label("Street 1"),
-  street2: Yup.string().required().label("Street 2"),
+  // street2: Yup.string().required().label("Street 2"),
   state: Yup.string().required().label("State"),
   city: Yup.string().required().label("City"),
   zipCode: Yup.string().required().label("Zip Code"),
@@ -76,15 +76,15 @@ export const LinkNewCardValidationSchema = Yup.object().shape({
     .required()
     .label("CVC"),
   street1: Yup.string().required().label("Street address 1"),
-  street2: Yup.string().required().label("Street address 2"),
+  // street2: Yup.string().required().label("Street address 2"),
   state: Yup.string().required().label("State"),
   city: Yup.string().required().label("City"),
-  zipCode: Yup.number()
-    .positive()
-    .integer()
-    .typeError("Zip code should contain number only")
-    .required()
-    .label("Zip code"),
+  // zipCode: Yup.number()
+  //   .positive()
+  //   .integer()
+  //   .typeError("Zip code should contain number only")
+  //   .required()
+  //   .label("Zip code"),
 });
 
 export const ManualValidationSchema = Yup.object().shape({
