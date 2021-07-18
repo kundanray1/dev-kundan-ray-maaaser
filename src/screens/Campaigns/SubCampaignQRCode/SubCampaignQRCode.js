@@ -14,13 +14,13 @@ import {
   OutlinedButton,
   Block,
   Text,
-} from "./../../../../components/Index.js";
-import ProfileQRcodeIcon from "./../../../../assets/icons/profileQRCodeIconComponent";
-import TopLeftBorderIconComponent from "./../../../../assets/icons/TopLeftBorderIconComponent";
-import TopRightBorderIconComponent from "./../../../../assets/icons/TopRightBorderIconComponent";
-import BottomLeftBorderIconComponent from "./../../../../assets/icons/BottomLeftBorderIconComponent";
-import BottomRightBorderIconComponent from "./../../../../assets/icons/BottomRightBorderIconComponent";
-import * as theme from "./../../../../constants/theme.js";
+} from "./../../../components/Index.js";
+import ProfileQRcodeIcon from "./../../../assets/icons/profileQRCodeIconComponent";
+import TopLeftBorderIconComponent from "./../../../assets/icons/TopLeftBorderIconComponent";
+import TopRightBorderIconComponent from "./../../../assets/icons/TopRightBorderIconComponent";
+import BottomLeftBorderIconComponent from "./../../../assets/icons/BottomLeftBorderIconComponent";
+import BottomRightBorderIconComponent from "./../../../assets/icons/BottomRightBorderIconComponent";
+import * as theme from "./../../../constants/theme.js";
 import { shareIcon } from "./Dummy";
 import SvgQRCode from "react-native-qrcode-svg";
 import * as FileSystem from "expo-file-system";
@@ -29,14 +29,13 @@ import { showMessage } from "react-native-flash-message";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-export default MyQRCode = ({
-  navigation,
-  loginData,
-}) => {
+export default SubCampaignQRCode = ({ navigation, route }) => {
+  const { title, subcampaignstarter, subcampaignid } = route.params;
   const [svg, setSvg] = useState();
   function getDataURL() {
     svg.toDataURL(callback);
   }
+
   async function callback(dataURL) {
     const data = `data:image/png;base64,${dataURL}`;
     const base64Code = data.split("data:image/png;base64,")[1];
@@ -55,11 +54,10 @@ export default MyQRCode = ({
 
     }
   }
-
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://maaser-api.brilltech.com/account/profile/${loginData.user.account.accountid}`,
+        message: `https://maaser-api.brilltech.com/sub/campaign/${subcampaignid}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -84,7 +82,7 @@ export default MyQRCode = ({
       >
         <Block style={{ marginTop: HEIGHT * 0.025 }}>
           <Image
-            source={require("../../../../assets/icons/logo.png")}
+            source={require("../../../assets/icons/logo.png")}
             style={{ height: 70, width: 70 }}
           />
         </Block>
@@ -103,7 +101,11 @@ export default MyQRCode = ({
             paddingVertical: HEIGHT / 16,
           }}
         >
-          <SvgQRCode size={HEIGHT/6}  getRef={(c) => setSvg(c)} value={`https://maaser-api.brilltech.com/account/profile/${loginData.user.account.accountid}`}/>
+          <SvgQRCode
+            size={HEIGHT / 6}
+            value={`https://maaser-api.brilltech.com/sub/campaign/${route.params.subcampaignid}`}
+            getRef={(c) => setSvg(c)}
+          />
         </Block>
         <Block row style={{ paddingHorizontal: 100 }}>
           <Block style={{ alignItems: "flex-start" }}>
@@ -125,7 +127,7 @@ export default MyQRCode = ({
               marginTop: 10,
             }}
           >
-             {loginData.user.account.fullname}
+            {title}
           </Text>
           <Text
             style={{
@@ -136,7 +138,7 @@ export default MyQRCode = ({
               textTransform: "capitalize",
             }}
           >
-            {loginData.user.account.email}
+            {subcampaignstarter}
           </Text>
           <Text
             style={{
@@ -146,7 +148,7 @@ export default MyQRCode = ({
               marginTop: 18,
             }}
           >
-            Scan QR code for profile details
+            Scan QR code for sub campaign details
           </Text>
         </Block>
         <Block middle>
@@ -191,3 +193,4 @@ export default MyQRCode = ({
     </Block>
   );
 };
+

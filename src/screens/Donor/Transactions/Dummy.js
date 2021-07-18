@@ -1,7 +1,7 @@
 import React from 'react';
 import YellowBankIcon from "./../../../assets/icons/yellowBankIconComponent";
 import CardIcon from "./../../../assets/icons/cardIconComponent";
-import ManualIcon from "./../../../assets/icons/manualIconComponent";
+import ManualIcon from "./../../../assets/icons/ManualDonationIconComponent";
 
 const YellowBankIconComponent=()=>(
    <YellowBankIcon width={24} height={24} style={{marginRight:8}}/>

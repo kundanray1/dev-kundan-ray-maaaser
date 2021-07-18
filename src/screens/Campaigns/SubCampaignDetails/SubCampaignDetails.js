@@ -35,11 +35,11 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
   useEffect(() => {
     subCampaignDetails(subCampaignId);
   }, [subCampaignId]);
-  const onShare = async () => {
+   const onShare = async () => {
     try {
       const result = await Share.share({
         message:
-          "What the user wants to share to other it could be link or any msg",
+          `https://maaser-api.brilltech.com/sub/campaign/${subCampaignId}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -115,7 +115,8 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 {data.subCampaignDetails.subcampaign.campaign.title}
               </Text>
               </Block>
-              <TouchableOpacity onPress={()=>navigation.navigate("Campaign QR Code")} activeOpacity={0.8} style={{flex:1.5,alignItems:"flex-end"}}>
+              <TouchableOpacity onPress={()=>navigation.navigate("Sub Campaign QR Code",
+                {title:data.subCampaignDetails.subcampaign.campaign.title,subcampaignstarter:data.subCampaignDetails.subcampaign.subcampaignstarter.account.fullname,subcampaignid:subCampaignId})} activeOpacity={0.8} style={{flex:1.5,alignItems:"flex-end"}}>
               <Text
                 style={{
                   fontSize: 16,

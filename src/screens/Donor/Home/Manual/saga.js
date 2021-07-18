@@ -11,7 +11,6 @@ import API from "./../../../../api/API";
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* manualReceivers({ payload }) {
 	try {
-		console.log("1");
 		const response = yield call(requestProto, APIEndpoints.RECEIVERSCLIENT, {
 			method: "GET",
 			headers: API.authProtoHeader(),
@@ -39,7 +38,6 @@ export function* manualReceivers({ payload }) {
 
 export function* manual({ payload }) {
 	try {
-		console.log("1")
 		const serializedData = payload.serializeBinary();
 		const response = yield call(
 			requestProto,
@@ -53,7 +51,6 @@ export function* manual({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("manual res",res)
 		if (res.success) {
 			yield put(manualSuccess(res));
 			showMessage({

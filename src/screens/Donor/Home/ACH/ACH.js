@@ -20,7 +20,7 @@ import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import BlueBankIconComponent from "./../../../../assets/icons/blueBankIconComponent";
 
-const ACH = ({ navigation, data,loginData, ACH,route }) => {
+const ACH = ({ navigation, data,loginData, ACH,route,linkNewAccountData }) => {
   const [accountData, setAccountData] = useState();
   const [refreshing, setRefreshing] = useState(false);
   let bs = React.createRef();
@@ -30,10 +30,8 @@ const ACH = ({ navigation, data,loginData, ACH,route }) => {
     setRefreshing(false);
   });
   useEffect(() => {
-    if(data.ACH===null){
         ACH(loginData.user.clientid);
-    }
-  }, [data.ACH]);
+  }, [data.ACHUpdateStatus,linkNewAccountData.linkNewAccount]);
   return (
     <>
       <TouchableWithoutFeedback

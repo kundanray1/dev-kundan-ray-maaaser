@@ -9,6 +9,7 @@ import {
   Modal,
   View,
   Dimensions,
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -151,6 +152,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
   }, [data.transactions]);
   const ConfirmationMessage = () => (
     <SafeAreaView>
+
       <Modal
         visible={confirmationMessageVisible}
         transparent={true}
@@ -160,7 +162,12 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
           setConfirmationSuccessfulVisible(!confirmationMessageVisible)
         }
       >
-        <View style={styles.container}>
+      <TouchableOpacity 
+            style={styles.container} 
+            activeOpacity={1} 
+            onPressOut={()=>setConfirmationSuccessfulVisible(!confirmationMessageVisible)}
+          >
+         <TouchableWithoutFeedback>
           <View
             style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
           >
@@ -184,7 +191,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                   From
                 </Text>
                 <TouchableOpacity
-                  style={[styles.customPicker,{width:"90%"}]}
+                  style={[styles.customPicker,{width:"95%"}]}
                   activeOpacity={0.8}
                   onPress={() => setShowFromDate(true)}
                 >
@@ -281,7 +288,8 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
               </Text>
             </Button>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

@@ -7,6 +7,7 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "./../../../../constants/theme.js";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -107,9 +108,16 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
           setReceiversListModalVisible(!receiversListModalVisible)
         }
       >
-        <View style={[styles.container,{marginTop:"51.5%"}]}>
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() =>
+             setReceiversListModalVisible(!receiversListModalVisible)
+          }
+        >
+          <TouchableWithoutFeedback>
 
-          <View style={[styles.modal, { width: WIDTH - 30, height: 235 }]}>
+          <View style={[styles.modal, { width: WIDTH - 30, height: 235,marginTop:"51.5%" }]}>
             <Block style={styles.boxSearchContainer}>
               <Block style={styles.boxVwSearch}>
                 <Ionicons name="search" color="#676767" size={18} />
@@ -152,7 +160,8 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
               )}
             />
           </View>
-        </View>
+         </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

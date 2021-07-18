@@ -8,6 +8,7 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "./../../../constants/theme.js";
 import country from "./../../../constants/country.json";
@@ -108,9 +109,18 @@ export default CountryCode = ({
           setCountryCodeModalVisible(!countryCodeModalVisible)
         }
       >
-        <View style={[styles.container,{marginTop:"108%"}]}>
+
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() =>
+            setCountryCodeModalVisible(!countryCodeModalVisible)
+          }
+        >
+          <TouchableWithoutFeedback>
+
           <View
-            style={[styles.modal, { width: WIDTH - 40, height: 235 }]}
+            style={[styles.modal, { width: WIDTH - 40, height: 235,marginTop:"108%" }]}
           >
             <Block style={styles.searchContainer}>
               <Block style={styles.vwSearch}>
@@ -154,7 +164,8 @@ export default CountryCode = ({
               )}
             />
           </View>
-        </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

@@ -7,6 +7,7 @@ import { ACHStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.ACH,
+	linkNewAccountData: (state) => state.linkNewAccount,
 	loginData: (state) => state.login,
 
 });

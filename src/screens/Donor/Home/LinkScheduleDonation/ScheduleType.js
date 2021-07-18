@@ -6,6 +6,7 @@ import {
   Modal,
   Dimensions,
   View,
+  TouchableWithoutFeedback
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../../constants/theme.js";
@@ -71,11 +72,20 @@ const ScheduleType = ({ scheduleType, setScheduleType }) => {
         statusBarTranslucent={true}
         onRequestClose={() => setScheduleTypeModalVisible(!scheduleTypeModalVisible)}
       >
-        <View style={[styles.container,{marginTop:"72%"}]}>
-          <View style={[styles.modal, { width: WIDTH - 30 }]}>
+         <TouchableOpacity
+           style={styles.container}
+          activeOpacity={1}
+          onPressOut={() =>
+           setScheduleTypeModalVisible(!scheduleTypeModalVisible)
+          }
+        >
+          <TouchableWithoutFeedback>
+          <View style={[styles.modal, { width: WIDTH - 30,marginTop:"72%" }]}>
             {RenderScheduleTypeOptions}
           </View>
-        </View>
+          </TouchableWithoutFeedback>
+
+         </TouchableOpacity>
       </Modal>
         </Block>
     </SafeAreaView>

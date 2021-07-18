@@ -49,7 +49,7 @@ const AllCampaigns = ({
             ListEmptyComponent={() => (
               <Empty
                 iconName="campaigns"
-                title="You haven’t stated any campaigns yet."
+                title="No any campaigns created yet."
               />
             )}
             ListFooterComponent={() => (

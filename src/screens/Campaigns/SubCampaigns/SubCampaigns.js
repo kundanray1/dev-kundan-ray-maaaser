@@ -60,7 +60,7 @@ const SubCampaigns = ({
             ListEmptyComponent={() => (
               <Empty
                 iconName="campaigns"
-                title="You haven’t stated any campaigns yet."
+                title="You haven’t started any sub campaigns yet."
               />
             )}
             ListFooterComponent={() => (

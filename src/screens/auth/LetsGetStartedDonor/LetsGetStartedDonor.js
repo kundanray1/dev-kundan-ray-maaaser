@@ -111,7 +111,7 @@ const LetsGetStartedDonor = ({
               style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
               color={theme.colors.gray2}
             >
-              {loginData.user.account.clienttype == 1
+              {loginData.user.clienttype == 1
                 ? "Tell us a bit about you."
                 : "Tell us a bit about your company."}
             </Text>

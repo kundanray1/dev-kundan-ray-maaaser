@@ -12,6 +12,7 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -52,10 +53,12 @@ const DonorReceiver = ({
   receivers,
   manualDonateConfirmationStart,
   manualDonateConfirmationClear,
-  manualDonateConfirmationData,
   allCampaignsData,
   allCampaigns,
   campaignId,
+manualDonateConfirmationData, 
+ACHLoadFundConfirmationData,
+cardLoadFundConfirmationData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
@@ -77,15 +80,13 @@ const DonorReceiver = ({
   });
 
   useEffect(() => {
-    if (profileData.profile == null) {
       profile(loginData.user.account.accountid);
       upcomingDonations(loginData.user.account.accountid);
       balance(loginData.user.account.accountid);
       donationsMade(loginData.user.account.accountid);
       allCampaigns();
       receivers();
-    }
-  }, [profileData.profile]);
+  }, [data.balance,manualDonateConfirmationData.manualDonateConfirmation]);
 
   useEffect(() => {
     if (manualDonateConfirmationData.manualDonateConfirmation !== null) {
@@ -95,7 +96,7 @@ const DonorReceiver = ({
         manualDonateConfirmationClear();
       }
     }
-  }, [manualDonateConfirmationData.manualDonateConfirmation]);
+  }, [manualDonateConfirmationData.manualDonateConfirmation,ACHLoadFundConfirmationData.ACHLoadFundConfirmationData,cardLoadFundConfirmationData.cardLoadFundConfirmation]);
 
   const onSubmitDonateConfirmation = (values) => {
     const donationProto = new PaymentProto.Transaction();
@@ -149,116 +150,124 @@ const DonorReceiver = ({
       <Modal
         visible={donateModalVisible}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() => setDonateModalVisible(false)}
       >
-        <View style={styles.container}>
-          <View style={[styles.modal, { width: WIDTH - 45 }]}>
-            <Formik
-              initialValues={{
-                amount: "",
-                remarks: " ",
-              }}
-              onSubmit={(values) => {
-                onSubmitDonateConfirmation(values);
-              }}
-              validationSchema={ManualValidationSchema}
-            >
-              {({
-                handleChange,
-                touched,
-                setFieldTouched,
-                handleSubmit,
-                values,
-                errors,
-              }) => (
-                <>
-                  <Input
-                    label="Receiver Name"
-                    autoCapitalize="words"
-                    value={accountData.account.fullname}
-                    editable={false}
-                  />
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() => setDonateModalVisible(false)}
+        >
+          <TouchableWithoutFeedback>
+            <View style={[styles.modal, { width: WIDTH - 45 }]}>
+              <Formik
+                initialValues={{
+                  amount: "",
+                  remarks: " ",
+                }}
+                onSubmit={(values) => {
+                  onSubmitDonateConfirmation(values);
+                }}
+                validationSchema={ManualValidationSchema}
+              >
+                {({
+                  handleChange,
+                  touched,
+                  setFieldTouched,
+                  handleSubmit,
+                  values,
+                  errors,
+                }) => (
+                  <>
+                    <Input
+                      label="Receiver Name"
+                      autoCapitalize="words"
+                      value={accountData.account.fullname}
+                      editable={false}
+                    />
 
-                  <Input
-                    label="Amount"
-                    focus={amountFocus}
-                    onChangeText={handleChange("amount")}
-                    onBlur={() => {
-                      setFieldTouched("amount");
-                      setAmountFocus(false);
-                    }}
-                    number
-                    onFocus={() => setAmountFocus(true)}
-                    value={values.amount}
-                    style={{
-                      borderBottomColor: amountFocus
-                        ? theme.colors.primary2
-                        : touched.amount && errors.amount
-                        ? theme.colors.red
-                        : theme.colors.solidGray,
-                    }}
-                  />
-                  <ErrorMessage
-                    error={errors.amount}
-                    visible={touched.amount}
-                  />
-                  <Input
-                    label="Remarks"
-                    autoCapitalize="sentences"
-                    focus={remarksFocus}
-                    onChangeText={handleChange("remarks")}
-                    onBlur={() => {
-                      setFieldTouched("remarks");
-                      setRemarksFocus(false);
-                    }}
-                    onFocus={() => setRemarksFocus(true)}
-                    value={values.remarks}
-                    style={{
-                      borderBottomColor: remarksFocus
-                        ? theme.colors.primary2
-                        : touched.remarks && errors.remarks
-                        ? theme.colors.red
-                        : theme.colors.solidGray,
-                    }}
-                  />
-                  <ErrorMessage
-                    error={errors.remarks}
-                    visible={touched.remarks}
-                  />
-                  <Block style={{ flex: 0, paddingVertical: 10 }}>
-                    {!errors.receiverName && !errors.amount ? (
-                      <Button onPress={handleSubmit}>
-                        {manualDonateConfirmationData.isLoading ? (
-                          <>
-                            <CustomActivityIndicator
-                              label="Requesting..."
-                              isLoading={manualDonateConfirmationData.isLoading}
-                            />
+                    <Input
+                      label="Amount"
+                      focus={amountFocus}
+                      onChangeText={handleChange("amount")}
+                      onBlur={() => {
+                        setFieldTouched("amount");
+                        setAmountFocus(false);
+                      }}
+                      number
+                      onFocus={() => setAmountFocus(true)}
+                      value={values.amount}
+                      style={{
+                        borderBottomColor: amountFocus
+                          ? theme.colors.primary2
+                          : touched.amount && errors.amount
+                          ? theme.colors.red
+                          : theme.colors.solidGray,
+                      }}
+                    />
+                    <ErrorMessage
+                      error={errors.amount}
+                      visible={touched.amount}
+                    />
+                    <Input
+                      label="Remarks"
+                      autoCapitalize="sentences"
+                      focus={remarksFocus}
+                      onChangeText={handleChange("remarks")}
+                      onBlur={() => {
+                        setFieldTouched("remarks");
+                        setRemarksFocus(false);
+                      }}
+                      onFocus={() => setRemarksFocus(true)}
+                      value={values.remarks}
+                      style={{
+                        borderBottomColor: remarksFocus
+                          ? theme.colors.primary2
+                          : touched.remarks && errors.remarks
+                          ? theme.colors.red
+                          : theme.colors.solidGray,
+                      }}
+                    />
+                    <ErrorMessage
+                      error={errors.remarks}
+                      visible={touched.remarks}
+                    />
+                    <Block style={{ flex: 0, paddingVertical: 10 }}>
+                      {!errors.receiverName && !errors.amount ? (
+                        <Button onPress={handleSubmit}>
+                          {manualDonateConfirmationData.isLoading ? (
+                            <>
+                              <CustomActivityIndicator
+                                label="Requesting..."
+                                isLoading={
+                                  manualDonateConfirmationData.isLoading
+                                }
+                              />
+                              <Text button style={{ fontSize: 18 }}>
+                                Proceed
+                              </Text>
+                            </>
+                          ) : (
                             <Text button style={{ fontSize: 18 }}>
                               Proceed
                             </Text>
-                          </>
-                        ) : (
+                          )}
+                        </Button>
+                      ) : (
+                        <Button>
                           <Text button style={{ fontSize: 18 }}>
                             Proceed
                           </Text>
-                        )}
-                      </Button>
-                    ) : (
-                      <Button>
-                        <Text button style={{ fontSize: 18 }}>
-                          Proceed
-                        </Text>
-                      </Button>
-                    )}
-                  </Block>
-                </>
-              )}
-            </Formik>
-          </View>
-        </View>
+                        </Button>
+                      )}
+                    </Block>
+                  </>
+                )}
+              </Formik>
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

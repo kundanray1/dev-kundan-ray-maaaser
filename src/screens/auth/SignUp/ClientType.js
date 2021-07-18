@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   Text,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "../../../constants/theme";
 import { AntDesign } from "@expo/vector-icons";
@@ -65,13 +66,19 @@ export default ClientType = ({ clientType,setClientType }) => {
         transparent={true}
         onRequestClose={() => setModalVisible(!isModalVisible)}
       >
-        
-        <View style={[styles.container,{marginTop:"66%"}]}>
-          <View style={[styles.modal, { width: WIDTH - 40, height: 90 }]}>
+          <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() =>
+           setModalVisible(!isModalVisible)
+          }
+        >
+          <TouchableWithoutFeedback>
+          <View style={[styles.modal, { width: WIDTH - 40, height: 90,marginTop:"66%" }]}>
             {renderOptions}
           </View>
-        </View>
-
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
 
     </SafeAreaView>

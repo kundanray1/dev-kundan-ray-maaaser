@@ -54,7 +54,7 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
             ListEmptyComponent={() => (
               <Empty
                 iconName="campaigns"
-                title="You haven’t stated any campaigns yet."
+                title="You haven’t started any campaigns yet."
               />
             )}
             ListFooterComponent={() => (

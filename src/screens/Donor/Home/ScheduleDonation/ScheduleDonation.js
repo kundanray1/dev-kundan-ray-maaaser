@@ -37,7 +37,7 @@ const ScheduleDonation = ({
   });
   useEffect(() => {
     scheduleDonation(loginData.user.account.accountid);
-  }, []);
+  }, [linkScheduleDonationData.linkScheduleDonation,scheduleDonationReceiverDetailData.scheduleDonationReceiverDetail]);
 
   return (
     <>

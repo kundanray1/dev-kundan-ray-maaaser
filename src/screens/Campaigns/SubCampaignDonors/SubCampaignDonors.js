@@ -34,12 +34,12 @@ const SubCampaignDonors = ({
   }, [subCampaignId]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      
+       <ScrollView nestedScrollEnabled={true}>
+        <>
       {data.isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.primary2} />
       ) : (
-       <ScrollView nestedScrollEnabled={true}>
-        <>
+       data.subCampaignDonors.donationsList.length>0 ? 
         <Block style={{ flex: 0, marginTop: 6, paddingBottom: 20 }}>
           <Text
                 style={{
@@ -133,10 +133,14 @@ const SubCampaignDonors = ({
             )}
           />
         </Block>
+        :
+        <Empty
+                iconName="donors"
+                title="No donors yet."
+              />
+      )}
         </>
       </ScrollView>
-      )}
-       
     </SafeAreaView>
   );
 };

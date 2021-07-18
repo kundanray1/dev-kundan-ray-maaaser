@@ -46,6 +46,7 @@ import CampaignDonateNow from "../screens/Campaigns/CampaignDonateNow/index";
 import CampaignDonateNowConfirmation from "../screens/Campaigns/CampaignDonateNowConfirmation/index";
 import SubCampaignDonateNow from "../screens/Campaigns/SubCampaignDonateNow/index";
 import SubCampaignDonateNowConfirmation from "../screens/Campaigns/SubCampaignDonateNowConfirmation/index";
+import SUbCampaignQRCode from "../screens/Campaigns/SubCampaignQRCode/index";
 
 //more
 import AddMember from "../screens/Donor/More/AddMember/index";
@@ -336,6 +337,13 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={CampaignQRCode}
       />
+      
+      <AuthStack.Screen
+        name="Sub Campaign QR Code"
+        options={{ headerShown: true }}
+        component={SubCampaignQRCode}
+      />
+
       <AuthStack.Screen
         name="Sub Campaign Details"
         options={{ headerShown: true }}

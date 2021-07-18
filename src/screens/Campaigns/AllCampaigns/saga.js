@@ -34,6 +34,6 @@ export function* allCampaigns({ payload }) {
 	}
 }
 
-export default function* campaignsSaga() {
+export default function* allCampaignsSaga() {
 	yield takeLatest(ALL_CAMPAIGNS_START, allCampaigns);
 }

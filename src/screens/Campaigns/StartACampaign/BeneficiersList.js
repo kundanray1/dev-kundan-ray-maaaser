@@ -7,6 +7,7 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "./../../../constants/theme.js";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -102,8 +103,15 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
           setBeneficiersListModalVisible(!beneficiersListModalVisible)
         }
       >
-        <View style={[styles.container,{marginTop:"120%"}]}>
-          <View style={[styles.modal, { width: WIDTH - 30, height: 200 }]}>
+          <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() =>
+            setBeneficiersListModalVisible(!beneficiersListModalVisible)
+          }
+        >
+          <TouchableWithoutFeedback>
+          <View style={[styles.modal, { width: WIDTH - 30, height: 200,marginTop:"120%" }]}>
             <Block style={styles.boxSearchContainer}>
               <Block style={styles.boxVwSearch}>
                 <Ionicons name="search" color="#676767" size={18} />
@@ -161,7 +169,8 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
 							</Text>
 		</TouchableOpacity>
           </View>
-        </View>
+       </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

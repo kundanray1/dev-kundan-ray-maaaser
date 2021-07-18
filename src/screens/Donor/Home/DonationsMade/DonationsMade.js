@@ -9,6 +9,7 @@ import {
   Modal,
   View,
   Dimensions,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -162,7 +163,13 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
           setConfirmationSuccessfulVisible(!confirmationMessageVisible)
         }
       >
-        <View style={styles.container}>
+         >
+      <TouchableOpacity 
+            style={styles.container} 
+            activeOpacity={1} 
+            onPressOut={()=>setConfirmationSuccessfulVisible(!confirmationMessageVisible)}
+          >
+         <TouchableWithoutFeedback>
           <View
             style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
           >
@@ -283,7 +290,8 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
               </Text>
             </Button>
           </View>
-        </View>
+         </TouchableWithoutFeedback>
+          </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

@@ -10,6 +10,7 @@ import {
 	StyleSheet,
 	ImageBackground,
 	Alert,
+	TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
@@ -29,7 +30,7 @@ import { subCampaignId } from "./../screens/Campaigns/CampaignSubCampaign/action
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-  				
+
 export default CampaignCard = ({
 	label,
 	navigation,
@@ -95,55 +96,66 @@ export default CampaignCard = ({
 				statusBarTranslucent={true}
 				onRequestClose={() => setEditModalVisible(false)}
 			>
-				<View style={styles.container}>
-					<View
-						style={[
-							styles.modal,
-							{ width: 100, marginTop: HEIGHT / 5 },
-						]}
-					>
-						<TouchableOpacity
-							activeOpacity={0.8}
-							style={{
-								paddingVertical: 12,
-								borderBottomWidth: 1,
-								borderColor: "#F8F8F8",
-							}}
-							onPress={() => {
-								DisableWarning();
-								setEditModalVisible(false);
-							}}
+				<TouchableOpacity
+					style={styles.container}
+					activeOpacity={1}
+					onPressOut={() => setEditModalVisible(false)}
+				>
+					<TouchableWithoutFeedback>
+						<View
+							style={[
+								styles.modal,
+								{ width: 100, marginTop: HEIGHT / 5 },
+							]}
 						>
-							<Text
+							<TouchableOpacity
+								activeOpacity={0.8}
 								style={{
-									color: "#5F6062",
-									fontWeight: "700",
-									fontSize: 16,
+									paddingVertical: 12,
+								}}
+								onPress={() => {
+									DisableWarning();
+									setEditModalVisible(false);
 								}}
 							>
-								Disable
-							</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							activeOpacity={0.8}
-							style={{ paddingVertical: 12 }}
-							onPress={() => {
-								CloseWarning();
-								setEditModalVisible(false);
-							}}
-						>
-							<Text
+								<Text
+									style={{
+										color: "#5F6062",
+										fontWeight: "700",
+										fontSize: 16,
+									}}
+								>
+									Disable
+								</Text>
+							</TouchableOpacity>
+							<Block
 								style={{
-									color: "#5F6062",
-									fontWeight: "700",
-									fontSize: 16,
+									flex: 0,
+									borderBottomWidth: 1,
+									borderColor: "#F8F8F8",
+								}}
+							/>
+							<TouchableOpacity
+								activeOpacity={0.8}
+								style={{ paddingVertical: 12 }}
+								onPress={() => {
+									CloseWarning();
+									setEditModalVisible(false);
 								}}
 							>
-								Close
-							</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
+								<Text
+									style={{
+										color: "#5F6062",
+										fontWeight: "700",
+										fontSize: 16,
+									}}
+								>
+									Close
+								</Text>
+							</TouchableOpacity>
+						</View>
+					</TouchableWithoutFeedback>
+				</TouchableOpacity>
 			</Modal>
 		</SafeAreaView>
 	);
@@ -193,9 +205,9 @@ export default CampaignCard = ({
 			<TouchableOpacity
 				activeOpacity={1}
 				style={{
-					shadowRadius: 3,
-					elevation: 3,
-					borderRadius: 6,
+					shadowRadius: 1,
+					elevation: 2.5,
+					borderRadius: 1,
 				}}
 				{...props}
 			>
@@ -265,14 +277,16 @@ export default CampaignCard = ({
 
 					{targetAmount != undefined && collectedAmount != undefined && (
 						<>
-							<PercentageBar
-								height={4}
-								backgroundColor={"grey"}
-								completedColor={theme.colors.primary2}
-								percentage={
-									(collectedAmount * 100) / targetAmount
-								}
-							/>
+							<Block style={{ flex: 0, paddingRight: 10 }}>
+								<PercentageBar
+									height={4}
+									backgroundColor={"grey"}
+									completedColor={theme.colors.primary2}
+									percentage={
+										(collectedAmount * 100) / targetAmount
+									}
+								/>
+							</Block>
 							<Block row style={{ flex: 0 }}>
 								<NumberFormat
 									value={collectedAmount / 100}
@@ -327,9 +341,12 @@ export default CampaignCard = ({
 							paddingTop: 12,
 						}}
 					>
-						<Block row style={{
-							paddingBottom:16
-						}}>
+						<Block
+							row
+							style={{
+								paddingBottom: 16,
+							}}
+						>
 							<TimeRemainingIconComponent
 								height={38}
 								width={38}
@@ -344,7 +361,7 @@ export default CampaignCard = ({
 										marginLeft: 10,
 									}}
 								>
-									{moment(date).format("DD MMM YYYY")}
+									{moment(date).format("DD MMM, YYYY")}
 								</Text>
 								<Text
 									style={{
@@ -400,8 +417,6 @@ export default CampaignCard = ({
 								)}
 							</Block>
 						</Block>
-
-
 					</Block>
 				</Block>
 			</TouchableOpacity>

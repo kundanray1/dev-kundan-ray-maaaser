@@ -3,15 +3,17 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import DonorReceiver from "./DonorReceiver";
-import { donorReceiverStart,balanceStart } from "./actions";
+import { donorReceiverStart, balanceStart } from "./actions";
 import { donationsMadeStart } from "./../DonationsMade/actions";
 import { upcomingDonationsStart } from "./../UpcomingDonations/actions";
 import { receiversStart } from "./../Receivers/actions";
-import { manualDonateConfirmationStart,manualDonateConfirmationClear } from "./../ManualDonateConfirmation/actions";
+import {
+	manualDonateConfirmationStart,
+	manualDonateConfirmationClear,
+} from "./../ManualDonateConfirmation/actions";
 import { profileStart } from "./../../Profile/actions";
 import { allCampaignsStart } from "./../../../Campaigns/AllCampaigns/actions";
 import { campaignId } from "./../../../Campaigns/actions";
-
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.donorReceiver,
@@ -22,6 +24,9 @@ const mapStateToProps = createStructuredSelector({
 	receiversData: (state) => state.receivers,
 	manualDonateConfirmationData: (state) => state.manualDonateConfirmation,
 	allCampaignsData: (state) => state.allCampaigns,
+	manualDonateConfirmationData: (state) => state.manualDonateConfirmation,
+	ACHLoadFundConfirmationData: (state) => state.ACHLoadFundConfirmation,
+	cardLoadFundConfirmationData: (state) => state.cardLoadFundConfirmation,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -30,8 +35,10 @@ const mapDispatchToProps = (dispatch) => {
 		upcomingDonations: (values) => dispatch(upcomingDonationsStart(values)),
 		donationsMade: (values) => dispatch(donationsMadeStart(values)),
 		receivers: () => dispatch(receiversStart()),
-		manualDonateConfirmationStart: (values) => dispatch(manualDonateConfirmationStart(values)),
-		manualDonateConfirmationClear: () => dispatch(manualDonateConfirmationClear()),
+		manualDonateConfirmationStart: (values) =>
+			dispatch(manualDonateConfirmationStart(values)),
+		manualDonateConfirmationClear: () =>
+			dispatch(manualDonateConfirmationClear()),
 		profile: (values) => dispatch(profileStart(values)),
 		allCampaigns: (values) => dispatch(allCampaignsStart(values)),
 		campaignId: (values) => dispatch(campaignId(values)),

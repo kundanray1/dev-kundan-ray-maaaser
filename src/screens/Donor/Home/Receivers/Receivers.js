@@ -8,7 +8,8 @@ import {
   ActivityIndicator,
   Modal,
   View,
-  Dimensions
+  Dimensions,
+  TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -22,7 +23,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
-import  styles  from "./../../../../utility/globalStyles.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 
@@ -133,7 +133,12 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
           setConfirmationSuccessfulVisible(!confirmationSuccessfulVisible)
         }
       >
-        <View style={styles.container}>
+         <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() => setConfirmationSuccessfulVisible(!confirmationSuccessfulVisible)}
+        >
+          <TouchableWithoutFeedback>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Formik
           initialValues={{
@@ -232,9 +237,9 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
             </>
           )}
         </Formik>
-             
           </View>
-        </View>
+          </TouchableWithoutFeedback>
+         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
@@ -310,3 +315,20 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
   );
 };
 export default Receivers;
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modal: {
+    borderRadius: 4,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+  },
+});

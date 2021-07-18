@@ -23,6 +23,10 @@ import BottomRightBorderIconComponent from "./../../../assets/icons/BottomRightB
 import * as theme from "./../../../constants/theme.js";
 import { shareIcon } from "./Dummy";
 import SvgQRCode from "react-native-qrcode-svg";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
+import { showMessage } from "react-native-flash-message";
+
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 export default CampaignQRCode = ({
@@ -32,17 +36,34 @@ export default CampaignQRCode = ({
 }) => {
   const [svg, setSvg] = useState();
   function getDataURL() {
+    console.log("1")
     svg.toDataURL(callback);
   }
 
-  function callback(dataURL) {
-    console.log(dataURL);
+  async function callback(dataURL) {
+    console.log("2")
+    const data = `data:image/png;base64,${dataURL}`;
+    const base64Code = data.split("data:image/png;base64,")[1];
+
+    const filename = FileSystem.documentDirectory + "QRcode.png";
+    await FileSystem.writeAsStringAsync(filename, base64Code, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status === "granted") {
+      await MediaLibrary.saveToLibraryAsync(filename);
+      showMessage({
+      message: "Downloaded successfully",
+      type: "success",
+    });
+
+    }
   }
+
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message:
-          "What the user wants to share to other it could be link or any msg",
+        message: `https://maaser-api.brilltech.com/campaign/${campaignId}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -140,7 +161,7 @@ export default CampaignQRCode = ({
           </Text>
         </Block>
         <Block middle>
-          <Button full onPress={()=>getDataURL()}>
+          <Button full onPress={() => getDataURL()}>
             <Text button style={{ fontSize: 18 }}>
               Download QR
             </Text>
@@ -168,11 +189,7 @@ export default CampaignQRCode = ({
             <Block style={{ height: 1, backgroundColor: theme.colors.black }} />
           </Block>
 
-          <OutlinedButton
-            full
-            // onPress={() => setConfirmationSuccessfulVisible(true)}
-            onPress={onShare}
-          >
+          <OutlinedButton full onPress={onShare}>
             <Text
               outlinedButton
               style={{ color: theme.colors.primary1, fontSize: 18 }}

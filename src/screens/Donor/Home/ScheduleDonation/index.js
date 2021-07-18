@@ -8,8 +8,8 @@ import { scheduleDonationStart } from "./actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.scheduleDonation,
 	loginData: (state) => state.login,
-	
-
+	linkScheduleDonationData: (state) => state.linkScheduleDonation,
+	scheduleDonationReceiverDetailData: (state) => state.scheduleDonationReceiverDetail,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

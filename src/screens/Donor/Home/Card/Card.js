@@ -19,7 +19,7 @@ import { Bottom } from "./Bottom.js";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import CardIconComponent from "./../../../../assets/icons/cardIconComponent";
 
-const Card = ({ navigation, data, card,loginData }) => {
+const Card = ({ navigation, data, card,loginData,linkNewCardData }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [cardData, setCardData] = useState();
   let bs = React.createRef();
@@ -29,10 +29,8 @@ const Card = ({ navigation, data, card,loginData }) => {
     setRefreshing(false);
   });
    useEffect(() => {
-    if(data.card===null){
         card();
-    }
-  }, [data.card]);
+  }, [data.cardUpdateStatus,linkNewCardData.linkNewCard]);
   return (
     <>
       <TouchableWithoutFeedback

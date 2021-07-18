@@ -6,11 +6,11 @@ import {
 	TouchableOpacity,
 	Modal,
 	Text,
+	TouchableWithoutFeedback
 } from "react-native";
 import * as theme from "../../../constants/theme";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "../../../utility/globalStyles.js";
-
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -69,16 +69,22 @@ export default CategoryType = ({ categoryType, setCategoryType }) => {
 				transparent={true}
 				onRequestClose={() => setModalVisible(!isModalVisible)}
 			>
-        <View style={[styles.container,{marginTop:"134%"}]}>
-					<View
-						style={[
-							styles.modal,
-							{ width: WIDTH - 30, height: 80 },
-						]}
-					>
-						{renderOptions}
-					</View>
-				</View>
+				<TouchableOpacity
+					style={styles.container}
+					activeOpacity={1}
+					onPressOut={() => setModalVisible(!isModalVisible)}
+				>
+					<TouchableWithoutFeedback>
+						<View
+							style={[
+								styles.modal,
+								{ width: WIDTH - 30, height: 80,marginTop: "134%" },
+							]}
+						>
+							{renderOptions}
+						</View>
+					</TouchableWithoutFeedback>
+				</TouchableOpacity>
 			</Modal>
 		</SafeAreaView>
 	);

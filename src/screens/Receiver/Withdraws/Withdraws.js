@@ -9,6 +9,7 @@ import {
   Modal,
   View,
   Dimensions,
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -26,7 +27,13 @@ import WithdrawsType from "./WithdrawsType";
 import API from "../../../api/API.js";
 import WithdrawsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
 const WIDTH = Dimensions.get("window").width;
-const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) => {
+const Withdraws = ({
+  navigation,
+  data,
+  loginData,
+  withdraws,
+  withdrawsSearch,
+}) => {
   const [withdrawsData, setWithdrawsData] = useState();
   const [
     confirmationMessageVisible,
@@ -42,7 +49,7 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
   const [withdrawsTypeId, setWithdrawsTypeId] = useState("");
 
   const [refreshing, setRefreshing] = useState(false);
-  
+
   const onChangeFromDate = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
     setShowFromDate(Platform.OS === "ios");
@@ -62,40 +69,42 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
   });
 
   const onPressReset = () => {
-  setFromDate("2021-07-03T15:21:15.513Z");
-  setToDate("2021-07-03T15:21:15.513Z");
-  setWithdrawsMedium();
-  setWithdrawsMediumId("");
-  setWithdrawsType();
-  setWithdrawsTypeId("");
+    setFromDate("2021-07-03T15:21:15.513Z");
+    setToDate("2021-07-03T15:21:15.513Z");
+    setWithdrawsMedium();
+    setWithdrawsMediumId("");
+    setWithdrawsType();
+    setWithdrawsTypeId("");
   };
 
   const onPressSubmitApply = () => {
-    setConfirmationSuccessfulVisible(false)
+    setConfirmationSuccessfulVisible(false);
     withdrawsSearch({
-      accountId:loginData.user.account.accountid,
-      fromDate:new Date(fromDate).getTime(),
-      toDate:new Date(toDate).getTime(),
-      medium:withdrawsMediumId,
-      type:withdrawsTypeId
-    })
+      accountId: loginData.user.account.accountid,
+      fromDate: new Date(fromDate).getTime(),
+      toDate: new Date(toDate).getTime(),
+      medium: withdrawsMediumId,
+      type: withdrawsTypeId,
+    });
     onPressReset();
-
   };
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-       <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setConfirmationSuccessfulVisible(true)}
-              style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
-                >
-                   <WithdrawsSearchIconComponent height={25} width={20}/>
-                </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => setConfirmationSuccessfulVisible(true)}
+          style={{
+            alignItems: "flex-end",
+            marginRight: 16,
+            justifyContent: "center",
+          }}
+        >
+          <WithdrawsSearchIconComponent height={25} width={20} />
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
-
 
   const renderItems = ({ item }) => {
     return (
@@ -161,126 +170,148 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
           setConfirmationSuccessfulVisible(!confirmationMessageVisible)
         }
       >
-        <View style={styles.container}>
-          <View
-            style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-          >
-
-          <Block style={{flex:0,alignItems:"center",paddingVertical:10}}>
-          <Block style={{flex:0,backgroundColor:"#E2E2E2",width:WIDTH-280,borderRadius:10,paddingVertical:2}}/>
-            </Block>
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() =>
+            setConfirmationSuccessfulVisible(!confirmationMessageVisible)
+          }
+        >
+          <TouchableWithoutFeedback>
+            <View
+              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
+            >
+              <Block
+                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
+              >
+                <Block
+                  style={{
+                    flex: 0,
+                    backgroundColor: "#E2E2E2",
+                    width: WIDTH - 280,
+                    borderRadius: 10,
+                    paddingVertical: 2,
+                  }}
+                />
+              </Block>
               <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{flexDirection:"row", justifyContent: "flex-end", paddingBottom: 8 }}
-                  onPress={onPressReset}
+                activeOpacity={0.8}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  paddingBottom: 8,
+                }}
+                onPress={onPressReset}
+              >
+                <Text
+                  bold
+                  style={{ fontSize: 14, fontWeight: "700" }}
+                  color={theme.colors.red}
                 >
-              <Text bold style={{ fontSize: 14, fontWeight: "700" }} color={theme.colors.red}>
                   Reset
                 </Text>
-                </TouchableOpacity>
+              </TouchableOpacity>
 
-            <Block row style={{ flex: 0 }}>
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                  From
-                </Text>
-                <TouchableOpacity
-                  style={[styles.customPicker,{width:"90%"}]}
-                  activeOpacity={0.8}
-                  onPress={() => setShowFromDate(true)}
-                >
-                  <Text
-                    bold
-                    style={{
-                      fontSize: 16,
-                      color:"#999999",
-                    }}
-                  >
-                  {
-                      fromDate=="2021-07-03T15:21:15.513Z"?"":
-                       moment(fromDate).format("DD/MM/YYYY")
-                    }
+              <Block row style={{ flex: 0 }}>
+                <Block style={{ paddingVertical: 8 }}>
+                  <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                    From
                   </Text>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
+                  <TouchableOpacity
+                    style={[styles.customPicker, { width: "95%" }]}
+                    activeOpacity={0.8}
+                    onPress={() => setShowFromDate(true)}
+                  >
+                    <Text
+                      bold
+                      style={{
+                        fontSize: 16,
+                        color: "#999999",
+                      }}
+                    >
+                      {fromDate == "2021-07-03T15:21:15.513Z"
+                        ? ""
+                        : moment(fromDate).format("DD/MM/YYYY")}
+                    </Text>
+                    <Block style={{ alignItems: "flex-end" }}>
+                      <MaterialCommunityIcons
+                        name="calendar-month"
+                        size={20}
+                        color={theme.colors.primary2}
+                      />
+                    </Block>
+                  </TouchableOpacity>
+                  {showFromDate && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={new Date()}
+                      mode="date"
+                      display="default"
+                      textColor="red"
+                      onChange={onChangeFromDate}
                     />
-                  </Block>
-                </TouchableOpacity>
-                {showFromDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    mode="date"
-                    display="default"
-                    textColor="red"
-                    onChange={onChangeFromDate}
-                  />
-                )}
+                  )}
+                </Block>
+
+                <Block style={{ paddingVertical: 8 }}>
+                  <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                    To
+                  </Text>
+                  <TouchableOpacity
+                    style={[styles.customPicker, { left: "10%" }]}
+                    activeOpacity={0.8}
+                    onPress={() => setShowToDate(true)}
+                  >
+                    <Text
+                      bold
+                      style={{
+                        fontSize: 16,
+                        color: "#999999",
+                      }}
+                    >
+                      {toDate == "2021-07-03T15:21:15.513Z"
+                        ? ""
+                        : moment(toDate).format("DD/MM/YYYY")}
+                    </Text>
+                    <Block style={{ alignItems: "flex-end" }}>
+                      <MaterialCommunityIcons
+                        name="calendar-month"
+                        size={20}
+                        color={theme.colors.primary2}
+                      />
+                    </Block>
+                  </TouchableOpacity>
+                  {showToDate && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={new Date()}
+                      mode="date"
+                      display="default"
+                      textColor="red"
+                      onChange={onChangeToDate}
+                    />
+                  )}
+                </Block>
               </Block>
 
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                  To
+              <WithdrawsMedium
+                withdrawsMedium={withdrawsMedium}
+                setWithdrawsMedium={setWithdrawsMedium}
+                setWithdrawsMediumId={setWithdrawsMediumId}
+              />
+              <WithdrawsType
+                withdrawsType={withdrawsType}
+                setWithdrawsType={setWithdrawsType}
+                setWithdrawsTypeId={setWithdrawsTypeId}
+              />
+              <Button onPress={onPressSubmitApply}>
+                <Text button style={{ fontSize: 18 }}>
+                  Apply
                 </Text>
-                <TouchableOpacity
-                  style={[styles.customPicker,{left:"10%"}]}
-                  activeOpacity={0.8}
-                  onPress={() => setShowToDate(true)}
-                >
-                  <Text
-                    bold
-                    style={{
-                      fontSize: 16,
-                      color:"#999999",
-
-                    }}
-                  >
-                    {
-                      toDate=="2021-07-03T15:21:15.513Z"?"":
-                       moment(toDate).format("DD/MM/YYYY")
-                    }
-                  </Text>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
-                    />
-                  </Block>
-                </TouchableOpacity>
-                {showToDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    mode="date"
-                    display="default"
-                    textColor="red"
-                    onChange={onChangeToDate}
-                  />
-                )}
-              </Block>
-            </Block>
-
-            <WithdrawsMedium
-              withdrawsMedium={withdrawsMedium}
-              setWithdrawsMedium={setWithdrawsMedium}
-              setWithdrawsMediumId={setWithdrawsMediumId}
-            />
-            <WithdrawsType
-              withdrawsType={withdrawsType}
-              setWithdrawsType={setWithdrawsType}
-              setWithdrawsTypeId={setWithdrawsTypeId}
-            />
-            <Button onPress={onPressSubmitApply}>
-              <Text button style={{ fontSize: 18 }}>
-                Apply
-              </Text>
-            </Button>
-          </View>
-        </View>
+              </Button>
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
@@ -293,22 +324,24 @@ const Withdraws = ({ navigation, data,loginData, withdraws,withdrawsSearch }) =>
         </Block>
       ) : (
         <Block style={{ flex: 0, marginTop: 6 }}>
-           
           <SectionList
             sections={withdrawsData}
             keyExtractor={(item, index) => item + index}
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="withdraws" title="You don't any withdraws yet." />
+              <Empty
+                iconName="withdraws"
+                title="You don't any withdraws yet."
+              />
             )}
             refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
+              <RefreshControl
+                colors={[theme.colors.primary2]}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
             ListFooterComponent={() => (
               <Block
                 middle
@@ -347,7 +380,7 @@ const styles = StyleSheet.create({
     height: 28,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderColor:"#E7E7E7",
+    borderColor: "#E7E7E7",
     alignItems: "center",
     borderBottomWidth: 1,
     paddingVertical: 6,
