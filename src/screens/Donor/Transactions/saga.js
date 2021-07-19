@@ -17,6 +17,7 @@ export function* transactions({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("transactions",res.transactionsList);
 		if (res.success) {
 			yield put(transactionsSuccess(res.transactionsList));
 		} else {

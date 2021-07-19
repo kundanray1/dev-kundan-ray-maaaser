@@ -285,6 +285,7 @@ const Withdraws = ({
                     <DateTimePicker
                       testID="dateTimePicker"
                       value={new Date()}
+                      maximumDate={new Date()}
                       mode="date"
                       display="default"
                       textColor="red"

@@ -1,380 +1,332 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import {
   TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator,
-  SafeAreaView,
-  RefreshControl,
-  SectionList,
-  Modal,
-  View,
   Dimensions,
+  StyleSheet,
+  TextInput,
+  Modal,
+  SafeAreaView,
+  View,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
   Block,
-  Empty,
-  TransactionDetailCard,
   Text,
   Button,
+  CustomActivityIndicator,
 } from "../../../components/Index.js";
-import moment from "moment";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import TransactionsMedium from "./TransactionsMedium";
-import TransactionsType from "./TransactionsType";
-import API from "../../../api/API.js";
-import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
+import { Formik } from "formik";
+import { StartACampaignValidationSchema } from "./../../../utility/ValidationSchema.js";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import RaisingMoneyType from "./RaisingMoneyType";
+import CategoryType from "./CategoryType";
+import Country from "./Country";
+import StartACampaignOneIconComponent from "./../../../assets/icons/startACampaignOneIconComponent";
+import BeneficiersList from "./BeneficiersList";
+import CampaignProto from "./../../../protos/campaign_pb";
+import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
+
 const WIDTH = Dimensions.get("window").width;
-const Transactions = ({
-  navigation,
+
+const StartACampaignUpdate = ({
   data,
-  loginData,
-  transactions,
-  search,
+  navigation,
+  receiversData,
+  startACampaignThirdUpdateStart,
+  startACampaignThirdUpdateClear,
+  route,
+  loginData
 }) => {
-  const [transactionsData, setTransactionsData] = useState();
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [fromDate, setFromDate] = useState("2021-07-03T15:21:15.513Z");
-  const [showFromDate, setShowFromDate] = useState(false);
-  const [toDate, setToDate] = useState("2021-07-03T15:21:15.513Z");
-  const [showToDate, setShowToDate] = useState(false);
-  const [transactionsMedium, setTransactionsMedium] = useState();
-  const [transactionsMediumId, setTransactionsMediumId] = useState("");
-  const [transactionsType, setTransactionsType] = useState();
-  const [transactionsTypeId, setTransactionsTypeId] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
-  const onChangeFromDate = (event, selectedDate) => {
-    const currentDate = selectedDate || fromDate;
-    setShowFromDate(Platform.OS === "ios");
-    setFromDate(currentDate);
-    setShowFromDate(false);
-  };
-  const onChangeToDate = (event, selectedDate) => {
-    const currentDate = selectedDate || toDate;
-    setShowToDate(Platform.OS === "ios");
-    setToDate(currentDate);
-    setShowToDate(false);
-  };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    transactions(loginData.user.account.accountid);
-    setRefreshing(false);
-  });
+  const [beneficierId, setBeneficierId] = useState("");
+  const [beneficierName, setBeneficierName] = useState("");
+  const [titleFocus, setTitleFocus] = useState();
+  const [raisingMoneyType, setRaisingMoneyType] = useState(route.params.campaignDetails.campaign.beneficiarytype==1?"Myself":"Myself", "Someone else");
+  const [beneficiaryType, setBeneficiaryType] = useState(route.params.campaignDetails.campaign.beneficiarytype);
+  const [categoryType, setCategoryType] = useState(route.params.campaignDetails.campaign.category);
+  const [country, setCountry] = useState(route.params.campaignDetails.campaign.countrycode);
+  const [countryCode, setCountryCode] = useState(route.params.campaignDetails.campaign.countrycode);
+  const [allowSubCampaigns, setAllowSubCampaigns] = useState(route.params.campaignDetails.campaign.allowsubcampaign);
+  const [targetAmount, setTargetAmount] = useState((route.params.campaignDetails.campaign.targetamount/100).toString());
 
-  const onPressReset = () => {
-    setFromDate("2021-07-03T15:21:15.513Z");
-    setToDate("2021-07-03T15:21:15.513Z");
-    setTransactionsMedium();
-    setTransactionsMediumId("");
-    setTransactionsType();
-    setTransactionsTypeId("");
-  };
-
-  const onPressSubmitApply = () => {
-    setConfirmationSuccessfulVisible(false);
-    search({
-      accountId: loginData.user.account.accountid,
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-    });
-    onPressReset();
-  };
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            setConfirmationSuccessfulVisible(true);
-          }}
-          style={{
-            alignItems: "flex-end",
-            marginRight: 16,
-            justifyContent: "center",
-          }}
-        >
-          <TransactionsSearchIconComponent height={25} width={20} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
-  const renderItems = ({ item }) => {
-    return (
-      <Block style={{ paddingHorizontal: 8 }}>
-        <TransactionDetailCard
-          data={item}
-          amount={item.amount}
-          date={item.createdat}
-          textColor={theme.colors.black}
-          transactionType={item.transactiontype}
-          transactionMedium={item.transactionmedium}
-        />
-      </Block>
+  const onSubmitStartACampaign = (values) => {
+    const campaignData = new CampaignProto.Campaign();
+    campaignData.setCampaignid(route.params.campaignDetails.campaign.campaignid);
+    campaignData.setAccountid(loginData.user.account.accountid);
+    campaignData.setTargetamount(targetAmount*100);
+    campaignData.setCountrycode(countryCode);
+    campaignData.setTitle(values.title);
+    campaignData.setBeneficiarytype(
+      raisingMoneyType=="Myself"?1:2
     );
-  };
-
-  const renderHeader = ({ section }) => {
-    return (
-      <Block
-        style={{
-          backgroundcolor: theme.colors.gray2,
-          paddingHorizontal: 16,
-          paddingVertical: 16,
-        }}
-      >
-        <Text
-          color={theme.colors.gray}
-          style={{ fontSize: 16, fontWeight: "700" }}
-        >
-          {section.title}
-        </Text>
-      </Block>
-    );
+    campaignData.setBeneficiaryaccountid(beneficierId);
+    campaignData.setCategory(categoryType);
+    campaignData.setDescription(route.params.campaignDetails.campaign.description);
+    campaignData.setThumbnailurl(route.params.campaignDetails.campaign.thumbnailurl);
+    campaignData.setAllowsubcampaign(allowSubCampaigns);
+    campaignData.setCampaignstatus(route.params.campaignDetails.campaign.campaignstatus);
+    startACampaignThirdUpdateStart(campaignData);
   };
 
   useEffect(() => {
-    if (data.transactions == null) {
-      transactions(loginData.user.account.accountid);
-    } else {
-      const sortedData = Object.values(
-        data.transactions.reduce((acc, item) => {
-          if (!acc[moment(item.createdat).format("Do MMM YYYY")])
-            acc[moment(item.createdat).format("Do MMM YYYY")] = {
-              title: moment(item.createdat).format("Do MMM YYYY"),
-              data: [],
-            };
-          acc[moment(item.createdat).format("Do MMM YYYY")].data.push(item);
-          return acc;
-        }, {})
-      );
-      setTransactionsData(sortedData);
+    if (data.startACampaignThirdUpdate !== null) {
+      if (data.startACampaignThirdUpdate.success) {
+        setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+        startACampaignThirdUpdateClear();
+      }
     }
-  }, [data.transactions]);
+  }, [data.startACampaignThirdUpdate]);
+
+
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
         visible={confirmationMessageVisible}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
+        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
       >
         <View style={styles.container}>
-          <View
-            style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-          >
-            <Block
-              style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-            >
-              <Block
-                style={{
-                  flex: 0,
-                  backgroundColor: "#E2E2E2",
-                  width: WIDTH - 280,
-                  borderRadius: 10,
-                  paddingVertical: 2,
-                }}
-              />
-            </Block>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={{
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                paddingBottom: 8,
-              }}
-              onPress={onPressReset}
-            >
-              <Text
-                bold
-                style={{ fontSize: 14, fontWeight: "700" }}
-                color={theme.colors.red}
-              >
-                Reset
-              </Text>
-            </TouchableOpacity>
-
-            <Block row style={{ flex: 0 }}>
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                  From
+          <View style={[styles.modal, { width: WIDTH - 45 }]}>
+            <Text center style={{ fontSize: 18, fontWeight: "700" }}>
+              Campaign Updated Successfully!
+            </Text>
+            <View style={{ paddingVertical: 25, alignItems: "center" }}>
+              <TickIconComponent />
+            </View>
+            <View style={{ paddingHorizontal: 30 }}>
+              <Button onPress={() => navigation.navigate("Campaigns")}>
+                <Text button style={{ fontSize: 18 }}>
+                  View Campaign
                 </Text>
-                <TouchableOpacity
-                  style={[styles.customPicker, { width: "90%" }]}
-                  activeOpacity={0.8}
-                  onPress={() => setShowFromDate(true)}
-                >
-                  <Text
-                    bold
-                    style={{
-                      fontSize: 16,
-                      color: "#999999",
-                    }}
-                  >
-                    {fromDate == "2021-07-03T15:21:15.513Z"
-                      ? ""
-                      : moment(fromDate).format("DD/MM/YYYY")}
-                  </Text>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
-                    />
-                  </Block>
-                </TouchableOpacity>
-                {showFromDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    textColor="red"
-                    onChange={onChangeFromDate}
-                  />
-                )}
-              </Block>
-
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                  To
-                </Text>
-                <TouchableOpacity
-                  style={[styles.customPicker, { left: "10%" }]}
-                  activeOpacity={0.8}
-                  onPress={() => setShowToDate(true)}
-                >
-                  <Text
-                    bold
-                    style={{
-                      fontSize: 16,
-                      color: "#999999",
-                    }}
-                  >
-                    {toDate == "2021-07-03T15:21:15.513Z"
-                      ? ""
-                      : moment(toDate).format("DD/MM/YYYY")}
-                  </Text>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
-                    />
-                  </Block>
-                </TouchableOpacity>
-                {showToDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    textColor="red"
-                    onChange={onChangeToDate}
-                  />
-                )}
-              </Block>
-            </Block>
-
-            <TransactionsMedium
-              transactionsMedium={transactionsMedium}
-              setTransactionsMedium={setTransactionsMedium}
-              setTransactionsMediumId={setTransactionsMediumId}
-            />
-            <TransactionsType
-              transactionsType={transactionsType}
-              setTransactionsType={setTransactionsType}
-              setTransactionsTypeId={setTransactionsTypeId}
-            />
-            <Button onPress={onPressSubmitApply}>
-              <Text button style={{ fontSize: 18 }}>
-                Apply
-              </Text>
-            </Button>
+              </Button>
+            </View>
           </View>
         </View>
       </Modal>
     </SafeAreaView>
   );
-
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      {data.isLoading ? (
-        <Block center middle>
-          <ActivityIndicator size="large" color={theme.colors.primary2} />
-        </Block>
-      ) : (
-        <Block style={{ flex: 0, marginTop: 6 }}>
-          <SectionList
-            sections={transactionsData}
-            keyExtractor={(item, index) => item + index}
-            renderItem={renderItems}
-            renderSectionHeader={renderHeader}
-            ListEmptyComponent={() => (
-              <Empty
-                iconName="transactions"
-                title="You don't any transactions yet."
-              />
-            )}
-            refreshControl={
-              <RefreshControl
-                colors={[theme.colors.primary2]}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-            ListFooterComponent={() => (
-              <Block
-                middle
+    <KeyboardAwareScrollView
+      style={{ marginVertical: 10 }}
+      showsVerticalScrollIndicator={false}
+    >
+      <Block style={{ paddingHorizontal: 16 }}>
+        <Formik
+          initialValues={{
+            title: route.params.campaignDetails.campaign.title!==undefined?route.params.campaignDetails.campaign.title:"",
+          }}
+          onSubmit={(values) => {
+            onSubmitStartACampaign(values);
+          }}
+          validationSchema={StartACampaignValidationSchema}
+        >
+          {({
+            handleChange,
+            touched,
+            setFieldTouched,
+            handleSubmit,
+            values,
+            errors,
+          }) => (
+            <Block>
+              <Text
                 center
-                style={{ marginBottom: 120, flex: 0 }}
-              ></Block>
-            )}
-            ListFooterComponentStyle={{
-              paddingVertical: 20,
-            }}
-          />
-        </Block>
-      )}
+                style={{
+                  fontSize: 20,
+                  paddingVertical: 20,
+                  fontWeight: "700",
+                  color: "#5F6062",
+                }}
+              >
+                Enter your goal
+              </Text>
+              <Block style={{ flex: 0, paddingBottom: 10 }}>
+                <Block style={styles.amountSection}>
+                  <Text
+                    center
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "700",
+                      color: "#0DB952",
+                    }}
+                  >
+                    $
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    textAlign={"center"}
+                    value={targetAmount}
+                    onChangeText={(value) => setTargetAmount(value)}
+                    placeholder="0"
+                    placeholderTextColor="#0DB952"
+                    keyboardType="numeric"
+                  />
+                </Block>
+              </Block>
+
+              <Country country={country} setCountry={setCountry} setCountryCode={setCountryCode} />
+              <Input
+                label="Campaign Title"
+                focus={titleFocus}
+                onChangeText={handleChange("title")}
+                onBlur={() => {
+                  setFieldTouched("title");
+                  setTitleFocus(false);
+                }}
+                onFocus={() => setTitleFocus(true)}
+                value={values.title}
+                style={{
+                  borderBottomColor: titleFocus
+                    ? theme.colors.primary2
+                    : touched.title && errors.title
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+                }}
+              />
+              <ErrorMessage error={errors.title} visible={touched.title} />
+              <RaisingMoneyType
+                raisingMoneyType={raisingMoneyType}
+                setRaisingMoneyType={setRaisingMoneyType}
+              />
+              <BeneficiersList
+                beneficierName={beneficierName}
+                setBeneficierId={setBeneficierId}
+                setBeneficierName={setBeneficierName}
+                receiversData={receiversData}
+                navigation={navigation}
+              />
+             {/* <BeneficiaryType
+                beneficierId={beneficierId}
+                setBeneficierId={setBeneficierId}
+                setBeneficierName={setBeneficierName}
+                receiversData={receiversData}
+              />*/}
+              <CategoryType
+                categoryType={categoryType}
+                setCategoryType={setCategoryType}
+              />
+              <Block style={{ flex: 0 }}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => setAllowSubCampaigns(!allowSubCampaigns)}
+                  style={{ flexDirection: "row" }}
+                >
+                  {allowSubCampaigns ? (
+                    <MaterialCommunityIcons
+                      name="checkbox-marked"
+                      size={22}
+                      color={theme.colors.primary2}
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="checkbox-blank-outline"
+                      size={22}
+                      color={theme.colors.solidGray}
+                    />
+                  )}
+                  <Text
+                    bold
+                    style={{ fontSize: 16, paddingHorizontal: 8, marginTop: 2 }}
+                    color={theme.colors.solidGray}
+                  >
+                    Allow sub-campaigns
+                  </Text>
+                </TouchableOpacity>
+              </Block>
+              {!errors.title ||
+              raisingMoneyType == "" ||
+              beneficiaryType == "" ||
+              categoryType == "" ||
+              country == "" ? (
+                <Button
+                  style={{
+                    marginTop: 12,
+                    marginBottom: 12,
+                  }}
+                  onPress={handleSubmit}
+                >
+                  <Text button style={{ fontSize: 18 }}>
+                    Update
+                  </Text>
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    marginTop: 12,
+                    marginBottom: 12,
+                  }}
+                  onPress={handleSubmit}
+                >
+                  {data.isLoading ? (
+                    <>
+                      <CustomActivityIndicator
+                        label="Requesting..."
+                        isLoading={data.isLoading}
+                      />
+                      <Text button style={{ fontSize: 18 }}>
+                        Update
+                      </Text>
+                    </>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Update
+                    </Text>
+                  )}
+                </Button>
+              )}
+            </Block>
+          )}
+        </Formik>
+      </Block>
+       {data.isLoading?
+       <CustomActivityIndicator
+                      isLoading={data.isLoading}
+                      label="Requesting..."
+                    />
+                    :
+                    <Block/>
+      }
       {ConfirmationMessage()}
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 
-export default Transactions;
+export default StartACampaignUpdate;
 
 const styles = StyleSheet.create({
-  container: {
+   amountSection: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#E9F9FF",
+    paddingHorizontal: 4,
+  },
+  input: {
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    fontWeight: "700",
+    fontSize: 22,
+    color: "#0DB952",
+    backgroundColor: "#E9F9FF",
+  },
+   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
   modal: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderRadius: 10,
     borderColor: theme.colors.gray,
     backgroundColor: theme.colors.white,
-    paddingVertical: 10,
-  },
-  customPicker: {
-    height: 28,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: "#E7E7E7",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    paddingVertical: 6,
+    paddingVertical: 30,
   },
 });

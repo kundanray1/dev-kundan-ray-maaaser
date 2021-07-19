@@ -63,11 +63,17 @@ export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType }) => 
         transparent={true}
         onRequestClose={() => setModalVisible(!isModalVisible)}
       >
-        <View style={[styles.container,{marginTop:"106%"}]}>
-          <View style={[styles.modal, { width: WIDTH - 30, height: 80 }]}>
+      <TouchableOpacity
+          style={styles.container}
+          activeOpacity={1}
+          onPressOut={() => setModalVisible(!isModalVisible)}
+        >
+          <TouchableWithoutFeedback>
+          <View style={[styles.modal, { width: WIDTH - 30, height: 80,marginTop:"40%" }]}>
             {renderOptions}
           </View>
-        </View>
+          </TouchableWithoutFeedback>
+         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );

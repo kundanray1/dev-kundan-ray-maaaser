@@ -66,19 +66,23 @@ export default StyleSheet.create({
 		height: 40,
 		marginTop:8,
 		flexDirection: "row",
-		borderWidth: 1,
 		flex: 0,
 		borderColor: theme.colors.gray2,
 		paddingHorizontal: 10,
 		borderRadius: 2,
+		backgroundColor:"#F4F4F4"
+
 	},
 	boxVwSearch: {
 		flex: 0.1,
 		justifyContent: "center",
+		backgroundColor:"#F4F4F4"
+
 	},
 	boxTextInput: {
 		flex: 1,
 		fontSize: 18,
 		justifyContent: "center",
+		color:"#9D9D9D"
 	},
 });

@@ -54,7 +54,6 @@ export function* campaignsEdit({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("campaignStatus",res);
 		if (res.success) {
 				yield put(campaignsEditSuccess(res));
 		} else {

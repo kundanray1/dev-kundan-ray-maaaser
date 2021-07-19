@@ -137,9 +137,15 @@ Add beneficiary/Lisiting(Automaically referesh)
 QR code generta and download
 change successfull to successful
 
-
-
 Campaigna and subcampaign update UI and API
 Generate QR code and download
 Reload Issue aftere post update and delete of every screens
 Check UI thoroughly
+
+
+Campaign ko filter ko UI and API
+Update UI and API implementation
+Export file garne garne UI
+Search wala on Upcoming donations and donations made
+Check allowcampaignstatus and render conditionally in CampaignSubCampaign
+Show Donate button in campain details and sub campaign details 

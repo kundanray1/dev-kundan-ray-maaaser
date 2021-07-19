@@ -24,6 +24,8 @@ const ScheduleDonation = ({
   data,
   loginData,
   scheduleDonation,
+  linkScheduleDonationData,
+  scheduleDonationReceiverDetailData
 }) => {
   const [amountFocus, setAmountFocus] = useState(false);
   const [scheduleDonationData, setScheduleDonationData] = useState();

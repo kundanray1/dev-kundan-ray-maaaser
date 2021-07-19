@@ -30,6 +30,7 @@ const PercentageBar = ({
           style={{
             width: getPercentage>=100?"100%": getPercentage<100? `${getPercentage}%` : `${0}%`,
             height: 4,
+            // backgroundColor: getPercentage>=100?theme.colors.green: getPercentage<100? "" : `${getCompletedColor}`,
             backgroundColor: getCompletedColor,
             position: 'absolute',
             bottom:10,

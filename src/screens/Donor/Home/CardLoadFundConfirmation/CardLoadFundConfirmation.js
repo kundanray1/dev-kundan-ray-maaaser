@@ -46,7 +46,7 @@ cardNumber
   //set all the required proto for updating and submitting
   const onSubmitCardLoadFund = () => {
     const cardFundProto = new PaymentProto.Transaction();
-    cardFundProto.setBankid(cardid);
+    cardFundProto.setCardid(cardid);
     cardFundProto.setDonoraccountid(accountid);
     cardFundProto.setAmount(amount*100);
     cardFundProto.setRemark(remarks);

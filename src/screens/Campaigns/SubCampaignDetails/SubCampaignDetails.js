@@ -314,7 +314,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             >
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TargetAmountIconComponent height={38} width={38} />
+                  <TargetAmountIconComponent height={40} width={40} />
                   <Block column>
                     <NumberFormat
                       value={data.subCampaignDetails.subcampaign.targetamount / 100}
@@ -327,7 +327,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                         <Text
                           color="#5F6062"
                           style={{
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: "700",
                             textTransform: "capitalize",
                             marginLeft: 6,
@@ -340,7 +340,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     />
 
                     <Text
-                      style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
+                      style={{ fontSize: 14, marginLeft: 10, color: "#5F6062" }}
                     >
                       Target Amount
                     </Text>
@@ -350,12 +350,12 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
 
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TagsIconComponent height={38} width={38} />
+                  <TagsIconComponent height={40} width={40} />
                   <Block column>
                     <Text
                       color="#5F6062"
                       style={{
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 10,
@@ -364,7 +364,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                       {data.subCampaignDetails.subcampaign.campaign.category}
                     </Text>
                     <Text
-                      style={{ fontSize: 16, marginLeft: 10, color: "#5F6062" }}
+                      style={{ fontSize: 14, marginLeft: 10, color: "#5F6062" }}
                     >
                       Tags
                     </Text>
@@ -390,12 +390,12 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
               >
                 <Block>
                   <Block row style={{ flex: 0, overflow: "hidden" }}>
-                    <TimeRemainingIconComponent height={38} width={38} />
+                    <TimeRemainingIconComponent height={40} width={40} />
                     <Block column>
                       <Text
                         color="#5F6062"
                         style={{
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: "700",
                           textTransform: "capitalize",
                           marginLeft: 10,
@@ -407,7 +407,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                       </Text>
                       <Text
                         style={{
-                          fontSize: 16,
+                          fontSize: 14,
                           marginLeft: 10,
                           color: "#5F6062",
                         }}

@@ -42,14 +42,8 @@ const ScheduleDonationReceiverDetail = ({
 
   let status =
       scheduleDonationReceiverDetail.scheduletransactionstatus == 1
-      ? "SCHEDULE_PENDING" :
-      scheduleDonationReceiverDetail.scheduletransactionstatus == 2
-      ? "APPROVED":
-      scheduleDonationReceiverDetail.scheduletransactionstatus == 3
       ? "SCHEDULING" :
-      scheduleDonationReceiverDetail.scheduletransactionstatus == 4
-      ? "CLOSED" :
-      scheduleDonationReceiverDetail.scheduletransactionstatus == 5
+      scheduleDonationReceiverDetail.scheduletransactionstatus == 2
       ? "DISABLED" : "CANCELLED" 
 
   const onSubmitScheduleDonationReceiverDetail = (values) => {
@@ -62,11 +56,11 @@ const ScheduleDonationReceiverDetail = ({
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.CANCELLED
       );
-    } else if (values == "delete") {
+    } else if (values == "disable") {
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.DISABLED
       );
-    } else if (values == "close") {
+    } else {
       scheduleTransactionProto.setScheduletransactionstatus(
         PaymentProto.ScheduleTransactionStatus.CLOSED
       );
@@ -188,7 +182,7 @@ const ScheduleDonationReceiverDetail = ({
             backgroundColor:
                   status == "SCHEDULING"
                 ? theme.colors.schedulingBackground
-                : status == "CLOSED"
+                : status == "DISABLED"
                 ? "#FFD8D3"
                 :  status == "CANCELLED"
                 ? theme.colors.cancelledBackground
@@ -200,7 +194,7 @@ const ScheduleDonationReceiverDetail = ({
           color={
              status == "SCHEDULING"
                 ? theme.colors.schedulingText
-                : status == "CLOSED"
+                : status == "DISABLED"
                 ? "#DE4C3C"
                 :  status == "CANCELLED"
                 ? theme.colors.cancelledText
@@ -222,9 +216,8 @@ const ScheduleDonationReceiverDetail = ({
           position: "absolute",
         }}
       >
-        {status == "SCHEDULING" || status == "APPROVED" || status == "SCHEDULE_PENDING"? (
+        {status == "SCHEDULING"? (
           <Button
-            
             onPress={() => onSubmitScheduleDonationReceiverDetail("cancel")}
           >
             {data.isLoading ? (
@@ -246,11 +239,9 @@ const ScheduleDonationReceiverDetail = ({
               </Text>
             )}
           </Button>
-        ) : status == "CANCELLED" ? (
-          <>
+        ) : status == "CANCELLED" ? 
             <Button
-              full
-              onPress={() => onSubmitScheduleDonationReceiverDetail("delete")}
+              onPress={() => onSubmitScheduleDonationReceiverDetail("disable")}
               style={{
                 marginVertical: 12,
               }}
@@ -265,7 +256,7 @@ const ScheduleDonationReceiverDetail = ({
                     button
                     style={{ fontSize: 20, textTransform: "uppercase" }}
                   >
-                    Delete
+                    Disable
                   </Text>
                 </>
               ) : (
@@ -273,13 +264,12 @@ const ScheduleDonationReceiverDetail = ({
                   button
                   style={{ fontSize: 20, textTransform: "uppercase" }}
                 >
-                  Delete
+                  Disable
                 </Text>
               )}
             </Button>
+            :
             <OutlinedButton
-              full
-              onPress={() => onSubmitScheduleDonationReceiverDetail("close")}
             >
               {data.isLoading ? (
                 <>
@@ -291,7 +281,7 @@ const ScheduleDonationReceiverDetail = ({
                     outlinedButton
                     style={{ fontSize: 20, textTransform: "uppercase",color:theme.colors.primary2 }}
                   >
-                    Close
+                    Disabled
                   </Text>
                 </>
               ) : (
@@ -299,42 +289,11 @@ const ScheduleDonationReceiverDetail = ({
                   outlinedButton
                   style={{ fontSize: 20, textTransform: "uppercase",color:theme.colors.primary2 }}
                 >
-                  close
+                  Disabled
                 </Text>
               )}
             </OutlinedButton>
-          </>
-        ) : (
-          <Button
-              full
-              onPress={() => onSubmitScheduleDonationReceiverDetail("delete")}
-              style={{
-                marginVertical: 12,
-              }}
-            >
-              {data.isLoading ? (
-                <>
-                  <CustomActivityIndicator
-                    label="Requesting..."
-                    isLoading={data.isLoading}
-                  />
-                  <Text
-                    button
-                    style={{ fontSize: 20, textTransform: "uppercase" }}
-                  >
-                    Delete
-                  </Text>
-                </>
-              ) : (
-                <Text
-                  button
-                  style={{ fontSize: 20, textTransform: "uppercase" }}
-                >
-                  Delete
-                </Text>
-              )}
-            </Button>
-        )}
+        }
       </Block>
     </SafeAreaView>
   );

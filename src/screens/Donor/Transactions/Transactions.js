@@ -108,6 +108,8 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
           textColor={theme.colors.black}
           transactionType={item.transactiontype}
           transactionMedium={item.transactionmedium}
+          navigation={navigation}
+          // campaignTitle={"Donate for child"}
         />
       </Block>
     );
@@ -261,6 +263,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                 {showToDate && (
                   <DateTimePicker
                     testID="dateTimePicker"
+                    maximumDate={new Date()}
                     value={new Date()}
                     mode="date"
                     is24Hour={true}

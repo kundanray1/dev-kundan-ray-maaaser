@@ -15,14 +15,12 @@ import {
   FloatingButton,
 } from "../../components/Index.js";
 import AddIconComponent from "./../../assets/icons/addIconComponent";
-import { Bottom } from "./Bottom.js";
 
 const HEIGHT=Dimensions.get("window").height
 const WIDTH=Dimensions.get("window").width
-const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
+const Campaigns = ({ navigation, data, loginData, campaigns, campaignId,startACampaignThirdUpdateData,startACampaignThirdData }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [campaignData, setCampaignData] = useState();
-  let bs = React.createRef();
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     campaigns(loginData.user.account.accountid);
@@ -30,7 +28,7 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
   });
   useEffect(() => {
       campaigns(loginData.user.account.accountid);
-  }, [campaignId]);
+  }, [data.campaignsEdit,startACampaignThirdUpdateData.startACampaignThirdUpdate,startACampaignThirdData.startACampaignThird]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (
@@ -93,7 +91,6 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId }) => {
         iconComponent={<AddIconComponent />}
         onPress={() => navigation.navigate("Start a campaign")}
       />
-      <Bottom bs={bs} campaignData={campaignData} navigation={navigation} />
     </SafeAreaView>
   );
 };

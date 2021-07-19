@@ -362,7 +362,7 @@ useEffect(() => {
                         !errors.city &&
                         !errors.zipCode ? (
                           <Button onPress={handleSubmit}>
-                            {data.isLoading ? (
+                            {data.isLoading || letsGetStartedDonorData.isLoading? (
                               <>
                                 <CustomActivityIndicator
                                   isLoading={data.isLoading}

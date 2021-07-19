@@ -14,15 +14,18 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
       if(data.logout.success){
         loginClear();
         logoutClear();
-        userLoggedOut()
+        userLoggedOut();
       }
     }
   },[data.logout])
+
   const RenderOptions = ({ image, label,navigate }) => (
     <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 10 }} onPress={()=>{
-      if(label=="Logout"){
-        // logout();
-      navigation.navigate(navigate)
+      if(label=="Log out"){
+         // logout();
+        loginClear();
+        logoutClear();
+        userLoggedOut();
       }else{
       navigation.navigate(navigate)
       }

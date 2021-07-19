@@ -261,6 +261,7 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
                     testID="dateTimePicker"
                     value={new Date()}
                     mode="date"
+                    maximumDate={new Date()}
                     is24Hour={true}
                     display="default"
                     textColor="red"

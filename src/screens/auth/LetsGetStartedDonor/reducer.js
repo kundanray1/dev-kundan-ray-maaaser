@@ -9,7 +9,6 @@ import {
 
 const initialState = {
   isLoading: false,
-  isLoggedIn: false,
   user: null,
   image:null,
   error: null,
@@ -46,14 +45,12 @@ export const letsGetStartedDonorReducer = (
       return {
         ...state,
         isLoading: true,
-        isLoggedIn: false,
       };
 
     case IMAGE_UPLOAD_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
         image: payload,
       };
     case IMAGE_UPLOAD_FAIL:

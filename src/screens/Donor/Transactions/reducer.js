@@ -33,7 +33,7 @@ export const transactionsReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
-      case SEARCH_START:
+    case SEARCH_START:
     return {
         ...state,
         isLoading: true,

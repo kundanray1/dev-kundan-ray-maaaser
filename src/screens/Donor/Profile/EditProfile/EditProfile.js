@@ -331,7 +331,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                         !errors.city &&
                         !errors.zipCode ? (
                           <Button onPress={handleSubmit}>
-                            {data.isLoading ? (
+                            {data.isLoading || letsGetStartedDonorData.isLoading ? (
                               <>
                                 <CustomActivityIndicator
                                   isLoading={data.isLoading}
@@ -368,7 +368,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
 
           <TouchableOpacity
             onPress={pickImage}
-            style={{ zIndex: 1, position: "absolute", marginTop: HEIGHT / 22 }}
+            style={{ flex:0,zIndex: 1, position: "absolute", marginTop: HEIGHT / 22 }}
           >
             {image ? (
               <Image

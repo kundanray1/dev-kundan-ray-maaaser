@@ -14,7 +14,6 @@ import {
   SubCampaignCard,
   Button,
 } from "../../../components/Index.js";
-import { Bottom } from "./Bottom.js";
 const CampaignSubCampaigns = ({
   navigation,
   campaignDetails,
@@ -34,13 +33,13 @@ const CampaignSubCampaigns = ({
  useEffect(() => {
     campaignDetails(campaignId);
   }, [startASubCampaign.startASubCampaign]);
-
-  let bs = React.createRef();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {campaignDetailsdata.isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.primary2} />
       ) : (
+        
+           campaignDetailsdata.campaignDetails.campaign.allowsubcampaign==true?
         <>
           <Block style={{ flex: 0, marginTop: 6, paddingBottom: 20 }}>
             <FlatList
@@ -96,8 +95,8 @@ const CampaignSubCampaigns = ({
               }
             />
           </Block>
-          {campaignDetailsdata.campaignDetails.campaign.campaignstarter.account
-            .accountid !== loginData.user.account.accountid && (
+          {campaignDetailsdata.campaignDetails.campaign.campaignstatus==1
+           && (
             <Block
               style={{
                 paddingHorizontal: 18,
@@ -119,12 +118,13 @@ const CampaignSubCampaigns = ({
             </Block>
           )}
         </>
+        :
+                <Empty
+                  iconName="campaigns"
+                  title="Not allowed to create sub campaigns."
+                />
+         
       )}
-      <Bottom
-        bs={bs}
-        subCampaignData={subCampaignData}
-        navigation={navigation}
-      />
     </SafeAreaView>
   );
 };

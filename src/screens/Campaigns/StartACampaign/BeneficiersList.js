@@ -103,7 +103,7 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
           setBeneficiersListModalVisible(!beneficiersListModalVisible)
         }
       >
-          <TouchableOpacity
+        <TouchableOpacity
           style={styles.container}
           activeOpacity={1}
           onPressOut={() =>

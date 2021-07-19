@@ -50,8 +50,8 @@ const LetsGetStartedDonor = ({
       quality: 1,
     });
     if (!result.cancelled) {
-        setImage(result.uri);
-        imageUpload(result.uri);
+      setImage(result.uri);
+      imageUpload(result.uri);
     }
   };
   //set all the required proto for updating and submitting
@@ -90,7 +90,6 @@ const LetsGetStartedDonor = ({
       navigation.navigate("DonorMainTab");
     }
   }, [loginData.user]);
-
   return (
     <KeyboardAwareScrollView
       style={{ paddingVertical: 10 }}
@@ -106,15 +105,24 @@ const LetsGetStartedDonor = ({
             >
               Let’s Get Started.
             </Text>
-            <Text
-              center
-              style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
-              color={theme.colors.gray2}
-            >
-              {loginData.user.clienttype == 1
-                ? "Tell us a bit about you."
-                : "Tell us a bit about your company."}
-            </Text>
+            {loginData.user.clienttype == 1 ? (
+              <Text
+                center
+                style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+                color={theme.colors.gray2}
+              >
+                Tell us a bit about you
+              </Text>
+            ) : (
+              <Text
+                center
+                style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+                color={theme.colors.gray2}
+              >
+                Tell us a bit about your company
+              </Text>
+            )}
+
             {/*<TouchableOpacity onPress={pickImage}>
               {image ? (
                 <Image
@@ -183,7 +191,7 @@ const LetsGetStartedDonor = ({
           </Block>
         </Block>
         <Block flex={2.5}>
-          <Block style={{ marginTop: HEIGHT/8 }}>
+          <Block style={{ marginTop: HEIGHT / 8 }}>
             <Formik
               initialValues={{
                 fullName: "",
@@ -210,7 +218,7 @@ const LetsGetStartedDonor = ({
                   <Input
                     full
                     label={
-                      loginData.user.account.clienttype == 1
+                      loginData.user.clienttype == 1
                         ? "Full Name"
                         : "Company Name"
                     }

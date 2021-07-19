@@ -99,7 +99,7 @@ const LinkScheduleDonation = ({
     scheduleDetailProto.setEnddate(new Date(endDate).getTime());
     
     }
-    // scheduleDetailProto.setStarttime(startTime.getTime());
+    scheduleDetailProto.setStarttime(startTime.getTime());
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
 
     if (route.params != undefined) {

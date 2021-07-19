@@ -25,6 +25,7 @@ import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
+import searchStyles  from "../../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -247,15 +248,15 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Block style={{ flex: 0, paddingHorizontal: 16 }}>
-        <Block style={styles.boxSearchContainer}>
-          <Block style={styles.boxVwSearch}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
             <Ionicons name="search" color={theme.colors.solidGray} size={18} />
           </Block>
 
           <TextInput
             placeholder="Search"
             placeholderTextColor={theme.colors.solidGray}
-            style={styles.boxTextInput}
+            style={searchStyles.boxTextInput}
             onChangeText={(text) => searchFilterFunction(text)}
             value={search}
           />
@@ -263,12 +264,12 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
           {search ? (
             <TouchableOpacity
               onPress={() => searchFilterFunction()}
-              style={styles.vwClear}
+              style={searchStyles.vwClear}
             >
               <Ionicons name="close-circle-sharp" color="black" size={18} />
             </TouchableOpacity>
           ) : (
-            <Block style={styles.vwClear} />
+            <Block style={searchStyles.vwClear} />
           )}
         </Block>
       </Block>

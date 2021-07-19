@@ -33,7 +33,6 @@ export function* login({ payload }) {
 					API.resetToken();
 				}
 			});
-			console.log("res.loginresponse.loginaccount.client",res.loginresponse.loginaccount.client);
 			yield put(loginSuccess(res.loginresponse.loginaccount.client));
 			showMessage({
 				message: "Logged In successfully",

@@ -10,6 +10,8 @@ import { subCampaignId } from "./../CampaignSubCampaign/actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.subCampaigns,
 	loginData: (state) => state.login,
+	startASubCampaignData: (state) => state.startASubCampaign,
+	startASubCampaignUpdateData: (state) => state.startASubCampaignUpdate,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

@@ -80,8 +80,6 @@ const StartACampaignUpdate = ({
       }
     }
   }, [data.startACampaignThirdUpdate]);
-
-
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
@@ -135,6 +133,9 @@ const StartACampaignUpdate = ({
             errors,
           }) => (
             <Block>
+            {
+              route.params.targetamount=="targetamount"?
+            <>
               <Text
                 center
                 style={{
@@ -146,6 +147,7 @@ const StartACampaignUpdate = ({
               >
                 Enter your goal
               </Text>
+
               <Block style={{ flex: 0, paddingBottom: 10 }}>
                 <Block style={styles.amountSection}>
                   <Text
@@ -169,8 +171,11 @@ const StartACampaignUpdate = ({
                   />
                 </Block>
               </Block>
-
+              </>
+              :route.params.country=="country" ?
               <Country country={country} setCountry={setCountry} setCountryCode={setCountryCode} />
+               :route.params.title=="title" ?
+               <>
               <Input
                 label="Campaign Title"
                 focus={titleFocus}
@@ -190,10 +195,13 @@ const StartACampaignUpdate = ({
                 }}
               />
               <ErrorMessage error={errors.title} visible={touched.title} />
-              <RaisingMoneyType
-                raisingMoneyType={raisingMoneyType}
-                setRaisingMoneyType={setRaisingMoneyType}
+              </>
+                :route.params.category=="category" ?
+              <CategoryType
+                categoryType={categoryType}
+                setCategoryType={setCategoryType}
               />
+               :route.params.beneficierslist=="beneficierslist" ?
               <BeneficiersList
                 beneficierName={beneficierName}
                 setBeneficierId={setBeneficierId}
@@ -201,16 +209,12 @@ const StartACampaignUpdate = ({
                 receiversData={receiversData}
                 navigation={navigation}
               />
-             {/* <BeneficiaryType
-                beneficierId={beneficierId}
-                setBeneficierId={setBeneficierId}
-                setBeneficierName={setBeneficierName}
-                receiversData={receiversData}
-              />*/}
+              :route.params.category=="category" ?
               <CategoryType
                 categoryType={categoryType}
                 setCategoryType={setCategoryType}
               />
+              :
               <Block style={{ flex: 0 }}>
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -238,12 +242,8 @@ const StartACampaignUpdate = ({
                     Allow sub-campaigns
                   </Text>
                 </TouchableOpacity>
-              </Block>
-              {!errors.title ||
-              raisingMoneyType == "" ||
-              beneficiaryType == "" ||
-              categoryType == "" ||
-              country == "" ? (
+                </Block>
+            }
                 <Button
                   style={{
                     marginTop: 12,
@@ -251,35 +251,10 @@ const StartACampaignUpdate = ({
                   }}
                   onPress={handleSubmit}
                 >
-                  <Text button style={{ fontSize: 18 }}>
-                    Update
-                  </Text>
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                  onPress={handleSubmit}
-                >
-                  {data.isLoading ? (
-                    <>
-                      <CustomActivityIndicator
-                        label="Requesting..."
-                        isLoading={data.isLoading}
-                      />
                       <Text button style={{ fontSize: 18 }}>
                         Update
                       </Text>
-                    </>
-                  ) : (
-                    <Text button style={{ fontSize: 18 }}>
-                      Update
-                    </Text>
-                  )}
                 </Button>
-              )}
             </Block>
           )}
         </Formik>

@@ -17,9 +17,11 @@ export default TransactionDetailCard = ({
 	data,
 	amount,
 	date,
+	campaignTitle,
 	textColor,
 	transactionType,
 	transactionMedium,
+	navigation,
 	...props
 }) => {
 	let transactionImage;
@@ -59,7 +61,7 @@ export default TransactionDetailCard = ({
 			);
 
 		fullname = data.clientList[0].account.fullname;
-	}else{
+	} else {
 		transactionImage =
 			transactionMedium == 1 ? (
 				<YellowBankIconComponent />
@@ -72,14 +74,16 @@ export default TransactionDetailCard = ({
 		fullname = data.clientList[1].account.fullname;
 	}
 	return (
-		<Block
-			row
+		<TouchableOpacity
+			activeOpacity={0.9}
 			style={{
+				flexDirection:"row",
 				paddingVertical: 16,
 				borderBottomWidth: 1,
 				paddingHorizontal: 6,
 				borderColor: theme.colors.gray2,
 			}}
+			onPress={()=>navigation.navigate((transactionType == 2 || transactionType == 4 || transactionType == 5)?"Donation Details":(transactionType == 1)?"Load Fund Details":"Transactions",{details:data})}
 		>
 			<Block center middle>
 				{transactionImage}
@@ -93,28 +97,33 @@ export default TransactionDetailCard = ({
 					<Text style={{ fontSize: 16, fontWeight: "700" }}>
 						Fund loaded by {fullname}
 					</Text>
-				) : transactionType == 2 ? (
-					<Text style={{ fontSize: 16, fontWeight: "700" }}>
-						Donated to {fullname}
-					</Text>
-				) :transactionType == 3 ? (
+				) : (transactionType == 2 || transactionType == 4 || transactionType == 5) ? (
+					<>
+						<Text style={{ fontSize: 16, fontWeight: "700" }}>
+							Donated to {fullname}
+						</Text>
+
+						{campaignTitle != undefined && (
+							<Text style={{ fontSize: 16, fontWeight: "700" }}>
+								{campaignTitle}
+							</Text>
+						)}
+					</>
+				) : transactionType == 3 ? (
 					<Text style={{ fontSize: 16, fontWeight: "700" }}>
 						Fund withdrawn by {fullname}
 					</Text>
-				):
-				 (
+				) : (
 					<Text style={{ fontSize: 16, fontWeight: "700" }}>
 						Fund donated to {fullname}
 					</Text>
-				)
-
-			}
+				)}
 				<Block row center style={{ flex: 0, paddingTop: 8 }}>
 					<Text
 						style={{ fontSize: 14, fontWeight: "700" }}
 						color={theme.colors.solidGray}
 					>
-						{moment(date).format("DD MMM YYYY")} at{" "}
+						{moment(date).format("DD MMM, YYYY")} at{" "}
 						{moment(date).format("hh:mm A")}
 					</Text>
 				</Block>
@@ -128,7 +137,7 @@ export default TransactionDetailCard = ({
 			>
 				<TouchableOpacity style={{ marginVertical: 2 }} {...props}>
 					<NumberFormat
-						value={amount/100}
+						value={amount / 100}
 						displayType={"text"}
 						thousandSeparator={true}
 						prefix={"$"}
@@ -151,6 +160,6 @@ export default TransactionDetailCard = ({
 					/>
 				</TouchableOpacity>
 			</Block>
-		</Block>
+		</TouchableOpacity>
 	);
 };

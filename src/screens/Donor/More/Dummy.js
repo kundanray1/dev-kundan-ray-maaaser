@@ -34,9 +34,7 @@ export const Individual=[
   {
     id: "3",
     image:LogoutIconComponent(),
-    label: "Log Out",
-    navigate: "More",
-
+    label: "Log out",
   },
 ];
 
@@ -62,6 +60,6 @@ export const Organization=[
   {
     id: "4",
     image: LogoutIconComponent(),
-    label: "More",
+    label: "Log out",
   },
 ];

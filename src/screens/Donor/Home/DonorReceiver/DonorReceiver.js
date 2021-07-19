@@ -56,9 +56,9 @@ const DonorReceiver = ({
   allCampaignsData,
   allCampaigns,
   campaignId,
-manualDonateConfirmationData, 
-ACHLoadFundConfirmationData,
-cardLoadFundConfirmationData
+  manualDonateConfirmationData,
+  ACHLoadFundConfirmationData,
+  cardLoadFundConfirmationData,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
@@ -80,13 +80,18 @@ cardLoadFundConfirmationData
   });
 
   useEffect(() => {
-      profile(loginData.user.account.accountid);
-      upcomingDonations(loginData.user.account.accountid);
-      balance(loginData.user.account.accountid);
-      donationsMade(loginData.user.account.accountid);
-      allCampaigns();
-      receivers();
-  }, [data.balance,manualDonateConfirmationData.manualDonateConfirmation]);
+    profile(loginData.user.account.accountid);
+    upcomingDonations(loginData.user.account.accountid);
+    balance(loginData.user.account.accountid);
+    donationsMade(loginData.user.account.accountid);
+    allCampaigns();
+    receivers();
+  }, [
+    data.balance,
+    manualDonateConfirmationData.manualDonateConfirmation,
+    ACHLoadFundConfirmationData.ACHLoadFundConfirmation,
+    cardLoadFundConfirmationData.cardLoadFundConfirmation,
+  ]);
 
   useEffect(() => {
     if (manualDonateConfirmationData.manualDonateConfirmation !== null) {
@@ -96,7 +101,11 @@ cardLoadFundConfirmationData
         manualDonateConfirmationClear();
       }
     }
-  }, [manualDonateConfirmationData.manualDonateConfirmation,ACHLoadFundConfirmationData.ACHLoadFundConfirmationData,cardLoadFundConfirmationData.cardLoadFundConfirmation]);
+  }, [
+    manualDonateConfirmationData.manualDonateConfirmation,
+    ACHLoadFundConfirmationData.ACHLoadFundConfirmationData,
+    cardLoadFundConfirmationData.cardLoadFundConfirmation,
+  ]);
 
   const onSubmitDonateConfirmation = (values) => {
     const donationProto = new PaymentProto.Transaction();

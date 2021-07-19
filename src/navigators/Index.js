@@ -15,10 +15,11 @@ const MyTheme = {
     background: theme.colors.white,
   },
 };
+
 const App = ({ data }) => {
   return (
     <NavigationContainer theme={MyTheme}>
-      {(data.isLoggedIn && data.user!==null)  ? (
+      {(data.isLoggedIn && API.token()!==null)  ? (
         <LoggedInStack />
       ) : (
         <LoggedOutStack />

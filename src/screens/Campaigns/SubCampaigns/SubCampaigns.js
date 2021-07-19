@@ -15,7 +15,6 @@ import {
   FloatingButton,
 } from "../../../components/Index.js";
 import AddIconComponent from "./../../../assets/icons/addIconComponent";
-import { Bottom } from "./Bottom.js";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -25,10 +24,11 @@ const SubCampaigns = ({
   loginData,
   subCampaigns,
   subCampaignId,
+  startASubCampaignData,
+  startASubCampaignUpdateData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [campaignData, setCampaignData] = useState();
-  let bs = React.createRef();
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     subCampaigns(loginData.user.account.accountid);
@@ -36,7 +36,7 @@ const SubCampaigns = ({
   });
   useEffect(() => {
       subCampaigns(loginData.user.account.accountid);
-  }, []);
+  }, [data.subCampaignsEdit,startASubCampaignData.startASubCampaign]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading ? (
@@ -99,7 +99,6 @@ const SubCampaigns = ({
         iconComponent={<AddIconComponent />}
         onPress={() => navigation.navigate("Start a campaign")}
       />
-      <Bottom bs={bs} campaignData={campaignData} navigation={navigation} />
     </SafeAreaView>
   );
 };

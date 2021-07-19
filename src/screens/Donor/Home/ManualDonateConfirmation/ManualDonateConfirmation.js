@@ -84,7 +84,10 @@ const ManualDonateConfirmation = ({
              <TickIconComponent/>
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Donate Now")}>
+              <Button onPress={() => {
+                setConfirmationSuccessfulVisible(false);
+                navigation.navigate("Donate Now")
+              }}>
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -178,7 +181,7 @@ const ManualDonateConfirmation = ({
             </Block>
             <Block>
               <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {moment(new Date()).format("Do MMMM YYYY")}
+                {moment(new Date()).format("Do MMMM, YYYY")}
               </Text>
             </Block>
           </Block>

@@ -5,7 +5,7 @@ import { compose } from "redux";
 import AllCampaigns from "./AllCampaigns";
 import { allCampaignsStart } from "./actions";
 import { campaignId } from "./../actions";
-
+import { allCampaignsSearchStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.allCampaigns,
@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		allCampaigns: (values) => dispatch(allCampaignsStart(values)),
 		campaignId: (values) => dispatch(campaignId(values)),
+		allCampaignsSearch: (values) => dispatch(allCampaignsSearchStart(values)),
 	};
 };
 

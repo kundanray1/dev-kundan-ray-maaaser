@@ -57,6 +57,10 @@ import EditProfile from "../screens/Donor/Profile/EditProfile/index";
 import ViewProfile from "../screens/Donor/Profile/ViewProfile/index";
 import ChangePassword from "../screens/Donor/Profile/ChangePassword/index";
 
+//Transactions
+import DonationDetails from "../screens/Donor/Transactions/DonationDetails/index";
+import LoadFundDetails from "../screens/Donor/Transactions/LoadFundDetails/index";
+
 //Receivers
 //home
 import ReceiverDashboard from "../screens/Receiver/Home/ReceiverDashboard/index";
@@ -75,7 +79,6 @@ import API from "./../api/API";
 //navigator for logged in users
 const AuthStack = createStackNavigator();
 const LoggedInStack = ({ data }) => {
-  console.log("LoggedInStack API.token()", API.token());
   let routeName;
   if (data.user.account.isfirstlogin == false) {
     if (data.user.account.accounttype == 2 && data.user.clienttype == 1) {
@@ -281,13 +284,22 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={MyQRCode}
       />
-
+      <AuthStack.Screen
+        name="Donation Details"
+        options={{ headerShown: true,title: "Details" }}
+        component={DonationDetails}
+      />
+       <AuthStack.Screen
+        name="Load Fund Details"
+        options={{ headerShown: true,title: "Details" }}
+        component={LoadFundDetails}
+      />
       <AuthStack.Screen
         name="Start a campaign"
         options={{ headerShown: true }}
         component={StartACampaign}
       />
- <AuthStack.Screen
+     <AuthStack.Screen
         name="Add Beneficiary"
         options={{ headerShown: true }}
         component={AddBeneficiary}

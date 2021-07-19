@@ -37,14 +37,8 @@ export default ScheduleDonationCard = ({
 	}
 let status =
       scheduleTransactionStatus == 1
-      ? "SCHEDULE_PENDING" :
-      scheduleTransactionStatus == 2
-      ? "APPROVED":
-      scheduleTransactionStatus == 3
       ? "SCHEDULING" :
-      scheduleTransactionStatus == 4
-      ? "CLOSED" :
-      scheduleTransactionStatus == 5
+      scheduleTransactionStatus == 2
       ? "DISABLED" : "CANCELLED" 
 
 	return (
@@ -116,12 +110,12 @@ let status =
 				<Block style={{flex:0,marginLeft:10, backgroundColor: 
 								 status == "SCHEDULING"
                 ? theme.colors.schedulingBackground
-                : status == "CLOSED"
+                : status == "DISABLED"
                 ? "#FFD8D3"
                 :  status == "CANCELLED"
                 ? theme.colors.cancelledBackground
                 :  theme.colors.schedulingBackground,
-               paddingVertical:4,paddingHorizontal:8,borderRadius:14}}>
+               paddingVertical:4,paddingHorizontal:8}}>
 				<Text
 						style={{
 							fontSize: 13,
@@ -130,7 +124,7 @@ let status =
 						 color={
 						 	   status == "SCHEDULING"
                 ? theme.colors.schedulingText
-                : status == "CLOSED"
+                : status == "DISABLED"
                 ? "#DE4C3C"
                 :  status == "CANCELLED"
                 ? theme.colors.cancelledText

@@ -23,7 +23,6 @@ export function* logout({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
-			API.removeTokens();
 			yield put(logoutSuccess(res));
 			showMessage({
 				message: res.msg,

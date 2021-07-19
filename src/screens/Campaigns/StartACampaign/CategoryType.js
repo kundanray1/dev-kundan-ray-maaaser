@@ -16,8 +16,7 @@ const WIDTH = Dimensions.get("window").width;
 
 export default CategoryType = ({ categoryType, setCategoryType }) => {
 	const [isModalVisible, setModalVisible] = useState(false);
-	const options = ["Education", "Natural Disaster"];
-
+	const options = ["Medical","Emergency Charity","Financial Emergency","Save Animal","Cause","Orphanage","Conservation","Education","Natural Disaster"];
 	const onPressItem = useCallback(
 		(option) => {
 			setCategoryType(option);
@@ -70,7 +69,8 @@ export default CategoryType = ({ categoryType, setCategoryType }) => {
 				onRequestClose={() => setModalVisible(!isModalVisible)}
 			>
 				<TouchableOpacity
-					style={styles.container}
+					style={{flex: 1,
+		     alignItems: "center",justifyContent:"flex-end"}}
 					activeOpacity={1}
 					onPressOut={() => setModalVisible(!isModalVisible)}
 				>
@@ -78,7 +78,7 @@ export default CategoryType = ({ categoryType, setCategoryType }) => {
 						<View
 							style={[
 								styles.modal,
-								{ width: WIDTH - 30, height: 80,marginTop: "134%" },
+								{ width: WIDTH - 30, height: "auto"},
 							]}
 						>
 							{renderOptions}

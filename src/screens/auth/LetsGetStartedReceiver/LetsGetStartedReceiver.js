@@ -87,8 +87,6 @@ const letsGetStartedReceiver = ({
     letsGetStartedReceiver(clientData);
   };
 
-
-
   useEffect(() => {
     if (loginData.user.account.isfirstlogin === true) {
       navigation.navigate("ReceiverMainTab");
@@ -107,14 +105,23 @@ const letsGetStartedReceiver = ({
           >
             Let’s Get Started.
           </Text>
-          <Text
-            style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
-            color={theme.colors.gray2}
-          >
-            {loginData.user.clienttype == 1
-              ? "Tell us a bit about you."
-              : "Tell us a bit about your company."}
-          </Text>
+          {loginData.user.clienttype == 1 ? (
+              <Text
+                center
+                style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+                color={theme.colors.gray2}
+              >
+                Tell us a bit about you
+              </Text>
+            ) : (
+              <Text
+                center
+                style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+                color={theme.colors.gray2}
+              >
+                Tell us a bit about your company
+              </Text>
+            )}
          <TouchableOpacity
               onPress={pickImage}
               style={{
@@ -183,7 +190,7 @@ const letsGetStartedReceiver = ({
               <Block>
                 <Input
                   label={
-                    loginData.user.account.clienttype == 1
+                      loginData.user.clienttype == 1
                       ? "Full Name"
                       : "Company Name"
                   }

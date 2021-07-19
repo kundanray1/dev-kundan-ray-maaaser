@@ -163,7 +163,6 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
           setConfirmationSuccessfulVisible(!confirmationMessageVisible)
         }
       >
-         >
       <TouchableOpacity 
             style={styles.container} 
             activeOpacity={1} 
@@ -173,7 +172,6 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
           <View
             style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
           >
-
           <Block style={{flex:0,alignItems:"center",paddingVertical:10}}>
           <Block style={{flex:0,backgroundColor:"#E2E2E2",width:WIDTH-280,borderRadius:10,paddingVertical:2}}/>
             </Block>
@@ -264,6 +262,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
                   <DateTimePicker
                     testID="dateTimePicker"
                     value={new Date()}
+                    maximumDate={new Date()}
                     mode="date"
                     is24Hour={true}
                     display="default"
@@ -304,8 +303,6 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
         </Block>
       ) : (
         <Block style={{ flex: 0, marginTop: 6 }}>
-           
-          {/*<Image source={require("./../../assets/icons/searchTransactions.png")} style={{ height: 36, width: 38 }} />*/}
           <SectionList
             sections={donationsMadeData}
             keyExtractor={(item, index) => item + index}
@@ -326,7 +323,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
                 middle
                 center
                 style={{ marginBottom: 120, flex: 0 }}
-              ></Block>
+              />
             )}
             ListFooterComponentStyle={{
               paddingVertical: 20,

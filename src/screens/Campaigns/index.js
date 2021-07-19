@@ -8,7 +8,8 @@ import { campaignsStart,campaignId } from "./actions";
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.campaigns,
 	loginData: (state) => state.login,
-
+	startACampaignThirdData: (state) => state.startACampaignThird,
+	startACampaignThirdUpdateData: (state) => state.startACampaignThirdUpdate,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

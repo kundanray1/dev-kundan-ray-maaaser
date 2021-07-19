@@ -348,14 +348,14 @@ export default CampaignCard = ({
 							}}
 						>
 							<TimeRemainingIconComponent
-								height={38}
-								width={38}
+								height={40}
+								width={40}
 							/>
 							<Block column>
 								<Text
 									color="#5F6062"
 									style={{
-										fontSize: 18,
+										fontSize: 16,
 										fontWeight: "700",
 										textTransform: "capitalize",
 										marginLeft: 10,
@@ -365,7 +365,7 @@ export default CampaignCard = ({
 								</Text>
 								<Text
 									style={{
-										fontSize: 16,
+										fontSize: 14,
 										marginLeft: 10,
 										color: "#5F6062",
 									}}

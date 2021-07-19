@@ -29,7 +29,7 @@ export const Medium= [
  {
     id: "3",
     image:ManualIconComponent(),
-    label: "Manual",
+    label: "Internal Donation",
     medium:"3"
   },
 ];
