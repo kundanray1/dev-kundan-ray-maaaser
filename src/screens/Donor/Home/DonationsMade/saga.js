@@ -46,9 +46,8 @@ export function* donationsMade({ payload }) {
 }
 export function* donationsMadeSearch({ payload }) {
 	try {
-	console.log(donationsMadeSearch)
-		const {accountId,search,fromDate,toDate,medium,type}=payload
-		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}&search=${search}`, {
+		const {accountId,search,fromDate,toDate}=payload
+		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}&searchTerm=${search}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
@@ -57,9 +56,9 @@ export function* donationsMadeSearch({ payload }) {
 		).toObject();
 		if (res.success) {
 			if (res.transactionsList == undefined) {
-				yield put(donationsMadeSearchSuccess([]));
+				yield put(donationsMadeSuccess([]));
 			} else {
-				yield put(donationsMadeSearchSuccess(res.transactionsList));
+				yield put(donationsMadeSuccess(res.transactionsList));
 			}
 		} else {
 			yield put(donationsMadeSearchFail(res));

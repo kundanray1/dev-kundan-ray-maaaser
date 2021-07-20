@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import ACH from "./ACH";
-import { ACHStart } from "./actions";
+import { ACHStart,ACHUpdateStatusStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.ACH,
@@ -14,6 +14,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => {
 	return {
 		ACH: (values) => dispatch(ACHStart(values)),
+		ACHUpdateStatusStart: (values) => dispatch(ACHUpdateStatusStart(values)),
 	};
 };
 

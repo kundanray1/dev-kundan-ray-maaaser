@@ -95,10 +95,6 @@ const SubCampaigns = ({
           />
         </Block>
       )}
-      <FloatingButton
-        iconComponent={<AddIconComponent />}
-        onPress={() => navigation.navigate("Start a campaign")}
-      />
     </SafeAreaView>
   );
 };

@@ -63,7 +63,7 @@ export default CampaignQRCode = ({
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://maaser-api.brilltech.com/campaign/${campaignId}`,
+        message: `https://maaser-frontend-tlldytlira-uw.a.run.app/campaign/details/${campaignId}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -109,7 +109,7 @@ export default CampaignQRCode = ({
         >
           <SvgQRCode
             size={HEIGHT / 6}
-            value={`https://maaser-api.brilltech.com/campaign/${campaignId}`}
+            value={`https://maaser-frontend-tlldytlira-uw.a.run.app/campaign/details/${campaignId}`}
             getRef={(c) => setSvg(c)}
           />
         </Block>

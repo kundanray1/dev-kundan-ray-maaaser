@@ -5,6 +5,7 @@ import {
   Modal,
   Dimensions,
   View,
+  TouchableWithoutFeedback
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
@@ -74,11 +75,17 @@ const TransactionsMedium = ({ transactionsMedium, setTransactionsMedium,setTrans
           setTransactionsMediumModalVisible(!transactionsMediumModalVisible)
         }
       >
-        <View style={styles.container}>
+         <TouchableOpacity 
+            style={styles.container} 
+            activeOpacity={1} 
+            onPressOut={()=>setTransactionsMediumModalVisible(!transactionsMediumModalVisible)}
+          >
+         <TouchableWithoutFeedback>
           <View style={[styles.modal, { width: WIDTH - 30 }]}>
             {RenderTransactionsMediumOptions}
           </View>
-        </View>
+         </TouchableWithoutFeedback>
+         </TouchableOpacity>
       </Modal>
     </Block>
   );

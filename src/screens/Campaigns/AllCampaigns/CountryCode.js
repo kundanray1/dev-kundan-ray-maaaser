@@ -60,13 +60,6 @@ export default CountryCode = ({
       style={{ marginVertical: 2 }}
     >
       <Block row>
-        {/*<SvgUri
-      width="20"
-      height="20"
-      source={{
-        uri:  `https:${url}`
-      }}
-    />*/}
         <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
           {name}
         </Text>
@@ -79,16 +72,16 @@ export default CountryCode = ({
 
  
   return (    
-  	<SafeAreaView style={{ paddingVertical: 6 }}>
-  	 <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                   Country
-                </Text>
+    <SafeAreaView style={{ paddingVertical: 6 }}>
+       <Text bold style={{ fontSize: 14, fontWeight: "700"}}>
+        Country
+      </Text>
       <TouchableOpacity
-        style={{styles.customPicker}}
+        style={styles.customPicker}
         onPress={() => setCountryCodeModalVisible(!countryCodeModalVisible)}
       >
         <Block>
-          <Text bold style={{ fontSize: 16,color:"#999999"}}>
+          <Text bold style={{ fontSize: 16, color:"#999999" }}>
             {countryCode}
           </Text>
         </Block>
@@ -109,6 +102,7 @@ export default CountryCode = ({
           setCountryCodeModalVisible(!countryCodeModalVisible)
         }
       >
+
         <TouchableOpacity
           style={styles.container}
           activeOpacity={1}
@@ -175,8 +169,8 @@ export default CountryCode = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  alignItems:"center"
-
+    alignItems:"center",
+    justifyContent:"flex-end"
   },
   modal: {
     borderRadius: 4,
@@ -194,14 +188,16 @@ const styles = StyleSheet.create({
   option: {
     alignItems: "flex-start",
   },
- customPicker: {
+  customPicker: {
     height: 28,
     flexDirection: "row",
+    paddingTop: 6,
     justifyContent: "space-between",
-    borderColor:"#E7E7E7",
+    borderColor: "#E7E7E7",
     alignItems: "center",
     borderBottomWidth: 1,
-    paddingVertical: 6,
+    paddingVertical:6,
+    
   },
   vwClear: {
     flex: 0.2,

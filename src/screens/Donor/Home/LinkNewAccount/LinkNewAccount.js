@@ -84,7 +84,9 @@ const LinkNewAccount = ({
               route.params.account != undefined
                 ? route.params.account.routingnumber
                 : "",
-            confirmAccountNumber: "",
+            confirmAccountNumber: route.params.account != undefined
+                ? route.params.account.accountnumber
+                : "",
           }}
           onSubmit={(values) => {
             onSubmitLinkNewAccount(values);

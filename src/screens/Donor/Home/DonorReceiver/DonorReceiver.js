@@ -141,8 +141,8 @@ const DonorReceiver = ({
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
               <TickIconComponent />
             </View>
-            <View style={{ paddingHorizontal: WIDTH - 350 }}>
-              <Button onPress={() => setConfirmationMessageVisible(false)}>
+            <View style={{ paddingHorizontal: 16 }}>
+              <Button  onPress={() => setConfirmationMessageVisible(false)}>
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -561,7 +561,7 @@ const DonorReceiver = ({
             )}
           </Block>
 
-          <Block style={{ paddingHorizontal: 20 }}>
+          <Block style={{ paddingHorizontal: 20,marginTop:10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
               <Text style={{ fontSize: 18, fontWeight: "700" }}>
                 Donations Made
@@ -588,7 +588,7 @@ const DonorReceiver = ({
               <Block style={{ flex: 1 }}>{renderDonationsMade()}</Block>
             )}
           </Block>
-          <Block style={{ paddingHorizontal: 20, paddingBottom: 80 }}>
+          <Block style={{ paddingHorizontal: 20, paddingBottom: 80,marginTop:10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
               <Text style={{ fontSize: 18, fontWeight: "700" }}>Receivers</Text>
               <Text

@@ -28,6 +28,7 @@ const WIDTH = Dimensions.get("window").width;
 const StartACampaignSecondUpdate = ({
   navigation,
   imageUpload,
+  imageUploadClear,
   letsGetStartedDonorData,
   startACampaignThirdUpdateStart,
   startACampaignThirdUpdateClear,
@@ -77,6 +78,7 @@ const StartACampaignSecondUpdate = ({
       if (data.startACampaignThirdUpdate.success) {
         setConfirmationSuccessfulVisible(!confirmationMessageVisible);
         startACampaignThirdUpdateClear();
+        imageUploadClear();
       }
     }
   }, [data.startACampaignThirdUpdate]);
@@ -98,7 +100,7 @@ const ConfirmationMessage = () => (
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Campaigns")}>
+              <Button onPress={() => navigation.goBack()}>
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>
@@ -211,6 +213,13 @@ const ConfirmationMessage = () => (
                     <Block/>
       }
        {ConfirmationMessage()}
+       {
+        letsGetStartedDonorData.isLoading &&
+        <CustomActivityIndicator
+                      isLoading={data.isLoading}
+                      label="Requesting..."
+        />
+       }
     </KeyboardAwareScrollView>
   );
 };

@@ -92,6 +92,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
                   fontWeight: "700",
                   textTransform: "capitalize",
                   marginLeft: 18,
+                  marginTop:20,
                   paddingVertical: 6,
                 }}
               >

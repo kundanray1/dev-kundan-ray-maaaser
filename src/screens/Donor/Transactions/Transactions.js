@@ -10,6 +10,7 @@ import {
   View,
   Dimensions,
   TouchableWithoutFeedback,
+  TextInput,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -20,23 +21,25 @@ import {
   Button,
 } from "../../../components/Index.js";
 import moment from "moment";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import TransactionsMedium from "./TransactionsMedium";
 import TransactionsType from "./TransactionsType";
 import API from "../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
 const WIDTH = Dimensions.get("window").width;
-const Transactions = ({ navigation, data,loginData, transactions,search }) => {
+import searchStyles  from "../../../utility/globalStyles.js";
 
+const Transactions = ({ navigation, data,loginData, transactions,search }) => {
+  const [transactionssearch, setTransactionssearch] = useState();
   const [transactionsData, setTransactionsData] = useState();
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [fromDate, setFromDate] = useState("2021-07-03T15:21:15.513Z");
+  const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
-  const [toDate, setToDate] = useState("2021-07-03T15:21:15.513Z");
+  const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
   const [transactionsMedium, setTransactionsMedium] = useState();
   const [transactionsMediumId, setTransactionsMediumId] = useState("");
@@ -62,8 +65,8 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
   });
 
   const onPressReset = () => {
-  setFromDate("2021-07-03T15:21:15.513Z");
-  setToDate("2021-07-03T15:21:15.513Z");
+  setFromDate("2021-05-03T15:21:15.513Z");
+  setToDate("2021-09-03T15:21:15.513Z");
   setTransactionsMedium();
   setTransactionsMediumId("");
   setTransactionsType();
@@ -77,10 +80,12 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
       fromDate:new Date(fromDate).getTime(),
       toDate:new Date(toDate).getTime(),
       medium:transactionsMediumId,
-      type:transactionsTypeId
+      type:transactionsTypeId,
+      search:transactionssearch==undefined?"":""
     })
      onPressReset();
   };
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -205,7 +210,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                     }}
                   >
                    {
-                      fromDate=="2021-07-03T15:21:15.513Z"?"":
+                      fromDate=="2021-05-03T15:21:15.513Z"?"":
                        moment(fromDate).format("DD/MM/YYYY")
                     }
                   </Text>
@@ -221,6 +226,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                   <DateTimePicker
                     testID="dateTimePicker"
                     value={new Date()}
+                    maximumDate={new Date()}
                     mode="date"
                     is24Hour={true}
                     display="default"
@@ -248,7 +254,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
                     }}
                   >
                     {
-                      toDate=="2021-07-03T15:21:15.513Z"?"":
+                      toDate=="2021-09-03T15:21:15.513Z"?"":
                        moment(toDate).format("DD/MM/YYYY")
                     }
                   </Text>
@@ -296,9 +302,46 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
       </Modal>
     </SafeAreaView>
   );
-
+function searchFilterFunction(text) {
+    if(text){
+     search({
+      accountId:loginData.user.account.accountid,
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      medium:transactionsMediumId,
+      type:transactionsTypeId,
+      search:text
+      })
+    }
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
+     <Block style={{ flex: 0, paddingHorizontal: 16 }}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
+            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
+          </Block>
+
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={theme.colors.solidGray}
+            style={searchStyles.boxTextInput}
+            onChangeText={(text) => searchFilterFunction(text)}
+            value={transactionssearch}
+          />
+
+          {transactionssearch ? (
+            <TouchableOpacity
+              onPress={() => searchFilterFunction()}
+              style={searchStyles.vwClear}
+            >
+              <Ionicons name="close-circle-sharp" color="black" size={18} />
+            </TouchableOpacity>
+          ) : (
+            <Block style={searchStyles.vwClear} />
+          )}
+        </Block>
+      </Block>
       {data.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />

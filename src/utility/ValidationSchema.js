@@ -2,17 +2,15 @@ import * as Yup from "yup";
 
 //validationf or all auth screen form
 export const LoginValidationSchema = Yup.object().shape({
-  password: Yup.string().required().min(6).max(50).label("Password"),
-  identifier: Yup.string().required().min(6).max(50).label("Email"),
+  password: Yup.string().required().label("Password"),
+  identifier: Yup.string().required().label("Email"),
 });
 
 export const RegisterValidationSchema = Yup.object().shape({
   emailOrPhone: Yup.string().required().label("Email / Phone"),
-  password: Yup.string().required().min(6).max(50).label("Password"),
+  password: Yup.string().required().label("Password"),
   confirmPassword: Yup.string()
     .required()
-    .min(6)
-    .max(50)
     .oneOf([Yup.ref("password"), null], "Both passwords must match")
     .label("Confirm Password"),
 });

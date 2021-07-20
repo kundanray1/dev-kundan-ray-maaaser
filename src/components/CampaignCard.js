@@ -45,6 +45,21 @@ export default CampaignCard = ({
 }) => {
 	const dispatch = useDispatch();
 	const [editModalVisible, setEditModalVisible] = useState(false);
+
+	const handleOpenConfirm = () => {
+		if (mycampaign == "subcampaign") {
+			const updateData = new CampaignProto.SubCampaign();
+			updateData.setSubcampaignid(campaignDetailData.subcampaignid);
+			updateData.setSubcampaignstatus(1);
+			dispatch(subCampaignsEditStart(updateData));
+		} else {
+			const updateData = new CampaignProto.Campaign();
+			updateData.setCampaignid(campaignDetailData.campaignid);
+			updateData.setCampaignstatus(1);
+			dispatch(campaignsEditStart(updateData));
+		}
+	};
+
 	const handleCloseConfirm = () => {
 		if (mycampaign == "subcampaign") {
 			const updateData = new CampaignProto.SubCampaign();
@@ -73,6 +88,7 @@ export default CampaignCard = ({
 		}
 	};
 
+
 	const handleEdit = () => {
 		if (mycampaign == "subcampaign") {
 			dispatch(subCampaignId(campaignDetailData.subcampaignid));
@@ -87,78 +103,164 @@ export default CampaignCard = ({
 			});
 		}
 	};
-	const EditModal = () => (
+	const ConfirmationMessage = () => (
 		<SafeAreaView>
 			<Modal
 				visible={editModalVisible}
 				transparent={true}
-				animationType="fade"
+				animationType="slide"
 				statusBarTranslucent={true}
-				onRequestClose={() => setEditModalVisible(false)}
+				onRequestClose={() => setEditModalVisible(!editModalVisible)}
 			>
 				<TouchableOpacity
 					style={styles.container}
 					activeOpacity={1}
-					onPressOut={() => setEditModalVisible(false)}
+					onPressOut={() => setEditModalVisible(!editModalVisible)}
 				>
 					<TouchableWithoutFeedback>
 						<View
 							style={[
 								styles.modal,
-								{ width: 100, marginTop: HEIGHT / 5 },
+								{ width: "100%", paddingHorizontal: 18 },
 							]}
 						>
-							<TouchableOpacity
-								activeOpacity={0.8}
-								style={{
-									paddingVertical: 12,
-								}}
-								onPress={() => {
-									DisableWarning();
-									setEditModalVisible(false);
-								}}
-							>
-								<Text
-									style={{
-										color: "#5F6062",
-										fontWeight: "700",
-										fontSize: 16,
-									}}
-								>
-									Disable
-								</Text>
-							</TouchableOpacity>
 							<Block
 								style={{
 									flex: 0,
-									borderBottomWidth: 1,
-									borderColor: "#F8F8F8",
-								}}
-							/>
-							<TouchableOpacity
-								activeOpacity={0.8}
-								style={{ paddingVertical: 12 }}
-								onPress={() => {
-									CloseWarning();
-									setEditModalVisible(false);
+									alignItems: "center",
+									paddingVertical: 10,
 								}}
 							>
-								<Text
+								<Block
 									style={{
-										color: "#5F6062",
-										fontWeight: "700",
-										fontSize: 16,
+										flex: 0,
+										backgroundColor: "#E2E2E2",
+										width: WIDTH - 280,
+										borderRadius: 10,
+										paddingVertical: 2,
 									}}
+								/>
+							</Block>
+							<Block
+								style={{
+									flex: 0,
+									flexDirection: "column",
+									paddingBottom: 16,
+								}}
+							>
+								{
+									campaignstatus==2 ?
+								
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										OpenWarning();
+										setEditModalVisible(false);
+									}}
+									style={{ paddingVertical: 6 }}
 								>
-									Close
-								</Text>
-							</TouchableOpacity>
+									<Text
+										style={{
+											fontWeight: "700",
+											fontSize: 16,
+											paddingVertical: 4,
+										}}
+									>
+										Open
+									</Text>
+								</TouchableOpacity>
+								:
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										CloseWarning();
+										setEditModalVisible(false);
+									}}
+									style={{ paddingVertical: 6 }}
+								>
+									<Text
+										style={{
+											fontWeight: "700",
+											fontSize: 16,
+											paddingVertical: 4,
+										}}
+									>
+										Close
+									</Text>
+								</TouchableOpacity>
+							}
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										DisableWarning();
+										setEditModalVisible(false);
+									}}
+									style={{ paddingVertical: 6 }}
+								>
+									<Text
+										style={{
+											fontWeight: "700",
+											fontSize: 16,
+										}}
+									>
+										Disable
+									</Text>
+								</TouchableOpacity>
+							
+							</Block>
+
+							<Block
+								center
+								style={{
+									flex: 0,
+									borderTopWidth: 1,
+									borderColor: "#F0EDF1",
+								}}
+							>
+								<TouchableOpacity
+									activeOpacity={0.8}
+									style={{ paddingVertical: 12 }}
+									onPress={() => setEditModalVisible(false)}
+								>
+									<Text
+										center
+										style={{
+											fontWeight: "700",
+											fontSize: 14,
+											color: theme.colors.primary2,
+										}}
+									>
+										Cancel
+									</Text>
+								</TouchableOpacity>
+							</Block>
 						</View>
 					</TouchableWithoutFeedback>
 				</TouchableOpacity>
 			</Modal>
 		</SafeAreaView>
 	);
+
+	const OpenWarning = () => {
+		Alert.alert(
+			"Open Campaign",
+			"Are you sure you want to open this campaign?",
+			[
+				{
+					text: "Cancel",
+					style: {
+						textTransform: "capitalize",
+						color: theme.colors.primary2,
+					},
+				},
+				{ text: "Confirm", onPress: () => handleOpenConfirm() },
+			],
+			{
+				cancelable: true,
+			}
+		);
+	};
+
 
 	const CloseWarning = () => {
 		Alert.alert(
@@ -205,9 +307,10 @@ export default CampaignCard = ({
 			<TouchableOpacity
 				activeOpacity={1}
 				style={{
-					shadowRadius: 1,
-					elevation: 2.5,
-					borderRadius: 1,
+					shadowRadius: 2,
+					elevation: 2,
+					borderRadius: 2,
+					// borderWidth:2,
 				}}
 				{...props}
 			>
@@ -234,7 +337,7 @@ export default CampaignCard = ({
 										}}
 									/>
 								</TouchableOpacity>
-								{campaignstatus !== 2 && (
+								{campaignstatus !== 3 && (
 									<TouchableOpacity
 										activeOpacity={0.8}
 										onPress={() =>
@@ -420,7 +523,7 @@ export default CampaignCard = ({
 					</Block>
 				</Block>
 			</TouchableOpacity>
-			{EditModal()}
+			{ConfirmationMessage()}
 		</Block>
 	);
 };
@@ -428,15 +531,24 @@ export default CampaignCard = ({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "flex-end",
-		// justifyContent: "center",
-		paddingHorizontal: 24,
-		// backgroundColor: "rgba(52, 52, 52, 0.8)",
+		alignItems: "center",
+		justifyContent: "flex-end",
+		backgroundColor: "rgba(52, 52, 52, 0.8)",
 	},
 	modal: {
-		borderRadius: 2,
+		borderTopLeftRadius: 10,
+		borderTopRightRadius: 10,
 		borderColor: theme.colors.gray,
 		backgroundColor: theme.colors.white,
-		paddingHorizontal: 12,
+		paddingVertical: 10,
+	},
+	customPicker: {
+		height: 28,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		borderColor: "#E7E7E7",
+		alignItems: "center",
+		borderBottomWidth: 1,
+		paddingVertical: 6,
 	},
 });

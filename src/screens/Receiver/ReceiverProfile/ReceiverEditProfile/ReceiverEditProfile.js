@@ -83,7 +83,7 @@ useEffect(() => {
     AddressList.push(addressData);
 
     clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(letsGetStartedDonorData.image);
+    clientData.setProfilepic(letsGetStartedDonorData.image==null?receiverProfileData.receiverProfile.profilepic:letsGetStartedDonorData.image);
     clientData.setBio(values.bio);
     clientData.setClienttype(loginData.user.clienttype);
     clientData.setAccount(accountData);
@@ -208,6 +208,8 @@ useEffect(() => {
                     borderRadius: 2,
                     borderWidth: 1,
                     marginTop: 4,
+                    paddingHorizontal:8,
+                    textAlignVertical:"top",
                   }}
                 />
                 <ErrorMessage error={errors.bio} visible={touched.bio} />

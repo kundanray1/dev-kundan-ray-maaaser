@@ -38,12 +38,11 @@ const LinkNewCard = ({
   const [stateFocus, setStateFocus] = useState(false);
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
-
-  const [date, setDate] = useState("2021-07-03T15:21:15.513Z");
+  const [date, setDate] = useState( route.params != undefined ? route.params.card.expirydate : "2021-07-03T15:21:15.513Z");
   const [show, setShow] = useState(false);
-  const [countryCode, setCountryCode] = useState(
-    route.params != undefined ? route.params.card.countrycode : ""
-  );
+  // const [countryCode, setCountryCode] = useState(
+  //   route.params != undefined ? route.params.card.countrycode : ""
+  // );
   //set all the required proto for updating and submitting
   const onSubmitLinkNewCard = (values) => {
     const linkNewCardData = new PaymentProto.Card();
@@ -67,7 +66,7 @@ const LinkNewCard = ({
     addressData.setState(values.state);
     addressData.setCity(values.city);
     // addressData.setZip(values.zipCode);
-    addressData.setCountrycode(countryCode);
+    // addressData.setCountrycode(countryCode);
     linkNewCardData.setBillingaddress(addressData);
     if (route.params != undefined) {
       updateLinkNewCard(linkNewCardData);
@@ -263,10 +262,10 @@ const LinkNewCard = ({
                 </Block>
               </Block>
               <ErrorMessage error={errors.cvc} visible={touched.cvc} />
-              <CountryCode
+             {/* <CountryCode
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}
-              />
+              />*/}
               <Input
                 label="Street Address 1"
                 focus={street1Focus}

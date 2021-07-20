@@ -1,11 +1,9 @@
 export const DONOR_RECEIVER_START = "DONOR_RECEIVER_START";
 export const DONOR_RECEIVER_SUCCESS = "DONOR_RECEIVER_SUCCESS";
 export const DONOR_RECEIVER_FAIL = "DONOR_RECEIVER_FAIL";
-
 export const BALANCE_START = "BALANCE_START";
 export const BALANCE_SUCCESS = "BALANCE_SUCCESS";
 export const BALANCE_FAIL = "BALANCE_FAIL";
-
 
 //donorReceiver 
 export const donorReceiverStart = (payload) => {

@@ -37,15 +37,19 @@ export function* card({ payload }) {
 
 export function* cardUpdateStatus({ payload }) {
 	try {
+		console.log("1")
 		const serializedData = payload.serializeBinary();
+		console.log("2")
 		const response = yield call(requestProto, APIEndpoints.CARD, {
-			method: "PATCH",
+			method: "DELETE",
 			headers: API.authProtoHeader(),
 			body: serializedData,
 		});
+		console.log("3")
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("cardUpdateStatus",cardUpdateStatus);
 		if (res.success) {
 			yield put(cardUpdateStatusSuccess(res));
 			showMessage({

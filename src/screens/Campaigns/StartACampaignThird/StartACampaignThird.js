@@ -27,6 +27,7 @@ const StartACampaignThird = ({
   startACampaignThirdStart,
   startACampaignThirdClear,
   navigation,
+  imageUploadClear,
   letsGetStartedDonorData,
   route,
 }) => {
@@ -57,6 +58,7 @@ const StartACampaignThird = ({
       if (data.startACampaignThird.success) {
         setConfirmationSuccessfulVisible(!confirmationMessageVisible);
         startACampaignThirdClear();
+        imageUploadClear();
       }
     }
   }, [data.startACampaignThird]);

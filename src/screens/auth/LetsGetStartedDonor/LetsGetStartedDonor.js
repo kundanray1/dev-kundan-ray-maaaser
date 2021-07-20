@@ -30,6 +30,7 @@ const LetsGetStartedDonor = ({
   data,
   letsGetStartedDonor,
   imageUpload,
+  imageUploadClear
 }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
@@ -88,6 +89,7 @@ const LetsGetStartedDonor = ({
   useEffect(() => {
     if (loginData.user.account.isfirstlogin === true) {
       navigation.navigate("DonorMainTab");
+      imageUploadClear()
     }
   }, [loginData.user]);
   return (

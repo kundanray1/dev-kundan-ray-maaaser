@@ -60,13 +60,6 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId,startACa
             )}
             renderItem={(post) =>
              post.item.campaignstarter.account.accountid==loginData.user.account.accountid && (
-                <Pressable
-                  onLongPress={() => {
-                    bs.current.snapTo(0);
-                    setCampaignData(post.item);
-                  }}
-                  delayLongPress={500}
-                >
                   <CampaignCard
                     image={post.item.thumbnailurl}
                     label={post.item.title}
@@ -81,7 +74,6 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId,startACa
                       navigation.navigate("Campaign Details");
                     }}
                   />
-                </Pressable>
               )
             }
           />

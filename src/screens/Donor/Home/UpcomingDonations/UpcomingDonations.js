@@ -82,19 +82,19 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
     })
     onPressReset();
   };
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-       <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setConfirmationSuccessfulVisible(true)}
-              style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
-                >
-                   <TransactionsSearchIconComponent height={25} width={20}/>
-                </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //      <TouchableOpacity
+  //             activeOpacity={0.8}
+  //             onPress={() => setConfirmationSuccessfulVisible(true)}
+  //             style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
+  //               >
+  //                  <TransactionsSearchIconComponent height={25} width={20}/>
+  //               </TouchableOpacity>
+  //     ),
+  //   });
+  // }, [navigation]);
 
 
   const renderItems = ({ item }) => {

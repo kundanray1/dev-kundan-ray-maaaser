@@ -35,106 +35,6 @@ export default CampaignCommentCard = ({
 	loginData,
 	...props
 }) => {
-	const [editedComment, setEditedComment] = useState(comment);
-	const [editModalVisible, setEditModalVisible] = useState(false);
-	const dispatch = useDispatch();
-
-	const onSubmitDonateConfirmation = () => {
-		const commentData = new CampaignProto.Comment();
-		commentData.setCommentid(commentId);
-		commentData.setDescription(editedComment);
-		commentData.setRefid(refId);
-		dispatch(updateCampaignCommentsStart(commentData));
-	};
-	const onSubmitDeleteConfirmation = () => {
-		const commentData = new CampaignProto.Comment();
-		dispatch(deleteCampaignCommentsStart(commentId));
-	};
-    const handleDelete = () => {
-		Alert.alert(
-			"Comment Deletion",
-			"Are you sure you want to delete this comment?",
-			[
-				{
-					text: "Cancel",
-					style: {
-						textTransform: "capitalize",
-						color: theme.colors.primary2,
-					},
-				},
-				{ text: "Confirm", onPress:()=> onSubmitDeleteConfirmation() },
-			],
-			{
-				cancelable: true,
-			}
-		);
-	};
-	const EditModal = () => (
-		<SafeAreaView>
-			<Modal
-				visible={editModalVisible}
-				transparent={true}
-				animationType="slide"
-				statusBarTranslucent={true}
-				onRequestClose={() => setEditModalVisible(false)}
-			>
-				<View style={styles.container}>
-					<View
-						style={[
-							styles.modal,
-							{ width: WIDTH - 40, height: "auto" },
-						]}
-					>
-						<Text
-							center
-							style={{
-								fontSize: 18,
-								paddingTop: 26,
-								paddingBottom: 10,
-								fontWeight: "700",
-								color: theme.colors.primary2,
-							}}
-						>
-							Edit Comment
-						</Text>
-						<Text
-							style={{
-								fontSize: 16,
-								paddingVertical: 10,
-								fontWeight: "500",
-							}}
-						>
-							Comment
-						</Text>
-						<TextInput
-							style={styles.commentInput}
-							onChangeText={(values) => setEditedComment(values)}
-							value={editedComment}
-							placeholder="Praying for them."
-							keyboardType="default"
-							multiline
-							numberOfLines={8}
-						/>
-						<Block
-							style={{
-								flex: 0,
-								paddingTop: 24,
-								paddingBottom: 24,
-							}}
-						>
-							<Button
-								onPress={() => onSubmitDonateConfirmation()}
-							>
-								<Text button style={{ fontSize: 18 }}>
-									Edit
-								</Text>
-							</Button>
-						</Block>
-					</View>
-				</View>
-			</Modal>
-		</SafeAreaView>
-	);
 	return (
 		<>
 		<Block
@@ -166,6 +66,7 @@ export default CampaignCommentCard = ({
 					}}
 				>
 					{name}
+					{loginData.user.account.accountid == addedBy && "(Me)"}
 				</Text>
 				<Text
 					style={{
@@ -174,37 +75,10 @@ export default CampaignCommentCard = ({
 						color: "#5F6062",
 					}}
 				>
-					{moment(date).format("DD MMM, YYYY")}{" "}
-					{moment(date).format("hh:mm A")}
+				{moment(date).format("DD MMM, YYYY")} at{" "}
+						{moment(date).format("hh:mm A")}
+					
 				</Text>
-				<Block style={{ alignItems: "flex-end" }}>
-					{loginData.user.account.accountid == addedBy && (
-						<Block row>
-						<TouchableOpacity
-							activeOpacity={0.8}
-							onPress={() => setEditModalVisible(true)}
-						>
-							<CampaignsEditIconComponent
-								style={{
-									marginRight: 10,
-									marginTop: 10,
-								}}
-							/>
-						</TouchableOpacity>
-						<TouchableOpacity
-								activeOpacity={0.8}
-								onPress={() => handleDelete()}
-							>
-								<CampaignsDeleteIconComponent
-									style={{
-										marginRight: 10,
-										marginTop: 10,
-									}}
-								/>
-					</TouchableOpacity>
-				</Block>
-					)}
-				</Block>
 			</Block>
 
 			<Block
@@ -218,9 +92,7 @@ export default CampaignCommentCard = ({
 					{comment}
 				</Text>
 			</Block>
-			
 		</Block>
-		{EditModal()}
 		</>
 	);
 };

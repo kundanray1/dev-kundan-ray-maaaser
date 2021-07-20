@@ -9,6 +9,7 @@ const mapStateToProps = createStructuredSelector({
 	data: (state) => state.campaignDetails,
 	loginData: (state) => state.login,
 	campaignId: (state) => state.campaigns.campaignId,
+	startACampaignThirdUpdateData: (state) => state.startACampaignThirdUpdate,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

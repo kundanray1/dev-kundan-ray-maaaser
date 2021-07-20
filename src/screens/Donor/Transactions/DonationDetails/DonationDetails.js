@@ -26,121 +26,10 @@ const WIDTH = Dimensions.get("window").width;
 
 const DonationDetails = ({ route, data, navigation }) => {
   const { details } = route.params;
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            setConfirmationSuccessfulVisible(true);
-          }}
-          style={{
-            alignItems: "flex-end",
-            marginRight: 16,
-            justifyContent: "center",
-          }}
-        >
-          <DownloadIconComponent height={25} width={20} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
-      >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() =>
-            setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-          }
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-            >
-              <Block
-                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-                <Text
-                  center
-                  style={{
-                    fontWeight: "700",
-                    fontSize: 14,
-                    paddingVertical: 4,
-                  }}
-                >
-                  Export to
-                </Text>
-              </Block>
-              <Block style={{ flex: 0, flexDirection: "row",paddingBottom:16 }}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column", marginRight: 30 }}
-                >
-                  <PdfIconComponent />
-                  <Text center style={{ fontWeight: "700", fontSize: 14 }}>
-                    PDF
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column" }}
-                >
-                  <ExcelIconComponent />
-                  <Text center style={{ fontWeight: "700", fontSize: 14 }}>
-                    Excel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-              <Block
-                center
-                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
-              >
-                <TouchableOpacity activeOpacity={0.8} style={{ paddingVertical: 12 }} onPress={()=>setConfirmationSuccessfulVisible(false)}>
-                  <Text
-                    center
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 14,
-                      color: theme.colors.primary2,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-            </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
+  
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
-      <Block style={{ flex: 0, paddingVertical: 8 }}>
+      <Block style={{ flex: 0, paddingVertical: 10 }}>
         <Text
           bold
           style={{ fontSize: 16, fontWeight: "700" }}
@@ -210,7 +99,6 @@ const DonationDetails = ({ route, data, navigation }) => {
           {details.remark}
         </Text>
       </Block>
-      {ConfirmationMessage()}
     </SafeAreaView>
   );
 };

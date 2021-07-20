@@ -9,7 +9,8 @@ import {
   Modal,
   View,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Empty, CampaignCard,Text } from "../../../components/Index.js";
@@ -17,7 +18,9 @@ import TransactionsSearchIconComponent from "../../../assets/icons/transactionsS
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 const WIDTH = Dimensions.get("window").width;
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
+import CountryCode from "./CountryCode";
+import searchStyles  from "../../../utility/globalStyles.js";
 
 const AllCampaigns = ({
   navigation,
@@ -31,12 +34,12 @@ const AllCampaigns = ({
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [fromDate, setFromDate] = useState("2021-07-03T15:21:15.513Z");
+  const [search, setSearch] = useState();
+  const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
-  const [toDate, setToDate] = useState("2021-07-03T15:21:15.513Z");
+  const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
-  const [transactionsMedium, setTransactionsMedium] = useState();
-  const [countryCode, setCountryCode] = useState("");
+  const [countryCode, setCountryCode] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -59,8 +62,8 @@ const AllCampaigns = ({
     setShowToDate(false);
   };
   const onPressReset = () => {
-  setFromDate("2021-07-03T15:21:15.513Z");
-  setToDate("2021-07-03T15:21:15.513Z");
+  setFromDate("2021-05-03T15:21:15.513Z");
+  setToDate("2021-09-03T15:21:15.513Z");
   setCountryCode();
   };
 
@@ -69,7 +72,8 @@ const AllCampaigns = ({
     allCampaignsSearch({
       fromDate:new Date(fromDate).getTime(),
       toDate:new Date(toDate).getTime(),
-      country:countryCode,
+      country:countryCode==undefined?"":countryCode,
+      search:search==undefined?"":" ",
     })
      onPressReset();
   };
@@ -108,7 +112,6 @@ const AllCampaigns = ({
           <View
             style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
           >
-
           <Block style={{flex:0,alignItems:"center",paddingVertical:10}}>
           <Block style={{flex:0,backgroundColor:"#E2E2E2",width:WIDTH-280,borderRadius:10,paddingVertical:2}}/>
             </Block>
@@ -140,7 +143,7 @@ const AllCampaigns = ({
                     }}
                   >
                    {
-                      fromDate=="2021-07-03T15:21:15.513Z"?"":
+                      fromDate=="2021-05-03T15:21:15.513Z"?"":
                        moment(fromDate).format("DD/MM/YYYY")
                     }
                   </Text>
@@ -156,6 +159,7 @@ const AllCampaigns = ({
                   <DateTimePicker
                     testID="dateTimePicker"
                     value={new Date()}
+                    maximumDate={new Date()}
                     mode="date"
                     is24Hour={true}
                     display="default"
@@ -183,7 +187,7 @@ const AllCampaigns = ({
                     }}
                   >
                     {
-                      toDate=="2021-07-03T15:21:15.513Z"?"":
+                      toDate=="2021-09-03T15:21:15.513Z"?"":
                        moment(toDate).format("DD/MM/YYYY")
                     }
                   </Text>
@@ -225,14 +229,50 @@ const AllCampaigns = ({
     </SafeAreaView>
   );
 
+function searchFilterFunction(text) {
+    if(text){
+      allCampaignsSearch({
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      country:countryCode==undefined?"":countryCode,
+      search:text
+    })
+    }
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
+     <Block style={{ flex: 0, paddingHorizontal: 16 }}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
+            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
+          </Block>
+
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={theme.colors.solidGray}
+            style={searchStyles.boxTextInput}
+            onChangeText={(text) => searchFilterFunction(text)}
+            value={search}
+          />
+
+          {search ? (
+            <TouchableOpacity
+              onPress={() => searchFilterFunction()}
+              style={searchStyles.vwClear}
+            >
+              <Ionicons name="close-circle-sharp" color="black" size={18} />
+            </TouchableOpacity>
+          ) : (
+            <Block style={searchStyles.vwClear} />
+          )}
+        </Block>
+      </Block>
       {data.isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.primary2} />
       ) : (
         <Block style={{ flex: 0, marginTop: 6 }}>
           <FlatList
-            data={data.allCampaigns.campaignsList}
+            data={data.allCampaignsSearch.campaignsList}
             showsVerticalScrollIndicator={true}
             keyExtractor={(item) => {
               return item.campaignid.toString();

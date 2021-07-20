@@ -5,13 +5,18 @@ import {
 	Modal,
 	Dimensions,
 	View,
+	TouchableWithoutFeedback
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
 import { Block, Text } from "./../../../components/Index.js";
-import {Type} from "./Dummy";
+import { Type } from "./Dummy";
 const WIDTH = Dimensions.get("window").width;
-const TransactionsType = ({ transactionsType, setTransactionsType,setTransactionsTypeId }) => {
+const TransactionsType = ({
+	transactionsType,
+	setTransactionsType,
+	setTransactionsTypeId,
+}) => {
 	const [
 		transactionsTypeModalVisible,
 		setTransactionsTypeModalVisible,
@@ -19,25 +24,30 @@ const TransactionsType = ({ transactionsType, setTransactionsType,setTransaction
 	const onPressTransactionsTypeItem = useCallback(
 		(item) => {
 			setTransactionsType(item.label);
-			setTransactionsTypeId(item.type)
+			setTransactionsTypeId(item.type);
 			setTransactionsTypeModalVisible(false);
 		},
 		[setTransactionsType]
 	);
 
-	const RenderTransactionsTypeOptions = Type.map(
-		(item, index) => (
-			<TouchableOpacity
-				key={index}
-				onPress={() => onPressTransactionsTypeItem(item)}
-				style={{ marginVertical: 2 }}
+	const RenderTransactionsTypeOptions = Type.map((item, index) => (
+		<TouchableOpacity
+			key={index}
+			onPress={() => onPressTransactionsTypeItem(item)}
+			style={{ marginVertical: 2 }}
+		>
+			<Text
+				bold
+				style={{
+					paddingVertical: 4,
+					fontSize: 18,
+					color: theme.colors.solidGray,
+				}}
 			>
-				<Text bold style={{ paddingVertical: 4, fontSize: 18, color: theme.colors.solidGray, }}>
-					{item.label}
-				</Text>
-			</TouchableOpacity>
-		)
-	);
+				{item.label}
+			</Text>
+		</TouchableOpacity>
+	));
 	return (
 		<Block style={{ flex: 0, paddingVertical: 8 }}>
 			<Text bold style={{ fontSize: 14, fontWeight: "700" }}>
@@ -57,8 +67,8 @@ const TransactionsType = ({ transactionsType, setTransactionsType,setTransaction
 						bold
 						style={{
 							fontSize: 16,
-							
-							 color:"#999999"
+
+							color: "#999999",
 						}}
 					>
 						{transactionsType}
@@ -83,11 +93,21 @@ const TransactionsType = ({ transactionsType, setTransactionsType,setTransaction
 					)
 				}
 			>
-				<View style={styles.container}>
-					<View style={[styles.modal, { width: WIDTH - 30 }]}>
-						{RenderTransactionsTypeOptions}
-					</View>
-				</View>
+				<TouchableOpacity
+					style={styles.container}
+					activeOpacity={1}
+					onPressOut={() =>
+						setTransactionsTypeModalVisible(
+							!transactionsTypeModalVisible
+						)
+					}
+				>
+					<TouchableWithoutFeedback>
+						<View style={[styles.modal, { width: WIDTH - 30 }]}>
+							{RenderTransactionsTypeOptions}
+						</View>
+					</TouchableWithoutFeedback>
+				</TouchableOpacity>
 			</Modal>
 		</Block>
 	);
@@ -118,7 +138,7 @@ const styles = StyleSheet.create({
 		height: 28,
 		flexDirection: "row",
 		justifyContent: "space-between",
-    borderColor:"#E7E7E7",
+		borderColor: "#E7E7E7",
 		alignItems: "center",
 		borderBottomWidth: 1,
 		paddingVertical: 6,

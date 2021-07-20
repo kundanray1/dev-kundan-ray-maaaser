@@ -93,13 +93,15 @@ const LinkScheduleDonation = ({
     const scheduleDetailProto = new PaymentProto.ScheduleDetail();
     if(scheduleType == "One Time"){
     scheduleDetailProto.setStartdate(new Date(startDate).getTime());
+    // scheduleDetailProto.setEnddate(new Date(startDate).getTime());
+    // scheduleDetailProto.setStartdate(new Date(moment(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm')).getTime());
     scheduleDetailProto.setEnddate(new Date(startDate).getTime());
     }else{
     scheduleDetailProto.setStartdate(new Date(startDate).getTime());
     scheduleDetailProto.setEnddate(new Date(endDate).getTime());
     
     }
-    scheduleDetailProto.setStarttime(startTime.getTime());
+    // scheduleDetailProto.setStarttime(startTime.getTime());
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
 
     if (route.params != undefined) {

@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import StartACampaignSecondUpdate from "./StartACampaignSecondUpdate";
 import { startACampaignStart,startACampaignClear } from "./actions";
-import { imageUploadStart } from "./../../auth/LetsGetStartedDonor/actions";
+import { imageUploadStart,imageUploadClear } from "./../../auth/LetsGetStartedDonor/actions";
 import { startACampaignThirdUpdateStart,startACampaignThirdUpdateClear } from "./../StartACampaignThirdUpdate/actions";
 
 const mapStateToProps = createStructuredSelector({
@@ -14,6 +14,8 @@ const mapStateToProps = createStructuredSelector({
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
+		imageUpload: (values) => dispatch(imageUploadStart(values)),
+		imageUploadClear: (values) => dispatch(imageUploadClear(values)),
 		imageUpload: (values) => dispatch(imageUploadStart(values)),
 		startACampaignThirdUpdateStart: (values) => dispatch(startACampaignThirdUpdateStart(values)),
 		startACampaignThirdUpdateClear: () => dispatch(startACampaignThirdUpdateClear()),

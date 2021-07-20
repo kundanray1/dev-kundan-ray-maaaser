@@ -58,7 +58,8 @@ const ManualDonateConfirmation = ({
   useEffect(() => {
     if (data.manualDonateConfirmation !== null) {
       if (data.manualDonateConfirmation.success) {
-        setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+        setConfirmationSuccessfulVisible(false);
+        navigation.navigate("Donate")
         manualDonateConfirmationClear();
       }
     }
@@ -84,10 +85,7 @@ const ManualDonateConfirmation = ({
              <TickIconComponent/>
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => {
-                setConfirmationSuccessfulVisible(false);
-                navigation.navigate("Donate Now")
-              }}>
+              <Button>
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>

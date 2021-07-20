@@ -30,7 +30,8 @@ const letsGetStartedReceiver = ({
   data,
   letsGetStartedReceiver,
   letsGetStartedDonorData,
-  imageUpload
+  imageUpload,
+  imageUploadClear
 }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
@@ -90,6 +91,7 @@ const letsGetStartedReceiver = ({
   useEffect(() => {
     if (loginData.user.account.isfirstlogin === true) {
       navigation.navigate("ReceiverMainTab");
+      imageUploadClear()
     }
   }, [loginData.user]);
   return (
@@ -367,6 +369,8 @@ const letsGetStartedReceiver = ({
                     borderRadius: 2,
                     borderWidth: 1,
                     marginTop: 4,
+                    paddingHorizontal:8,
+                    textAlignVertical:"top",
                   }}
                 />
                 <ErrorMessage error={errors.bio} visible={touched.bio} />

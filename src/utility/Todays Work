@@ -149,3 +149,13 @@ Export file garne garne UI
 Search wala on Upcoming donations and donations made
 Check allowcampaignstatus and render conditionally in CampaignSubCampaign
 Show Donate button in campain details and sub campaign details 
+
+
+campaign/sub campaign status update 
+condition 
+if(closed) show open/disable
+if(Disable) don't show ... 3 dots horizontal icon
+
+
+
+fix bug issue when app loads click any needs first campaign and click campaign bottom tab 

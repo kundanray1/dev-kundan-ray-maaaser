@@ -17,7 +17,6 @@ export function* transactions({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("transactions",res.transactionsList);
 		if (res.success) {
 			yield put(transactionsSuccess(res.transactionsList));
 		} else {
@@ -38,8 +37,8 @@ export function* transactions({ payload }) {
 
 export function* search({ payload }) {
 	try {
-		const {accountId,fromDate,toDate,medium,type}=payload
-		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}`, {
+		const {accountId,fromDate,toDate,medium,type,search}=payload
+		const response = yield call(requestProto,`${APIEndpoints.DONATIONS_MADE}/${accountId}?from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}&searchTerm=${search}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});

@@ -82,7 +82,7 @@ const StartACampaignThirdUpdate = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Campaigns")}>
+              <Button onPress={() => navigation.goBack()}>
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>

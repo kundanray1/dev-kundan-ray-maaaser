@@ -18,6 +18,7 @@ export function* allCampaigns({ payload }) {
 		).toObject();
 		if (res.success) {
 			yield put(allCampaignsSuccess(res));
+			yield put(allCampaignsSearchSuccess(res));
 		} else {
 			yield put(allCampaignsFail(res));
 			showMessage({
@@ -36,14 +37,15 @@ export function* allCampaigns({ payload }) {
 
 export function* allCampaignsSearch({ payload }) {
 	try {
-		const {fromDate,toDate,country}=payload
-		const response = yield call(requestProto,`${APIEndpoints.CAMPAIGN}?from=${fromDate}&to=${toDate}&country=${country}`, {
+		const {fromDate,toDate,country,search}=payload
+		const response = yield call(requestProto,`${APIEndpoints.CAMPAIGN}?from=${fromDate}&to=${toDate}&countryCode=${country}&searchTerm=${search}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("allCampaignsSearch",res);
 		if (res.success) {
 			yield put(allCampaignsSearchSuccess(res));
 		} else {

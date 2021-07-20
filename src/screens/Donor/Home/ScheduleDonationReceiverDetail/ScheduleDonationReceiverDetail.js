@@ -176,6 +176,7 @@ const ScheduleDonationReceiverDetail = ({
         </Text>
 
         <Text
+        center
           style={{
             fontSize: 16,
             fontWeight: "700",
@@ -189,7 +190,7 @@ const ScheduleDonationReceiverDetail = ({
                 :  theme.colors.schedulingBackground ,
             paddingVertical: 4,
             paddingHorizontal: 8,
-            width: 160,
+            width: 130,
           }}
           color={
              status == "SCHEDULING"
@@ -269,30 +270,7 @@ const ScheduleDonationReceiverDetail = ({
               )}
             </Button>
             :
-            <OutlinedButton
-            >
-              {data.isLoading ? (
-                <>
-                  <CustomActivityIndicator
-                    label="Requesting..."
-                    isLoading={data.isLoading}
-                  />
-                  <Text
-                    outlinedButton
-                    style={{ fontSize: 20, textTransform: "uppercase",color:theme.colors.primary2 }}
-                  >
-                    Disabled
-                  </Text>
-                </>
-              ) : (
-                <Text
-                  outlinedButton
-                  style={{ fontSize: 20, textTransform: "uppercase",color:theme.colors.primary2 }}
-                >
-                  Disabled
-                </Text>
-              )}
-            </OutlinedButton>
+            <Block style={{flex:0}}/>
         }
       </Block>
     </SafeAreaView>

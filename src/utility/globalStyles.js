@@ -83,6 +83,6 @@ export default StyleSheet.create({
 		flex: 1,
 		fontSize: 18,
 		justifyContent: "center",
-		color:"#9D9D9D"
+		color:theme.colors.solidGray
 	},
 });

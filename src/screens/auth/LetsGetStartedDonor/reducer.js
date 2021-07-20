@@ -5,6 +5,7 @@ import {
   IMAGE_UPLOAD_START,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAIL,
+  IMAGE_UPLOAD_CLEAR
 } from "./actions";
 
 const initialState = {
@@ -60,6 +61,8 @@ export const letsGetStartedDonorReducer = (
         isLoading: false,
         error: payload,
       };
+    case IMAGE_UPLOAD_CLEAR:
+      return initialState
 
     default:
       return state;

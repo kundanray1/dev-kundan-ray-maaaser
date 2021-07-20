@@ -60,7 +60,7 @@ export default MainTab = () => {
 			initialRouteName="HomeStack"
 			screenOptions={screenOptions}
 			tabBarOptions={{
-				activeTintColor: theme.colors.gray2,
+				activeTintColor: theme.colors.primary,
 				inactiveTintColor: theme.colors.gray2,
 				style: {
 					paddingBottom:5,

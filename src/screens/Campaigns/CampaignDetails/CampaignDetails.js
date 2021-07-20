@@ -33,6 +33,7 @@ const CampaignDetails = ({
   loginData,
   campaignDetails,
   campaignId,
+  startACampaignThirdUpdateData,
   route,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -44,12 +45,12 @@ const CampaignDetails = ({
 
   useEffect(() => {
     campaignDetails(campaignId);
-  }, [campaignId]);
+  }, [campaignId,startACampaignThirdUpdateData.startACampaignThirdUpdate]);
 
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://maaser-api.brilltech.com/campaign/${campaignId}`,
+        message: `https://maaser-frontend-tlldytlira-uw.a.run.app/campaign/details/${campaignId}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -397,25 +398,6 @@ const CampaignDetails = ({
                     >
                       Beneficiary
                     </Text>
-                    {route.params != undefined && (
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        style={{ paddingHorizontal:14,paddingVertical:4}}
-                        onPress={() =>
-                          navigation.navigate("Start a campaign update", {
-                            campaignDetails: data.campaignDetails,
-                            title: "",
-                            targetamount: "",
-                            country: "",
-                            beneficiarytype: "",
-                            beneficierslist: "beneficierslist",
-                            category: "",
-                          })
-                        }
-                      >
-                        <EditIconComponent />
-                      </TouchableOpacity>
-                    )}
                   </Block>
                 </Block>
               </Block>

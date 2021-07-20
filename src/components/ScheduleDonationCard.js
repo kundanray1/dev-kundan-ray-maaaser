@@ -42,17 +42,21 @@ let status =
       ? "DISABLED" : "CANCELLED" 
 
 	return (
-		<Block
-			row
+		<TouchableOpacity
+				activeOpacity={0.8}
+
 			style={{
+				flexDirection:"row",
 				alignItems:"center",
 				paddingVertical: 12,
 				paddingHorizontal: 20,
-				borderRadius: 4,
-				shadowRadius: 4,
-				elevation: 4,
+				borderRadius: 3,
+				shadowRadius: 3,
+				elevation: 3,
 				backgroundColor: theme.colors.white,
 			}}
+				{...props}
+
 		>
 			<Block
 				row
@@ -137,17 +141,15 @@ let status =
 				</Block>
 
 			</Block>
-			<TouchableOpacity
-				activeOpacity={0.8}
+			<Block
 				style={{
 					flex: 1,
 					alignItems: "flex-end",
 					justifyContent: "center",
 				}}
-				{...props}
 			>
 				<ArrowRightIconComponent/>
-			</TouchableOpacity>
-		</Block>
+			</Block>
+		</TouchableOpacity>
 	);
 };
