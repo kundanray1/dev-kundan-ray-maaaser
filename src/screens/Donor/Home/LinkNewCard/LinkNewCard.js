@@ -371,7 +371,9 @@ const LinkNewCard = ({
               !errors.cvc &&
               !errors.street1 && 
               !errors.city &&
-              !errors.state ? (
+              !errors.state &&
+              date!="2021-07-03T15:21:15.513Z"
+               ? (
                 <Button
                   style={{
                     marginTop: 12,

@@ -1,24 +1,24 @@
-export const RECEIVER_DETAIL_START = "RECEIVER_DETAIL_START";
-export const RECEIVER_DETAIL_SUCCESS = "RECEIVER_DETAIL_SUCCESS";
-export const RECEIVER_DETAIL_FAIL = "RECEIVER_DETAIL_FAIL";
-export const RECEIVER_DETAIL_CLEAR = "RECEIVER_DETAIL_CLEAR";
+export const LOAD_FUND_DETAILS_START = "LOAD_FUND_DETAILS_START";
+export const LOAD_FUND_DETAILS_SUCCESS = "LOAD_FUND_DETAILS_SUCCESS";
+export const LOAD_FUND_DETAILS_FAIL = "LOAD_FUND_DETAILS_FAIL";
+export const LOAD_FUND_DETAILS_CLEAR = "LOAD_FUND_DETAILS_CLEAR";
 
 
-export const scheduleDonationReceiverDetailStart = (payload) => {
+export const loadFundDetailsStart = (payload) => {
 	return {
-		type: RECEIVER_DETAIL_START,
+		type: LOAD_FUND_DETAILS_START,
 		payload,
 	};
 };
-export const scheduleDonationReceiverDetailSuccess = (payload) => ({
-	type: RECEIVER_DETAIL_SUCCESS,
+export const loadFundDetailsSuccess = (payload) => ({
+	type: LOAD_FUND_DETAILS_SUCCESS,
 	payload,
 });
-export const scheduleDonationReceiverDetailFail = (payload) => ({
-	type: RECEIVER_DETAIL_FAIL,
+export const loadFundDetailsFail = (payload) => ({
+	type: LOAD_FUND_DETAILS_FAIL,
 	payload,
 });
-export const scheduleDonationReceiverDetailClear = (payload) => ({
-	type: RECEIVER_DETAIL_CLEAR,
+export const loadFundDetailsClear = (payload) => ({
+	type: LOAD_FUND_DETAILS_CLEAR,
 	payload,
 });

@@ -35,7 +35,7 @@ const StartACampaignThird = ({
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState("");
   const onSubmitStartACampaignThird = () => {
     const campaignData = new CampaignProto.Campaign();
     campaignData.setTargetamount(route.params.targetAmount * 100);
@@ -137,11 +137,20 @@ const StartACampaignThird = ({
             borderColor: theme.colors.gray2,
           }}
         >
+        {
+          description!=""?
           <Button onPress={() => onSubmitStartACampaignThird()}>
             <Text button style={{ fontSize: 18 }}>
               Proceed
             </Text>
           </Button>
+          :
+          <Button>
+            <Text button style={{ fontSize: 18 }}>
+              Proceed
+            </Text>
+          </Button>
+        }
         </Block>
       </Block>
 

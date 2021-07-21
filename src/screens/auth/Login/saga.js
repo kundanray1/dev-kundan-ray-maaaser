@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call,delay, put, select, takeLatest } from "redux-saga/effects";
 import { LOGIN_START } from "./actions";
 import { loginSuccess, loginFail } from "./actions";
 import base from "./../../../protos/auth_rpc_pb";
@@ -33,6 +33,8 @@ export function* login({ payload }) {
 					API.resetToken();
 				}
 			});
+			API.setToken();
+			yield delay(1000)
 			yield put(loginSuccess(res.loginresponse.loginaccount.client));
 			showMessage({
 				message: "Logged In successfully",

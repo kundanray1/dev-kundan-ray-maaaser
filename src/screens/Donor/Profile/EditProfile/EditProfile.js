@@ -120,6 +120,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
             >
               <Block
                 style={{
+                  flex:0,
                   borderRadius: 4,
                   elevation: 4,
                   paddingTop: HEIGHT / 14,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {  Image,  TouchableOpacity,Dimensions } from "react-native";
+import { Image, TouchableOpacity, Dimensions } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { LetsGetStartedReceiverValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
@@ -31,7 +31,7 @@ const letsGetStartedReceiver = ({
   letsGetStartedReceiver,
   letsGetStartedDonorData,
   imageUpload,
-  imageUploadClear
+  imageUploadClear,
 }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
@@ -47,14 +47,14 @@ const letsGetStartedReceiver = ({
   //select image function
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
     if (!result.cancelled) {
-       setImage(result.uri);
-       imageUpload(result.uri);
+      setImage(result.uri);
+      imageUpload(result.uri);
     }
   };
   //set all the required proto for updating and submitting
@@ -89,11 +89,13 @@ const letsGetStartedReceiver = ({
   };
 
   useEffect(() => {
-    if (loginData.user.account.isfirstlogin === true) {
-      navigation.navigate("ReceiverMainTab");
-      imageUploadClear()
+    if (data.user != null) {
+      if (data.user.success) {
+        navigation.navigate("ReceiverMainTab");
+        imageUploadClear();
+      }
     }
-  }, [loginData.user]);
+  }, [data.user]);
   return (
     <KeyboardAwareScrollView
       style={{ paddingVertical: 10 }}
@@ -108,64 +110,64 @@ const letsGetStartedReceiver = ({
             Let’s Get Started.
           </Text>
           {loginData.user.clienttype == 1 ? (
-              <Text
-                center
-                style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
-                color={theme.colors.gray2}
-              >
-                Tell us a bit about you
-              </Text>
+            <Text
+              center
+              style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+              color={theme.colors.gray2}
+            >
+              Tell us a bit about you
+            </Text>
+          ) : (
+            <Text
+              center
+              style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
+              color={theme.colors.gray2}
+            >
+              Tell us a bit about your company
+            </Text>
+          )}
+          <TouchableOpacity
+            onPress={pickImage}
+            style={{
+              zIndex: 1,
+              position: "absolute",
+              marginTop: HEIGHT / 12,
+            }}
+          >
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  height: HEIGHT * 0.105,
+                  width: WIDTH * 0.2,
+                  borderRadius: 100,
+                }}
+              />
             ) : (
-              <Text
-                center
-                style={{ paddingBottom: 15, fontSize: 15, fontWeight: "700" }}
-                color={theme.colors.gray2}
-              >
-                Tell us a bit about your company
-              </Text>
+              <ProfileIconComponent
+                height={HEIGHT * 0.105}
+                width={WIDTH * 0.2}
+              />
             )}
-         <TouchableOpacity
-              onPress={pickImage}
+
+            <Block
               style={{
-                zIndex: 1,
+                padding: 2,
+                borderRadius: 10,
                 position: "absolute",
-                marginTop: HEIGHT / 12,
+                marginLeft: WIDTH * 0.126,
+                marginTop: HEIGHT * 0.064,
               }}
             >
-              {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={{
-                    height: HEIGHT * 0.105,
-                    width: WIDTH * 0.2,
-                    borderRadius: 100,
-                  }}
-                />
-              ) : (
-                <ProfileIconComponent
-                  height={HEIGHT * 0.105}
-                  width={WIDTH * 0.2}
-                />
-              )}
-
-              <Block
-                style={{
-                  padding: 2,
-                  borderRadius: 10,
-                  position: "absolute",
-                  marginLeft: WIDTH * 0.126,
-                  marginTop: HEIGHT * 0.064,
-                }}
-              >
-                <CameraIconComponent
-                  height={HEIGHT * 0.034}
-                  width={WIDTH * 0.12}
-                />
-              </Block>
-            </TouchableOpacity>
+              <CameraIconComponent
+                height={HEIGHT * 0.034}
+                width={WIDTH * 0.12}
+              />
+            </Block>
+          </TouchableOpacity>
         </Block>
 
-          <Block center style={{ marginTop: HEIGHT/10 }}>
+        <Block center style={{ marginTop: HEIGHT / 10 }}>
           <Formik
             initialValues={{
               fullName: "",
@@ -192,7 +194,7 @@ const letsGetStartedReceiver = ({
               <Block>
                 <Input
                   label={
-                      loginData.user.clienttype == 1
+                    loginData.user.clienttype == 1
                       ? "Full Name"
                       : "Company Name"
                   }
@@ -369,8 +371,8 @@ const letsGetStartedReceiver = ({
                     borderRadius: 2,
                     borderWidth: 1,
                     marginTop: 4,
-                    paddingHorizontal:8,
-                    textAlignVertical:"top",
+                    paddingHorizontal: 8,
+                    textAlignVertical: "top",
                   }}
                 />
                 <ErrorMessage error={errors.bio} visible={touched.bio} />
@@ -391,13 +393,13 @@ const letsGetStartedReceiver = ({
                   >
                     {data.isLoading ? (
                       <>
-                      <CustomActivityIndicator
-                        isLoading={data.isLoading}
-                        label="Requesting..."
-                      />
-                       <Text button style={{ fontSize: 18 }}>
-                        Save and Continue
-                      </Text>
+                        <CustomActivityIndicator
+                          isLoading={data.isLoading}
+                          label="Requesting..."
+                        />
+                        <Text button style={{ fontSize: 18 }}>
+                          Save and Continue
+                        </Text>
                       </>
                     ) : (
                       <Text button style={{ fontSize: 18 }}>

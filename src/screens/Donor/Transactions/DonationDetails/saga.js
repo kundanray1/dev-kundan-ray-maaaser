@@ -1,39 +1,35 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { RECEIVER_DETAIL_START } from "./actions";
-import { scheduleDonationReceiverDetailSuccess, scheduleDonationReceiverDetailFail } from "./actions";
+import { DONATION_DETAILS_START } from "./actions";
+import { donationDetailsSuccess, donationDetailsFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../../api/API";
-
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* scheduleDonationReceiverDetail({ payload }) {
+export function* donationDetails({ payload }) {
 	try {
-		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.UPDATE_SCHEDULE_TRANSACTION_STATUS, {
-			method: "PATCH",
+		console.log("1");
+		const response = yield call(requestProto, `${APIEndpoints.TRANSACTION}/${payload}`, {
+			method: "GET",
 			headers: API.authProtoHeader(),
-			body: serializedData,
 		});
+		console.log("2");
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("donationDetails",res);
 		if (res.success) {
-			yield put(scheduleDonationReceiverDetailSuccess(res));
-			showMessage({
-				message: "Changed schedule donation status successfully",
-				type: "success",
-			});
+			yield put(donationDetailsSuccess(res));
 		} else {
-			yield put(scheduleDonationReceiverDetailFail(res));
+			yield put(donationDetailsFail(res));
 			showMessage({
 				message: res.msg,
 				type: "danger",
 			});
 		}
 	} catch (e) {
-		yield put(scheduleDonationReceiverDetailFail(e));
+		yield put(donationDetailsFail(e));
 		showMessage({
 			message: "Error from server or check your credentials!",
 			type: "danger",
@@ -41,6 +37,6 @@ export function* scheduleDonationReceiverDetail({ payload }) {
 	}
 }
 
-export default function* scheduleDonationReceiverDetailSaga() {
-	yield takeLatest(RECEIVER_DETAIL_START, scheduleDonationReceiverDetail);
+export default function* donationDetailsSaga() {
+	yield takeLatest(DONATION_DETAILS_START, donationDetails);
 }

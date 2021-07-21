@@ -1,14 +1,13 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { LOAD_FUND_DETAILS_START } from "./actions";
-import { loadFundDetailsSuccess, loadFundDetailsFail } from "./actions";
+import { WITHDRAWN_DETAILS_START } from "./actions";
+import { withdrawnDetailsSuccess, withdrawnDetailsFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
 import API from "./../../../../api/API";
-
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* loadFundDetails({ payload }) {
+export function* withdrawnDetails({ payload }) {
 	try {
 		const response = yield call(requestProto, `${APIEndpoints.TRANSACTION}/${payload}`, {
 			method: "GET",
@@ -17,18 +16,18 @@ export function* loadFundDetails({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("loadFundDetails",res);
+		console.log("withdrawnDetails",res);
 		if (res.success) {
-			yield put(loadFundDetailsSuccess(res));
+			yield put(withdrawnDetailsSuccess(res));
 		} else {
-			yield put(loadFundDetailsFail(res));
+			yield put(withdrawnDetailsFail(res));
 			showMessage({
 				message: res.msg,
 				type: "danger",
 			});
 		}
 	} catch (e) {
-		yield put(loadFundDetailsFail(e));
+		yield put(withdrawnDetailsFail(e));
 		showMessage({
 			message: "Error from server or check your credentials!",
 			type: "danger",
@@ -36,6 +35,6 @@ export function* loadFundDetails({ payload }) {
 	}
 }
 
-export default function* loadFundDetailsSaga() {
-	yield takeLatest(LOAD_FUND_DETAILS_START, loadFundDetails);
+export default function* withdrawnDetailsSaga() {
+	yield takeLatest(WITHDRAWN_DETAILS_START, withdrawnDetails);
 }

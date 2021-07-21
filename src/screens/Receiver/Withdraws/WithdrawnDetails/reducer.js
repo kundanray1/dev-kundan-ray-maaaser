@@ -1,36 +1,37 @@
 import {
-  LOAD_FUND_DETAILS_START,
-  LOAD_FUND_DETAILS_SUCCESS,
-  LOAD_FUND_DETAILS_FAIL,
-  LOAD_FUND_DETAILS_CLEAR,
+  WITHDRAWN_DETAILS_START,
+  WITHDRAWN_DETAILS_SUCCESS,
+  WITHDRAWN_DETAILS_FAIL,
+  WITHDRAWN_DETAILS_CLEAR,
+
 } from './actions';
 
 const initialState = {
   isLoading: true,
-  loadFundDetails: null,
+  withdrawnDetails: null,
   error: null,
 };
 
-export const loadFundDetailsReducer=(state = initialState, { type, payload }) => {
+export const withdrawnDetailsReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case LOAD_FUND_DETAILS_START:
+    case WITHDRAWN_DETAILS_START:
     return {
         ...state,
         isLoading: true,
       };
-    case LOAD_FUND_DETAILS_SUCCESS:
+    case WITHDRAWN_DETAILS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        loadFundDetails: payload,
+        withdrawnDetails: payload,
       };
-    case LOAD_FUND_DETAILS_FAIL:
+    case WITHDRAWN_DETAILS_FAIL:
       return {
         ...state,
         isLoading: false,
         error: payload,
       };
-       case LOAD_FUND_DETAILS_CLEAR:
+       case WITHDRAWN_DETAILS_CLEAR:
       return initialState;
    
     default:

@@ -21,6 +21,7 @@ const StartACampaignSecond = ({
   navigation,
   imageUpload,
   route,
+  letsGetStartedDonorData
 }) => {
   const [image, setImage] = useState(null);
 
@@ -134,8 +135,8 @@ const StartACampaignSecond = ({
           )}
         </TouchableOpacity>
         <Block style={{ paddingVertical: 30,borderBottomWidth:1,borderColor:theme.colors.gray2 }}>
-          {image == "" ? (
-            <Button disabled={true}>
+          {image == "" || letsGetStartedDonorData.image==null ? (
+            <Button>
               <Text button style={{ fontSize: 18 }}>
                 Proceed
               </Text>

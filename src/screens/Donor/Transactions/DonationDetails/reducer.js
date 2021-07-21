@@ -1,37 +1,37 @@
 import {
-  RECEIVER_DETAIL_START,
-  RECEIVER_DETAIL_SUCCESS,
-  RECEIVER_DETAIL_FAIL,
-  RECEIVER_DETAIL_CLEAR,
+  DONATION_DETAILS_START,
+  DONATION_DETAILS_SUCCESS,
+  DONATION_DETAILS_FAIL,
+  DONATION_DETAILS_CLEAR,
 
 } from './actions';
 
 const initialState = {
-  isLoading: false,
-  scheduleDonationReceiverDetail: null,
+  isLoading: true,
+  donationDetails: null,
   error: null,
 };
 
-export const scheduleDonationReceiverDetailReducer=(state = initialState, { type, payload }) => {
+export const donationDetailsReducer=(state = initialState, { type, payload }) => {
   switch (type) {
-    case RECEIVER_DETAIL_START:
+    case DONATION_DETAILS_START:
     return {
         ...state,
         isLoading: true,
       };
-    case RECEIVER_DETAIL_SUCCESS:
+    case DONATION_DETAILS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        scheduleDonationReceiverDetail: payload,
+        donationDetails: payload,
       };
-    case RECEIVER_DETAIL_FAIL:
+    case DONATION_DETAILS_FAIL:
       return {
         ...state,
         isLoading: false,
         error: payload,
       };
-       case RECEIVER_DETAIL_CLEAR:
+       case DONATION_DETAILS_CLEAR:
       return initialState;
    
     default:

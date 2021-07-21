@@ -28,7 +28,6 @@ export function* letsGetStartedReceiver({ payload }) {
       });
     } else {
       yield put(letsGetStartedReceiverSuccess(res));
-      yield put(loginSuccess(res.client));
       showMessage({
         message: "Account created successfully",
         type: "success",

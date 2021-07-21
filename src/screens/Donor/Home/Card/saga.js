@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { CARD_START,CARD_UPDATE_STATUS_START } from "./actions";
-import { cardSuccess, cardFail,cardUpdateStatusSuccess, cardUpdateStatusFail } from "./actions";
+import { CARD_START,CARD_UPDATE_STATUS_START,CARD_DELETE_START_STATUS } from "./actions";
+import { cardSuccess, cardFail,cardUpdateStatusSuccess, cardUpdateStatusFail,cardDeleteStatusSuccess, cardDeleteStatusFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -37,19 +37,15 @@ export function* card({ payload }) {
 
 export function* cardUpdateStatus({ payload }) {
 	try {
-		console.log("1")
 		const serializedData = payload.serializeBinary();
-		console.log("2")
 		const response = yield call(requestProto, APIEndpoints.CARD, {
-			method: "DELETE",
+			method: "PATCH",
 			headers: API.authProtoHeader(),
 			body: serializedData,
 		});
-		console.log("3")
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("cardUpdateStatus",cardUpdateStatus);
 		if (res.success) {
 			yield put(cardUpdateStatusSuccess(res));
 			showMessage({
@@ -72,8 +68,40 @@ export function* cardUpdateStatus({ payload }) {
 	}
 }
 
+export function* cardDeleteStatus({ payload }) {
+	try {
+		const response = yield call(requestProto,`${APIEndpoints.CARD_DELETE}/${payload}`, {
+			method: "DELETE",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		console.log("3",res);
+		if (res.success) {
+			yield put(cardDeleteStatusSuccess(res));
+			showMessage({
+				message: "Card deleted successfully!",
+				type: "success",
+			});
+		} else {
+			yield put(cardDeleteStatusFail(res));
+			showMessage({
+				message: "Error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(cardDeleteStatusFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
 
 export default function* cardSaga() {
 	yield takeLatest(CARD_START, card);
 	yield takeLatest(CARD_UPDATE_STATUS_START, cardUpdateStatus);
+	yield takeLatest(CARD_DELETE_START_STATUS, cardDeleteStatus);
 }

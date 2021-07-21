@@ -25,136 +25,18 @@ import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
 const WIDTH = Dimensions.get("window").width;
 
-const LoadFundDetails = ({
+const WithdrawnDetails = ({
   route,
   data,
   navigation,
-  loadFundDetailsStart,
-  loadFundDetailsClear,
+  withdrawnDetailsStart,
+  withdrawnDetailsClear,
 }) => {
   const { details } = route.params;
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
   useEffect(() => {
-     loadFundDetailsStart(details.transactionid);
+    withdrawnDetailsStart(details.transactionid);
   }, []);
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            setConfirmationSuccessfulVisible(true);
-          }}
-          style={{
-            alignItems: "flex-end",
-            marginRight: 16,
-            justifyContent: "center",
-          }}
-        >
-          <DownloadIconComponent height={25} width={20} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
-      >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() =>
-            setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-          }
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-            >
-              <Block
-                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-                <Text
-                  center
-                  style={{
-                    fontWeight: "700",
-                    fontSize: 14,
-                    paddingVertical: 4,
-                  }}
-                >
-                  Export to
-                </Text>
-              </Block>
-              <Block
-                style={{ flex: 0, flexDirection: "row", paddingBottom: 16 }}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column", marginRight: 30 }}
-                >
-                  <PdfIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    PDF
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column" }}
-                >
-                  <ExcelIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    Excel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-              <Block
-                center
-                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ paddingVertical: 12 }}
-                  onPress={() => setConfirmationSuccessfulVisible(false)}
-                >
-                  <Text
-                    center
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 14,
-                      color: theme.colors.primary2,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-            </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
+  console.log("data.withdrawnDetails", data.withdrawnDetails);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
       {data.isLoading ? (
@@ -165,18 +47,18 @@ const LoadFundDetails = ({
         />
       ) : (
         <>
-          <Block style={{ flex: 0, paddingVertical: 8 }}>
+        <Block style={{ flex: 0, paddingVertical: 8 }}>
             <Text
               bold
               style={{ fontSize: 16, fontWeight: "700" }}
               color={theme.colors.solidGray}
             >
-              {moment(data.loadFundDetails.transaction.createdat).format("DD MMM, YYYY")} at{" "}
-              {moment(data.loadFundDetails.transaction.createdat).format("hh:mm A")}
+              {moment(data.withdrawnDetails.transaction.createdat).format("DD MMM, YYYY")} at{" "}
+              {moment(data.withdrawnDetails.transaction.createdat).format("hh:mm A")}
             </Text>
           </Block>
 
-          {data.loadFundDetails.transaction.card != undefined ? (
+          {data.withdrawnDetails.transaction.card != undefined ? (
             <Block style={{ flex: 0, paddingVertical: 8 }}>
               <Text
                 bold
@@ -186,7 +68,7 @@ const LoadFundDetails = ({
                 Card Holder’s Name
               </Text>
               <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {data.loadFundDetails.transaction.card.cardholdername}
+                {data.withdrawnDetails.transaction.card.cardholdername}
               </Text>
             </Block>
           ) : (
@@ -200,7 +82,7 @@ const LoadFundDetails = ({
                   Account Holder’s Name
                 </Text>
                 <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                  {data.loadFundDetails.transaction.bank.accountholdername}
+                  {data.withdrawnDetails.transaction.bank.accountholdername}
                 </Text>
               </Block>
 
@@ -213,7 +95,7 @@ const LoadFundDetails = ({
                   Type
                 </Text>
                 <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                  Load Fund
+                  Fund Withdrawn
                 </Text>
               </Block>
 
@@ -226,7 +108,7 @@ const LoadFundDetails = ({
                   Bank
                 </Text>
                 <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                  {data.loadFundDetails.transaction.bank.bankname}
+                  {data.withdrawnDetails.transaction.bank.bankname}
                 </Text>
               </Block>
 
@@ -239,7 +121,7 @@ const LoadFundDetails = ({
                   Routing number
                 </Text>
                 <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                  {data.loadFundDetails.transaction.bank.routingnumber}
+                  {data.withdrawnDetails.transaction.bank.routingnumber}
                 </Text>
               </Block>
               <Block style={{ flex: 0, paddingVertical: 8 }}>
@@ -251,7 +133,7 @@ const LoadFundDetails = ({
                   Account number
                 </Text>
                 <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                  {data.loadFundDetails.transaction.bank.accountnumber}
+                  {data.withdrawnDetails.transaction.bank.accountnumber}
                 </Text>
               </Block>
             </>
@@ -266,7 +148,7 @@ const LoadFundDetails = ({
               Amount
             </Text>
             <NumberFormat
-              value={data.loadFundDetails.transaction.amount / 100}
+              value={data.withdrawnDetails.transaction.amount / 100}
               displayType={"text"}
               thousandSeparator={true}
               prefix={"$"}
@@ -288,17 +170,16 @@ const LoadFundDetails = ({
               Remarks
             </Text>
             <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-              {data.loadFundDetails.transaction.remark}
+              {data.withdrawnDetails.transaction.remark}
             </Text>
           </Block>
         </>
       )}
-      {ConfirmationMessage()}
     </SafeAreaView>
   );
 };
 
-export default LoadFundDetails;
+export default WithdrawnDetails;
 
 const styles = StyleSheet.create({
   container: {

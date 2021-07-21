@@ -38,7 +38,7 @@ const StartACampaign = ({
   const [country, setCountry] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [allowSubCampaigns, setAllowSubCampaigns] = useState(true);
-  const [targetAmount, setTargetAmount] = useState();
+  const [targetAmount, setTargetAmount] = useState("");
   // const [beneficiaryAccountId, setBeneficiaryAccountId] = useState();
 
   const onSubmitStartACampaign = (values) => {
@@ -192,11 +192,12 @@ const StartACampaign = ({
                   </Text>
                 </TouchableOpacity>
               </Block>
-              {!errors.title ||
-              raisingMoneyType == "" ||
-              beneficiaryType == "" ||
-              categoryType == "" ||
-              country == "" ? (
+              {!errors.title &&
+              raisingMoneyType != "" &&
+              beneficierId != "" &&
+              categoryType != "" &&
+              countryCode != "" &&
+              targetAmount!="" ? (
                 <Button
                   style={{
                     marginTop: 12,
@@ -204,19 +205,7 @@ const StartACampaign = ({
                   }}
                   onPress={handleSubmit}
                 >
-                  <Text button style={{ fontSize: 18 }}>
-                    Proceed
-                  </Text>
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                  onPress={handleSubmit}
-                >
-                  {data.isLoading ? (
+                 {data.isLoading ? (
                     <>
                       <CustomActivityIndicator
                         label="Requesting..."
@@ -231,6 +220,17 @@ const StartACampaign = ({
                       Proceed
                     </Text>
                   )}
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    marginTop: 12,
+                    marginBottom: 12,
+                  }}
+                >
+                    <Text button style={{ fontSize: 18 }}>
+                      Proceed
+                    </Text>
                 </Button>
               )}
             </Block>

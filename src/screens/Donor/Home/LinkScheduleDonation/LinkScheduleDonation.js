@@ -64,8 +64,8 @@ const LinkScheduleDonation = ({
       ? route.params.scheduleDonationData.clientList[1].account.accountid
       : ""
   );
-  const [amountFocus, setAmountFocus] = useState(scheduleTypeRoute);
-  const [scheduleType, setScheduleType] = useState(scheduleTypeRoute);
+  const [amountFocus, setAmountFocus] = useState();
+  const [scheduleType, setScheduleType] = useState();
   const [startDate, setStartDate] = useState("2021-07-03T15:21:15.513Z");
   const [showStartDate, setShowStartDate] = useState(false);
   const [startTime, setStartTime] = useState("12:00 AM");
@@ -374,7 +374,8 @@ const LinkScheduleDonation = ({
               />
               <ErrorMessage error={errors.remarks} visible={touched.remarks} />
               <Block style={{ flex: 0, paddingVertical: 20 }}>
-                {!errors.remarks && !errors.amount ? (
+                {!errors.remarks && !errors.amount && receiverId!="" && startDate!="2021-07-03T15:21:15.513Z" &&
+                     endDate!="2021-07-03T15:21:15.513Z" ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
                       <CustomActivityIndicator

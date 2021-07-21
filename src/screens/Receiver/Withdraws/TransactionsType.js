@@ -5,39 +5,49 @@ import {
 	Modal,
 	Dimensions,
 	View,
+	TouchableWithoutFeedback
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
 import { Block, Text } from "./../../../components/Index.js";
-import {Type} from "./Dummy";
+import { Type } from "./Dummy";
 const WIDTH = Dimensions.get("window").width;
-const WithdrawsType = ({ withdrawsType, setWithdrawsType,setWithdrawsTypeId }) => {
+const TransactionsType = ({
+	transactionsType,
+	setTransactionsType,
+	setTransactionsTypeId,
+}) => {
 	const [
-		withdrawsTypeModalVisible,
-		setWithdrawsTypeModalVisible,
+		transactionsTypeModalVisible,
+		setTransactionsTypeModalVisible,
 	] = useState(false);
-	const onPressWithdrawsTypeItem = useCallback(
+	const onPressTransactionsTypeItem = useCallback(
 		(item) => {
-			setWithdrawsType(item.label);
-			setWithdrawsTypeId(item.type)
-			setWithdrawsTypeModalVisible(false);
+			setTransactionsType(item.label);
+			setTransactionsTypeId(item.type);
+			setTransactionsTypeModalVisible(false);
 		},
-		[setWithdrawsType]
+		[setTransactionsType]
 	);
 
-	const RenderWithdrawsTypeOptions = Type.map(
-		(item, index) => (
-			<TouchableOpacity
-				key={index}
-				onPress={() => onPressWithdrawsTypeItem(item)}
-				style={{ marginVertical: 2 }}
+	const RenderTransactionsTypeOptions = Type.map((item, index) => (
+		<TouchableOpacity
+			key={index}
+			onPress={() => onPressTransactionsTypeItem(item)}
+			style={{ marginVertical: 2 }}
+		>
+			<Text
+				bold
+				style={{
+					paddingVertical: 4,
+					fontSize: 18,
+					color: theme.colors.solidGray,
+				}}
 			>
-				<Text bold style={{ paddingVertical: 4, fontSize: 18, color: theme.colors.solidGray, }}>
-					{item.label}
-				</Text>
-			</TouchableOpacity>
-		)
-	);
+				{item.label}
+			</Text>
+		</TouchableOpacity>
+	));
 	return (
 		<Block style={{ flex: 0, paddingVertical: 8 }}>
 			<Text bold style={{ fontSize: 14, fontWeight: "700" }}>
@@ -46,17 +56,22 @@ const WithdrawsType = ({ withdrawsType, setWithdrawsType,setWithdrawsTypeId }) =
 			<TouchableOpacity
 				style={styles.customPicker}
 				activeOpacity={0.8}
+				onPress={() =>
+					setTransactionsTypeModalVisible(
+						!transactionsTypeModalVisible
+					)
+				}
 			>
 				<Block>
 					<Text
 						bold
 						style={{
 							fontSize: 16,
-							
-							 color:"#999999"
+
+							color: "#999999",
 						}}
 					>
-						{withdrawsType}
+						{transactionsType}
 					</Text>
 				</Block>
 				<Block style={{ alignItems: "flex-end" }}>
@@ -68,27 +83,37 @@ const WithdrawsType = ({ withdrawsType, setWithdrawsType,setWithdrawsTypeId }) =
 				</Block>
 			</TouchableOpacity>
 			<Modal
-				visible={withdrawsTypeModalVisible}
+				visible={transactionsTypeModalVisible}
 				transparent={true}
 				animationType="fade"
 				statusBarTranslucent={true}
 				onRequestClose={() =>
-					setWithdrawsTypeModalVisible(
-						!withdrawsTypeModalVisible
+					setTransactionsTypeModalVisible(
+						!transactionsTypeModalVisible
 					)
 				}
 			>
-            	 <View style={[styles.container]}>
-					<View style={[styles.modal, { width: WIDTH - 30 }]}>
-						{RenderWithdrawsTypeOptions}
-					</View>
-				</View>
+				<TouchableOpacity
+					style={styles.container}
+					activeOpacity={1}
+					onPressOut={() =>
+						setTransactionsTypeModalVisible(
+							!transactionsTypeModalVisible
+						)
+					}
+				>
+					<TouchableWithoutFeedback>
+						<View style={[styles.modal, { width: WIDTH - 30 }]}>
+							{RenderTransactionsTypeOptions}
+						</View>
+					</TouchableWithoutFeedback>
+				</TouchableOpacity>
 			</Modal>
 		</Block>
 	);
 };
 
-export default WithdrawsType;
+export default TransactionsType;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -113,7 +138,7 @@ const styles = StyleSheet.create({
 		height: 28,
 		flexDirection: "row",
 		justifyContent: "space-between",
-    borderColor:"#E7E7E7",
+		borderColor: "#E7E7E7",
 		alignItems: "center",
 		borderBottomWidth: 1,
 		paddingVertical: 6,

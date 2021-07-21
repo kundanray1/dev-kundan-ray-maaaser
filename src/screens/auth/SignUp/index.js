@@ -6,10 +6,8 @@ import SignUp from "./SignUp";
 import { signUpStart } from "./actions";
 import { loginStart } from "./../Login/actions";
 
-
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.signUp,
-
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

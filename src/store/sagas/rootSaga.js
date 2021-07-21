@@ -51,7 +51,6 @@ import subCampaignDonorsSaga from "./../../screens/Campaigns/SubCampaignDonors/s
 import campaignCommentsSaga from "./../../screens/Campaigns/CampaignComments/saga";
 import subCampaignCommentsSaga from "./../../screens/Campaigns/SubCampaignComments/saga";
 
-
 //more
 import moreSaga from "./../../screens/Donor/More/saga";
 import addMemberSaga from "./../../screens/Donor/More/AddMember/saga";
@@ -65,6 +64,8 @@ import changePasswordSaga from "./../../screens/Donor/Profile/ChangePassword/sag
 
 //transactions
 import transactionsSaga from "./../../screens/Donor/Transactions/saga";
+import loadFundDetailsSaga from "./../../screens/Donor/Transactions/LoadFundDetails/saga";
+import donationDetailsSaga from "./../../screens/Donor/Transactions/DonationDetails/saga";
 
 //Receiver
 //home
@@ -77,6 +78,7 @@ import withdrawFundConfirmationSaga from "./../../screens/Receiver/Home/Withdraw
 
 //withdraws
 import withdrawsSaga from "./../../screens/Receiver/Withdraws/saga";
+import withdrawnDetailsSaga from "./../../screens/Receiver/Withdraws/WithdrawnDetails/saga";
 
 //ReceiverProfile
 import receiverProfileSaga from "./../../screens/Receiver/ReceiverProfile/saga";
@@ -149,6 +151,8 @@ export default function* rootSaga() {
 
 		//transactions
 		transactionsSaga(),
+		loadFundDetailsSaga(),
+		donationDetailsSaga(),
 
 		//Receivers
 		//home
@@ -161,6 +165,7 @@ export default function* rootSaga() {
 
 		//withdraws
 		withdrawsSaga(),
+		withdrawnDetailsSaga(),
 
 		//ReceiverProfile
 		receiverProfileSaga(),

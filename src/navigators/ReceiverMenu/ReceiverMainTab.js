@@ -18,12 +18,12 @@ import EmptyCampaignsIconComponent from "./../../assets/icons/emptyCampaignsIcon
 import ActiveHomeIconComponent from "./../../assets/icons/ActiveHomeIconComponent.js";
 import ActiveProfileIconComponent from "./../../assets/icons/ActiveProfileIconComponent.js";
 import ActiveMoreIconComponent from "./../../assets/icons/ActiveMoreIconComponent.js";
-import ActiveWithdrawsIconComponent from "./../../assets/icons/ActiveWithdrawsIconComponent.js";
+import ActiveTransactionsIconComponent from "./../../assets/icons/ActiveTransactionsIconComponent.js";
 
 import InactiveHomeIconComponent from "./../../assets/icons/InactiveHomeIconComponent.js";
 import InactiveProfileIconComponent from "./../../assets/icons/InactiveProfileIconComponent.js"
 import InactiveMoreIconComponent from "./../../assets/icons/InactiveMoreIconComponent.js";
-import InactiveWithdrawsIconComponent from "./../../assets/icons/InactiveWithdrawsIconComponent.js";
+import InactiveTransactionsIconComponent from "./../../assets/icons/InactiveTransactionsIconComponent.js";
 
 
 const Tab = createBottomTabNavigator();
@@ -34,9 +34,9 @@ const screenOptions = ({ route }) => ({
 			return (
               focused?<ActiveHomeIconComponent/>:<InactiveHomeIconComponent/>
 			);
-		} else if (route.name === "Withdraws") {
+		} else if (route.name === "Transactions") {
 			return (
-              focused?<ActiveWithdrawsIconComponent/>:<InactiveWithdrawsIconComponent/>
+              focused?<ActiveTransactionsIconComponent/>:<InactiveTransactionsIconComponent/>
 			);
 		} else if (route.name === "Campaigns") {
 			return (
@@ -73,7 +73,7 @@ export default ReceiverMainTab = () => {
 			}}
 		>
 			<Tab.Screen name="Home" component={HomeStack} />
-			<Tab.Screen name="Withdraws" component={WithdrawsStack} />
+			<Tab.Screen name="Transactions" component={TransactionsStack} />
 			<Tab.Screen name="Campaigns" component={CampaignsStack} />
 			<Tab.Screen name="Profile" component={ReceiverProfileStack} />
 			<Tab.Screen name="More" component={MoreStack} />
@@ -97,16 +97,16 @@ function HomeStack() {
 }
 
 const WithdrawsRoute = createStackNavigator();
-function WithdrawsStack() {
+function TransactionsStack() {
 	return (
 		<WithdrawsRoute.Navigator
 			screenOptions={{
 				headerShown: true,
 			}}
-			initialRouteName="Withdraws"
+			initialRouteName="Transactions"
 		>
 			<WithdrawsRoute.Screen
-				name="Withdraws"
+				name="Transactions"
 				component={Withdraws}
 			/>
 		</WithdrawsRoute.Navigator>

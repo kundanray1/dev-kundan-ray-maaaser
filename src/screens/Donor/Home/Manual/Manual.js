@@ -108,7 +108,7 @@ const Manual = ({ navigation, data, loginData,manual }) => {
               />
               <ErrorMessage error={errors.remarks} visible={touched.remarks} />
               <Block style={{ flex: 0, paddingVertical: 10 }}>
-                {!errors.receiverName && !errors.amount ? (
+                {!errors.remarks && !errors.amount && receiverId!=""? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
                       <>

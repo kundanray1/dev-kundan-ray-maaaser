@@ -56,9 +56,12 @@ const DonorReceiver = ({
   allCampaignsData,
   allCampaigns,
   campaignId,
+  campaignsData,
+  campaigns,
   manualDonateConfirmationData,
   ACHLoadFundConfirmationData,
   cardLoadFundConfirmationData,
+  linkScheduleDonationData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
@@ -75,6 +78,7 @@ const DonorReceiver = ({
     upcomingDonations(loginData.user.account.accountid);
     donationsMade(loginData.user.account.accountid);
     allCampaigns();
+    campaigns(),
     receivers();
     setRefreshing(false);
   });
@@ -85,12 +89,14 @@ const DonorReceiver = ({
     balance(loginData.user.account.accountid);
     donationsMade(loginData.user.account.accountid);
     allCampaigns();
+    campaigns();
     receivers();
   }, [
     data.balance,
     manualDonateConfirmationData.manualDonateConfirmation,
     ACHLoadFundConfirmationData.ACHLoadFundConfirmation,
     cardLoadFundConfirmationData.cardLoadFundConfirmation,
+    linkScheduleDonationData.linkScheduleDonation
   ]);
 
   useEffect(() => {
@@ -301,7 +307,7 @@ const DonorReceiver = ({
   const renderDonationsMade = () => {
     return donationsMadeData.donationsMade
       .filter((transaction) => {
-        return transaction.transactiontype === 2;
+        return transaction.transactiontype == 2;
       })
       .slice(0, 2)
       .map((item, index) => {
@@ -346,6 +352,7 @@ const DonorReceiver = ({
       donationsMadeData.isLoading ||
       receiversData.isLoading ||
       profileData.isLoading ||
+      campaignsData.isLoading ||
       allCampaignsData.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />

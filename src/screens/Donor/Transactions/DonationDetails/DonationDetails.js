@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -24,81 +25,140 @@ import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
 const WIDTH = Dimensions.get("window").width;
 
-const DonationDetails = ({ route, data, navigation }) => {
+const DonationDetails = ({
+  route,
+  data,
+  navigation,
+  donationDetailsStart,
+  donationDetailsClear,
+}) => {
   const { details } = route.params;
-  
+  useEffect(() => {
+    donationDetailsStart(details.transactionid);
+  }, []);
+  console.log("data.donationDetails", data.donationDetails);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
-      <Block style={{ flex: 0, paddingVertical: 10 }}>
-        <Text
-          bold
-          style={{ fontSize: 16, fontWeight: "700" }}
-          color={theme.colors.solidGray}
-        >
-          {moment(details.createdat).format("DD MMM, YYYY")} at{" "}
-          {moment(details.createdat).format("hh:mm A")}
-        </Text>
-      </Block>
-      <Block style={{ flex: 0, paddingVertical: 8 }}>
-        <Text
-          bold
-          style={{ fontSize: 16, fontWeight: "700" }}
-          color={theme.colors.solidGray}
-        >
-          Receiver’s Name
-        </Text>
-        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-          {details.clientList[1].account.fullname}
-        </Text>
-      </Block>
-
-      <Block style={{ flex: 0, paddingVertical: 8 }}>
-        <Text
-          bold
-          style={{ fontSize: 16, fontWeight: "700" }}
-          color={theme.colors.solidGray}
-        >
-          Type
-        </Text>
-        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-          Donation
-        </Text>
-      </Block>
-
-      <Block style={{ flex: 0, paddingVertical: 8 }}>
-        <Text
-          bold
-          style={{ fontSize: 16, fontWeight: "700" }}
-          color={theme.colors.solidGray}
-        >
-          Amount
-        </Text>
-        <NumberFormat
-          value={details.amount / 100}
-          displayType={"text"}
-          thousandSeparator={true}
-          prefix={"$"}
-          decimalScale={2}
-          fixedDecimalScale={true}
-          renderText={(formattedValue) => (
-            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-              {formattedValue}
-            </Text>
-          )}
+      {data.isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={theme.colors.primary2}
+          style={{ marginTop: 30 }}
         />
-      </Block>
-      <Block style={{ flex: 0, paddingVertical: 8 }}>
-        <Text
-          bold
-          style={{ fontSize: 16, fontWeight: "700" }}
-          color={theme.colors.solidGray}
-        >
-          Remarks
-        </Text>
-        <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-          {details.remark}
-        </Text>
-      </Block>
+      ) : (
+        <>
+          <Block style={{ flex: 0, paddingVertical: 10 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              {moment(data.donationDetails.transaction.createdat).format(
+                "DD MMM, YYYY"
+              )}{" "}
+              at{" "}
+              {moment(data.donationDetails.transaction.createdat).format(
+                "hh:mm A"
+              )}
+            </Text>
+          </Block>
+          <Block style={{ flex: 0, paddingVertical: 8 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              Receiver’s Name
+            </Text>
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              {data.donationDetails.transaction.clientList[1].account.fullname}
+            </Text>
+          </Block>
+
+          <Block style={{ flex: 0, paddingVertical: 8 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              Type
+            </Text>
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              Donation
+            </Text>
+          </Block>
+          {data.donationDetails.transaction.campaign != undefined ? (
+            <Block style={{ flex: 0, paddingVertical: 8 }}>
+              <Text
+                bold
+                style={{ fontSize: 16, fontWeight: "700" }}
+                color={theme.colors.solidGray}
+              >
+              Campaign
+              </Text>
+              <Text
+                color={theme.colors.solidGray}
+                style={{ fontSize: 15 }}
+              >
+              {data.donationDetails.transaction.campaign.title}
+              </Text>
+            </Block>
+          ) : data.donationDetails.transaction.subcampaign != undefined ? (
+            <Block style={{ flex: 0, paddingVertical: 8 }}>
+              <Text
+                bold
+                style={{ fontSize: 16, fontWeight: "700" }}
+                color={theme.colors.solidGray}
+              >
+              Sub Campaign
+              </Text>
+              <Text
+                color={theme.colors.solidGray}
+                style={{ fontSize: 15 }}
+              >
+                {data.donationDetails.transaction.subcampaign.campaign.title}
+              </Text>
+            </Block>
+          ) : (
+            <Block style={{ flex: 0 }} />
+          )}
+
+          <Block style={{ flex: 0, paddingVertical: 8 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              Amount
+            </Text>
+            <NumberFormat
+              value={data.donationDetails.transaction.amount / 100}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"$"}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              renderText={(formattedValue) => (
+                <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+                  {formattedValue}
+                </Text>
+              )}
+            />
+          </Block>
+          <Block style={{ flex: 0, paddingVertical: 8 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              Remarks
+            </Text>
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              {data.donationDetails.transaction.remark}
+            </Text>
+          </Block>
+        </>
+      )}
     </SafeAreaView>
   );
 };

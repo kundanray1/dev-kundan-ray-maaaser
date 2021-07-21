@@ -43,6 +43,7 @@ export const Organization=[
     id: "1",
     image:MembersIconComponent(),
     label: "Members",
+    navigate: "Members",
   },
   {
     id: "2",

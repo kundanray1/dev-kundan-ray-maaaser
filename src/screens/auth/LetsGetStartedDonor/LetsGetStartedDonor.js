@@ -87,11 +87,13 @@ const LetsGetStartedDonor = ({
   };
 
   useEffect(() => {
-    if (loginData.user.account.isfirstlogin === true) {
-      navigation.navigate("DonorMainTab");
-      imageUploadClear()
+    if (data.user != null) {
+      if (data.user.success) {
+        navigation.navigate("DonorMainTab");
+        imageUploadClear();
+      }
     }
-  }, [loginData.user]);
+  }, [data.user]);
   return (
     <KeyboardAwareScrollView
       style={{ paddingVertical: 10 }}

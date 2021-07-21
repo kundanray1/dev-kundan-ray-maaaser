@@ -33,6 +33,7 @@ export default CampaignQRCode = ({
   navigation,
   campaignDetailsdata,
   campaignId,
+  route
 }) => {
   const [svg, setSvg] = useState();
   function getDataURL() {
@@ -56,14 +57,13 @@ export default CampaignQRCode = ({
       message: "Downloaded successfully",
       type: "success",
     });
-
     }
   }
 
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://maaser-frontend-tlldytlira-uw.a.run.app/campaign/details/${campaignId}`,
+        message: route.params.campaignurl,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -109,7 +109,7 @@ export default CampaignQRCode = ({
         >
           <SvgQRCode
             size={HEIGHT / 6}
-            value={`https://maaser-frontend-tlldytlira-uw.a.run.app/campaign/details/${campaignId}`}
+            value={route.params.campaignurl}
             getRef={(c) => setSvg(c)}
           />
         </Block>

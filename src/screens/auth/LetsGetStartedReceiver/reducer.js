@@ -19,7 +19,6 @@ export const letsGetStartedReceiverReducer=(state = initialState, { type, payloa
         isLoading: true,
         isLoggedIn: false,
       };
-
     case LETS_GET_STARTED_RECEIVER_SUCCESS:
       return {
         ...state,

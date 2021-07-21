@@ -5,6 +5,7 @@ import {
   Modal,
   Dimensions,
   View,
+  TouchableWithoutFeedback
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as theme from "./../../../constants/theme.js";
@@ -12,25 +13,25 @@ import { Block, Text } from "./../../../components/Index.js";
 import {Medium} from "./Dummy";
 
 const WIDTH = Dimensions.get("window").width;
-const WithdrawsMedium = ({ withdrawsMedium, setWithdrawsMedium,setWithdrawsMediumId }) => {
+const TransactionsMedium = ({ transactionsMedium, setTransactionsMedium,setTransactionsMediumId }) => {
   const [
-    withdrawsMediumModalVisible,
-    setWithdrawsMediumModalVisible,
+    transactionsMediumModalVisible,
+    setTransactionsMediumModalVisible,
   ] = useState(false);
-  const onPressWithdrawsMediumItem = useCallback(
+  const onPressTransactionsMediumItem = useCallback(
     (item) => {
-      setWithdrawsMedium(item.label);
-      setWithdrawsMediumId(item.medium);
-      setWithdrawsMediumModalVisible(false);
+      setTransactionsMedium(item.label);
+      setTransactionsMediumId(item.medium);
+      setTransactionsMediumModalVisible(false);
     },
-    [setWithdrawsMedium]
+    [setTransactionsMedium]
   );
 
-  const RenderWithdrawsMediumOptions = Medium.map(
+  const RenderTransactionsMediumOptions = Medium.map(
     (item, index) => (
       <TouchableOpacity
         key={index}
-        onPress={() => onPressWithdrawsMediumItem(item)}
+        onPress={() => onPressTransactionsMediumItem(item)}
         style={{flexDirection:"row",alignItems:"center", marginVertical: 2 }}
       >
       {item.image}
@@ -49,12 +50,12 @@ const WithdrawsMedium = ({ withdrawsMedium, setWithdrawsMedium,setWithdrawsMediu
         style={styles.customPicker}
         activeOpacity={0.8}
         onPress={() =>
-          setWithdrawsMediumModalVisible(!withdrawsMediumModalVisible)
+          setTransactionsMediumModalVisible(!transactionsMediumModalVisible)
         }
       >
         <Block>
           <Text bold style={{ fontSize: 16, color:"#999999" }}>
-            {withdrawsMedium}
+            {transactionsMedium}
           </Text>
         </Block>
         <Block style={{ alignItems: "flex-end" }}>
@@ -66,25 +67,31 @@ const WithdrawsMedium = ({ withdrawsMedium, setWithdrawsMedium,setWithdrawsMediu
         </Block>
       </TouchableOpacity>
       <Modal
-        visible={withdrawsMediumModalVisible}
+        visible={transactionsMediumModalVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setWithdrawsMediumModalVisible(!withdrawsMediumModalVisible)
+          setTransactionsMediumModalVisible(!transactionsMediumModalVisible)
         }
       >
-        <View style={styles.container}>
+         <TouchableOpacity 
+            style={styles.container} 
+            activeOpacity={1} 
+            onPressOut={()=>setTransactionsMediumModalVisible(!transactionsMediumModalVisible)}
+          >
+         <TouchableWithoutFeedback>
           <View style={[styles.modal, { width: WIDTH - 30 }]}>
-            {RenderWithdrawsMediumOptions}
+            {RenderTransactionsMediumOptions}
           </View>
-        </View>
+         </TouchableWithoutFeedback>
+         </TouchableOpacity>
       </Modal>
     </Block>
   );
 };
 
-export default WithdrawsMedium;
+export default TransactionsMedium;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

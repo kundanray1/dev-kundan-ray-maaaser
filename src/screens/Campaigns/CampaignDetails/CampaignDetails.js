@@ -34,6 +34,7 @@ const CampaignDetails = ({
   campaignDetails,
   campaignId,
   startACampaignThirdUpdateData,
+  campaignDetailsURLStart,
   route,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -45,12 +46,13 @@ const CampaignDetails = ({
 
   useEffect(() => {
     campaignDetails(campaignId);
+    campaignDetailsURLStart(campaignId);
   }, [campaignId,startACampaignThirdUpdateData.startACampaignThirdUpdate]);
 
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://maaser-frontend-tlldytlira-uw.a.run.app/campaign/details/${campaignId}`,
+        message: data.campaignDetailsURL.campaignurl,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -68,7 +70,7 @@ const CampaignDetails = ({
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {data.isLoading ? (
+      {(data.isLoading || data.campaignDetailsURLLoading) ? (
         <ActivityIndicator size="large" color={theme.colors.primary2} />
       ) : (
         <>
@@ -165,7 +167,7 @@ const CampaignDetails = ({
                   )}
                 </Block>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Campaign QR Code")}
+                  onPress={() => navigation.navigate("Campaign QR Code",{campaignurl:data.campaignDetailsURL.campaignurl})}
                   activeOpacity={0.8}
                   style={{ flex: 1.5, alignItems: "flex-end" }}
                 >

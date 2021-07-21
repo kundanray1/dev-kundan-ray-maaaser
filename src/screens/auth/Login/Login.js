@@ -41,8 +41,8 @@ const Login = ({ navigation, data, login }) => {
 
       <Formik
         initialValues={{
-          identifier: "jp@gmail.com",
-          password: "Joshan@1234",
+          identifier: "",
+          password: "",
         }}
         onSubmit={(values) => {
           onSubmitLogin(values);

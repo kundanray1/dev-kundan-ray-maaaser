@@ -7,6 +7,7 @@ import {
 import * as theme from "../../../constants/theme.js";
 import { Block, Text,CustomActivityIndicator } from "../../../components/Index.js";
 import {Individual,Organization} from "./Dummy.js";
+import API from "../../../api/API.js";
 
 const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,data}) => {
   useEffect(()=>{
@@ -22,10 +23,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
   const RenderOptions = ({ image, label,navigate }) => (
     <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 10 }} onPress={()=>{
       if(label=="Log out"){
-         // logout();
-        loginClear();
-        logoutClear();
-        userLoggedOut();
+        logout();
       }else{
       navigation.navigate(navigate)
       }

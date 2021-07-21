@@ -27,7 +27,6 @@ export function* letsGetStartedDonor({ payload }) {
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
     if (res.success) {
       yield put(letsGetStartedDonorSuccess(res));
-      yield put(loginSuccess(res.client));
       showMessage({
         message: "Account created successfully",
         type: "success",

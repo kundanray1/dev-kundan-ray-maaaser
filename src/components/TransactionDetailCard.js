@@ -83,7 +83,7 @@ export default TransactionDetailCard = ({
 				paddingHorizontal: 6,
 				borderColor: theme.colors.gray2,
 			}}
-			onPress={()=>navigation.navigate((transactionType == 2 || transactionType == 4 || transactionType == 5)?"Donation Details":(transactionType == 1)?"Load Fund Details":"Transactions",{details:data})}
+			onPress={()=>navigation.navigate(transactionType == 1?"Load Fund Details":transactionType == 2?"Donation Details":transactionType == 3?"Withdrawn Details":"Donation Details",{details:data})}
 		>
 			<Block center middle>
 				{transactionImage}
@@ -104,7 +104,10 @@ export default TransactionDetailCard = ({
 						</Text>
 
 						{campaignTitle != undefined && (
-							<Text style={{ fontSize: 16, fontWeight: "700" }}>
+							<Text
+						style={{ fontSize: 16, fontWeight: "700" }}
+						color={theme.colors.solidGray}
+					>
 								{campaignTitle}
 							</Text>
 						)}

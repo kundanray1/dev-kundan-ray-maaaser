@@ -8,13 +8,11 @@ import LocalDb from "./LocalStorage";
 export class API {
     static token = null;
     static user = null;
-
     constructor() {
         API.token = null;
         API.user = null;
         this.setToken();
     }
-
     setToken() {
         LocalDb.getSessions().then((response) => {
             if (response !== null) {
@@ -77,11 +75,9 @@ export class API {
         return { ...APIHeaders, Authorization: API.token };
     }
     authProtoHeader() {
-        this.setToken()
         return { ...ProtoHeaders, Authorization: API.token };
     }
     authHeadersForMultipartFormData() {
-        this.setToken()
         return { ...APIHeadersForMultipartFormData, Authorization: API.token };
     }
 }

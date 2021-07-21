@@ -8,7 +8,7 @@ import { donationReceivedStart } from "./../DonationReceived/actions";
 import { donorsStart } from "./../Donors/actions";
 import { receiverProfileStart } from "./../../ReceiverProfile/actions";
 import { allCampaignsStart } from "./../../../Campaigns/AllCampaigns/actions";
-import { campaignId } from "./../../../Campaigns/actions";
+import { campaignId,campaignsStart } from "./../../../Campaigns/actions";
 
 
 const mapStateToProps = createStructuredSelector({
@@ -18,7 +18,7 @@ const mapStateToProps = createStructuredSelector({
 	donorsData: (state) => state.donors,
 	receiverProfileData: (state) => state.receiverProfile,
 	allCampaignsData: (state) => state.allCampaigns,
-
+	campaignsData: (state) => state.campaigns,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 		receiverProfile: (values) => dispatch(receiverProfileStart(values)),
 		allCampaigns: (values) => dispatch(allCampaignsStart(values)),
 		campaignId: (values) => dispatch(campaignId(values)),
-		
+		campaigns: (values) => dispatch(campaignsStart(values)),
 	};
 };
 

@@ -10,6 +10,7 @@ const APIEndPoints = {
     PASSWORD_RESET:MainAPI+ '/password/reset',
     BANK : MainAPI + '/bank',
     CARD : MainAPI + '/card',
+    CARD_DELETE : MainAPI + '/payment/card',
     TRANSACTION : MainAPI + '/transaction',
     BALANCE : MainAPI + '/balance',
     RECEIVERSCLIENT : MainAPI + '/client?type=3',
@@ -36,6 +37,7 @@ const APIEndPoints = {
     CAMPAIGN_SUBCAMPAIGN_DONATION:MainAPI + '/campaign/donations',
     GET_ALL_CAMPAIGN_COMMENTS_BY_REFID:MainAPI + '/comment/campaign',
     POST_CAMPAIGN_COMMENTS:MainAPI + '/comment',
+    GENERATE_CAMPAIGN_URL:MainAPI + '/campaign/url',
 
 
     // CAMPAIGN_GET_ALL:MainAPI + '/account/profile',

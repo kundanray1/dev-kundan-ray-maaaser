@@ -4,13 +4,18 @@ import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import LinkedAccounts from "./LinkedAccounts";
 import { linkedAccountsStart } from "./actions";
+import { ACHStart,ACHUpdateStatusStart } from "./../../../Donor/Home/ACH/actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.linkedAccounts,
+	data: (state) => state.ACH,
+	linkNewAccountData: (state) => state.linkNewAccount,
+	loginData: (state) => state.login,
+
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		linkedAccounts: (values) => dispatch(linkedAccountsStart(values)),
+		ACH: (values) => dispatch(ACHStart(values)),
+		ACHUpdateStatusStart: (values) => dispatch(ACHUpdateStatusStart(values)),
 	};
 };
 

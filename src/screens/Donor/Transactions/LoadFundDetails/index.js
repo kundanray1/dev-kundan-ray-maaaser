@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import LoadFundDetails from "./LoadFundDetails";
-import { scheduleDonationReceiverDetailStart,scheduleDonationReceiverDetailClear } from "./actions";
+import { loadFundDetailsStart,loadFundDetailsClear } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.scheduleDonationReceiverDetail,
+	data: (state) => state.loadFundDetails,
 	loginData: (state) => state.login,
 	
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		scheduleDonationReceiverDetailStart: (values) => dispatch(scheduleDonationReceiverDetailStart(values)),
-		scheduleDonationReceiverDetailClear: () => dispatch(scheduleDonationReceiverDetailClear()),
+		loadFundDetailsStart: (values) => dispatch(loadFundDetailsStart(values)),
+		loadFundDetailsClear: () => dispatch(loadFundDetailsClear()),
 	};
 };
 

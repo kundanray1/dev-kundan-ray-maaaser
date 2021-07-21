@@ -84,12 +84,10 @@ export default SignUp = ({
     <Block center middle>
       <Block center style={{ flex: 0, marginBottom: 20 }}>
       <FaviconIconComponent/>
-       
         <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
           Create your maaser account
         </Text>
       </Block>
-
       <Formik
         initialValues={{
           emailOrPhone: "",
@@ -196,7 +194,8 @@ export default SignUp = ({
               <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
                 {!errors.emailOrPhone &&
                 !errors.confirmPassword &&
-                !errors.password ? (
+                !errors.password &&
+                clientType!=""? (
                   <Button full onPress={handleSubmit}>
                     {data.isLoading ? (
                     <>

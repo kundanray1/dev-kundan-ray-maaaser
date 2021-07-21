@@ -76,6 +76,10 @@ import ReceiverViewProfile from "../screens/Receiver/ReceiverProfile/ReceiverVie
 import MyQRCode from "../screens/Receiver/ReceiverProfile/MyQRCode/index";
 import API from "./../api/API";
 
+//withdrawnsDetails
+import WithdrawnDetails from "../screens/Receiver/Withdraws/WithdrawnDetails/index";
+
+
 //navigator for logged in users
 const AuthStack = createStackNavigator();
 const LoggedInStack = ({ data }) => {
@@ -380,6 +384,11 @@ const LoggedInStack = ({ data }) => {
         name="Sub Campaign Donate Now Confirmation"
         options={{ headerShown: true, title: "Confirmation" }}
         component={SubCampaignDonateNowConfirmation}
+      />
+       <AuthStack.Screen
+        name="Withdrawn Details"
+        options={{ headerShown: true, title: "Details" }}
+        component={WithdrawnDetails}
       />
     </AuthStack.Navigator>
   );

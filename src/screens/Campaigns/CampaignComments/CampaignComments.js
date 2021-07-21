@@ -45,7 +45,7 @@ const CampaignComments = ({
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [commentData, setCommentData] = useState();
-  const [comment, setComment] = useState();
+  const [comment, setComment] = useState("");
   const [editedComment, setEditedComment] = useState();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [
@@ -159,7 +159,9 @@ const CampaignComments = ({
                 <Button onPress={() => {
                   setEditModalVisible(false)
                   onSubmitDonateUpdateConfirmation()
-                }}>
+                }}
+                disabled={editedComment==""?true:false}
+                >
                   <Text button style={{ fontSize: 18 }}>
                     Edit
                   </Text>
@@ -351,10 +353,12 @@ const CampaignComments = ({
                   maxHeight={80}
                 />
               </Block>
+
               <TouchableOpacity
                 activeOpacity={1}
                 style={{ flex: 1 }}
                 onPress={() => onSubmitDonateConfirmation()}
+                disabled={comment==""?true:false}
               >
                 <Text
                   center

@@ -6,7 +6,7 @@ import Text from "./Text";
 import moment from "moment";
 import ArrowRightIconComponent from "../assets/icons/arrowRightIconComponent";
 import UserIconComponent from "../assets/icons/userIconComponent";
-import NumberFormat from 'react-number-format';
+import NumberFormat from "react-number-format";
 
 export default ScheduleDonationCard = ({
 	receiverName,
@@ -35,19 +35,19 @@ export default ScheduleDonationCard = ({
 	} else {
 		scheduleTypeString = "Nth Day";
 	}
-let status =
-      scheduleTransactionStatus == 1
-      ? "SCHEDULING" :
-      scheduleTransactionStatus == 2
-      ? "DISABLED" : "CANCELLED" 
+	let status =
+		scheduleTransactionStatus == 1
+			? "SCHEDULING"
+			: scheduleTransactionStatus == 2
+			? "DISABLED"
+			: "CANCELLED";
 
 	return (
 		<TouchableOpacity
-				activeOpacity={0.8}
-
+			activeOpacity={0.8}
 			style={{
-				flexDirection:"row",
-				alignItems:"center",
+				flexDirection: "row",
+				alignItems: "center",
 				paddingVertical: 12,
 				paddingHorizontal: 20,
 				borderRadius: 3,
@@ -55,8 +55,7 @@ let status =
 				elevation: 3,
 				backgroundColor: theme.colors.white,
 			}}
-				{...props}
-
+			{...props}
 		>
 			<Block
 				row
@@ -65,20 +64,19 @@ let status =
 					alignItems: "flex-start",
 				}}
 			>
-			{
-				profilePic!==""?
-				<Image
-					source={{uri:profilePic}}
-					style={{ height: 45, width: 45, borderRadius: 30 }}
-				/>
-				:
-				<UserIconComponent height={45} width={45}/>
-			}
+				{profilePic !== "" ? (
+					<Image
+						source={{ uri: profilePic }}
+						style={{ height: 45, width: 45, borderRadius: 30 }}
+					/>
+				) : (
+					<UserIconComponent height={45} width={45} />
+				)}
 			</Block>
 			<Block
 				style={{
 					flex: 4,
-					marginLeft:10,
+					marginLeft: 10,
 					justifyContent: "center",
 				}}
 			>
@@ -93,53 +91,69 @@ let status =
 						{receiverName}
 					</Text>
 					<NumberFormat
-                    value={amount/100}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'$'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                    renderText={formattedValue => <Text 	color={theme.colors.green} style={{ fontSize: 16, fontWeight: "700",marginLeft:15 }}>{formattedValue}</Text>} 
-                    />
-				
+						value={amount / 100}
+						displayType={"text"}
+						thousandSeparator={true}
+						prefix={"$"}
+						decimalScale={2}
+						fixedDecimalScale={true}
+						renderText={(formattedValue) => (
+							<Text
+								color={theme.colors.green}
+								style={{
+									fontSize: 16,
+									fontWeight: "700",
+									marginLeft: 15,
+								}}
+							>
+								{formattedValue}
+							</Text>
+						)}
+					/>
 				</Block>
-				<Block center  row style={{ flex: 0 }}>
-				<Text
-					style={{ fontSize: 13, fontWeight: "700" }}
-					color={theme.colors.solidGray}
-				>
-					{moment(startDate).format("DD MMM YYYY")}
-				</Text>
-				
-				<Block style={{flex:0,marginLeft:10, backgroundColor: 
-								 status == "SCHEDULING"
-                ? theme.colors.schedulingBackground
-                : status == "DISABLED"
-                ? "#FFD8D3"
-                :  status == "CANCELLED"
-                ? theme.colors.cancelledBackground
-                :  theme.colors.schedulingBackground,
-               paddingVertical:4,paddingHorizontal:8}}>
-				<Text
-						style={{
-							fontSize: 13,
-							fontWeight: "700",
-						}}
-						 color={
-						 	   status == "SCHEDULING"
-                ? theme.colors.schedulingText
-                : status == "DISABLED"
-                ? "#DE4C3C"
-                :  status == "CANCELLED"
-                ? theme.colors.cancelledText
-                :  theme.colors.schedulingText
-              }
+				<Block center row style={{ flex: 0 }}>
+					<Text
+						style={{ fontSize: 13, fontWeight: "700" }}
+						color={theme.colors.solidGray}
 					>
-						{status}
+						{moment(startDate).format("DD MMM YYYY")}
 					</Text>
-				</Block>
-				</Block>
 
+					<Block
+						style={{
+							flex: 0,
+							marginLeft: 10,
+							backgroundColor:
+								status == "SCHEDULING"
+									? theme.colors.schedulingBackground
+									: status == "DISABLED"
+									? "#FFD8D3"
+									: status == "CANCELLED"
+									? theme.colors.cancelledBackground
+									: theme.colors.schedulingBackground,
+							paddingVertical: 4,
+							paddingHorizontal: 8,
+						}}
+					>
+						<Text
+							style={{
+								fontSize: 13,
+								fontWeight: "700",
+							}}
+							color={
+								status == "SCHEDULING"
+									? theme.colors.schedulingText
+									: status == "DISABLED"
+									? "#DE4C3C"
+									: status == "CANCELLED"
+									? theme.colors.cancelledText
+									: theme.colors.schedulingText
+							}
+						>
+							{status}
+						</Text>
+					</Block>
+				</Block>
 			</Block>
 			<Block
 				style={{
@@ -148,7 +162,7 @@ let status =
 					justifyContent: "center",
 				}}
 			>
-				<ArrowRightIconComponent/>
+				<ArrowRightIconComponent />
 			</Block>
 		</TouchableOpacity>
 	);

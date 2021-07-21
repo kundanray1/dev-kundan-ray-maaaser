@@ -33,6 +33,7 @@ const Card = ({
   loginData,
   linkNewCardData,
   cardUpdateStatusStart,
+  cardDeleteStatusStart
 }) => {
   const [
     confirmationMessageVisible,
@@ -134,22 +135,8 @@ const Card = ({
   );
 
   const handleDeleteConfirm = () => {
-    const updateData = new PaymentProto.Card();
-    const addressData = new AddressProto.Address();
-    updateData.setCardid(cardData.cardid);
-    updateData.setRefid(cardData.refid);
-    updateData.setCardstatus(PaymentProto.Card.CardStatus.INACTIVE_CARD);
-    updateData.setAccountid(loginData.user.account.accountid);
-    updateData.setCardnumber(cardData.cardnumber);
-    updateData.setCardholdername(cardData.cardholdername);
-    updateData.setExpirydate(cardData.expirydate);
-    addressData.setAddressid(cardData.billingaddress.addressid);
-    addressData.setStreet1(cardData.billingaddress.street1);
-    addressData.setState(cardData.billingaddress.state);
-    addressData.setCity(cardData.billingaddress.city);
-    addressData.setRefid(cardData.billingaddress.refid);
-    updateData.setBillingaddress(addressData);
-    cardUpdateStatusStart(updateData);
+    console.log(cardData.cardid);
+    cardDeleteStatusStart(cardData.cardid);
   };
 
   const handleDelete = () => {

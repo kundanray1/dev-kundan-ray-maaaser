@@ -13,6 +13,7 @@ import {
 } from "./../ManualDonateConfirmation/actions";
 import { profileStart } from "./../../Profile/actions";
 import { allCampaignsStart } from "./../../../Campaigns/AllCampaigns/actions";
+import { campaignsStart } from "./../../../Campaigns/actions";
 import { campaignId } from "./../../../Campaigns/actions";
 
 const mapStateToProps = createStructuredSelector({
@@ -24,9 +25,11 @@ const mapStateToProps = createStructuredSelector({
 	receiversData: (state) => state.receivers,
 	manualDonateConfirmationData: (state) => state.manualDonateConfirmation,
 	allCampaignsData: (state) => state.allCampaigns,
+	campaignsData: (state) => state.campaigns,
 	manualDonateConfirmationData: (state) => state.manualDonateConfirmation,
 	ACHLoadFundConfirmationData: (state) => state.ACHLoadFundConfirmation,
 	cardLoadFundConfirmationData: (state) => state.cardLoadFundConfirmation,
+	linkScheduleDonationData: (state) => state.linkScheduleDonation,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -41,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(manualDonateConfirmationClear()),
 		profile: (values) => dispatch(profileStart(values)),
 		allCampaigns: (values) => dispatch(allCampaignsStart(values)),
+		campaigns: (values) => dispatch(campaignsStart(values)),
 		campaignId: (values) => dispatch(campaignId(values)),
 	};
 };

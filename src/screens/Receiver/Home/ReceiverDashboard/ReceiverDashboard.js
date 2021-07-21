@@ -38,6 +38,8 @@ const DonorReceiver = ({
   receiverProfile,
   allCampaigns,
   allCampaignsData,
+  campaignsData,
+  campaigns,
   campaignId
 }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -46,7 +48,9 @@ const DonorReceiver = ({
     balance(loginData.user.account.accountid);
     donationReceived(loginData.user.account.accountid);
     allCampaigns(loginData.user.account.accountid);
-    donors(), setRefreshing(false);
+    donors(), 
+    campaigns(),
+    setRefreshing(false);
   });
   useEffect(() => {
     // if (receiverProfileData.receiverProfile == null) {
@@ -55,6 +59,7 @@ const DonorReceiver = ({
       donationReceived(loginData.user.account.accountid);
       allCampaigns(loginData.user.account.accountid);
       donors();
+      campaigns();
     // }
   }, []);
   const renderDonationsReceived = () => {
@@ -98,6 +103,7 @@ const DonorReceiver = ({
       donationReceivedData.isLoading ||
       donorsData.isLoading ||
       receiverProfileData.isLoading || 
+      campaignsData.isLoading || 
        allCampaignsData.isLoading  ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />

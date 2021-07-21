@@ -53,7 +53,6 @@ import { subCampaignDonorsReducer } from "./../../screens/Campaigns/SubCampaignD
 import { campaignCommentsReducer } from "./../../screens/Campaigns/CampaignComments/reducer";
 import { subCampaignCommentsReducer } from "./../../screens/Campaigns/SubCampaignComments/reducer";
 
-
 //more
 import { moreReducer } from "./../../screens/Donor/More/reducer";
 import { membersReducer } from "./../../screens/Donor/More/Members/reducer";
@@ -67,6 +66,8 @@ import { changePasswordReducer } from "./../../screens/Donor/Profile/ChangePassw
 
 //transactions
 import { transactionsReducer } from "./../../screens/Donor/Transactions/reducer";
+import { loadFundDetailsReducer } from "./../../screens/Donor/Transactions/LoadFundDetails/reducer";
+import { donationDetailsReducer } from "./../../screens/Donor/Transactions/DonationDetails/reducer";
 
 //Receiver
 //home
@@ -79,11 +80,13 @@ import { withdrawFundConfirmationReducer } from "./../../screens/Receiver/Home/W
 
 // home
 import { withdrawsReducer } from "./../../screens/Receiver/Withdraws/reducer";
+import { withdrawnDetailsReducer } from "./../../screens/Receiver/Withdraws/WithdrawnDetails/reducer";
 
 // receiverProfile
 import { receiverProfileReducer } from "./../../screens/Receiver/ReceiverProfile/reducer";
 import { receiverViewProfileReducer } from "./../../screens/Receiver/ReceiverProfile/ReceiverViewProfile/reducer";
 import { receiverEditProfileReducer } from "./../../screens/Receiver/ReceiverProfile/ReceiverEditProfile/reducer";
+
 
 // add all the reducer, abd lets use this format of combineReducers so you can add more later if you need to.
 const appReducer = combineReducers({
@@ -128,7 +131,7 @@ const appReducer = combineReducers({
 	subCampaignsEdit: subCampaignsEditReducer,
 	allCampaigns: allCampaignsReducer,
 	startACampaignThird: startACampaignThirdReducer,
-	startACampaignThirdUpdate:startACampaignThirdUpdateReducer,
+	startACampaignThirdUpdate: startACampaignThirdUpdateReducer,
 	startACampaign: startACampaignReducer,
 	startASubCampaign: startASubCampaignReducer,
 	addBeneficiary: addBeneficiaryReducer,
@@ -137,8 +140,8 @@ const appReducer = combineReducers({
 	campaignDonateNowConfirmation: campaignDonateNowConfirmationReducer,
 	campaignDonors: campaignDonorsReducer,
 	subCampaignDonors: subCampaignDonorsReducer,
-	campaignComments:campaignCommentsReducer,
-	subCampaignComments:subCampaignCommentsReducer,
+	campaignComments: campaignCommentsReducer,
+	subCampaignComments: subCampaignCommentsReducer,
 
 	//more
 	more: moreReducer,
@@ -153,6 +156,8 @@ const appReducer = combineReducers({
 
 	//transactions
 	transactions: transactionsReducer,
+	loadFundDetails: loadFundDetailsReducer,
+	donationDetails: donationDetailsReducer,
 
 	//Receivers
 	//home
@@ -165,6 +170,7 @@ const appReducer = combineReducers({
 
 	//withdraws
 	withdraws: withdrawsReducer,
+	withdrawnDetails:withdrawnDetailsReducer,
 
 	//receiverProfile
 	receiverProfile: receiverProfileReducer,

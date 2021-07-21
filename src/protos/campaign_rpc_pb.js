@@ -677,7 +677,8 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.toObject = function(includeInsta
     campaign_pb.SubCampaign.toObject, includeInstance),
     comment: (f = msg.getComment()) && campaign_pb.Comment.toObject(includeInstance, f),
     commentsList: jspb.Message.toObjectList(msg.getCommentsList(),
-    campaign_pb.Comment.toObject, includeInstance)
+    campaign_pb.Comment.toObject, includeInstance),
+    campaignurl: jspb.Message.getFieldWithDefault(msg, 13, "")
   };
 
   if (includeInstance) {
@@ -768,6 +769,10 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.deserializeBinaryFromReader = fu
       var value = new campaign_pb.Comment;
       reader.readMessage(value,campaign_pb.Comment.deserializeBinaryFromReader);
       msg.addComments(value);
+      break;
+    case 13:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCampaignurl(value);
       break;
     default:
       reader.skipField();
@@ -887,6 +892,13 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.serializeBinaryToWriter = functi
       12,
       f,
       campaign_pb.Comment.serializeBinaryToWriter
+    );
+  }
+  f = message.getCampaignurl();
+  if (f.length > 0) {
+    writer.writeString(
+      13,
+      f
     );
   }
 };
@@ -1181,6 +1193,21 @@ proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.addComments = function
 
 proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.clearCommentsList = function() {
   this.setCommentsList([]);
+};
+
+
+/**
+ * optional string campaignUrl = 13;
+ * @return {string}
+ */
+proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.getCampaignurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
+};
+
+
+/** @param {string} value */
+proto.brilltech.maaser.rpc.CampaignBaseResponse.prototype.setCampaignurl = function(value) {
+  jspb.Message.setProto3StringField(this, 13, value);
 };
 
 
