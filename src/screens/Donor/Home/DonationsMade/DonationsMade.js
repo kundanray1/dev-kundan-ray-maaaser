@@ -73,8 +73,6 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
       accountId:loginData.user.account.accountid,
       fromDate:new Date(fromDate).getTime(),
       toDate:new Date(toDate).getTime(),
-      // medium:transactionsMediumId,
-      // type:transactionsTypeId,
       search:search==undefined?"":""
     })
      onPressReset();

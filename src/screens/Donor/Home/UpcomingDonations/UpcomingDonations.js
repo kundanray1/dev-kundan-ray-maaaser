@@ -62,10 +62,6 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
   const onPressReset = () => {
   setFromDate("2021-07-03T15:21:15.513Z");
   setToDate("2021-07-03T15:21:15.513Z");
-  setTransactionsMedium();
-  setTransactionsMediumId("");
-  setTransactionsType();
-  setTransactionsTypeId("");
   };
 
   const onPressSubmitApply = () => {

@@ -70,7 +70,7 @@ export function* cardUpdateStatus({ payload }) {
 
 export function* cardDeleteStatus({ payload }) {
 	try {
-		const response = yield call(requestProto,`${APIEndpoints.DELETE_CARD}/${payload}`, {
+		const response = yield call(requestProto,`${APIEndpoints.CARD}/${payload}`, {
 			method: "DELETE",
 			headers: API.authProtoHeader(),
 		});

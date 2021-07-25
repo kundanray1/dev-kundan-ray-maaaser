@@ -51,17 +51,14 @@ export function* upcomingDonations({ payload }) {
 
 export function* upcomingDonationsSearch({ payload }) {
 	try {
-		const {search,fromDate,toDate,medium,type}=payload
-		console.log("1")
+		const {search,fromDate,toDate}=payload
 		const response = yield call(requestProto,`${APIEndpoints.UPCOMING_TRANSACTION}?&from=${fromDate}&to=${toDate}&searchTerm=${search}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
-		console.log("2")
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("3")
 		if (res.success) {
 			yield put(upcomingDonationsSuccess(res.transactionsList));
 		} else {

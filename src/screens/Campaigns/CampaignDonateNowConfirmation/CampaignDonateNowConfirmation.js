@@ -30,8 +30,8 @@ const CampaignDonateNowConfirmation = ({
   navigation,
 }) => {
   const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
+    campaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible,
+    setCampaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible,
   ] = useState(false);
   const {
       refId,
@@ -58,21 +58,21 @@ const CampaignDonateNowConfirmation = ({
   useEffect(() => {
     if (data.campaignDonateNowConfirmation !== null) {
       if (data.campaignDonateNowConfirmation.success) {
-        setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+        setCampaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible(!campaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible);
         campaignDonateNowConfirmationClear();
       }
     }
   }, [data.campaignDonateNowConfirmation]);
 
-  const ConfirmationMessage = () => (
+  const CampaignDonateNowConfirmationMessageVisible = () => (
     <SafeAreaView>
       <Modal
-        visible={confirmationMessageVisible}
+        visible={campaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setConfirmationSuccessfulVisible(false)
+          setCampaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible(false)
         }
       >
         <View style={styles.container}>
@@ -95,6 +95,7 @@ const CampaignDonateNowConfirmation = ({
       </Modal>
     </SafeAreaView>
   );
+
   return (
     <SafeAreaView
       style={{ flex: 1, paddingHorizontal: 24, justifyContent: "center" }}
@@ -246,7 +247,7 @@ const CampaignDonateNowConfirmation = ({
           </TouchableOpacity>
         </Block>
       </Block>
-      {ConfirmationMessage()}
+      {CampaignDonateNowConfirmationMessageVisible()}
     </SafeAreaView>
   );
 };
