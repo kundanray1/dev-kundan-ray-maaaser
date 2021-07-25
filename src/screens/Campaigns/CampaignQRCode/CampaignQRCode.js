@@ -37,12 +37,10 @@ export default CampaignQRCode = ({
 }) => {
   const [svg, setSvg] = useState();
   function getDataURL() {
-    console.log("1")
     svg.toDataURL(callback);
   }
 
   async function callback(dataURL) {
-    console.log("2")
     const data = `data:image/png;base64,${dataURL}`;
     const base64Code = data.split("data:image/png;base64,")[1];
 
@@ -105,6 +103,7 @@ export default CampaignQRCode = ({
             flex: 1,
             justifyContent: "center",
             paddingVertical: HEIGHT / 16,
+            marginBottom:8
           }}
         >
           <SvgQRCode
@@ -127,8 +126,7 @@ export default CampaignQRCode = ({
           <Text
             style={{
               color: theme.colors.primary2,
-              fontWeight: "700",
-              fontSize: 20,
+              fontSize: 16,
               textTransform: "capitalize",
               marginTop: 10,
             }}
@@ -139,7 +137,7 @@ export default CampaignQRCode = ({
             style={{
               color: theme.colors.solidGray,
               fontWeight: "700",
-              fontSize: 20,
+              fontSize: 16,
               marginTop: 6,
               textTransform: "capitalize",
             }}
@@ -153,7 +151,7 @@ export default CampaignQRCode = ({
             style={{
               color: "#333333",
               fontWeight: "500",
-              fontSize: 18,
+              fontSize: 16,
               marginTop: 18,
             }}
           >

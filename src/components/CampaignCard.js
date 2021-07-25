@@ -148,8 +148,11 @@ export default CampaignCard = ({
 									paddingBottom: 16,
 								}}
 							>
+							{/*1 open---Close/Disable
+							2 close---Don't show options
+							3 Disable---Close/Open*/}
 								{
-									campaignstatus==2 ?
+									campaignstatus==3 ?
 								
 								<TouchableOpacity
 									activeOpacity={0.8}
@@ -173,7 +176,7 @@ export default CampaignCard = ({
 								<TouchableOpacity
 									activeOpacity={0.8}
 									onPress={() => {
-										CloseWarning();
+										DisableWarning();
 										setEditModalVisible(false);
 									}}
 									style={{ paddingVertical: 6 }}
@@ -185,14 +188,14 @@ export default CampaignCard = ({
 											paddingVertical: 4,
 										}}
 									>
-										Close
+										Disable
 									</Text>
 								</TouchableOpacity>
 							}
 								<TouchableOpacity
 									activeOpacity={0.8}
 									onPress={() => {
-										DisableWarning();
+										CloseWarning();
 										setEditModalVisible(false);
 									}}
 									style={{ paddingVertical: 6 }}
@@ -203,7 +206,7 @@ export default CampaignCard = ({
 											fontSize: 16,
 										}}
 									>
-										Disable
+										Close
 									</Text>
 								</TouchableOpacity>
 							
@@ -337,7 +340,7 @@ export default CampaignCard = ({
 										}}
 									/>
 								</TouchableOpacity>
-								{campaignstatus !== 3 && (
+								{campaignstatus !== 2 && (
 									<TouchableOpacity
 										activeOpacity={0.8}
 										onPress={() =>
@@ -368,12 +371,14 @@ export default CampaignCard = ({
 					}}
 				>
 					<Text
+						color="#3B414B"
+
 						style={{
-							fontSize: 18,
+							fontSize: 17,
 							fontWeight: "700",
 							textTransform: "capitalize",
-						}}
-						color="#3B414B"
+						   width:WIDTH- 80}} 
+						numberOfLines={1}
 					>
 						{label}
 					</Text>
@@ -424,7 +429,6 @@ export default CampaignCard = ({
 											color="#5F6062"
 											style={{
 												fontSize: 14,
-												fontWeight: "700",
 											}}
 										>
 											{" "}
@@ -451,14 +455,14 @@ export default CampaignCard = ({
 							}}
 						>
 							<TimeRemainingIconComponent
-								height={40}
-								width={40}
+								height={HEIGHT/22}
+								width={WIDTH/12}
 							/>
-							<Block column>
+							<Block column style={{flex:0}}>
 								<Text
 									color="#5F6062"
 									style={{
-										fontSize: 16,
+										fontSize: 14,
 										fontWeight: "700",
 										textTransform: "capitalize",
 										marginLeft: 10,
@@ -468,7 +472,7 @@ export default CampaignCard = ({
 								</Text>
 								<Text
 									style={{
-										fontSize: 14,
+										fontSize: 13,
 										marginLeft: 10,
 										color: "#5F6062",
 									}}
@@ -490,13 +494,13 @@ export default CampaignCard = ({
 								) : campaignstatus == 2 ? (
 									<Text
 										style={{
-											fontSize: 14,
+											fontSize: 13,
 											fontWeight: "700",
 											textTransform: "capitalize",
 											backgroundColor: "#DE4C3C",
-											paddingVertical: 6,
+											paddingVertical: 5,
 											borderTopLeftRadius: 6,
-											paddingHorizontal: 36,
+											paddingHorizontal: 32,
 										}}
 										color="white"
 									>

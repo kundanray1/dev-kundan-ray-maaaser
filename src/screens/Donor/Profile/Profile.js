@@ -39,7 +39,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
             height: "55%",
             width: "100%",
             flex: 1,
-            backgroundColor: "#E5E5E5",
+            backgroundColor: "#FBFBFB",
           }}
           imageStyle={{
             borderBottomLeftRadius: 50,
@@ -50,7 +50,6 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
           <Block
             style={{
               flex: 0.6,
-              // marginTop:40,
               paddingHorizontal: 16,
             }}
           >
@@ -68,7 +67,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
             >
               <Block row center style={{ flex: 0 }}>
                 <Text
-                  style={{ fontSize: 18, fontWeight: "700", marginRight: 8 }}
+                  style={{ fontSize: 16, fontWeight: "700", marginRight: 8 }}
                   color={theme.colors.solidGray}
                 >
                   {data.profile.account.fullname}
@@ -93,7 +92,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
                 fixedDecimalScale={true}
                 renderText={(formattedValue) => (
                   <Text
-                    style={{ fontSize: 20, fontWeight: "700" }}
+                    style={{ fontSize: 18, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
                     {formattedValue}
@@ -102,7 +101,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
               />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700" }}
+                style={{ fontSize: 16}}
                 color={theme.colors.solidGray}
               >
                 Balance
@@ -137,7 +136,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
         style={{
           flex: 0.65,
           paddingHorizontal: 16,
-          backgroundColor: "#E5E5E5",
+          backgroundColor: "#FBFBFB",
         }}
       >
         <Block
@@ -165,7 +164,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
               <ViewProfileIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
+                style={{ fontSize: 16, marginLeft: 14 }}
                 color={theme.colors.solidGray}
               >
                 View Profile
@@ -173,7 +172,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
             </Block>
             <Block
               style={{
-                flex: 1,
+                flex: 0.2,
                 alignItems: "flex-end",
                 justifyContent: "center",
               }}
@@ -198,7 +197,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
               <ChangePasswordIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
+                style={{ fontSize: 16, marginLeft: 14 }}
                 color={theme.colors.solidGray}
               >
                 Change Password

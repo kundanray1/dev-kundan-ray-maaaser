@@ -20,6 +20,7 @@ const WIDTH = Dimensions.get("window").width;
 
 export default ReceiversList = ({
   setReceiverId,
+  setReceiverIdError,
   data,
   receiverName,
 }) => {
@@ -56,6 +57,7 @@ export default ReceiversList = ({
       setReceiver(name);
       setReceiverId(id);
       setReceiversListModalVisible(false);
+      setReceiverIdError(false)
     },
     [setReceiverId]
   );

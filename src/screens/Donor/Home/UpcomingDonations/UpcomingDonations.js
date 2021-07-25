@@ -9,7 +9,8 @@ import {
   Modal,
   View,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TextInput,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -20,15 +21,16 @@ import {
   Button,
 } from "../../../../components/Index.js";
 import moment from "moment";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import TransactionsMedium from "./../../Transactions/TransactionsMedium";
-import TransactionsType from "./../../Transactions/TransactionsType";
 import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 const WIDTH = Dimensions.get("window").width;
+import searchStyles  from "../../../../utility/globalStyles.js";
+
 const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcomingDonationsSearch }) => {
   const [upcomingDonationsData, setUpcomingDonationsData] = useState();
+  const [transactionssearch, setTransactionssearch] = useState();
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
@@ -37,10 +39,6 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-07-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
-  const [transactionsMedium, setTransactionsMedium] = useState();
-  const [transactionsMediumId, setTransactionsMediumId] = useState("");
-  const [transactionsType, setTransactionsType] = useState();
-  const [transactionsTypeId, setTransactionsTypeId] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   
   const onChangeFromDate = (event, selectedDate) => {
@@ -73,33 +71,31 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
   const onPressSubmitApply = () => {
     setConfirmationSuccessfulVisible(false)
     upcomingDonationsSearch({
-      search:"",
+      search:transactionssearch==undefined?"":"",
       accountId:loginData.user.account.accountid,
       fromDate:new Date(fromDate).getTime(),
       toDate:new Date(toDate).getTime(),
-      medium:transactionsMediumId,
-      type:transactionsTypeId
     })
     onPressReset();
   };
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => (
-  //      <TouchableOpacity
-  //             activeOpacity={0.8}
-  //             onPress={() => setConfirmationSuccessfulVisible(true)}
-  //             style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
-  //               >
-  //                  <TransactionsSearchIconComponent height={25} width={20}/>
-  //               </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation]);
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+       <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setConfirmationSuccessfulVisible(true)}
+              style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
+                >
+                   <TransactionsSearchIconComponent height={25} width={20}/>
+                </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
 
   const renderItems = ({ item }) => {
     return (
-      <Block style={{ paddingHorizontal: 8 }}>
+      <Block style={{ paddingHorizontal: 18 }}>
         <DateWiseDonationDetailCard
           profilePic={item.clientList[1].profilepic}
           name={item.clientList[1].account.fullname}
@@ -117,7 +113,7 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
         style={{
           backgroundcolor: theme.colors.gray2,
           paddingHorizontal: 16,
-          paddingVertical: 16,
+          paddingVertical: 8,
         }}
       >
         <Text
@@ -271,16 +267,6 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
               </Block>
             </Block>
 
-            <TransactionsMedium
-              transactionsMedium={transactionsMedium}
-              setTransactionsMedium={setTransactionsMedium}
-              setTransactionsMediumId={setTransactionsMediumId}
-            />
-            <TransactionsType
-              transactionsType={transactionsType}
-              setTransactionsType={setTransactionsType}
-              setTransactionsTypeId={setTransactionsTypeId}
-            />
             <Button onPress={onPressSubmitApply}>
               <Text button style={{ fontSize: 18 }}>
                 Apply
@@ -293,23 +279,57 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
     </SafeAreaView>
   );
 
+function searchFilterFunction(text) {
+    if (text) {
+      upcomingDonationsSearch({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        search: text,
+      });
+    }
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
+     <Block style={{ flex: 0, paddingHorizontal: 16 }}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
+            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
+          </Block>
+
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={theme.colors.solidGray}
+            style={searchStyles.boxTextInput}
+            onChangeText={(text) => searchFilterFunction(text)}
+            value={transactionssearch}
+          />
+
+          {transactionssearch ? (
+            <TouchableOpacity
+              onPress={() => searchFilterFunction()}
+              style={searchStyles.vwClear}
+            >
+              <Ionicons name="close-circle-sharp" color="black" size={18} />
+            </TouchableOpacity>
+          ) : (
+            <Block style={searchStyles.vwClear} />
+          )}
+        </Block>
+      </Block>
       {data.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>
       ) : (
         <Block style={{ flex: 0, marginTop: 6 }}>
-           
-          {/*<Image source={require("./../../assets/icons/searchTransactions.png")} style={{ height: 36, width: 38 }} />*/}
           <SectionList
             sections={upcomingDonationsData}
             keyExtractor={(item, index) => item + index}
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="transactions" title="You don't any upcoming donations yet." />
+              <Empty iconName="transactions" title="You don't have any data." />
             )}
             refreshControl={
                     <RefreshControl
@@ -339,7 +359,7 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
 export default UpcomingDonations;
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",

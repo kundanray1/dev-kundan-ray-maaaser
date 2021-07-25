@@ -11,6 +11,7 @@ import {
   Text,
   Button,
   CustomActivityIndicator,
+  ErrorMessage
 } from "../../../components/Index.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
@@ -24,34 +25,41 @@ import BeneficiersList from "./BeneficiersList";
 
 const WIDTH = Dimensions.get("window").width;
 
-const StartACampaign = ({
-  data,
-  navigation,
-  receiversData
-}) => {
+const StartACampaign = ({ data, navigation, receiversData }) => {
   const [beneficierId, setBeneficierId] = useState("");
+  const [beneficierIdError, setBeneficierIdError] = useState(false);
   const [beneficierName, setBeneficierName] = useState("");
   const [titleFocus, setTitleFocus] = useState();
   const [raisingMoneyType, setRaisingMoneyType] = useState("");
-  const [beneficiaryType, setBeneficiaryType] = useState("");
+  const [raisingMoneyTypeError, setRaisingMoneyTypeError] = useState(false);
   const [categoryType, setCategoryType] = useState("");
+  const [categoryTypeError, setCategoryTypeError] = useState(false);
   const [country, setCountry] = useState("");
   const [countryCode, setCountryCode] = useState("");
+  const [countryCodeError, setCountryCodeError] = useState(false);
   const [allowSubCampaigns, setAllowSubCampaigns] = useState(true);
   const [targetAmount, setTargetAmount] = useState("");
-  // const [beneficiaryAccountId, setBeneficiaryAccountId] = useState();
 
   const onSubmitStartACampaign = (values) => {
-    navigation.navigate("Start a campaign second", {
-      title:values.title,
-      raisingMoneyType: raisingMoneyType,
-      beneficiaryType: beneficiaryType,
-      categoryType: categoryType,
-      countryCode: countryCode,
-      allowSubCampaigns: allowSubCampaigns,
-      targetAmount: targetAmount,
-      beneficiaryAccountId:beneficierId
-    });
+    if (countryCode == "") {
+      setCountryCodeError(true);
+    } else if (raisingMoneyType == "") {
+      setRaisingMoneyTypeError(true);
+    } else if (beneficierId == "") {
+      setBeneficierIdError(true);
+    } else if (raisingMoneyType == "") {
+      setRaisingMoneyTypeError(true);
+    } else {
+      navigation.navigate("Start a campaign second", {
+        title: values.title,
+        raisingMoneyType: raisingMoneyType,
+        categoryType: categoryType,
+        countryCode: countryCode,
+        allowSubCampaigns: allowSubCampaigns,
+        targetAmount: values.targetAmount,
+        beneficiaryAccountId: beneficierId,
+      });
+    }
   };
   return (
     <KeyboardAwareScrollView
@@ -73,6 +81,7 @@ const StartACampaign = ({
         <Formik
           initialValues={{
             title: "",
+            targetAmount: "",
           }}
           onSubmit={(values) => {
             onSubmitStartACampaign(values);
@@ -113,17 +122,32 @@ const StartACampaign = ({
                   </Text>
                   <TextInput
                     style={styles.input}
+                    onChangeText={handleChange("targetAmount")}
+                    onBlur={() => {
+                      setFieldTouched("targetAmount");
+                    }}
+                    value={values.targetAmount}
                     textAlign={"center"}
-                    value={targetAmount}
-                    onChangeText={(value) => setTargetAmount(value)}
                     placeholder="0"
                     placeholderTextColor="#0DB952"
                     keyboardType="numeric"
                   />
                 </Block>
               </Block>
-
-              <Country country={country} setCountry={setCountry} setCountryCode={setCountryCode} />
+              <ErrorMessage
+                error={errors.targetAmount}
+                visible={touched.targetAmount}
+              />
+              <Country
+                country={country}
+                setCountry={setCountry}
+                setCountryCode={setCountryCode}
+                setCountryCodeError={setCountryCodeError}
+              />
+              <ErrorMessage
+                error={"Country code is a required field"}
+                visible={countryCodeError}
+              />
               <Input
                 label="Campaign Title"
                 focus={titleFocus}
@@ -146,23 +170,33 @@ const StartACampaign = ({
               <RaisingMoneyType
                 raisingMoneyType={raisingMoneyType}
                 setRaisingMoneyType={setRaisingMoneyType}
+                setRaisingMoneyTypeError={setRaisingMoneyTypeError}
               />
+              <ErrorMessage
+                error={"Raising money type is a required field"}
+                visible={raisingMoneyTypeError}
+              />
+
               <BeneficiersList
                 beneficierName={beneficierName}
                 setBeneficierId={setBeneficierId}
+                setBeneficierIdError={setBeneficierIdError}
                 setBeneficierName={setBeneficierName}
                 receiversData={receiversData}
                 navigation={navigation}
               />
-             {/* <BeneficiaryType
-                beneficierId={beneficierId}
-                setBeneficierId={setBeneficierId}
-                setBeneficierName={setBeneficierName}
-                receiversData={receiversData}
-              />*/}
+              <ErrorMessage
+                error={"Beneficier name is a required field"}
+                visible={beneficierIdError}
+              />
               <CategoryType
                 categoryType={categoryType}
                 setCategoryType={setCategoryType}
+                setCategoryTypeError={setCategoryTypeError}
+              />
+              <ErrorMessage
+                error={"Category type is a required field"}
+                visible={categoryTypeError}
               />
               <Block style={{ flex: 0 }}>
                 <TouchableOpacity
@@ -192,12 +226,7 @@ const StartACampaign = ({
                   </Text>
                 </TouchableOpacity>
               </Block>
-              {!errors.title &&
-              raisingMoneyType != "" &&
-              beneficierId != "" &&
-              categoryType != "" &&
-              countryCode != "" &&
-              targetAmount!="" ? (
+              {!errors.title && !errors.targetAmount ? (
                 <Button
                   style={{
                     marginTop: 12,
@@ -205,7 +234,7 @@ const StartACampaign = ({
                   }}
                   onPress={handleSubmit}
                 >
-                 {data.isLoading ? (
+                  {data.isLoading ? (
                     <>
                       <CustomActivityIndicator
                         label="Requesting..."
@@ -228,9 +257,9 @@ const StartACampaign = ({
                     marginBottom: 12,
                   }}
                 >
-                    <Text button style={{ fontSize: 18 }}>
-                      Proceed
-                    </Text>
+                  <Text button style={{ fontSize: 18 }}>
+                    Proceed
+                  </Text>
                 </Button>
               )}
             </Block>
@@ -244,7 +273,7 @@ const StartACampaign = ({
 export default StartACampaign;
 
 const styles = StyleSheet.create({
-   amountSection: {
+  amountSection: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -260,5 +289,5 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: "#0DB952",
     backgroundColor: "#E9F9FF",
-  }
+  },
 });

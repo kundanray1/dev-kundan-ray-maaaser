@@ -1,10 +1,11 @@
 import React from "react";
-import { Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, TouchableOpacity, StyleSheet,Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
 import Button from "./Button";
 import UserIconComponent from "./../assets/icons/userIconComponent";
+const WIDTH = Dimensions.get("window").width;
 
 export default DonorsDetail = ({ profilePic, name, clientType, ...props }) => {
 	return (
@@ -18,33 +19,39 @@ export default DonorsDetail = ({ profilePic, name, clientType, ...props }) => {
 				},
 			]}
 		>
-			<Block
+				<Block
 				row
 				style={{
-					flex: 1,
+					flex:1,
 					alignItems: "flex-start",
 				}}
 			>
 				{profilePic == "" ? (
-                    <UserIconComponent height={45} width={45}/>
-					
+					<UserIconComponent height={40} width={40} />
 				) : (
 					<Image
 						source={{ uri: profilePic }}
-						style={{ height: 45, width: 45, borderRadius: 30 }}
+						style={{ height: 40, width: 40, borderRadius: 30 }}
 					/>
 				)}
 			</Block>
 			<Block
 				style={{
-					flex: 4,
-					justifyContent: "center",
+					flex: 6,
 				}}
 			>
-				<Text style={{ fontSize: 18, fontWeight: "700",textTransform:"capitalize"  }}>{name}</Text>
 				<Text
-					style={{ fontSize: 14, fontWeight: "700" }}
-					color="#5F6062"
+					style={{
+						fontSize: 16,
+						fontWeight: "700",
+						textTransform: "capitalize",
+					 width: WIDTH-200,
+          }} numberOfLines={1}>
+					{name}
+				</Text>
+				<Text
+					style={{ fontSize: 15, textTransform: "capitalize" }}
+					color={theme.colors.solidGray}
 				>
 					{clientType === 1 ? "Individual" : "Organization"}
 				</Text>

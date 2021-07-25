@@ -19,6 +19,8 @@ import CampaignProto from "./../../../protos/campaign_pb";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import StartACampaignSecondIconComponent from "./../../../assets/icons/StartACampaignSecondIconComponent";
 import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
+import { StartACampaignThirdValidationSchema } from "./../../../utility/ValidationSchema.js";
+import { Formik } from "formik";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -35,8 +37,7 @@ const StartACampaignThird = ({
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [description, setDescription] = useState("");
-  const onSubmitStartACampaignThird = () => {
+  const onSubmitStartACampaignThird = (values) => {
     const campaignData = new CampaignProto.Campaign();
     campaignData.setTargetamount(route.params.targetAmount * 100);
     campaignData.setCountrycode(route.params.countryCode);
@@ -46,7 +47,7 @@ const StartACampaignThird = ({
     );
     campaignData.setBeneficiaryaccountid(route.params.beneficiaryAccountId);
     campaignData.setCategory(route.params.categoryType);
-    campaignData.setDescription(description);
+    campaignData.setDescription(values.description);
     campaignData.setThumbnailurl(letsGetStartedDonorData.image);
     campaignData.setAllowsubcampaign(route.params.allowSubCampaigns);
     campaignData.setCampaignstatus(1);
@@ -108,55 +109,91 @@ const StartACampaignThird = ({
         >
           <StartACampaignSecondIconComponent />
         </Block>
-        <Text
-          center
-          style={{
-            fontSize: 20,
-            paddingVertical: 20,
-            fontWeight: "700",
-            color: "#5F6062",
-          }}
-        >
-          Describe why are you are fundraising
-        </Text>
 
-        <TextInput
-          style={styles.input}
-          onChangeText={(value)=>setDescription(value)}
-          value={description}
-          placeholder="Explain about the campaign."
-          keyboardType="default"
-          multiline
-          numberOfLines={10}
-        />
-
-        <Block
-          style={{
-            paddingVertical: 30,
-            borderBottomWidth: 1,
-            borderColor: theme.colors.gray2,
+        <Formik
+          initialValues={{
+            description: "",
           }}
+          onSubmit={(values) => {
+            onSubmitStartACampaignThird(values);
+          }}
+          validationSchema={StartACampaignThirdValidationSchema}
         >
-        {
-          description!=""?
-          <Button onPress={() => onSubmitStartACampaignThird()}>
-            <Text button style={{ fontSize: 18 }}>
-              Proceed
-            </Text>
-          </Button>
-          :
-          <Button>
-            <Text button style={{ fontSize: 18 }}>
-              Proceed
-            </Text>
-          </Button>
-        }
-        </Block>
+          {({
+            handleChange,
+            touched,
+            setFieldTouched,
+            handleSubmit,
+            values,
+            errors,
+          }) => (
+            <Block>
+              <Text
+                center
+                style={{
+                  fontSize: 20,
+                  paddingVertical: 20,
+                  fontWeight: "700",
+                  color: "#5F6062",
+                }}
+              >
+                Describe why are you are fundraising
+              </Text>
+              <TextInput
+                placeholder="Explain about the campaign."
+                keyboardType="default"
+                multiline
+                numberOfLines={10}
+                style={styles.input}
+                onChangeText={handleChange("description")}
+                onBlur={() => {
+                  setFieldTouched("description");
+                }}
+                value={values.description}
+              />
+              <ErrorMessage
+                error={errors.description}
+                visible={touched.description}
+              />
+               <Block style={{ paddingVertical: 30,borderBottomWidth:1,borderColor:theme.colors.gray2 }}>
+              {!errors.description ? (
+                <Button
+                  onPress={handleSubmit}
+                >
+                  {data.isLoading ? (
+                    <>
+                      <CustomActivityIndicator
+                        label="Requesting..."
+                        isLoading={data.isLoading}
+                      />
+                      <Text button style={{ fontSize: 18 }}>
+                        Proceed
+                      </Text>
+                    </>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Proceed
+                    </Text>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                >
+                  <Text button style={{ fontSize: 18 }}>
+                    Proceed
+                  </Text>
+                </Button>
+              )}
+            </Block>
+
+            </Block>
+          )}
+        </Formik>
       </Block>
 
       <TouchableOpacity
         activeOpacity={0.8}
-        style={{ paddingVertical: 24 }}
+        style={{ paddingVertical: 24}}
         onPress={() => navigation.navigate("Start a campaign second")}
       >
         <Text
@@ -167,14 +204,6 @@ const StartACampaignThird = ({
           Go Back
         </Text>
       </TouchableOpacity>
-      {data.isLoading?
-       <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Creating..."
-                    />
-                    :
-                    <Block/>
-      }
       {ConfirmationMessage()}
     </KeyboardAwareScrollView>
   );
@@ -201,8 +230,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: theme.colors.solidGray,
     paddingHorizontal: 8,
-    paddingVertical:4,
-    borderWidth:1,
-    textAlignVertical:"top",
+    paddingVertical: 4,
+    borderWidth: 1,
+    textAlignVertical: "top",
   },
 });

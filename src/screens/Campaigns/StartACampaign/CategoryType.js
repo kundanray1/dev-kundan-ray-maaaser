@@ -14,13 +14,14 @@ import styles from "../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default CategoryType = ({ categoryType, setCategoryType }) => {
+export default CategoryType = ({ categoryType, setCategoryType,setCategoryTypeError }) => {
 	const [isModalVisible, setModalVisible] = useState(false);
 	const options = ["Medical","Emergency Charity","Financial Emergency","Save Animal","Cause","Orphanage","Conservation","Education","Natural Disaster"];
 	const onPressItem = useCallback(
 		(option) => {
 			setCategoryType(option);
 			setModalVisible(false);
+			setCategoryTypeError(false);
 		},
 		[setCategoryType]
 	);

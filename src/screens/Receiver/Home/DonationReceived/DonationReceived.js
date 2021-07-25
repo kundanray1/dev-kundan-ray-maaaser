@@ -55,7 +55,6 @@ const DonationReceived = ({ navigation, data, donationReceived }) => {
                     name={post.item.clientList[0].account.fullname}
                     amount={post.item.amount}
                     date={post.item.createdat}
-                    textColor={theme.colors.green}
                   />
                 </Block>
               ) : (

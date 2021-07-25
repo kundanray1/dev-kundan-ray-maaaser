@@ -39,6 +39,7 @@ const LinkNewCard = ({
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
   const [date, setDate] = useState( route.params != undefined ? route.params.card.expirydate : "2021-07-03T15:21:15.513Z");
+  const [dateError, setDateError] = useState(false);
   const [show, setShow] = useState(false);
   // const [countryCode, setCountryCode] = useState(
   //   route.params != undefined ? route.params.card.countrycode : ""
@@ -68,7 +69,9 @@ const LinkNewCard = ({
     // addressData.setZip(values.zipCode);
     // addressData.setCountrycode(countryCode);
     linkNewCardData.setBillingaddress(addressData);
-    if (route.params != undefined) {
+    if(date=="2021-07-03T15:21:15.513Z"){
+      setDateError(true)
+    }else if (route.params != undefined) {
       updateLinkNewCard(linkNewCardData);
     } else {
       linkNewCard(linkNewCardData);
@@ -81,6 +84,7 @@ const LinkNewCard = ({
     setShow(Platform.OS === "ios");
     setDate(currentDate);
     setShow(false);
+    setDateError(false)
   };
 
   useEffect(() => {
@@ -239,6 +243,7 @@ const LinkNewCard = ({
                     />
                   )}
                 </Block>
+                
 
                 <Block style={{ flex: 2 }}>
                   <Input
@@ -261,6 +266,10 @@ const LinkNewCard = ({
                   />
                 </Block>
               </Block>
+              <ErrorMessage
+                error={"Expiry Date is a required field"}
+                visible={dateError}
+              />
               <ErrorMessage error={errors.cvc} visible={touched.cvc} />
              {/* <CountryCode
                 countryCode={countryCode}
@@ -371,8 +380,7 @@ const LinkNewCard = ({
               !errors.cvc &&
               !errors.street1 && 
               !errors.city &&
-              !errors.state &&
-              date!="2021-07-03T15:21:15.513Z"
+              !errors.state 
                ? (
                 <Button
                   style={{

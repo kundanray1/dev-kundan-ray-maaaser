@@ -24,7 +24,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
           style={{
             flex: 0.8,
             alignItems: "center",
-            backgroundColor:"#E5E5E5"
+            backgroundColor: "#FBFBFB"
           }}
         >
           <ImageBackground
@@ -32,7 +32,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
               height: "29%",
               width: "100%",
               flex: 1,
-              backgroundColor:"#E5E5E5"
+            backgroundColor: "#FBFBFB"
 
             }}
             imageStyle={{
@@ -194,7 +194,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
           )}
         </Block>
         </Block>
-        <Block style={{flex:0.35, backgroundColor:"#E5E5E5"}}>
+        <Block style={{flex:0.35,backgroundColor: "#FBFBFB"}}>
         </Block>
       </SafeAreaView>
       <FloatingButton

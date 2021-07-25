@@ -39,7 +39,6 @@ const ScheduleDonation = ({
   scheduleDonationReceiverDetailData,
   scheduleDonationSearch
 }) => {
-  const [amountFocus, setAmountFocus] = useState(false);
   const [transactionssearch, setTransactionssearch] = useState();
   const [scheduleDonationData, setScheduleDonationData] = useState();
   const [
@@ -328,7 +327,7 @@ const ScheduleDonation = ({
                   ListEmptyComponent={() => (
                     <Empty
                       iconName="transactions"
-                      title="You haven’t scheduled any donations yet."
+                     title="You don't have any data."
                     />
                   )}
                   ListFooterComponent={() => (

@@ -11,9 +11,9 @@ import Dummy from "./Dummy.js";
 const DonateNow = ({navigation}) => {
   return (
     <SafeAreaView >
-      <Block style={{flex:0,paddingVertical:15,paddingHorizontal:16}}>
-        <Text style={{ fontSize: 22, fontWeight: "700",paddingVertical:2 }}>Donation Methods  </Text>
-        <Text style={{ fontSize: 16,paddingVertical:2}}>Choose the desired methods for the donation.</Text>
+       <Block style={{flex:0,paddingVertical:18,paddingHorizontal:16}}>
+        <Text style={{ fontSize: 18, fontWeight: "700",marginBottom:12 }}>Donation Methods  </Text>
+        <Text style={{ fontSize: 16}}>Choose the desired methods for the donation.</Text>
       </Block>
       <FlatList
         data={Dummy}

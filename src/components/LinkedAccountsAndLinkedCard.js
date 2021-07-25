@@ -1,10 +1,11 @@
 import React from "react";
-import { Image, TouchableOpacity, Pressable } from "react-native";
+import { Image, TouchableOpacity, Pressable,Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
 import moment from "moment";
 import ArrowRightIconComponent from "../assets/icons/arrowRightIconComponent";
+const WIDTH = Dimensions.get("window").width;
 
 export default LinkedAccountsAndLinkedCard = ({
 	label,
@@ -49,12 +50,14 @@ export default LinkedAccountsAndLinkedCard = ({
 									fontSize: 16,
 									fontWeight: "700",
 									textTransform: "capitalize",
+									width:WIDTH-200
 								}}
+								numberOfLines={1}
 							>
 								{label}
 							</Text>
 							<Text
-								style={{ fontSize: 12, fontWeight: "700" }}
+								style={{ fontSize: 13}}
 								color={theme.colors.solidGray}
 							>
 								{accountNo}
@@ -64,15 +67,16 @@ export default LinkedAccountsAndLinkedCard = ({
 						<>
 							<Text
 								style={{
-									fontSize: 16,
+									fontSize: 13,
 									fontWeight: "700",
 									textTransform: "capitalize",
+								width:WIDTH-200
 								}}
-							>
+								numberOfLines={1}>
 								**** **** **** {accountNo}
 							</Text>
 							<Text
-								style={{ fontSize: 12, fontWeight: "700" }}
+								style={{ fontSize: 12 }}
 								color={theme.colors.solidGray}
 							>
 

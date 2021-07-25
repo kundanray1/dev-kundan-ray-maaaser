@@ -70,14 +70,14 @@ export function* cardUpdateStatus({ payload }) {
 
 export function* cardDeleteStatus({ payload }) {
 	try {
-		const response = yield call(requestProto,`${APIEndpoints.CARD_DELETE}/${payload}`, {
+		const response = yield call(requestProto,`${APIEndpoints.DELETE_CARD}/${payload}`, {
 			method: "DELETE",
 			headers: API.authProtoHeader(),
 		});
+
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("3",res);
 		if (res.success) {
 			yield put(cardDeleteStatusSuccess(res));
 			showMessage({

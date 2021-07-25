@@ -18,7 +18,7 @@ import { manualReceiversStart } from "./actions";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, data }) => {
+export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, data,setReceiverIdError }) => {
   const [receiver, setReceiver] = useState();
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(
@@ -54,6 +54,7 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
       setReceiverName(name)
       setReceiverId(id);
       setReceiversListModalVisible(false);
+      setReceiverIdError(false)
     },
     [setReceiverId]
   );

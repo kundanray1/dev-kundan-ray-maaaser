@@ -11,8 +11,10 @@ import * as theme from "../../../constants/theme.js";
 import {
   Block,
   Text,
+  Empty,
   Button,
-  CustomActivityIndicator
+  CustomActivityIndicator,
+  ErrorMessage,
 } from "../../../components/Index.js";
 import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
 import NumberFormat from "react-number-format";
@@ -21,34 +23,43 @@ const WIDTH = Dimensions.get("window").width;
 
 const StartASubCampaign = ({
   data,
-  navigation: { goBack }, 
+  navigation: { goBack },
   loginData,
   startASubCampaignStart,
   startASubCampaignClear,
   startASubCampaignEditStart,
   campaignDetailsdata,
   campaignId,
-  route
+  route,
 }) => {
-
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [amount, setAmount] = useState(route.params!=undefined?(route.params.campaignDetailData.targetamount/100).toString():"");
+  const [amount, setAmount] = useState(
+    route.params != undefined
+      ? (route.params.campaignDetailData.targetamount / 100).toString()
+      : ""
+  );
   const onSubmitStartASubCampaign = () => {
     const subCampaignData = new CampaignProto.SubCampaign();
     subCampaignData.setTargetamount(amount * 100);
     subCampaignData.setSubcampaignstatus(1);
-    if(route.params!=undefined){
-      console.log(loginData);
-    subCampaignData.setSubcampaignid(route.params.campaignDetailData.subcampaignid);
-    subCampaignData.setAccountid(loginData.user.account.accountid);
-    subCampaignData.setCampaignid(route.params.campaignDetailData.campaign.campaignid);
-    startASubCampaignEditStart(subCampaignData);
-    }else{
-    subCampaignData.setCampaignid(campaignId);
-    startASubCampaignStart(subCampaignData);
+   
+    if (route.params != undefined) {
+      subCampaignData.setSubcampaignid(
+        route.params.campaignDetailData.subcampaignid
+      );
+      subCampaignData.setAccountid(loginData.user.account.accountid);
+      subCampaignData.setCampaignid(
+        route.params.campaignDetailData.campaign.campaignid
+      );
+      startASubCampaignEditStart(subCampaignData);
+      setAmountError(false);
+    } else {
+      subCampaignData.setCampaignid(campaignId);
+      startASubCampaignStart(subCampaignData);
+      setAmountError(false);
     }
   };
   useEffect(() => {
@@ -67,22 +78,20 @@ const StartASubCampaign = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(false)
-        }
+        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-            {route.params!=undefined?
-              <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-              Sub-Campaign Updated Successfully!
-            </Text>
-              :
-              <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-              Sub-Campaign Started Successfully!
-            </Text>
-            }
+              {route.params != undefined ? (
+                <Text center style={{ fontSize: 18, fontWeight: "700" }}>
+                  Sub-Campaign Updated Successfully!
+                </Text>
+              ) : (
+                <Text center style={{ fontSize: 18, fontWeight: "700" }}>
+                  Sub-Campaign Started Successfully!
+                </Text>
+              )}
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
               <TickIconComponent />
@@ -99,6 +108,7 @@ const StartASubCampaign = ({
       </Modal>
     </SafeAreaView>
   );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Block style={{ paddingHorizontal: 16, flex: 0 }}>
@@ -115,7 +125,11 @@ const StartASubCampaign = ({
           Campaign Goal Amount
         </Text>
         <NumberFormat
-          value={route.params!=undefined?route.params.campaignDetailData.campaign.targetamount/100:campaignDetailsdata.campaignDetails.campaign.targetamount/100}
+          value={
+            route.params != undefined
+              ? route.params.campaignDetailData.campaign.targetamount / 100
+              : campaignDetailsdata.campaignDetails.campaign.targetamount / 100
+          }
           displayType={"text"}
           thousandSeparator={true}
           prefix={"$"}
@@ -171,7 +185,6 @@ const StartASubCampaign = ({
           />
         </View>
       </Block>
-
       <Block
         style={{
           paddingHorizontal: 18,
@@ -183,26 +196,24 @@ const StartASubCampaign = ({
           width: "100%",
         }}
       >
-        <Button onPress={() => onSubmitStartASubCampaign()}>
-       {
-          route.params!==undefined?
-           <Text button style={{ fontSize: 18 }}>
-            Update
-          </Text>
-          :
-           <Text button style={{ fontSize: 18 }}>
-            Proceed
-          </Text>
-       } 
+        <Button onPress={() => onSubmitStartASubCampaign()} disabled={amount==""?true:false}>
+          {route.params !== undefined ? (
+            <Text button style={{ fontSize: 18 }}>
+              Update
+            </Text>
+          ) : (
+            <Text button style={{ fontSize: 18 }}>
+              Proceed
+            </Text>
+          )}
         </Button>
       </Block>
-      {
-        data.isLoading &&
-         <CustomActivityIndicator
-              isLoading={data.isLoading}
-              label="Requesting..."
-          />
-      }
+      {data.isLoading && (
+        <CustomActivityIndicator
+          isLoading={data.isLoading}
+          label="Requesting..."
+        />
+      )}
       {ConfirmationMessage()}
     </SafeAreaView>
   );

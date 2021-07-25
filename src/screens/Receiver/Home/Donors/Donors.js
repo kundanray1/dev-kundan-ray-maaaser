@@ -109,7 +109,7 @@ const [refreshing, setRefreshing] = useState(false);
                   paddingVertical:20,
                 }}
             ListEmptyComponent={() => (
-              <Empty iconName="donors" title="No donors avaialble!" />
+              <Empty iconName="donors" title="You don't have any data." />
             )}
             renderItem={(post) => (
               <Block style={{ flex: 0, paddingHorizontal: 16 }}>

@@ -82,7 +82,7 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
     const donationProto = new PaymentProto.Transaction();
     donationProto.setDonoraccountid(loginData.user.account.accountid);
     donationProto.setReceiveraccountid(accountData.account.accountid);
-    donationProto.setAmount(values.amount);
+    donationProto.setAmount(values.amount*100);
     donationProto.setRemark(values.remarks);
     donationProto.setTransactionmedium(PaymentProto.TransactionMedium.INTERNAL_MEDIUM);
     donationProto.setTransactiontype(PaymentProto.TransactionType.DONATE_FUND);
@@ -292,7 +292,7 @@ const Receivers = ({  data, loginData,receivers,manualDonateConfirmationStart,ma
                 ListFooterComponentStyle={{
                   paddingVertical:20,
                 }}
-          ListEmptyComponent={() => <Empty iconName="receivers" title="You don't have any receivers"/>}
+          ListEmptyComponent={() => <Empty iconName="receivers" title="You don't have any data."/>}
 
             renderItem={(post) => (
               <Block style={{ flex: 0, paddingHorizontal: 16 }}>

@@ -43,7 +43,7 @@ export default LoadFundAndDonationMethodCard = ({ iconComponent, label, ...props
 						justifyContent: "center",
 					}}
 				>
-					<Text style={{ fontSize: 18, fontWeight: "700" }}>
+					<Text style={{ fontSize: 16, fontWeight: "700" }}>
 						{label}
 					</Text>
 				</Block>

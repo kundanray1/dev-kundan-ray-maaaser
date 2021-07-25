@@ -105,8 +105,8 @@ const WithdrawFundConfirmation = ({
       <Block
         style={{
           flex: 0,
-            borderRadius: 4,
-            shadowRadius: 4,
+            borderRadius: 2,
+            shadowRadius: 2,
             elevation: 2,
         }}
       >
@@ -221,7 +221,7 @@ const WithdrawFundConfirmation = ({
             </Block>
             <Block>
               <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {moment(new Date()).format("Do MMMM YYYY")}
+                {moment(new Date()).format("DD MMM, YYYY")}
               </Text>
             </Block>
           </Block>

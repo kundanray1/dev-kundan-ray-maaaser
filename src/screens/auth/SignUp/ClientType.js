@@ -15,7 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-export default ClientType = ({ clientType,setClientType }) => {
+export default ClientType = ({ clientType,setClientType,setClientTypeError }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const options = ["Individual", "Organization"];
   
@@ -23,6 +23,7 @@ export default ClientType = ({ clientType,setClientType }) => {
     (option) => {
       setClientType(option);
       setModalVisible(false);
+      setClientTypeError(false)
     },
     [setClientType]
   );
@@ -60,7 +61,6 @@ export default ClientType = ({ clientType,setClientType }) => {
           />
         </Block>
       </TouchableOpacity>
-
       <Modal
         visible={isModalVisible}
         transparent={true}
@@ -74,7 +74,7 @@ export default ClientType = ({ clientType,setClientType }) => {
           }
         >
           <TouchableWithoutFeedback>
-          <View style={[styles.modal, { width: WIDTH - 40, height: 90,marginTop:"66%" }]}>
+          <View style={[styles.modal, { width: WIDTH - 40, height: 90,marginTop:"62%" }]}>
             {renderOptions}
           </View>
           </TouchableWithoutFeedback>

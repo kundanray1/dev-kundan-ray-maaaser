@@ -139,33 +139,38 @@ const DonorReceiver = ({
               >
                 <Block
                   row
-                  center
                   style={{
                     flex: 0,
                     paddingHorizontal: 20,
-                    paddingVertical: 16,
+                    paddingTop:22,
+                    paddingBottom:18,
                     borderRadius: 4,
                     shadowRadius: 4,
                     elevation: 4,
                     backgroundColor: theme.colors.white,
-                  }}
+                   }}
                 >
+                 <Block style={{
+                      flex: 1,
+                    }}>
                   {receiverProfileData.receiverProfile.profilepic == "" ? (
-                    <UserIconComponent height={45} width={45} />
+                    <UserIconComponent height={40} width={40} />
                   ) : (
                     <Image
                       source={{ uri: receiverProfileData.receiverProfile.profilepic }}
-                      style={{ height: 50, width: 50, borderRadius: 30 }}
+                      style={{ height: 40, width: 40, borderRadius: 30 }}
                     />
                   )}
+                </Block>
+
                   <Block
                     style={{
-                      marginLeft: 6,
-                      flex: 0,
+                      flex: 3,
                     }}
                   >
                     <Text
                       style={{
+                        marginBottom:6,
                         fontSize: 20,
                         fontWeight: "700",
                         textTransform: "capitalize",
@@ -181,12 +186,12 @@ const DonorReceiver = ({
                       !
                     </Text>
                     <Button
-                      style={{ height: 30, width: 100, marginTop: 4 }}
+                      style={{ height: 30, width: 80, marginTop: 4 }}
                       onPress={() => navigation.navigate("Linked Accounts")}
                     >
                       <Text
                         color={theme.colors.white}
-                        style={{ fontSize: 16, fontWeight: "700" }}
+                        style={{ fontSize: 14, fontWeight: "700" }}
                       >
                         Load Fund
                       </Text>
@@ -195,13 +200,15 @@ const DonorReceiver = ({
 
                   <Block
                     style={{
-                      flex: 2,
+                      flex: 2.5,
+                      marginTop:4
+
                     }}
                   >
                     <Text
                       center
                       color={theme.colors.solidGray}
-                      style={{ fontSize: 18, fontWeight: "700" }}
+                      style={{ fontSize: 16, fontWeight: "700" }}
                     >
                       Balance
                     </Text>
@@ -217,7 +224,7 @@ const DonorReceiver = ({
                         <Text
                           center
                           style={{
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: "700",
                             color: theme.colors.solidGray,
                           }}
@@ -231,7 +238,6 @@ const DonorReceiver = ({
               </Block>
             </ImageBackground>
           </Block>
-
           <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
               <Text style={{ fontSize: 18, fontWeight: "700" }}>
@@ -271,7 +277,7 @@ const DonorReceiver = ({
                   ItemSeparatorComponent={() => (
                     <Block style={{ marginTop: 2 }} />
                   )}
-                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any campaigns data."/>}
+                  ListEmptyComponent={() => <Empty iconName="transactions"  dashboard={0} title="You don't have any data."/>}
                   renderItem={(post) =>
                     post.item.campaignstarter.account.accountid!==loginData.user.account.accountid &&
                       <NeedHelpFirstCard
@@ -292,32 +298,32 @@ const DonorReceiver = ({
 
           <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                Donation Received
+              <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                  Donation Received
               </Text>
               <Text
                 onPress={() => navigation.navigate("Donation Received")}
-                style={{ fontSize: 16, fontWeight: "500" }}
+                style={{ fontSize: 15, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All
               </Text>
             </Block>
-            <Block style={{ flex: 1 }}>{renderDonationsReceived()}</Block>
+            <Block style={{ flex: 1,marginTop:8 }}>{renderDonationsReceived()}</Block>
           </Block>
 
-          <Block style={{ paddingHorizontal: 20, paddingBottom: 40 }}>
+          <Block style={{ paddingHorizontal: 20, paddingBottom: 40,marginTop:10  }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>Donors</Text>
+              <Text style={{ fontSize: 16, fontWeight: "700" }}>Donors</Text>
               <Text
                 onPress={() => navigation.navigate("Donors")}
-                style={{ fontSize: 16, fontWeight: "500" }}
+                style={{ fontSize: 15, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All
               </Text>
             </Block>
-            <Block style={{ flex: 1 }}>{renderDonors()}</Block>
+            <Block style={{ flex: 1,marginTop:8 }}>{renderDonors()}</Block>
           </Block>
         </ScrollView>
       )}

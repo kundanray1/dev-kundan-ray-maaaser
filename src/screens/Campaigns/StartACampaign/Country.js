@@ -21,7 +21,7 @@ import styles from "../../../utility/globalStyles.js";
 const WIDTH = Dimensions.get("window").width;
 
 export default Country = ({
-  country,setCountry,setCountryCode
+  country,setCountry,setCountryCode,setCountryCodeError
 }) => {
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(countryData);
@@ -48,6 +48,7 @@ export default Country = ({
       setCountry(name);
       setCountryCode(code);
       setCountryModalVisible(false);
+      setCountryCodeError(false)
     },
     [setCountry]
   );

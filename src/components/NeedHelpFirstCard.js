@@ -43,10 +43,12 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 				>
 					<Text
 						style={{
-							fontSize: 18,
+							fontSize: 15,
 							fontWeight: "700",
 							textTransform: "capitalize",
+							width: WIDTH-180
 						}}
+						numberOfLines={1}
 						color="#3B414B"
 					>
 						{label}
@@ -70,9 +72,9 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 								<Text
 									color={theme.colors.primary2}
 									style={{
-										fontSize: 14,
-										fontWeight: "700",
+										fontSize: 13,
 										textTransform: "capitalize",
+										fontWeight:"700"
 									}}
 								>
 									{formattedValue}
@@ -90,7 +92,7 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 							renderText={(formattedValue) => (
 								<Text
 									color="#5F6062"
-									style={{ fontSize: 14, fontWeight: "700" }}
+									style={{ fontSize: 13}}
 								>
 									{" "}
 									raised of {formattedValue}

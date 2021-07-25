@@ -51,7 +51,8 @@ export default DonationsDetail = ({ profilePic, name, email, ...props }) => {
 						style={{ marginRight: 5 }}
 					/>
 					<Text
-						style={{ fontSize: 14, fontWeight: "700" }}
+						style={{ fontSize: 14, fontWeight: "700", width: 220}} 
+						numberOfLines={1}
 						color={theme.colors.solidGray}
 					>
 						{email}

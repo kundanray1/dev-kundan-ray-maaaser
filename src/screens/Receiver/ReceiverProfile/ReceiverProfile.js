@@ -40,7 +40,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
             height: "55%",
             width: "100%",
             flex: 1,
-            backgroundColor: "#E5E5E5",
+           backgroundColor: "#FBFBFB"
           }}
           imageStyle={{
             borderBottomLeftRadius: 50,
@@ -69,7 +69,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
             >
               <Block row center style={{ flex: 0 }}>
                 <Text
-                  style={{ fontSize: 20, fontWeight: "700", marginRight: 8 }}
+                  style={{ fontSize: 16, fontWeight: "700", marginRight: 8 }}
                   color={theme.colors.solidGray}
                 >
                   {data.receiverProfile.account.fullname}
@@ -94,7 +94,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
                 fixedDecimalScale={true}
                 renderText={(formattedValue) => (
                   <Text
-                    style={{ fontSize: 20, fontWeight: "700" }}
+                    style={{ fontSize: 16, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
                     {formattedValue}
@@ -137,7 +137,7 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
         style={{
           flex: 0.65,
           paddingHorizontal: 16,
-          backgroundColor: "#E5E5E5",
+         backgroundColor: "#FBFBFB"
         }}
       >
         <Block
@@ -157,23 +157,21 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
             style={{
               flex: 0,
               flexDirection: "row",
-              paddingLeft:4,
               paddingVertical:4
             }}
           >
-            <Block row center style={{ paddingVertical: 10 }}>
+            <Block row center style={{ paddingVertical: 14 }}>
               <ViewProfileIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
-                color={theme.colors.solidGray}
+                style={{ fontSize: 16, marginLeft: 14 }}
               >
                 View Profile
               </Text>
             </Block>
             <Block
               style={{
-                flex: 1,
+                flex: 0.2,
                 alignItems: "flex-end",
                 justifyContent: "center",
               }}
@@ -189,9 +187,8 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
               flex: 0,
               flexDirection: "row",
               borderTopWidth: 1,
-              paddingLeft:4,
               borderColor: theme.colors.gray2,
-              paddingVertical:8
+              paddingVertical:4
 
             }}
           >
@@ -199,15 +196,14 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
               <ProfileQRIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
-                color={theme.colors.solidGray}
+                style={{ fontSize: 16, marginLeft: 14 }}
               >
                My QR Code
               </Text>
             </Block>
             <Block
               style={{
-                flex: 1,
+                flex: 0.2,
                 alignItems: "flex-end",
                 justifyContent: "center",
               }}
@@ -233,15 +229,14 @@ const ReceiverProfile = ({ navigation,data,balanceData }) => {
               <ChangePasswordIconComponent />
               <Text
                 color={theme.colors.solidGray}
-                style={{ fontSize: 16, fontWeight: "700", marginLeft: 14 }}
-                color={theme.colors.solidGray}
+                style={{ fontSize: 16, marginLeft: 14 }}
               >
                 Change Password
               </Text>
             </Block>
             <Block
               style={{
-                flex: 1,
+                flex: 0.2,
                 alignItems: "flex-end",
                 justifyContent: "center",
               }}

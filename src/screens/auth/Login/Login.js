@@ -41,8 +41,8 @@ const Login = ({ navigation, data, login }) => {
 
       <Formik
         initialValues={{
-          identifier: "",
-          password: "",
+          identifier: "jp@gmail.com",
+          password: "Joshan@1234",
         }}
         onSubmit={(values) => {
           onSubmitLogin(values);
@@ -156,7 +156,7 @@ const Login = ({ navigation, data, login }) => {
                     <>
                     <CustomActivityIndicator
                       isLoading={data.isLoading}
-                      label="Logging..."
+                      label="Logging in..."
                     />
                     <Text button style={{ fontSize: 18 }}>
                       Login

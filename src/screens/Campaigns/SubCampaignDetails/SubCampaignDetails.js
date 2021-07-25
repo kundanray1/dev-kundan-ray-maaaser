@@ -24,8 +24,9 @@ import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
 
 const HEIGHT = Dimensions.get("window").height;
+const WIDTH = Dimensions.get("window").width;
 
-const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId }) => {
+const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId,campaignDonateNowConfirmationData }) => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -34,7 +35,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
   });
   useEffect(() => {
     subCampaignDetails(subCampaignId);
-  }, [subCampaignId]);
+  }, [subCampaignId,campaignDonateNowConfirmationData.campaignDonateNowConfirmation]);
    const onShare = async () => {
     try {
       const result = await Share.share({
@@ -106,12 +107,15 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             <Block row style={{flex:0}}>
             <Block style={{flex:2}}>
               <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "700",
-                }}
-                color="#3B414B"
-              >
+                  color="#3B414B"
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "700",
+                        textTransform: "capitalize",
+                       width:WIDTH-180
+                      }}
+                      numberOfLines={1}
+                    >
                 {data.subCampaignDetails.subcampaign.campaign.title}
               </Text>
               </Block>
@@ -163,9 +167,8 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     <Text
                       color={theme.colors.primary2}
                       style={{
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: "700",
-                        textTransform: "capitalize",
                       }}
                     >
                       {formattedValue}
@@ -183,7 +186,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   renderText={(formattedValue) => (
                     <Text
                       color="#5F6062"
-                      style={{ fontSize: 14, fontWeight: "700" }}
+                      style={{ fontSize: 13}}
                     >
                       {" "}
                       raised of {formattedValue}
@@ -226,15 +229,16 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
 
                     <Text
                       style={{
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 10,
+                         color: "#5F6062"
                       }}
                     >
                       {data.subCampaignDetails.subcampaign.subcampaignstarter.account.fullname.substring(
                         0,
-                        12
+                        16
                       ) + "..."}
                     </Text>
                   </Block>
@@ -245,7 +249,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     }}
                   >
                     <Text
-                      style={{ fontSize: 16, marginLeft: 40, color: "#5F6062" }}
+                      style={{ fontSize: 14, marginLeft: 40, color: "#5F6062" }}
                       numberOfLines={1}
                     >
                       Organizer
@@ -273,7 +277,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
 
                     <Text
                       style={{
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 6,
@@ -281,7 +285,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     >
                       {data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary.account.fullname.substring(
                         0,
-                        10
+                        12
                       ) + "..."}
                     </Text>
                   </Block>
@@ -292,7 +296,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     }}
                   >
                     <Text
-                      style={{ fontSize: 16, marginLeft: 74, color: "#5F6062" }}
+                      style={{ fontSize: 14, marginLeft: 74, color: "#5F6062" }}
                     >
                       Beneficiary
                     </Text>
@@ -314,7 +318,8 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             >
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TargetAmountIconComponent height={40} width={40} />
+                  <TargetAmountIconComponent height={HEIGHT/20}
+                width={WIDTH/10} />
                   <Block column>
                     <NumberFormat
                       value={data.subCampaignDetails.subcampaign.targetamount / 100}
@@ -350,7 +355,8 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
 
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TagsIconComponent height={40} width={40} />
+                  <TagsIconComponent height={HEIGHT/20}
+                width={WIDTH/10} />
                   <Block column>
                     <Text
                       color="#5F6062"
@@ -390,7 +396,8 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
               >
                 <Block>
                   <Block row style={{ flex: 0, overflow: "hidden" }}>
-                    <TimeRemainingIconComponent height={40} width={40} />
+                    <TimeRemainingIconComponent height={HEIGHT/20}
+                width={WIDTH/10} />
                     <Block column>
                       <Text
                         color="#5F6062"
@@ -402,7 +409,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                         }}
                       >
                         {moment(data.subCampaignDetails.subcampaign.campaign.createdat).format(
-                          "DD MMM YYYY"
+                          "DD MMM, YYYY"
                         )}
                       </Text>
                       <Text

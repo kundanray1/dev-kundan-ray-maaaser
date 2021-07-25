@@ -18,7 +18,7 @@ import { receiversStart } from "./../../Donor/Home/Receivers/actions";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,setBeneficierName, receiversData }) => {
+export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,setBeneficierName, receiversData,setBeneficierIdError }) => {
   const [beneficier, setBeneficier] = useState();
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(receiversData.receivers.clientsList);
@@ -49,6 +49,7 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
       setBeneficierName(name)
       setBeneficierId(id);
       setBeneficiersListModalVisible(false);
+      setBeneficierIdError(false);
     },
     [setBeneficierId]
   );

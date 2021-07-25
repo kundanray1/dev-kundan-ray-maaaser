@@ -3,18 +3,26 @@ import {
   LOAD_FUND_DETAILS_SUCCESS,
   LOAD_FUND_DETAILS_FAIL,
   LOAD_FUND_DETAILS_CLEAR,
-} from './actions';
+  GENERATE_LOAD_FUND_RECEIPT_START,
+  GENERATE_LOAD_FUND_RECEIPT_SUCCESS,
+  GENERATE_LOAD_FUND_RECEIPT_FAIL,
+  GENERATE_LOAD_FUND_RECEIPT_CLEAR,
+} from "./actions";
 
 const initialState = {
   isLoading: true,
   loadFundDetails: null,
+  generateLoadFundReceipt: null,
   error: null,
 };
 
-export const loadFundDetailsReducer=(state = initialState, { type, payload }) => {
+export const loadFundDetailsReducer = (
+  state = initialState,
+  { type, payload }
+) => {
   switch (type) {
     case LOAD_FUND_DETAILS_START:
-    return {
+      return {
         ...state,
         isLoading: true,
       };
@@ -30,10 +38,29 @@ export const loadFundDetailsReducer=(state = initialState, { type, payload }) =>
         isLoading: false,
         error: payload,
       };
-       case LOAD_FUND_DETAILS_CLEAR:
+    case LOAD_FUND_DETAILS_CLEAR:
       return initialState;
-   
+
+    case GENERATE_LOAD_FUND_RECEIPT_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GENERATE_LOAD_FUND_RECEIPT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        generateLoadFundReceipt: payload,
+      };
+    case GENERATE_LOAD_FUND_RECEIPT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    case GENERATE_LOAD_FUND_RECEIPT_CLEAR:
+      return initialState;
     default:
-      return state;
+      return initialState;
   }
 };

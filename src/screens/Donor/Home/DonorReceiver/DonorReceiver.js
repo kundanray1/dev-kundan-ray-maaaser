@@ -140,7 +140,7 @@ const DonorReceiver = ({
         onRequestClose={() => setConfirmationMessageVisible(false)}
       >
         <View style={styles.container}>
-          <View style={[styles.modal, { width: WIDTH - 45 }]}>
+          <View style={[styles.modal, { width: WIDTH - 40 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
               Donation Successful!
             </Text>
@@ -175,7 +175,7 @@ const DonorReceiver = ({
           onPressOut={() => setDonateModalVisible(false)}
         >
           <TouchableWithoutFeedback>
-            <View style={[styles.modal, { width: WIDTH - 45 }]}>
+            <View style={[styles.modal, { width: WIDTH - 40 }]}>
               <Formik
                 initialValues={{
                   amount: "",
@@ -388,48 +388,52 @@ const DonorReceiver = ({
               >
                 <Block
                   row
-                  center
                   style={{
                     flex: 0,
                     paddingHorizontal: 20,
-                    paddingVertical: 16,
+                    paddingTop:22,
+                    paddingBottom:18,
                     borderRadius: 4,
                     shadowRadius: 4,
                     elevation: 4,
                     backgroundColor: theme.colors.white,
                   }}
                 >
+                <Block style={{
+                      flex: 1,
+                    }}>
                   {profileData.profile.profilepic == "" ? (
-                    <UserIconComponent height={45} width={45} />
+                    <UserIconComponent height={40} width={40} />
                   ) : (
                     <Image
                       source={{ uri: profileData.profile.profilepic }}
-                      style={{ height: 45, width: 45, borderRadius: 30 }}
+                      style={{ height: 40, width: 40, borderRadius: 30 }}
                     />
                   )}
+                </Block>
                   <Block
                     style={{
-                      marginLeft: 6,
-                      flex: 0,
+                      flex: 3,
                     }}
                   >
                     <Text
                       style={{
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: "700",
                         textTransform: "capitalize",
                         color: theme.colors.solidGray,
+                        marginBottom:6
                       }}
                     >
                       Hi, {profileData.profile.account.fullname.split(" ")[0]}!
                     </Text>
                     <Button
-                      style={{ height: 30, width: 100, marginTop: 4 }}
+                      style={{ height: 26, width: 80 }}
                       onPress={() => navigation.navigate("Load Fund")}
                     >
                       <Text
                         color={theme.colors.white}
-                        style={{ fontSize: 16, fontWeight: "700" }}
+                        style={{ fontSize: 14, fontWeight: "700" }}
                       >
                         Load Fund
                       </Text>
@@ -438,13 +442,14 @@ const DonorReceiver = ({
 
                   <Block
                     style={{
-                      flex: 2,
+                      flex: 2.5,
+                      marginTop:4
                     }}
                   >
                     <Text
                       center
                       color={theme.colors.solidGray}
-                      style={{ fontSize: 18, fontWeight: "700" }}
+                      style={{ fontSize: 16,marginBottom:6 }}
                     >
                       Balance
                     </Text>
@@ -460,7 +465,7 @@ const DonorReceiver = ({
                         <Text
                           center
                           style={{
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: "700",
                             color: theme.colors.solidGray,
                           }}
@@ -477,12 +482,12 @@ const DonorReceiver = ({
 
           <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+              <Text style={{ fontSize: 16, fontWeight: "700",textTransform:"capitalize" }}>
                 Need to help first
               </Text>
               <Text
                 onPress={() => navigation.navigate("All Campaigns")}
-                style={{ fontSize: 16, fontWeight: "500" }}
+                style={{ fontSize: 15, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All
@@ -518,7 +523,7 @@ const DonorReceiver = ({
                   <Empty
                     iconName="transactions"
                     dashboard={0}
-                    title="You don't have any campaigns data."
+                    title="You don't have any data."
                   />
                 )}
                 renderItem={(post) =>
@@ -547,7 +552,7 @@ const DonorReceiver = ({
               </Text>
               <Text
                 onPress={() => navigation.navigate("Upcoming Donations")}
-                style={{ fontSize: 16, fontWeight: "500" }}
+                style={{ fontSize: 15, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All
@@ -560,11 +565,11 @@ const DonorReceiver = ({
                 <Empty
                   iconName="transactions"
                   dashboard={0}
-                  title="You don't have any upcoming donations data."
+                  title="You don't have any data."
                 />
               </Block>
             ) : (
-              <Block style={{ flex: 1 }}>{renderUpcomingDonations()}</Block>
+              <Block style={{ flex: 1,marginTop:8 }}>{renderUpcomingDonations()}</Block>
             )}
           </Block>
 
@@ -575,7 +580,7 @@ const DonorReceiver = ({
               </Text>
               <Text
                 onPress={() => navigation.navigate("Donations Made")}
-                style={{ fontSize: 16, fontWeight: "500" }}
+                style={{ fontSize: 15, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All
@@ -588,11 +593,11 @@ const DonorReceiver = ({
                 <Empty
                   iconName="transactions"
                   dashboard={0}
-                  title="You don't have any donations made data."
+                  title="You don't have any data."
                 />
               </Block>
             ) : (
-              <Block style={{ flex: 1 }}>{renderDonationsMade()}</Block>
+              <Block style={{ flex: 1,marginTop:8 }}>{renderDonationsMade()}</Block>
             )}
           </Block>
           <Block style={{ paddingHorizontal: 20, paddingBottom: 80,marginTop:10 }}>
@@ -600,7 +605,7 @@ const DonorReceiver = ({
               <Text style={{ fontSize: 18, fontWeight: "700" }}>Receivers</Text>
               <Text
                 onPress={() => navigation.navigate("Receivers")}
-                style={{ fontSize: 16, fontWeight: "500" }}
+                style={{ fontSize: 15, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All
@@ -612,11 +617,11 @@ const DonorReceiver = ({
                 <Empty
                   iconName="transactions"
                   dashboard={0}
-                  title="You don't have any receivers data."
+                  title="You don't have any data."
                 />
               </Block>
             ) : (
-              <Block style={{ flex: 1 }}>{renderReceivers()}</Block>
+              <Block style={{ flex: 1,marginTop:8 }}>{renderReceivers()}</Block>
             )}
           </Block>
         </ScrollView>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, TouchableOpacity, StyleSheet,Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
@@ -8,9 +8,9 @@ import PercentageBar from "./PercentageBar";
 import NumberFormat from 'react-number-format';
 import { LinearGradient } from "expo-linear-gradient";
 import UserIconComponent from "./../assets/icons/userIconComponent";
+const WIDTH = Dimensions.get("window").width;
 
 export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,collectedAmount,targetAmount, ...props }) => {
-	console.log("subcampaignid",subcampaignid);
 	const percentage=(collectedAmount*100)/targetAmount;
 	return (
 		<TouchableOpacity
@@ -40,11 +40,10 @@ export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,coll
 				<Block style={{ flex: 5 }}>
 					<Text
 						style={{
-							fontSize: 18,
+							fontSize: 16,
 							fontWeight: "700",
 							textTransform: "capitalize",
-						}}
-					>
+						width:WIDTH- 160}} numberOfLines={1}>
 						{name}
 					</Text>
 					<PercentageBar
@@ -72,7 +71,7 @@ export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,coll
                     prefix={'$'}
                     decimalScale={2}
                     fixedDecimalScale={true}
-                    renderText={formattedValue => <Text 	color="#5F6062" style={{ fontSize: 14, fontWeight: "700"}}>{" "}raised from {formattedValue}</Text>} 
+                    renderText={formattedValue => <Text 	color="#5F6062" style={{ fontSize: 14}}>{" "}raised from {formattedValue}</Text>} 
                     />
 					</Block>
 				</Block>

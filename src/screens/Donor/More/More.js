@@ -35,7 +35,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
           }}>
              {image}
           <Text
-            style={{ fontSize: 18, fontWeight: "700",paddingHorizontal:14 }}
+            style={{ fontSize: 16, fontWeight: "700",paddingHorizontal:14 }}
             color={theme.colors.solidGray}
           >
             {label}{" "}

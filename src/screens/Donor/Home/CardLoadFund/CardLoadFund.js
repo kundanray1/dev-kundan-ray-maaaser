@@ -32,7 +32,6 @@ const CardLoadFund = ({
       transactionMedium:PaymentProto.TransactionMedium.CARD,
       transactionType:PaymentProto.TransactionType.LOAD_FUND,
       transactionStatus: PaymentProto.TransactionStatus.TRANSACTION_APPROVED,
-
       cardHolderName:cardData.cardholdername,
       cardNumber:cardData.cardnumber,
     })

@@ -19,12 +19,13 @@ import styles from "../../../../utility/globalStyles.js";
 const WIDTH = Dimensions.get("window").width;
 const scheduleTypeOptions = ["One Time","Daily","Weekly", "Monthly","Quarterly","Yearly","Nth Day"];
 
-const ScheduleType = ({ scheduleType, setScheduleType }) => {
+const ScheduleType = ({ scheduleType, setScheduleType,setScheduleTypeError }) => {
   const [scheduleTypeModalVisible, setScheduleTypeModalVisible] = useState(false);
   const onPressScheduleTypeItem = useCallback(
     (option) => {
       setScheduleType(option);
       setScheduleTypeModalVisible(false);
+      setScheduleTypeError(false)
     },
     [setScheduleType]
   );

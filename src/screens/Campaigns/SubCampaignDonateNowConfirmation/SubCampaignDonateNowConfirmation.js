@@ -84,7 +84,7 @@ const SubCampaignDonateNowConfirmation = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Home")}>
+              <Button onPress={() =>  navigation.navigate("Sub Campaign Details")}>
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -177,7 +177,7 @@ const SubCampaignDonateNowConfirmation = ({
             </Block>
             <Block>
               <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {moment(new Date()).format("Do MMMM YYYY")}
+                {moment(new Date()).format("DD MMM, YYYY")}
               </Text>
             </Block>
           </Block>
@@ -228,7 +228,7 @@ const SubCampaignDonateNowConfirmation = ({
         >
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Campaigns")}
+            onPress={() => navigation.navigate("Sub Campaign Details")}
             style={{
               flex: 0,
               borderTopWidth: 2,

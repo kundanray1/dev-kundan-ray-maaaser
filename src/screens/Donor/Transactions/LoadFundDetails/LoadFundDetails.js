@@ -23,6 +23,7 @@ import NumberFormat from "react-number-format";
 import DownloadIconComponent from "../../../../assets/icons/DownloadIconComponent.js";
 import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
+import * as Linking from 'expo-linking';
 const WIDTH = Dimensions.get("window").width;
 
 const LoadFundDetails = ({
@@ -31,6 +32,7 @@ const LoadFundDetails = ({
   navigation,
   loadFundDetailsStart,
   loadFundDetailsClear,
+  generateLoadFundReceiptStart,
 }) => {
   const { details } = route.params;
   const [
@@ -38,8 +40,9 @@ const LoadFundDetails = ({
     setConfirmationSuccessfulVisible,
   ] = useState(false);
   useEffect(() => {
-     loadFundDetailsStart(details.transactionid);
-  }, []);
+    loadFundDetailsStart(details.transactionid);
+    generateLoadFundReceiptStart(details.transactionid);
+  }, [data.generateLoadFundReceiptStart]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -60,6 +63,10 @@ const LoadFundDetails = ({
       ),
     });
   }, [navigation]);
+
+  const download = () => {
+    Linking.openURL(data.generateLoadFundReceipt.msg);
+  };
 
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -112,6 +119,7 @@ const LoadFundDetails = ({
                 <TouchableOpacity
                   activeOpacity={0.8}
                   style={{ flexDirection: "column", marginRight: 30 }}
+                  onPress={()=>download()}
                 >
                   <PdfIconComponent />
                   <Text center style={{ fontWeight: "400", fontSize: 14 }}>
@@ -171,8 +179,13 @@ const LoadFundDetails = ({
               style={{ fontSize: 16, fontWeight: "700" }}
               color={theme.colors.solidGray}
             >
-              {moment(data.loadFundDetails.transaction.createdat).format("DD MMM, YYYY")} at{" "}
-              {moment(data.loadFundDetails.transaction.createdat).format("hh:mm A")}
+              {moment(data.loadFundDetails.transaction.createdat).format(
+                "DD MMM, YYYY"
+              )}{" "}
+              at{" "}
+              {moment(data.loadFundDetails.transaction.createdat).format(
+                "hh:mm A"
+              )}
             </Text>
           </Block>
 

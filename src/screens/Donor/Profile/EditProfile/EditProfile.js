@@ -105,6 +105,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
               height: "24%",
               width: "100%",
               flex: 1,
+              backgroundColor: "#FBFBFB",
             }}
             imageStyle={{
               borderBottomLeftRadius: 50,
@@ -397,6 +398,8 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                 <CameraIconComponent height={ HEIGHT * 0.034} width={WIDTH * 0.12}/>
             </Block>
           </TouchableOpacity>
+        </Block>
+         <Block style={{flex:0.2,  backgroundColor: "#FBFBFB"}}>
         </Block>
       </SafeAreaView>
     </KeyboardAwareScrollView>

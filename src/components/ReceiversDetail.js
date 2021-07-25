@@ -1,57 +1,78 @@
 import React from "react";
-import { Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
 import Button from "./Button";
 import { LinearGradient } from "expo-linear-gradient";
 import UserIconComponent from "./../assets/icons/userIconComponent";
+const WIDTH = Dimensions.get("window").width;
 
-
-export default ReceiversDetail = ({ profilePic, name,clientType, ...props }) => {
+export default ReceiversDetail = ({
+	profilePic,
+	name,
+	clientType,
+	...props
+}) => {
 	return (
 		<Block
 			row
 			style={[
 				{
 					paddingVertical: 5,
-					borderRadius: 5,
-					backgroundColor: theme.colors.white,
 				},
 			]}
 		>
 			<Block
 				row
 				style={{
-					flex: 1,
+					flex: 0.8,
 					alignItems: "flex-start",
 				}}
 			>
 				{profilePic == "" ? (
-                    <UserIconComponent height={45} width={45}/>
-					
+					<UserIconComponent height={"100%"} width={"80%"} />
 				) : (
 					<Image
 						source={{ uri: profilePic }}
-						style={{ height: 45, width: 45, borderRadius: 30 }}
+						style={{
+							height: "100%",
+							width: "80%",
+							borderRadius: 30,
+						}}
 					/>
 				)}
 			</Block>
 			<Block
 				style={{
-					flex: 4,
-					justifyContent: "center",
+					flex: 3.5,
 				}}
 			>
-				<Text style={{ fontSize: 18, fontWeight: "700",textTransform:"capitalize" }}>{name}</Text>
 				<Text
-					style={{ fontSize: 14, fontWeight: "700" }}
-					color="#5F6062"
+					style={{
+						fontSize: 16,
+						fontWeight: "700",
+						textTransform: "capitalize",
+						width: WIDTH - 200,
+					}}
+					numberOfLines={1}
+				>
+					{name}
+				</Text>
+				<Text
+					style={{ fontSize: 15, textTransform: "capitalize" }}
+					color={theme.colors.solidGray}
 				>
 					{clientType === 1 ? "Individual" : "Organization"}
 				</Text>
 			</Block>
-			<Block middle>
+			<Block
+				middle
+				style={{
+					flex: 1.5,
+					alignItems: "flex-end",
+				}}
+			>
 				<TouchableOpacity activeOpacity={0.8} {...props}>
 					<LinearGradient
 						colors={["#068DD3", "#0BB3F3"]}

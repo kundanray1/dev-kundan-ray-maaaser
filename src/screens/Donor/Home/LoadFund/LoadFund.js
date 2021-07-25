@@ -11,9 +11,9 @@ import Dummy from "./Dummy.js";
 const LoadFund = ({navigation}) => {
   return (
     <SafeAreaView >
-      <Block style={{flex:0,paddingVertical:15,paddingHorizontal:16}}>
-        <Text style={{ fontSize: 22, fontWeight: "700",paddingVertical:2 }}>Load Fund Methods </Text>
-        <Text style={{ fontSize: 16,paddingVertical:2}}>Choose the desired method for the load fund.</Text>
+      <Block style={{flex:0,paddingVertical:18,paddingHorizontal:16}}>
+        <Text style={{ fontSize: 18, fontWeight: "700",marginBottom:12 }}>Load Fund Methods </Text>
+        <Text style={{ fontSize: 16}}>Choose the desired method for the load fund.</Text>
       </Block>
       <FlatList
         data={Dummy}

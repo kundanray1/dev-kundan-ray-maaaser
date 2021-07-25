@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity,Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
@@ -9,8 +9,7 @@ import YellowBankIconComponent from "./../assets/icons/yellowBankIconComponent";
 import CardIconComponent from "./../assets/icons/cardIconComponent";
 import ManualDonationIconComponent from "./../assets/icons/ManualDonationIconComponent";
 import NumberFormat from "react-number-format";
-
-// import YellowBankIconComponent from "./../assets/icons/YellowBankIconComponent";
+const WIDTH = Dimensions.get("window").width;
 
 export default TransactionDetailCard = ({
 	profilePic,
@@ -30,9 +29,9 @@ export default TransactionDetailCard = ({
 	if (transactionType == 1) {
 		transactionImage =
 			transactionMedium == 1 ? (
-				<YellowBankIconComponent />
+				<YellowBankIconComponent height={30} width={30}/>
 			) : transactionMedium == 2 ? (
-				<CardIconComponent />
+				<CardIconComponent height={33} width={27}/>
 			) : (
 				<ManualDonationIconComponent />
 			);
@@ -42,7 +41,7 @@ export default TransactionDetailCard = ({
 	} else if (transactionType == 2) {
 		transactionImage =
 			transactionMedium == 1 ? (
-				<YellowBankIconComponent />
+				<YellowBankIconComponent height={30} width={30} />
 			) : transactionMedium == 2 ? (
 				<CardIconComponent />
 			) : (
@@ -53,7 +52,7 @@ export default TransactionDetailCard = ({
 	} else if (transactionType == 3) {
 		transactionImage =
 			transactionMedium == 1 ? (
-				<YellowBankIconComponent />
+				<YellowBankIconComponent height={30} width={30}/>
 			) : transactionMedium == 2 ? (
 				<CardIconComponent />
 			) : (
@@ -64,7 +63,7 @@ export default TransactionDetailCard = ({
 	} else {
 		transactionImage =
 			transactionMedium == 1 ? (
-				<YellowBankIconComponent />
+				<YellowBankIconComponent height={30} width={30}/>
 			) : transactionMedium == 2 ? (
 				<CardIconComponent />
 			) : (
@@ -78,14 +77,14 @@ export default TransactionDetailCard = ({
 			activeOpacity={0.9}
 			style={{
 				flexDirection:"row",
-				paddingVertical: 16,
+				paddingVertical: 14,
 				borderBottomWidth: 1,
 				paddingHorizontal: 6,
 				borderColor: theme.colors.gray2,
 			}}
 			onPress={()=>navigation.navigate(transactionType == 1?"Load Fund Details":transactionType == 2?"Donation Details":transactionType == 3?"Withdrawn Details":"Donation Details",{details:data})}
 		>
-			<Block center middle>
+			<Block middle center>
 				{transactionImage}
 			</Block>
 			<Block
@@ -94,36 +93,38 @@ export default TransactionDetailCard = ({
 				}}
 			>
 				{transactionType == 1 ? (
-					<Text style={{ fontSize: 16, fontWeight: "700" }}>
+					<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 						Fund loaded by {fullname}
+						asdlkajsdklasjdlkasjdlk
 					</Text>
 				) : (transactionType == 2 || transactionType == 4 || transactionType == 5) ? (
 					<>
-						<Text style={{ fontSize: 16, fontWeight: "700" }}>
+						<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 							Donated to {fullname}
 						</Text>
 
 						{campaignTitle != undefined && (
 							<Text
-						style={{ fontSize: 16, fontWeight: "700" }}
+						style={{ fontSize: 16, fontWeight: "700" , width: WIDTH-200}}
 						color={theme.colors.solidGray}
+						 numberOfLines={1}
 					>
 								{campaignTitle}
 							</Text>
 						)}
 					</>
 				) : transactionType == 3 ? (
-					<Text style={{ fontSize: 16, fontWeight: "700" }}>
+					<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 						Fund withdrawn by {fullname}
 					</Text>
 				) : (
-					<Text style={{ fontSize: 16, fontWeight: "700" }}>
+					<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 						Fund donated to {fullname}
 					</Text>
 				)}
-				<Block row center style={{ flex: 0, paddingTop: 8 }}>
+				<Block row center style={{ flex: 0, paddingTop: 4 }}>
 					<Text
-						style={{ fontSize: 14, fontWeight: "700" }}
+						style={{ fontSize: 14}}
 						color={theme.colors.solidGray}
 					>
 						{moment(date).format("DD MMM, YYYY")} at{" "}
@@ -134,7 +135,7 @@ export default TransactionDetailCard = ({
 			<Block
 				middle
 				style={{
-					flex: 1,
+					flex: 1.6,
 					alignItems: "flex-end",
 				}}
 			>

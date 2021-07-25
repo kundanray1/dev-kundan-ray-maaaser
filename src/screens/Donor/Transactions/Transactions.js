@@ -105,7 +105,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
 
   const renderItems = ({ item }) => {
     return (
-      <Block style={{ paddingHorizontal: 8 }}>
+      <Block style={{ paddingHorizontal: 18 }}>
         <TransactionDetailCard
           data={item}
           amount={item.amount}
@@ -126,7 +126,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
         style={{
           backgroundcolor: theme.colors.gray2,
           paddingHorizontal: 16,
-          paddingVertical: 16,
+          paddingVertical: 8,
         }}
       >
         <Text
@@ -348,14 +348,14 @@ function searchFilterFunction(text) {
         </Block>
       ) : (
      
-        <Block style={{ flex: 0, marginTop: 6 }}>
+        <Block style={{ flex: 0 }}>
           <SectionList
             sections={transactionsData}
             keyExtractor={(item, index) => item + index}
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="transactions" title="You don't any transactions yet." />
+              <Empty iconName="transactions" title="You don't have any data." />
             )}
             refreshControl={
                     <RefreshControl

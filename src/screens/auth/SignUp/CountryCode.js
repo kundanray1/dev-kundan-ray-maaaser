@@ -23,7 +23,7 @@ const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 export default CountryCode = ({
-  countryCode,setCountryCode
+  countryCode,setCountryCode,setCountryCodeError
 }) => {
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(country);
@@ -49,6 +49,7 @@ export default CountryCode = ({
     (code) => {
       setCountryCode(code);
       setCountryCodeModalVisible(false);
+      setCountryCodeError(false);
     },
     [setCountryCode]
   );

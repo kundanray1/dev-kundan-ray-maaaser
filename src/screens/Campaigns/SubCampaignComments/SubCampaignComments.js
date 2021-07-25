@@ -54,7 +54,7 @@ const SubCampaignComments = ({ navigation, data,loginData, subCampaignComments,p
             ListEmptyComponent={() => (
               <Empty
                 iconName="comments"
-                title="No comments yet."
+                title="No data."
               />
             )}
             ListFooterComponent={() => (

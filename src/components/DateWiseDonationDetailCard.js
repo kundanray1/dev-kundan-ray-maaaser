@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity,Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
@@ -10,6 +10,8 @@ import NumberFormat from "react-number-format";
 
 // import YellowBankIconComponent from "./../assets/icons/YellowBankIconComponent";
 
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
 export default DateWiseDonationDetailCard = ({
 	profilePic,
 	name,
@@ -22,72 +24,73 @@ export default DateWiseDonationDetailCard = ({
 		<Block
 			row
 			style={{
-				paddingVertical: 16,
+				paddingVertical: 12,
 				borderBottomWidth: 1,
-				paddingHorizontal: 6,
-				borderColor: theme.colors.gray2,
+				borderColor: "#F0EDF1",
 			}}
 		>
-			<Block center middle>
-			 {profilePic == "" ? (
-          <UserIconComponent height={45} width={45} />
-        ) : (
-          <Image
-            source={{ uri: profilePic }}
-            style={{ height: 45, width: 45, borderRadius: 30 }}
-          />
-        )}
+			<Block
+				row
+				style={{
+					alignItems: "flex-start",
+					flex:0.8,
+				}}
+			>
+				{profilePic == "" ? (
+					<UserIconComponent height={"100%"} width={"80%"} />
+				) : (
+					<Image
+						source={{ uri: profilePic }}
+						style={{height: "100%", width: "80%", borderRadius: 30 }}
+					/>
+				)}
 			</Block>
 			<Block
 				style={{
-					flex: 4,
+					flex: 3.5,
 				}}
 			>
-					<Text style={{ fontSize: 16, fontWeight: "700" }}>
-						{name}
-					</Text>
-			
-				<Block row center style={{ flex: 0, paddingTop: 8 }}>
-					<Text
-						style={{ fontSize: 14, fontWeight: "700" }}
-						color={theme.colors.solidGray}
-					>
-						{moment(date).format("DD MMM YYYY")} at{" "}
-						{moment(date).format("hh:mm A")}
-					</Text>
-				</Block>
+				<Text
+					style={{
+						fontSize: 16,
+						fontWeight: "700",
+						textTransform: "capitalize",
+					 width: 220}} numberOfLines={1}>
+					{name}
+				</Text>
+				<Text style={{ fontSize: 15 }} color={theme.colors.solidGray}>
+					{moment(date).format("DD MMM, YYYY")} at{" "}
+					{moment(date).format("hh:mm A")}
+				</Text>
 			</Block>
 			<Block
 				middle
 				style={{
-					flex: 1,
+					flex: 1.5,
 					alignItems: "flex-end",
 				}}
 			>
-				<TouchableOpacity style={{ marginVertical: 2 }} {...props}>
-					<NumberFormat
-						value={amount/100}
-						displayType={"text"}
-						thousandSeparator={true}
-						prefix={"$"}
-						decimalScale={2}
-						fixedDecimalScale={true}
-						renderText={(formattedValue) => (
-							<Text
-								bold
-								style={{
-									paddingVertical: 4,
-									fontSize: 18,
-									fontSize: 16,
-									fontWeight: "700",
-								}}
-								color={textColor}
-							>
-								{formattedValue}
-							</Text>
-						)}
-					/>
-				</TouchableOpacity>
+				<NumberFormat
+					value={amount / 100}
+					displayType={"text"}
+					thousandSeparator={true}
+					prefix={"$"}
+					decimalScale={2}
+					fixedDecimalScale={true}
+					renderText={(formattedValue) => (
+						<Text
+							bold
+							style={{
+								paddingVertical: 4,
+								fontSize: 16,
+								fontWeight: "700",
+							}}
+							color={textColor}
+						>
+							{formattedValue}
+						</Text>
+					)}
+				/>
 			</Block>
 		</Block>
 	);

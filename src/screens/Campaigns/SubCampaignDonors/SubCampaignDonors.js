@@ -43,7 +43,7 @@ const SubCampaignDonors = ({
         <Block style={{ flex: 0, marginTop: 6, paddingBottom: 20 }}>
           <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: "700",
                   textTransform: "capitalize",
                   marginLeft: 18,
@@ -74,7 +74,7 @@ const SubCampaignDonors = ({
                   <Block style={{ marginTop: 2 }} />
                 )}
                 ListEmptyComponent={() => (
-                  <Empty iconName="donors" title="No donors yet." />
+                  <Empty iconName="donors" title="No data."/>
                 )}
                 // ListFooterComponent={() => (
                 //   <Block style={{ marginVertical: 40, flex: 0 }} />
@@ -92,7 +92,7 @@ const SubCampaignDonors = ({
             
           <Text
             style={{
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: "700",
               textTransform: "capitalize",
               marginLeft: 18,
@@ -136,7 +136,7 @@ const SubCampaignDonors = ({
         :
         <Empty
                 iconName="donors"
-                title="No donors yet."
+                title="No data."
               />
       )}
         </>

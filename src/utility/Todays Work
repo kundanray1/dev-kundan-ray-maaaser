@@ -142,7 +142,6 @@ Generate QR code and download
 Reload Issue aftere post update and delete of every screens
 Check UI thoroughly
 
-
 Campaign ko filter ko UI and API
 Update UI and API implementation
 Export file garne garne UI
@@ -159,3 +158,32 @@ card delete...to update status
 Campaign/subcampaign/profile qr code scan
 Transactions details ko api
 download wala pdf
+
+URL generate
+transactions details ko API
+PDf download wala ani UI ra bugs fixing
+
+UI issues 
+Fonts size minimize
+Make everything responsive like image,text and all
+
+
+card delete
+Campaign Disable open and close condition 
+
+Upcoming donations search filter
+Download pdf
+
+open---Close/Disable
+close---
+Disable---Open/Close
+
+
+Sign Up screen check everything
+Check campaign/subcampaign all fonts /limit characters
+Use keyboard scroll view in all form to keyboard dismiss when touched outside
+Add new Card error message  when procedd without any data at first
+
+
+
+sub campaign and campaign deteails/qr code  compare

@@ -98,7 +98,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
   const renderItems = ({ item }) => {
     return (
       item.clientList[1]!=undefined?
-      <Block style={{ paddingHorizontal: 8 }}>
+      <Block style={{ paddingHorizontal: 18 }}>
         <DateWiseDonationDetailCard
           profilePic={item.clientList[1].profilepic}
           name={item.clientList[1].account.fullname}
@@ -118,7 +118,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
         style={{
           backgroundcolor: theme.colors.gray2,
           paddingHorizontal: 16,
-          paddingVertical: 16,
+          paddingVertical: 8,
         }}
       >
         <Text

@@ -126,7 +126,7 @@ const Transactions = ({ navigation, data,loginData, transactions,search }) => {
         style={{
           backgroundcolor: theme.colors.gray2,
           paddingHorizontal: 16,
-          paddingVertical: 16,
+          paddingVertical: 8,
         }}
       >
         <Text

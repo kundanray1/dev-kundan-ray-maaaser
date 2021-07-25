@@ -76,7 +76,6 @@ export default ScheduleDonationCard = ({
 			<Block
 				style={{
 					flex: 4,
-					marginLeft: 10,
 					justifyContent: "center",
 				}}
 			>
@@ -86,8 +85,7 @@ export default ScheduleDonationCard = ({
 							fontSize: 16,
 							fontWeight: "700",
 							textTransform: "capitalize",
-						}}
-					>
+						width: 120}} numberOfLines={1}>
 						{receiverName}
 					</Text>
 					<NumberFormat
@@ -111,12 +109,12 @@ export default ScheduleDonationCard = ({
 						)}
 					/>
 				</Block>
-				<Block center row style={{ flex: 0 }}>
+				<Block center row style={{ flex: 0,paddingVertical:4 }}>
 					<Text
-						style={{ fontSize: 13, fontWeight: "700" }}
+						style={{ fontSize: 13 }}
 						color={theme.colors.solidGray}
 					>
-						{moment(startDate).format("DD MMM YYYY")}
+						{moment(startDate).format("DD MMM, YYYY")}
 					</Text>
 
 					<Block
@@ -131,14 +129,13 @@ export default ScheduleDonationCard = ({
 									: status == "CANCELLED"
 									? theme.colors.cancelledBackground
 									: theme.colors.schedulingBackground,
-							paddingVertical: 4,
+							paddingVertical: 2,
 							paddingHorizontal: 8,
 						}}
 					>
 						<Text
 							style={{
 								fontSize: 13,
-								fontWeight: "700",
 							}}
 							color={
 								status == "SCHEDULING"
@@ -157,7 +154,7 @@ export default ScheduleDonationCard = ({
 			</Block>
 			<Block
 				style={{
-					flex: 1,
+					flex: 0.5,
 					alignItems: "flex-end",
 					justifyContent: "center",
 				}}

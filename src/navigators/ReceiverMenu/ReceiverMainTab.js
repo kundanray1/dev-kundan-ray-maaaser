@@ -60,15 +60,15 @@ export default ReceiverMainTab = () => {
 			initialRouteName="HomeStack"
 			screenOptions={screenOptions}
 			tabBarOptions={{
-			    activeTintColor: theme.colors.primary,
+				activeTintColor: theme.colors.primary,
 				inactiveTintColor: theme.colors.gray2,
 				style: {
 					paddingBottom:5,
 					height:50,
+					
 				},
 				labelStyle: {
 					fontSize: 10,
-					color:theme.colors.solidGray,
 				},
 			}}
 		>

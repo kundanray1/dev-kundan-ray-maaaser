@@ -287,7 +287,7 @@ function searchFilterFunction(text) {
             ListEmptyComponent={() => (
               <Empty
                 iconName="campaigns"
-                title="No any campaigns created yet."
+               title="You don't have any data."
               />
             )}
             ListFooterComponent={() => (

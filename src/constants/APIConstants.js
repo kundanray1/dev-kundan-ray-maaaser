@@ -21,6 +21,7 @@ const APIEndPoints = {
     UPDATE_SCHEDULE_TRANSACTION_STATUS : MainAPI + '/schedule/transaction/status',
     DONATIONS_MADE : MainAPI + '/transaction/account',
     DONATION_RECEIVED : MainAPI + '/transaction/account',
+    TRANSACTION_RECEIPT : MainAPI + '/transaction/receipt',
     GET_EMPLOYEE_LIST : MainAPI + '/employee/client',
     EMPLOYEE : MainAPI + '/employee',
     IMAGE:MainAPI + '/upload/image',

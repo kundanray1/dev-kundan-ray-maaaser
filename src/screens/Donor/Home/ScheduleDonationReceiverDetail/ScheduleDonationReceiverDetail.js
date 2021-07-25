@@ -62,7 +62,7 @@ const ScheduleDonationReceiverDetail = ({
       );
     } else {
       scheduleTransactionProto.setScheduletransactionstatus(
-        PaymentProto.ScheduleTransactionStatus.CLOSED
+        PaymentProto.ScheduleTransactionStatus.SCHEDULING
       );
     }
     scheduleDonationReceiverDetailStart(scheduleTransactionProto);
@@ -136,7 +136,7 @@ const ScheduleDonationReceiverDetail = ({
         <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
           {moment(
             scheduleDonationReceiverDetail.scheduledetail.startDate
-          ).format("Do MMMM YYYY")}
+          ).format("DD MMM, YYYY")}
         </Text>
       </Block>
       <Block style={{ flex: 0, paddingVertical: 8 }}>
@@ -179,7 +179,6 @@ const ScheduleDonationReceiverDetail = ({
         center
           style={{
             fontSize: 16,
-            fontWeight: "700",
             backgroundColor:
                   status == "SCHEDULING"
                 ? theme.colors.schedulingBackground
@@ -218,8 +217,10 @@ const ScheduleDonationReceiverDetail = ({
         }}
       >
         {status == "SCHEDULING"? (
+          <>
           <Button
             onPress={() => onSubmitScheduleDonationReceiverDetail("cancel")}
+            style={{marginBottom:10}}
           >
             {data.isLoading ? (
               <>
@@ -240,9 +241,34 @@ const ScheduleDonationReceiverDetail = ({
               </Text>
             )}
           </Button>
-        ) : status == "CANCELLED" ? 
+
+          <OutlinedButton
+            onPress={() => onSubmitScheduleDonationReceiverDetail("disable")}
+          >
+            {data.isLoading ? (
+              <>
+                <CustomActivityIndicator
+                  label="Requesting..."
+                  isLoading={data.isLoading}
+                />
+                <Text
+                  outlinebutton
+                  bold
+                  style={{ fontSize: 20, color: theme.colors.primary1, textTransform: "uppercase" }}
+                >
+                  DISABLE
+                </Text>
+              </>
+            ) : (
+              <Text outlinebutton bold style={{ fontSize: 20,color: theme.colors.primary1,  textTransform: "uppercase" }}>
+                DISABLE
+              </Text>
+            )}
+          </OutlinedButton>
+          </>
+        ) : status == "DISABLED" ? 
             <Button
-              onPress={() => onSubmitScheduleDonationReceiverDetail("disable")}
+              onPress={() => onSubmitScheduleDonationReceiverDetail("enable")}
               style={{
                 marginVertical: 12,
               }}
@@ -257,7 +283,7 @@ const ScheduleDonationReceiverDetail = ({
                     button
                     style={{ fontSize: 20, textTransform: "uppercase" }}
                   >
-                    Disable
+                    ENABLE
                   </Text>
                 </>
               ) : (
@@ -265,7 +291,7 @@ const ScheduleDonationReceiverDetail = ({
                   button
                   style={{ fontSize: 20, textTransform: "uppercase" }}
                 >
-                  Disable
+                  ENABLE
                 </Text>
               )}
             </Button>

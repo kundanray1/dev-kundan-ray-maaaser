@@ -36,7 +36,6 @@ const DonationDetails = ({
   useEffect(() => {
     donationDetailsStart(details.transactionid);
   }, []);
-  console.log("data.donationDetails", data.donationDetails);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
       {data.isLoading ? (

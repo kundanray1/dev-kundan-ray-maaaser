@@ -174,12 +174,12 @@ const ACH = ({
             <ActivityIndicator size="large" color={theme.colors.primary2} />
           ) : (
             <>
-              <Block
-                style={{ flex: 0, paddingVertical: 10, paddingHorizontal: 16 }}
+               <Block
+                style={{ flex: 0, paddingVertical: 14, paddingHorizontal: 16 }}
               >
                 <Text
                   style={{
-                    fontSize: 22,
+                    fontSize: 18,
                     fontWeight: "700",
                   }}
                 >
@@ -205,7 +205,7 @@ const ACH = ({
                 ListEmptyComponent={() => (
                   <Empty
                     iconName="accounts"
-                    title="You haven’t added any accounts yet."
+                    title="You don't have any data."
                   />
                 )}
                 ListFooterComponent={() => (

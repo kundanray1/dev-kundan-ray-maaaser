@@ -177,4 +177,22 @@ export const ChangePasswordValidationSchema = Yup.object().shape({
 
 export const StartACampaignValidationSchema = Yup.object().shape({
   title: Yup.string().required().min(6).label("Title"),
+  targetAmount: Yup.number()
+    .positive()
+    .min(1, "Minimum amount is 1")
+    .typeError("Target amount should contain number only")
+    .required()
+    .label("Target amount"),
+});
+
+export const StartASubCampaignValidationSchema = Yup.object().shape({
+  targetAmount: Yup.number()
+    .positive()
+    .min(1, "Minimum amount is 1")
+    .typeError("Target amount should contain number only")
+    .required()
+    .label("Target amount"),
+});
+export const StartACampaignThirdValidationSchema = Yup.object().shape({
+  description: Yup.string().required().min(6).label("Description"),
 });

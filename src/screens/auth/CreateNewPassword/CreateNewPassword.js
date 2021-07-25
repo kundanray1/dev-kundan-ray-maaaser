@@ -88,7 +88,7 @@ export default CreateNewPassword = ({
 						values,
 						errors,
 					}) => (
-						<>
+						<Block>
 							<Input
 								full
 								password
@@ -175,7 +175,7 @@ export default CreateNewPassword = ({
 								</Button>
 							)}
 								</Block>
-						</>
+						</Block>
 					)}
 				</Formik>
 		</Block>

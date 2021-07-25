@@ -105,6 +105,7 @@ useEffect(() => {
               height: "20%",
               width: "100%",
               flex: 1,
+              backgroundColor: "#FBFBFB"
             }}
             imageStyle={{
               borderBottomLeftRadius: 50,

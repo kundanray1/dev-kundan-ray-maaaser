@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity,Dimensions } from "react-native";
 import * as theme from "../constants/theme.js";
 import Block from "./Block";
 import Text from "./Text";
@@ -7,6 +7,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import UserIconComponent from "./../assets/icons/userIconComponent";
 import NumberFormat from "react-number-format";
+
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
 
 export default CampaignDonorCard = ({
 	profilePic,
@@ -22,51 +25,52 @@ export default CampaignDonorCard = ({
 			style={{
 				borderBottomWidth: 0.6,
 				paddingVertical: 12,
-				borderColor: theme.colors.gray2,
+				borderColor: "#F0EDF1",
 			}}
 		>
 			<Block
 				row
 				style={{
+					flex: 0.8,
 					alignItems: "flex-start",
 				}}
 			>
 				{profilePic == "" ? (
-					<UserIconComponent height={40} width={40} />
+					<UserIconComponent height={"100%"} width={"80%"} />
 				) : (
 					<Image
 						source={{ uri: profilePic }}
-						style={{ height: 40, width: 40, borderRadius: 30 }}
+						style={{ height:"100%", width: "80%", borderRadius: 30 }}
 					/>
 				)}
 			</Block>
 			<Block
 				style={{
-					flex: 5,
+					flex: 3.5,
 				}}
 			>
 				<Text
 					style={{
-						fontSize: 18,
+						fontSize: 16,
 						fontWeight: "700",
 						textTransform: "capitalize",
+						width:WIDTH- 200,
 					}}
+					numberOfLines={1}
 				>
 					{name}
 				</Text>
-				<Text
-					style={{ fontSize: 14 }}
-					color={theme.colors.solidGray}
-				>
-					 {moment(date).format("DD MMM, YYYY")} at{" "}
-						{moment(date).format("hh:mm A")}
-					
+				<Text style={{ fontSize: 15 }} color={theme.colors.solidGray}>
+					{moment(date).format("DD MMM, YYYY")} at{" "}
+					{moment(date).format("hh:mm A")}
 				</Text>
 			</Block>
 
 			<Block
 				middle
 				style={{
+					flex: 1.5,
+
 					alignItems: "flex-end",
 				}}
 			>

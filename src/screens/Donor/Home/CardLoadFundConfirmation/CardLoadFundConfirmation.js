@@ -103,15 +103,9 @@ cardNumber
       <Block
         style={{
           flex: 0,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-          borderRadius:1.5,
-          elevation: 1.5,
+          borderRadius: 2,
+            shadowRadius: 2,
+            elevation: 2,
         }}
       >
         <Block
@@ -193,7 +187,7 @@ cardNumber
             </Block>
             <Block>
               <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                {moment(new Date()).format("Do MMMM YYYY")}
+                {moment(new Date()).format("DD MMM, YYYY")}
               </Text>
             </Block>
           </Block>

@@ -279,7 +279,7 @@ const CampaignComments = ({
                 />
               }
               ListEmptyComponent={() => (
-                <Empty iconName="comments" title="No comments yet." />
+                <Empty iconName="comments" title="No data."/>
               )}
               ListFooterComponent={() => (
                 <Block style={{ marginVertical: 40, flex: 0 }} />

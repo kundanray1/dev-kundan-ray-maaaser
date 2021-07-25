@@ -17,11 +17,15 @@ import API from "./../../../../api/API";
 const Manual = ({ navigation, data, loginData,manual }) => {
   const [receiverId, setReceiverId] = useState("");
   const [receiverName, setReceiverName] = useState("");
+  const [receiverIdError, setReceiverIdError] = useState(false);
   const [amountFocus, setAmountFocus] = useState();
   const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
   const makeDonation = (values) => {
-     navigation.navigate("Manual Donate Confirmation",{
+    if(receiverId==""){
+setReceiverIdError(true)
+    }else{
+      navigation.navigate("Manual Donate Confirmation",{
       accountid:loginData.user.account.accountid,
       receiverId:receiverId,
       receiverName:receiverName,
@@ -32,6 +36,8 @@ const Manual = ({ navigation, data, loginData,manual }) => {
       transactionStatus: PaymentProto.TransactionStatus.TRANSACTION_APPROVED,
       
     })
+    }
+     
   };
 
   return (
@@ -65,9 +71,11 @@ const Manual = ({ navigation, data, loginData,manual }) => {
               <ReceiversList
                 receiverId={receiverId}
                 setReceiverId={setReceiverId}
+                setReceiverIdError={setReceiverIdError}
                 setReceiverName={setReceiverName}
                 data={data}
               />
+              <ErrorMessage error={"Receiver name is a required field"} visible={receiverIdError}/>
               <Input
                 label="Amount"
                 focus={amountFocus}
@@ -87,7 +95,7 @@ const Manual = ({ navigation, data, loginData,manual }) => {
                     : theme.colors.solidGray,
                 }}
               />
-              <ErrorMessage error={errors.amount} visible={touched.amount} />
+              <ErrorMessage error={errors.amount} visible={touched.amount}/>
                <Input
                 label="Remarks"
                 focus={remarksFocus}
@@ -108,7 +116,7 @@ const Manual = ({ navigation, data, loginData,manual }) => {
               />
               <ErrorMessage error={errors.remarks} visible={touched.remarks} />
               <Block style={{ flex: 0, paddingVertical: 10 }}>
-                {!errors.remarks && !errors.amount && receiverId!=""? (
+                {!errors.remarks && !errors.amount ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
                       <>

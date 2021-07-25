@@ -48,7 +48,7 @@ const Card = ({
   });
   useEffect(() => {
     card();
-  }, [data.cardUpdateStatus, linkNewCardData.linkNewCard]);
+  }, [data.cardUpdateStatus,data.cardDeleteStatus, linkNewCardData.linkNewCard]);
 
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -135,7 +135,6 @@ const Card = ({
   );
 
   const handleDeleteConfirm = () => {
-    console.log(cardData.cardid);
     cardDeleteStatusStart(cardData.cardid);
   };
 
@@ -165,15 +164,18 @@ const Card = ({
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         ) : (
           <>
-            <Block
-              style={{ flex: 0, paddingVertical: 10, paddingHorizontal: 16 }}
-            >
-              <Text
-                style={{ fontSize: 22, fontWeight: "700", paddingVertical: 2 }}
+             <Block
+                style={{ flex: 0, paddingVertical: 14, paddingHorizontal: 16 }}
               >
-                Linked Cards{" "}
-              </Text>
-            </Block>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "700",
+                  }}
+                >
+                  Linked Cards{" "}
+                </Text>
+              </Block>
             <FlatList
               data={data.card}
               showsVerticalScrollIndicator={false}
@@ -187,11 +189,10 @@ const Card = ({
                   onRefresh={onRefresh}
                 />
               }
-              ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
               ListEmptyComponent={() => (
                 <Empty
                   iconName="cards"
-                  title="You haven’t added any accounts yet."
+                 title="You don't have any data."
                 />
               )}
               ListFooterComponent={() => (
@@ -209,7 +210,7 @@ const Card = ({
                   <Pressable
                     style={{
                       paddingHorizontal: 16,
-                      marginVertical: 4,
+                      marginVertical: 6,
                     }}
                     onLongPress={() => {
                       setConfirmationSuccessfulVisible(true);

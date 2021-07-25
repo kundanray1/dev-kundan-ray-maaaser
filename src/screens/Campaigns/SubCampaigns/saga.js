@@ -53,7 +53,6 @@ export function* subCampaignsEdit({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("subcampaignStatus",res);
 		if (res.success) {
 				yield put(subCampaignsEditSuccess(res));
 		} else {

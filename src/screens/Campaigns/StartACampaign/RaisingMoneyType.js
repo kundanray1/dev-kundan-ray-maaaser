@@ -14,7 +14,7 @@ import styles from "../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType }) => {
+export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType,setRaisingMoneyTypeError }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const options = ["Myself", "Someone else"];
   
@@ -22,6 +22,7 @@ export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType }) => 
     (option) => {
       setRaisingMoneyType(option);
       setModalVisible(false);
+      setRaisingMoneyTypeError(false);
     },
     [setRaisingMoneyType]
   );

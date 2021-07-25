@@ -9,16 +9,13 @@ import API from "./../../../../api/API";
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* donationDetails({ payload }) {
 	try {
-		console.log("1");
 		const response = yield call(requestProto, `${APIEndpoints.TRANSACTION}/${payload}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
-		console.log("2");
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("donationDetails",res);
 		if (res.success) {
 			yield put(donationDetailsSuccess(res));
 		} else {

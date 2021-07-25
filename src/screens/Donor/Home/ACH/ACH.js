@@ -175,11 +175,11 @@ const ACH = ({
           ) : (
             <>
               <Block
-                style={{ flex: 0, paddingVertical: 10, paddingHorizontal: 16 }}
+                style={{ flex: 0, paddingVertical: 14, paddingHorizontal: 16 }}
               >
                 <Text
                   style={{
-                    fontSize: 22,
+                    fontSize: 18,
                     fontWeight: "700",
                   }}
                 >
@@ -199,13 +199,11 @@ const ACH = ({
                     onRefresh={onRefresh}
                   />
                 }
-                ItemSeparatorComponent={() => (
-                  <Block style={{ marginTop: 2 }} />
-                )}
+                
                 ListEmptyComponent={() => (
                   <Empty
                     iconName="accounts"
-                    title="You haven’t added any accounts yet."
+                    title="You don't have any data."
                   />
                 )}
                 ListFooterComponent={() => (
@@ -223,7 +221,7 @@ const ACH = ({
                     <Pressable
                       style={{
                         paddingHorizontal: 16,
-                        marginVertical: 4,
+                        marginVertical: 6,
                       }}
                       onLongPress={() => {
                         setConfirmationSuccessfulVisible(true);

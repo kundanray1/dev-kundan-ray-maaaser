@@ -17,7 +17,7 @@ import {
 import API from "./../../../api/API";
 import { Dummy } from "./Dummy";
 
-const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
+const CampaignDonors = ({ data, loginData, campaignDonors, campaignId,campaignDonateNowConfirmationData }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [topDonorsData, setTopDonorsData] = useState();
   const onRefresh = React.useCallback(() => {
@@ -27,8 +27,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
   });
   useEffect(() => {
     campaignDonors(campaignId);
-  }, []);
-
+  }, [campaignDonateNowConfirmationData.campaignDonateNowConfirmation]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView nestedScrollEnabled={true} style={{flex:1}}>
@@ -42,7 +41,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
             <Block style={{ flex: 0, marginTop: 6, paddingBottom: 20 }}>
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: "700",
                   textTransform: "capitalize",
                   marginLeft: 18,
@@ -72,7 +71,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
                   <Block style={{ marginTop: 2 }} />
                 )}
                 ListEmptyComponent={() => (
-                  <Empty iconName="donors" title="No donors yet." />
+                  <Empty iconName="donors" title="You don't have any data." />
                 )}
                 renderItem={(post) => (
                   <Block style={{ flex: 0, paddingHorizontal: 18 }}>
@@ -88,7 +87,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
             
               <Text
                 style={{
-                  fontSize: 18,
+                    fontSize: 16,
                   fontWeight: "700",
                   textTransform: "capitalize",
                   marginLeft: 18,
@@ -112,10 +111,6 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
                     onRefresh={onRefresh}
                   />
                 }
-                
-                ListEmptyComponent={() => (
-                  <Empty iconName="donors" title="No donors yet." />
-                )}
                 ListFooterComponent={() => (
                   <Block style={{ marginVertical: 40, flex: 0 }} />
                 )}
@@ -126,7 +121,6 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
                       name={post.item.client.account.fullname}
                       amount={post.item.amount}
                       date={post.item.txndate}
-                      
                     />
                   </Block>
                 )}
@@ -135,7 +129,7 @@ const CampaignDonors = ({ data, loginData, campaignDonors, campaignId }) => {
             :
            <Empty
                 iconName="donors"
-                title="No donors yet."
+                title="No data."
               />
           
           )}
