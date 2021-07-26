@@ -509,13 +509,13 @@ export default CampaignCard = ({
 								) : (
 									<Text
 										style={{
-											fontSize: 14,
+											fontSize: 13,
 											fontWeight: "700",
 											textTransform: "capitalize",
 											backgroundColor: "#C4C4C4",
-											paddingVertical: 6,
+											paddingVertical: 5,
 											borderTopLeftRadius: 6,
-											paddingHorizontal: 36,
+											paddingHorizontal: 32,
 										}}
 										color="white"
 									>

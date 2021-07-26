@@ -79,7 +79,6 @@ const LinkNewCard = ({
   };
 
   const onChange = (event, selectedDate) => {
-    console.log("selectedDate", selectedDate);
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);

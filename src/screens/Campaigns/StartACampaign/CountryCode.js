@@ -1,43 +1,40 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   FlatList,
   SafeAreaView,
+  StyleSheet,
   View,
   Dimensions,
   Modal,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  StyleSheet
+  Image
 } from "react-native";
-import * as theme from "./../../../../constants/theme.js";
+import * as theme from "./../../../constants/theme.js";
+import country from "./../../../constants/country.json";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { Block, Text } from "../../../../components/Index.js";
-// import styles from "../../../../utility/globalStyles.js";
-import { useDispatch } from "react-redux";
-import { manualReceiversStart } from "./actions";
+import {
+  Block,
+  Text,
+} from "../../../components/Index.js";
+import SvgUri from "expo-svg-uri";
 
+const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, data,setReceiverIdError }) => {
-  const [receiver, setReceiver] = useState();
+export default CountryCode = ({
+  countryName,countryCode,setCountryCode,setCountryCodeError,setCountryName
+}) => {
   const [search, setSearch] = useState();
-  const [filteredDataSource, setFilteredDataSource] = useState(
-    data.manualReceivers != null ? data.manualReceivers.clientsList : null
-  );
-  const [masterDataSource, setMasterDataSource] = useState(
-    data.manualReceivers != null ? data.manualReceivers.clientsList : null
-  );
-  const [receiversListModalVisible, setReceiversListModalVisible] = useState(
-    false
-  );
-  const dispatch = useDispatch();
+  const [filteredDataSource, setFilteredDataSource] = useState(country);
+  const [masterDataSource, setMasterDataSource] = useState(country);
+  const [countryCodeModalVisible, setCountryCodeModalVisible] = useState(false);
 
   function searchFilterFunction(text) {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
-        console.log(item);
-        const itemData = item.account.fullname ? item.account.fullname.toUpperCase() : "".toUpperCase();
+        const itemData = item.name ? item.name.toUpperCase() : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -49,51 +46,54 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
     }
   }
 
-  const onReceiverIdItem = useCallback(
-    (name, id) => {
-      setReceiver(name);
-      setReceiverName(name)
-      setReceiverId(id);
-      setReceiversListModalVisible(false);
-      setReceiverIdError(false)
+  const onCountryCodeItem = useCallback(
+    (code,name) => {
+      setCountryCode(code);
+      setCountryCodeModalVisible(false);
+      setCountryCodeError(false);
+      setCountryName(name)
     },
-    [setReceiverId]
+    [setCountryCode]
   );
-  useEffect(() => {
-    if (data.manualReceivers == null) {
-      dispatch(manualReceiversStart());
-    } else {
-      setFilteredDataSource(data.manualReceivers.clientsList);
-      setMasterDataSource(data.manualReceivers.clientsList);
-    }
-  }, [data.manualReceivers]);
 
-  const RenderReceiversListOptions = ({ name,email, id }) => (
+
+  const RenderCountryCodeOptions = ({ code, name }) => (
     <TouchableOpacity
-      onPress={() => onReceiverIdItem(name, id)}
+      onPress={() => onCountryCodeItem(code,name)}
       style={{ marginVertical: 2 }}
     >
-      <Text bold style={{ paddingVertical: 4, fontSize: 16 }}>
-        {name}({email})
-      </Text>
+      <Block row>
+        <Image
+            source={{ uri: `https://www.countryflags.io/${code}/flat/64.png` }}
+            style={{height:20,width:35}}
+          />
+        <Text style={{ paddingVertical: 4, fontSize: 15,justifyContent:"center",fontWeight:"700",marginLeft:14 }}>
+          {code}
+        </Text>
+      </Block>
     </TouchableOpacity>
   );
 
-  return (
+ 
+  return (    
     <SafeAreaView style={{ paddingVertical: 6 }}>
-      <Text bold style={{ fontSize: 16 }}>
-        Receiver's name
+       <Text bold style={{ fontSize: 16 }}>
+        Country Code
       </Text>
       <TouchableOpacity
         style={styles.customPicker}
-        onPress={() => setReceiversListModalVisible(!receiversListModalVisible)}
+        onPress={() => setCountryCodeModalVisible(!countryCodeModalVisible)}
       >
-        <Block>
-          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-            {receiver}
+        <Block row>
+         <Image
+            source={{ uri: `https://www.countryflags.io/${countryCode}/flat/64.png` }}
+            style={{height:20,width:35}}
+          />
+          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray,marginLeft:12 }}>
+            {countryName}
           </Text>
         </Block>
-        <Block style={{ alignItems: "flex-end" }}>
+        <Block style={{ alignItems: "flex-end" }} >
           <AntDesign
             name="caretdown"
             size={16}
@@ -102,24 +102,27 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
         </Block>
       </TouchableOpacity>
       <Modal
-        visible={receiversListModalVisible}
+        visible={countryCodeModalVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setReceiversListModalVisible(!receiversListModalVisible)
+          setCountryCodeModalVisible(!countryCodeModalVisible)
         }
       >
+
         <TouchableOpacity
           style={styles.container}
           activeOpacity={1}
           onPressOut={() =>
-             setReceiversListModalVisible(!receiversListModalVisible)
+            setCountryCodeModalVisible(!countryCodeModalVisible)
           }
         >
           <TouchableWithoutFeedback>
 
-          <View style={[styles.modal, { width: WIDTH - 30, height: 235,marginTop:"51.5%" }]}>
+          <View
+            style={[styles.modal, { width: WIDTH - 30, height: 235,marginTop:"80%" }]}
+          >
             <Block style={styles.searchContainer}>
               <Block style={styles.vwSearch}>
                 <Ionicons name="search" color="#676767" size={18} />
@@ -148,28 +151,27 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
             <FlatList
               data={filteredDataSource}
               showsVerticalScrollIndicator={true}
-              keyExtractor={(item) => {
-                return item.clientid.toString();
+              keyExtractor={(data) => {
+                return data.code;
               }}
               renderItem={(data) => (
-                <Block style={{ flex: 0, paddingHorizontal: 10 }}>
-                  <RenderReceiversListOptions
-                    name={data.item.account.fullname}
-                    email={data.item.account.email}
-                    id={data.item.account.accountid}
-                  />
+                <Block style={{flex:0,paddingHorizontal:10}}>
+                <RenderCountryCodeOptions
+                  code={data.item.code}
+                  name={data.item.name}
+                />
                 </Block>
               )}
             />
           </View>
-         </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
+
+
 };
-
-
 
 const styles = StyleSheet.create({
   container: {

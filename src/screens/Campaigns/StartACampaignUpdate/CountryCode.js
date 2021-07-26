@@ -2,31 +2,34 @@ import React, { useState, useCallback } from "react";
 import {
   FlatList,
   SafeAreaView,
+  StyleSheet,
   View,
   Dimensions,
   Modal,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Image
 } from "react-native";
 import * as theme from "./../../../constants/theme.js";
-import countryData from "./../../../constants/country.json";
+import country from "./../../../constants/country.json";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import {
   Block,
   Text,
 } from "../../../components/Index.js";
-import styles from "../../../utility/globalStyles.js";
+import SvgUri from "expo-svg-uri";
 
+const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-export default Country = ({
-  country,setCountry,setCountryCode
+export default CountryCode = ({
+  countryName,countryCode,setCountryCode,setCountryName
 }) => {
   const [search, setSearch] = useState();
-  const [filteredDataSource, setFilteredDataSource] = useState(countryData);
-  const [masterDataSource, setMasterDataSource] = useState(countryData);
-  const [countryModalVisible, setCountryModalVisible] = useState(false);
+  const [filteredDataSource, setFilteredDataSource] = useState(country);
+  const [masterDataSource, setMasterDataSource] = useState(country);
+  const [countryCodeModalVisible, setCountryCodeModalVisible] = useState(false);
 
   function searchFilterFunction(text) {
     if (text) {
@@ -43,43 +46,53 @@ export default Country = ({
     }
   }
 
-  const onCountryItem = useCallback(
-    (name,code) => {
-      setCountry(name);
+  const onCountryCodeItem = useCallback(
+    (code,name) => {
       setCountryCode(code);
-      setCountryModalVisible(false);
+      setCountryCodeModalVisible(false);
+      setCountryName(name)
     },
-    [setCountry]
+    [setCountryCode]
   );
 
-  const RenderCountryOptions = ({ code, url, name }) => (
+
+  const RenderCountryCodeOptions = ({ code, name }) => (
     <TouchableOpacity
-      onPress={() => onCountryItem(name,code)}
+      onPress={() => onCountryCodeItem(code,name)}
       style={{ marginVertical: 2 }}
     >
       <Block row>
-        <Text bold style={{ paddingVertical: 4, fontSize: 16 }}>
-          {name}
+        <Image
+            source={{ uri: `https://www.countryflags.io/${code}/flat/64.png` }}
+            style={{height:20,width:35}}
+          />
+        <Text style={{ paddingVertical: 4, fontSize: 15,justifyContent:"center",fontWeight:"700",marginLeft:14 }}>
+          {code}
         </Text>
       </Block>
     </TouchableOpacity>
   );
 
+ 
   return (    
-  	<SafeAreaView style={{ paddingVertical: 6 }}>
-      <Text bold style={{ fontSize: 16 }}>
-        Country
+    <SafeAreaView style={{ paddingVertical: 6 }}>
+       <Text bold style={{ fontSize: 16 }}>
+        Country Code
       </Text>
       <TouchableOpacity
         style={styles.customPicker}
-        onPress={() => setCountryModalVisible(!countryModalVisible)}
+        onPress={() => setCountryCodeModalVisible(!countryCodeModalVisible)}
       >
-        <Block style={{flex:3}}>
-          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-            {country}
+        <Block row>
+         <Image
+            source={{ uri: `https://www.countryflags.io/${countryCode}/flat/64.png` }}
+            style={{height:20,width:35}}
+          />
+          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray,marginLeft:12 }}>
+            {countryName}
           </Text>
         </Block>
-        <Block style={{ flex:0.5,alignItems: "flex-end" }}>
+        <Block style={{ alignItems: "flex-end" }} >
           <AntDesign
             name="caretdown"
             size={16}
@@ -88,22 +101,24 @@ export default Country = ({
         </Block>
       </TouchableOpacity>
       <Modal
-        visible={countryModalVisible}
+        visible={countryCodeModalVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setCountryModalVisible(!countryModalVisible)
+          setCountryCodeModalVisible(!countryCodeModalVisible)
         }
       >
-       <TouchableOpacity
+
+        <TouchableOpacity
           style={styles.container}
           activeOpacity={1}
           onPressOut={() =>
-            setCountryModalVisible(!countryModalVisible)
+            setCountryCodeModalVisible(!countryCodeModalVisible)
           }
         >
           <TouchableWithoutFeedback>
+
           <View
             style={[styles.modal, { width: WIDTH - 30, height: 235,marginTop:"40%" }]}
           >
@@ -136,13 +151,12 @@ export default Country = ({
               data={filteredDataSource}
               showsVerticalScrollIndicator={true}
               keyExtractor={(data) => {
-                return data.alpha3;
+                return data.code;
               }}
               renderItem={(data) => (
                 <Block style={{flex:0,paddingHorizontal:10}}>
-                <RenderCountryOptions
-                  code={data.item.alpha3}
-                  url={data.item.file_url}
+                <RenderCountryCodeOptions
+                  code={data.item.code}
                   name={data.item.name}
                 />
                 </Block>
@@ -150,8 +164,75 @@ export default Country = ({
             />
           </View>
           </TouchableWithoutFeedback>
-         </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
+
+
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  alignItems:"center"
+
+  },
+  modal: {
+    borderRadius: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 4,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    borderRadius: 3,
+    paddingTop: 2,
+
+  },
+  option: {
+    alignItems: "flex-start",
+  },
+  customPicker: {
+    height: 28,
+    flexDirection: "row",
+    paddingTop: 6,
+    justifyContent: "space-between",
+    borderColor: theme.colors.solidGray,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    paddingVertical:6,
+    
+  },
+  vwClear: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+
+  vwSearch: {
+    flex: 0.1,
+    justifyContent: "center",
+  },
+  icSearch: {
+    height: 20,
+    width: 20,
+  },
+  searchContainer: {
+    backgroundColor: theme.colors.white,
+    width: "100%",
+    height: 35,
+    marginBottom: 6,
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    flex: 0,
+    borderColor:theme.colors.gray2,
+    paddingHorizontal:10,
+    borderRadius: 2,
+  },
+});

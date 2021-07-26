@@ -23,7 +23,7 @@ import NumberFormat from "react-number-format";
 import DownloadIconComponent from "../../../../assets/icons/DownloadIconComponent.js";
 import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 const WIDTH = Dimensions.get("window").width;
 
 const LoadFundDetails = ({
@@ -33,6 +33,7 @@ const LoadFundDetails = ({
   loadFundDetailsStart,
   loadFundDetailsClear,
   generateLoadFundReceiptStart,
+  generateExcelReceiptStart,
 }) => {
   const { details } = route.params;
   const [
@@ -42,7 +43,8 @@ const LoadFundDetails = ({
   useEffect(() => {
     loadFundDetailsStart(details.transactionid);
     generateLoadFundReceiptStart(details.transactionid);
-  }, [data.generateLoadFundReceiptStart]);
+    generateExcelReceiptStart();
+  }, []);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,8 +66,13 @@ const LoadFundDetails = ({
     });
   }, [navigation]);
 
-  const download = () => {
+  const downloadPDF = () => {
+    setConfirmationSuccessfulVisible(false);
     Linking.openURL(data.generateLoadFundReceipt.msg);
+  };
+  const downloadEXCEL = () => {
+    setConfirmationSuccessfulVisible(false);
+    Linking.openURL(data.generateExcelReceipt.msg);
   };
 
   const ConfirmationMessage = () => (
@@ -119,7 +126,7 @@ const LoadFundDetails = ({
                 <TouchableOpacity
                   activeOpacity={0.8}
                   style={{ flexDirection: "column", marginRight: 30 }}
-                  onPress={()=>download()}
+                  onPress={() => downloadPDF()}
                 >
                   <PdfIconComponent />
                   <Text center style={{ fontWeight: "400", fontSize: 14 }}>
@@ -129,6 +136,7 @@ const LoadFundDetails = ({
                 <TouchableOpacity
                   activeOpacity={0.8}
                   style={{ flexDirection: "column" }}
+                  onPress={() => downloadEXCEL()}
                 >
                   <ExcelIconComponent />
                   <Text center style={{ fontWeight: "400", fontSize: 14 }}>
@@ -302,6 +310,55 @@ const LoadFundDetails = ({
             </Text>
             <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
               {data.loadFundDetails.transaction.remark}
+            </Text>
+          </Block>
+          <Block style={{ flex: 0, paddingVertical: 8 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              Status
+            </Text>
+            
+            <Text
+              center
+              style={{
+                fontSize: 14,
+                backgroundColor:
+                  data.loadFundDetails.transaction.transactionstatus == 1
+                    ? theme.colors.schedulingBackground
+                    : data.loadFundDetails.transaction.transactionstatus == 2
+                    ? "#F1AEFC"
+                    : data.loadFundDetails.transaction.transactionstatus == 3
+                    ? "#AEE6FC"
+                    : data.loadFundDetails.transaction.transactionstatus == 4
+                    ? theme.colors.cancelledBackground
+                    : theme.colors.schedulingBackground,
+                paddingVertical: 4,
+                paddingHorizontal: 8,
+                width: 130,
+              }}
+              color={
+                data.loadFundDetails.transaction.transactionstatus == 1
+                  ? theme.colors.schedulingText
+                  : data.loadFundDetails.transaction.transactionstatus == 2
+                  ? "#9B59B6"
+                  : data.loadFundDetails.transaction.transactionstatus == 3
+                  ? "#037CC4"
+                  : data.loadFundDetails.transaction.transactionstatus == 4
+                  ? theme.colors.cancelledText
+                  : theme.colors.schedulingText
+              }
+            >
+              { data.loadFundDetails.transaction.transactionstatus == 1
+                  ? "APPROVED"
+                  : data.loadFundDetails.transaction.transactionstatus == 2
+                  ? "SUBMITTED"
+                  : data.loadFundDetails.transaction.transactionstatus == 3
+                  ? "POSTED"
+                  : data.loadFundDetails.transaction.transactionstatus == 4
+                  ? "CANCELLED":"NOT AVAILABLE"}
             </Text>
           </Block>
         </>

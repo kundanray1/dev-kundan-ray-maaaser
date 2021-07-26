@@ -8,13 +8,13 @@ import {
   Block,
   Text,
   ErrorMessage,
-  CustomActivityIndicator
+  CustomActivityIndicator,
 } from "./../../../../components/Index.js";
 import ReceiversList from "./ReceiversList";
 import PaymentProto from "./../../../../protos/payment_pb";
 import API from "./../../../../api/API";
 
-const Manual = ({ navigation, data, loginData,manual }) => {
+const Manual = ({ navigation, data, loginData, manual }) => {
   const [receiverId, setReceiverId] = useState("");
   const [receiverName, setReceiverName] = useState("");
   const [receiverIdError, setReceiverIdError] = useState(false);
@@ -22,22 +22,20 @@ const Manual = ({ navigation, data, loginData,manual }) => {
   const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
   const makeDonation = (values) => {
-    if(receiverId==""){
-setReceiverIdError(true)
-    }else{
-      navigation.navigate("Manual Donate Confirmation",{
-      accountid:loginData.user.account.accountid,
-      receiverId:receiverId,
-      receiverName:receiverName,
-      amount:values.amount,
-      remarks:values.remarks,
-      transactionMedium:PaymentProto.TransactionMedium.INTERNAL_MEDIUM,
-      transactionType:PaymentProto.TransactionType.DONATE_FUND,
-      transactionStatus: PaymentProto.TransactionStatus.TRANSACTION_APPROVED,
-      
-    })
+    if (receiverId == "") {
+      setReceiverIdError(true);
+    } else {
+      navigation.navigate("Manual Donate Confirmation", {
+        accountid: loginData.user.account.accountid,
+        receiverId: receiverId,
+        receiverName: receiverName,
+        amount: values.amount,
+        remarks: values.remarks,
+        transactionMedium: PaymentProto.TransactionMedium.INTERNAL_MEDIUM,
+        transactionType: PaymentProto.TransactionType.DONATE_FUND,
+        transactionStatus: PaymentProto.TransactionStatus.TRANSACTION_APPROVED,
+      });
     }
-     
   };
 
   return (
@@ -52,7 +50,7 @@ setReceiverIdError(true)
         <Formik
           initialValues={{
             amount: "",
-            remarks:" "
+            remarks: " ",
           }}
           onSubmit={(values) => {
             makeDonation(values);
@@ -75,7 +73,10 @@ setReceiverIdError(true)
                 setReceiverName={setReceiverName}
                 data={data}
               />
-              <ErrorMessage error={"Receiver name is a required field"} visible={receiverIdError}/>
+              <ErrorMessage
+                error={"Receiver's name is a required field"}
+                visible={receiverIdError}
+              />
               <Input
                 label="Amount"
                 focus={amountFocus}
@@ -95,8 +96,8 @@ setReceiverIdError(true)
                     : theme.colors.solidGray,
                 }}
               />
-              <ErrorMessage error={errors.amount} visible={touched.amount}/>
-               <Input
+              <ErrorMessage error={errors.amount} visible={touched.amount} />
+              <Input
                 label="Remarks"
                 focus={remarksFocus}
                 onChangeText={handleChange("remarks")}
@@ -120,13 +121,13 @@ setReceiverIdError(true)
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
                       <>
-                       <CustomActivityIndicator
-                      label="Requesting..."
-                      isLoading={data.isLoading}
-                    />
-                     <Text button style={{ fontSize: 18 }}>
-                        Proceed
-                      </Text>
+                        <CustomActivityIndicator
+                          label="Requesting..."
+                          isLoading={data.isLoading}
+                        />
+                        <Text button style={{ fontSize: 18 }}>
+                          Proceed
+                        </Text>
                       </>
                     ) : (
                       <Text button style={{ fontSize: 18 }}>

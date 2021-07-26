@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { DONOR_RECEIVER_START,BALANCE_START } from "./actions";
-import { donorReceiverSuccess, donorReceiverFail,balanceSuccess,balanceFail } from "./actions";
+import { DONOR_RECEIVER_START,BALANCE_START,DONOR_RECEIVER_DONATE_CONFIRMATION_START } from "./actions";
+import { donorReceiverSuccess, donorReceiverFail,balanceSuccess,balanceFail,donorReceiverDonateConfirmationSuccess,
+donorReceiverDonateConfirmationFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -15,7 +16,7 @@ export function* donorReceiver({ payload }) {
 			`${APIEndpoints.BALANCE}/${payload}`,
 			{
 				method: "GET",
-				headers: API.authProtoHeader(),
+				headers: API.auPaymentBaseResponsethProtoHeader(),
 			}
 		);
 		const res = base.PaymentBaseResponse.deserializeBinary(
@@ -73,8 +74,38 @@ export function* balance({ payload }) {
 	}
 }
 
+export function* donorReceiverDonateConfirmation({ payload }) {
+	try {
+		const serializedData = payload.serializeBinary();
+		const response = yield call(requestProto, APIEndpoints.TRANSACTION, {
+			method: "POST",
+			headers: API.authProtoHeader(),
+			body: serializedData,
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(donorReceiverDonateConfirmationSuccess(res));
+		} else {
+			yield put(donorReceiverDonateConfirmationFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(donorReceiverDonateConfirmationFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
 export default function* donorReceiverSaga() {
 	yield takeLatest(DONOR_RECEIVER_START, donorReceiver);
 	yield takeLatest(BALANCE_START, balance);
+	yield takeLatest(DONOR_RECEIVER_DONATE_CONFIRMATION_START, donorReceiverDonateConfirmation);
 }
 

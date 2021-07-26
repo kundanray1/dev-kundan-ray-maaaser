@@ -51,17 +51,17 @@ const DonorReceiver = ({
   upcomingDonations,
   donationsMade,
   receivers,
-  manualDonateConfirmationStart,
-  manualDonateConfirmationClear,
+  donorReceiverDonateConfirmation,
+  donorReceiverDonateConfirmationClear,
   allCampaignsData,
   allCampaigns,
   campaignId,
   campaignsData,
   campaigns,
-  manualDonateConfirmationData,
   ACHLoadFundConfirmationData,
   cardLoadFundConfirmationData,
-  linkScheduleDonationData
+  linkScheduleDonationData,
+  manualDonateConfirmationData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [accountData, setAccountData] = useState();
@@ -93,24 +93,25 @@ const DonorReceiver = ({
     receivers();
   }, [
     data.balance,
-    manualDonateConfirmationData.manualDonateConfirmation,
+    data.donorReceiverDonateConfirmation,
     ACHLoadFundConfirmationData.ACHLoadFundConfirmation,
     cardLoadFundConfirmationData.cardLoadFundConfirmation,
     linkScheduleDonationData.linkScheduleDonation
   ]);
 
   useEffect(() => {
-    if (manualDonateConfirmationData.manualDonateConfirmation !== null) {
-      if (manualDonateConfirmationData.manualDonateConfirmation.success) {
+    if (data.donorReceiverDonateConfirmation !== null) {
+      if (data.donorReceiverDonateConfirmation.success) {
         setDonateModalVisible(false);
         setConfirmationMessageVisible(true);
-        manualDonateConfirmationClear();
+        donorReceiverDonateConfirmationClear()
       }
     }
   }, [
-    manualDonateConfirmationData.manualDonateConfirmation,
+    data.donorReceiverDonateConfirmation,
     ACHLoadFundConfirmationData.ACHLoadFundConfirmationData,
     cardLoadFundConfirmationData.cardLoadFundConfirmation,
+    manualDonateConfirmationData.manualDonateConfirmation
   ]);
 
   const onSubmitDonateConfirmation = (values) => {
@@ -126,7 +127,7 @@ const DonorReceiver = ({
     donationProto.setTransactionstatus(
       PaymentProto.TransactionStatus.TRANSACTION_APPROVED
     );
-    manualDonateConfirmationStart(donationProto);
+    donorReceiverDonateConfirmation(donationProto);
     setDonateModalVisible(false);
   };
 
@@ -251,12 +252,12 @@ const DonorReceiver = ({
                     <Block style={{ flex: 0, paddingVertical: 10 }}>
                       {!errors.receiverName && !errors.amount ? (
                         <Button onPress={handleSubmit}>
-                          {manualDonateConfirmationData.isLoading ? (
+                          {data.isLoading ? (
                             <>
                               <CustomActivityIndicator
                                 label="Requesting..."
                                 isLoading={
-                                  manualDonateConfirmationData.isLoading
+                                  data.isLoading
                                 }
                               />
                               <Text button style={{ fontSize: 18 }}>

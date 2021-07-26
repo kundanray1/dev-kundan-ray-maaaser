@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import Card from "./Card";
-import { cardStart,cardUpdateStatusStart,cardDeleteStatusStart } from "./actions";
+import { cardStart,cardUpdateStatusStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.card,
@@ -14,7 +14,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		card: () => dispatch(cardStart()),
 		cardUpdateStatusStart: (values) => dispatch(cardUpdateStatusStart(values)),
-		cardDeleteStatusStart: (values) => dispatch(cardDeleteStatusStart(values)),
 	};
 };
 

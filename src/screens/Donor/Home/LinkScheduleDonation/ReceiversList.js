@@ -7,14 +7,15 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  StyleSheet
 } from "react-native";
 import * as theme from "./../../../../constants/theme.js";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Block, Text } from "../../../../components/Index.js";
 import { useDispatch } from "react-redux";
 import { donationReceiversStart } from "./actions";
-import styles from "../../../../utility/globalStyles.js";
+// import styles from "../../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -121,15 +122,15 @@ export default ReceiversList = ({
         >
           <TouchableWithoutFeedback>
           <View style={[styles.modal, { width: WIDTH - 30, height: 235,marginTop:"40%" }]}>
-            <Block style={styles.boxSearchContainer}>
-              <Block style={styles.boxVwSearch}>
+            <Block style={styles.searchContainer}>
+              <Block style={styles.vwSearch}>
                 <Ionicons name="search" color="#676767" size={18} />
               </Block>
 
               <TextInput
                 placeholder="Search"
                 placeholderTextColor="#999999"
-                style={styles.boxTextInput}
+                style={styles.textInput}
                 onChangeText={(text) => searchFilterFunction(text)}
                 value={search}
               />
@@ -169,3 +170,69 @@ export default ReceiversList = ({
     </SafeAreaView>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  alignItems:"center"
+
+  },
+  modal: {
+    borderRadius: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 4,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    borderRadius: 3,
+    paddingTop: 2,
+
+  },
+  option: {
+    alignItems: "flex-start",
+  },
+  customPicker: {
+    height: 28,
+    flexDirection: "row",
+    paddingTop: 6,
+    justifyContent: "space-between",
+    borderColor: theme.colors.solidGray,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    paddingVertical:6,
+    
+  },
+  vwClear: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+
+  vwSearch: {
+    flex: 0.1,
+    justifyContent: "center",
+  },
+  icSearch: {
+    height: 20,
+    width: 20,
+  },
+  searchContainer: {
+    backgroundColor: theme.colors.white,
+    width: "100%",
+    height: 35,
+    marginBottom: 6,
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    flex: 0,
+    borderColor:theme.colors.gray2,
+    paddingHorizontal:10,
+    borderRadius: 2,
+  },
+});

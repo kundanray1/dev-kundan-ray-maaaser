@@ -34,6 +34,7 @@ const AllCampaigns = ({
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
+  const [countryName, setCountryName] = useState("");
   const [search, setSearch] = useState();
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
@@ -213,10 +214,13 @@ const AllCampaigns = ({
                 )}
               </Block>
             </Block>
-             <CountryCode
+               <CountryCode
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}
+                countryName={countryName}
+                setCountryName={setCountryName}
               />
+           
             <Button onPress={onPressSubmitApply}>
               <Text button style={{ fontSize: 18 }}>
                 Apply

@@ -74,19 +74,19 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
     })
     onPressReset();
   };
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-       <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setConfirmationSuccessfulVisible(true)}
-              style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
-                >
-                   <TransactionsSearchIconComponent height={25} width={20}/>
-                </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //      <TouchableOpacity
+  //             activeOpacity={0.8}
+  //             onPress={() => setConfirmationSuccessfulVisible(true)}
+  //             style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
+  //               >
+  //                  <TransactionsSearchIconComponent height={25} width={20}/>
+  //               </TouchableOpacity>
+  //     ),
+  //   });
+  // }, [navigation]);
 
 
   const renderItems = ({ item }) => {
@@ -287,32 +287,7 @@ function searchFilterFunction(text) {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-     <Block style={{ flex: 0, paddingHorizontal: 16 }}>
-        <Block style={searchStyles.boxSearchContainer}>
-          <Block style={searchStyles.boxVwSearch}>
-            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
-          </Block>
-
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={theme.colors.solidGray}
-            style={searchStyles.boxTextInput}
-            onChangeText={(text) => searchFilterFunction(text)}
-            value={transactionssearch}
-          />
-
-          {transactionssearch ? (
-            <TouchableOpacity
-              onPress={() => searchFilterFunction()}
-              style={searchStyles.vwClear}
-            >
-              <Ionicons name="close-circle-sharp" color="black" size={18} />
-            </TouchableOpacity>
-          ) : (
-            <Block style={searchStyles.vwClear} />
-          )}
-        </Block>
-      </Block>
+    
       {data.isLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />

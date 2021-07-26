@@ -48,8 +48,8 @@ export default SignUp = ({
   const [clientType, setClientType] = useState("");
   const [clientTypeError, setClientTypeError] = useState(false);
   const [countryCode, setCountryCode] = useState("");
+  const [countryName, setCountryName] = useState("");
   const [countryCodeError, setCountryCodeError] = useState(false);
-
 
   const onSubmitSignUp = (values) => {
      const { accountType } = route.params;
@@ -88,7 +88,7 @@ setClientTypeError
   }, [data]);
 
   return (
-      <Block center middle>
+    <KeyboardAwareScrollView  resetScrollToCoords={{ x: 0, y: 0 }} contentContainerStyle={{flex:1,justifyContent:"center",alignItems:"center"}}>
         <Image
         source={require("../../../assets/icons/logo.png")}
         style={{ height: 100, width: 100 }}
@@ -115,6 +115,7 @@ setClientTypeError
             values,
             errors,
           }) => (
+
             <Block style={{ flex: 0 }}>
               <ClientType
                 clientType={clientType}
@@ -145,6 +146,7 @@ setClientTypeError
                     : theme.colors.solidGray,
                 }}
               />
+
                <ErrorMessage
                 error={errors.emailOrPhone}
                 visible={touched.emailOrPhone}
@@ -153,6 +155,8 @@ setClientTypeError
               <CountryCode
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}
+                countryName={countryName}
+                setCountryName={setCountryName}
                 setCountryCodeError={setCountryCodeError}
               />
                <ErrorMessage
@@ -251,6 +255,6 @@ setClientTypeError
             </Block>
           )}
         </Formik>
-      </Block>
+    </KeyboardAwareScrollView>
   );
 };

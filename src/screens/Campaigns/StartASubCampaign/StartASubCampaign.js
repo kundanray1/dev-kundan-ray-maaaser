@@ -55,11 +55,9 @@ const StartASubCampaign = ({
         route.params.campaignDetailData.campaign.campaignid
       );
       startASubCampaignEditStart(subCampaignData);
-      setAmountError(false);
     } else {
       subCampaignData.setCampaignid(campaignId);
       startASubCampaignStart(subCampaignData);
-      setAmountError(false);
     }
   };
   useEffect(() => {

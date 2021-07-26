@@ -232,12 +232,12 @@ const ScheduleDonationReceiverDetail = ({
                   button
                   style={{ fontSize: 20, textTransform: "uppercase" }}
                 >
-                  Cancel
+                   CANCEL DONATION
                 </Text>
               </>
             ) : (
               <Text button style={{ fontSize: 20, textTransform: "uppercase" }}>
-                Cancel
+                CANCEL DONATION
               </Text>
             )}
           </Button>

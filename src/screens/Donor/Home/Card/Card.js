@@ -23,7 +23,6 @@ import {
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import CardIconComponent from "./../../../../assets/icons/cardIconComponent";
 import PaymentProto from "./../../../../protos/payment_pb";
-import AddressProto from "./../../../../protos/address_pb";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Card = ({
@@ -33,7 +32,6 @@ const Card = ({
   loginData,
   linkNewCardData,
   cardUpdateStatusStart,
-  cardDeleteStatusStart
 }) => {
   const [
     confirmationMessageVisible,
@@ -48,7 +46,7 @@ const Card = ({
   });
   useEffect(() => {
     card();
-  }, [data.cardUpdateStatus,data.cardDeleteStatus, linkNewCardData.linkNewCard]);
+  }, [data.cardUpdateStatus, linkNewCardData.linkNewCard]);
 
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -90,40 +88,96 @@ const Card = ({
                   row
                   style={{
                     flex: 0.6,
-                    justifyContent: "space-between",
+                    justifyContent:
+                      cardData != undefined
+                        ? cardData.cardstatus == 2
+                          ? "center"
+                          : "space-between"
+                        : "space-between",
                   }}
                 >
+                  {cardData != undefined ? (
+                    cardData.cardstatus == 2 ? (
+                      <Block style={{ flex: 0 }} />
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setConfirmationSuccessfulVisible(false);
+                          navigation.navigate("Link New Card", {
+                            card: cardData,
+                          });
+                        }}
+                        style={{ paddingHorizontal: 10 }}
+                      >
+                        <MaterialCommunityIcons
+                          name="pencil-circle"
+                          size={50}
+                          color={theme.colors.primary2}
+                        />
+                        <Text
+                          center
+                          style={{ fontSize: 14, fontWeight: "700" }}
+                        >
+                          Edit
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setConfirmationSuccessfulVisible(false);
+                        handleStatus();
+                      }}
+                      style={{ paddingHorizontal: 10 }}
+                    >
+                      <MaterialCommunityIcons
+                        name="delete-circle"
+                        size={50}
+                        color={theme.colors.red}
+                      />
+                      <Text center style={{ fontSize: 14, fontWeight: "700" }}>
+                        Disable
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                   <TouchableOpacity
                     onPress={() => {
                       setConfirmationSuccessfulVisible(false);
-                      navigation.navigate("Link New Card", { card: cardData });
+                      handleStatus();
                     }}
                     style={{ paddingHorizontal: 10 }}
                   >
-                    <MaterialCommunityIcons
-                      name="pencil-circle"
-                      size={50}
-                      color={theme.colors.primary2}
-                    />
-                    <Text center style={{ fontSize: 14, fontWeight: "700" }}>
-                      Edit
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setConfirmationSuccessfulVisible(false);
-                      handleDelete();
-                    }}
-                    style={{ paddingHorizontal: 10 }}
-                  >
-                    <MaterialCommunityIcons
-                      name="delete-circle"
-                      size={50}
-                      color={theme.colors.red}
-                    />
-                    <Text center style={{ fontSize: 14, fontWeight: "700" }}>
-                      Delete
-                    </Text>
+                    {cardData != undefined ? (
+                      cardData.cardstatus == 2 ? (
+                        <MaterialCommunityIcons
+                          name="pencil-circle"
+                          size={50}
+                          color={theme.colors.primary2}
+                        />
+                      ) : (
+                        <MaterialCommunityIcons
+                          name="delete-circle"
+                          size={50}
+                          color={theme.colors.red}
+                        />
+                      )
+                    ) : (
+                      <MaterialCommunityIcons
+                        name="delete-circle"
+                        size={50}
+                        color={theme.colors.red}
+                      />
+                    )}
+
+                    {cardData != undefined ? (
+                      <Text center style={{ fontSize: 14, fontWeight: "700" }}>
+                        {cardData.cardstatus == 2 ? "Enable" : "Disable"}
+                      </Text>
+                    ) : (
+                      <Text center style={{ fontSize: 14, fontWeight: "700" }}>
+                        Disable
+                      </Text>
+                    )}
                   </TouchableOpacity>
                 </Block>
               </Block>
@@ -134,14 +188,26 @@ const Card = ({
     </SafeAreaView>
   );
 
-  const handleDeleteConfirm = () => {
-    cardDeleteStatusStart(cardData.cardid);
+  const handleConfirm = () => {
+    const linkNewCardData = new PaymentProto.Card();
+
+    linkNewCardData.setCardid(cardData.cardid);
+    linkNewCardData.setRefid(cardData.refid);
+    linkNewCardData.setCardstatus(cardData.cardstatus == 2
+        ? PaymentProto.Card.CardStatus.ACTIVE_CARD
+        : PaymentProto.Card.CardStatus.INACTIVE_CARD);
+    linkNewCardData.setAccountid(loginData.user.account.accountid);
+    linkNewCardData.setCardnumber(cardData.cardnumber);
+    linkNewCardData.setCardholdername(cardData.cardholdername);
+    linkNewCardData.setCvc(cardData.cvc);
+    linkNewCardData.setExpirydate(new Date().getTime());
+    cardUpdateStatusStart(linkNewCardData);
   };
 
-  const handleDelete = () => {
+  const handleStatus = () => {
     Alert.alert(
-      "Card Deletion",
-      "Are you sure you want to delete this card?",
+      "Update card status",
+      "Are you sure you want to update this card status?",
       [
         {
           text: "Cancel",
@@ -150,7 +216,7 @@ const Card = ({
             color: theme.colors.primary2,
           },
         },
-        { text: "Confirm", onPress: () => handleDeleteConfirm() },
+        { text: "Confirm", onPress: () => handleConfirm() },
       ],
       {
         cancelable: true,
@@ -164,18 +230,18 @@ const Card = ({
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         ) : (
           <>
-             <Block
-                style={{ flex: 0, paddingVertical: 14, paddingHorizontal: 16 }}
+            <Block
+              style={{ flex: 0, paddingVertical: 14, paddingHorizontal: 16 }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "700",
+                }}
               >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "700",
-                  }}
-                >
-                  Linked Cards{" "}
-                </Text>
-              </Block>
+                Linked Cards{" "}
+              </Text>
+            </Block>
             <FlatList
               data={data.card}
               showsVerticalScrollIndicator={false}
@@ -190,10 +256,7 @@ const Card = ({
                 />
               }
               ListEmptyComponent={() => (
-                <Empty
-                  iconName="cards"
-                 title="You don't have any data."
-                />
+                <Empty iconName="cards" title="You don't have any data." />
               )}
               ListFooterComponent={() => (
                 <Block
@@ -205,32 +268,32 @@ const Card = ({
               ListFooterComponentStyle={{
                 paddingVertical: 20,
               }}
-              renderItem={(post) =>
-                post.item.cardstatus == 1 && (
-                  <Pressable
-                    style={{
-                      paddingHorizontal: 16,
-                      marginVertical: 6,
+              renderItem={(post) => (
+                <Pressable
+                  style={{
+                    paddingHorizontal: 16,
+                    marginVertical: 6,
+                  }}
+                  onLongPress={() => {
+                    setCardData();
+                    setConfirmationSuccessfulVisible(true);
+                    setCardData(post.item);
+                  }}
+                  delayLongPress={500}
+                >
+                  <LinkedAccountsAndLinkedCard
+                    accountNo={post.item.cardnumber}
+                    date={post.item.expirydate}
+                    status={post.item.cardstatus}
+                    iconComponent={<CardIconComponent />}
+                    onPress={() => {
+                      navigation.navigate("Card Load Fund", {
+                        cardData: post.item,
+                      });
                     }}
-                    onLongPress={() => {
-                      setConfirmationSuccessfulVisible(true);
-                      setCardData(post.item);
-                    }}
-                    delayLongPress={500}
-                  >
-                    <LinkedAccountsAndLinkedCard
-                      accountNo={post.item.cardnumber}
-                      date={post.item.expirydate}
-                      iconComponent={<CardIconComponent />}
-                      onPress={() => {
-                        navigation.navigate("Card Load Fund", {
-                          cardData: post.item,
-                        });
-                      }}
-                    />
-                  </Pressable>
-                )
-              }
+                  />
+                </Pressable>
+              )}
             />
           </>
         )}
@@ -239,7 +302,7 @@ const Card = ({
         iconComponent={<AddIconComponent />}
         onPress={() => navigation.navigate("Link New Card")}
       />
-       {ConfirmationMessage()}
+      {ConfirmationMessage()}
     </>
   );
 };

@@ -8,6 +8,12 @@ export const GENERATE_LOAD_FUND_RECEIPT_SUCCESS = "GENERATE_LOAD_FUND_RECEIPT_SU
 export const GENERATE_LOAD_FUND_RECEIPT_FAIL = "GENERATE_LOAD_FUND_RECEIPT_FAIL";
 export const GENERATE_LOAD_FUND_RECEIPT_CLEAR = "GENERATE_LOAD_FUND_RECEIPT_CLEAR";
 
+export const GENERATE_EXCEL_RECEIPT_START = "GENERATE_EXCEL_RECEIPT_START";
+export const GENERATE_EXCEL_RECEIPT_SUCCESS = "GENERATE_EXCEL_RECEIPT_SUCCESS";
+export const GENERATE_EXCEL_RECEIPT_FAIL = "GENERATE_EXCEL_RECEIPT_FAIL";
+export const GENERATE_EXCEL_RECEIPT_CLEAR = "GENERATE_EXCEL_RECEIPT_CLEAR";
+
+
 
 export const loadFundDetailsStart = (payload) => {
 	return {
@@ -46,5 +52,25 @@ export const generateLoadFundReceiptFail = (payload) => ({
 });
 export const generateLoadFundReceiptClear = (payload) => ({
 	type: GENERATE_LOAD_FUND_RECEIPT_CLEAR,
+	payload,
+});
+
+
+export const generateExcelReceiptStart = (payload) => {
+	return {
+		type: GENERATE_EXCEL_RECEIPT_START,
+		payload,
+	};
+};
+export const generateExcelReceiptSuccess = (payload) => ({
+	type: GENERATE_EXCEL_RECEIPT_SUCCESS,
+	payload,
+});
+export const generateExcelReceiptFail = (payload) => ({
+	type: GENERATE_EXCEL_RECEIPT_FAIL,
+	payload,
+});
+export const generateExcelReceiptClear = (payload) => ({
+	type: GENERATE_EXCEL_RECEIPT_CLEAR,
 	payload,
 });

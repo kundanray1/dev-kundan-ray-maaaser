@@ -10,6 +10,7 @@ const WIDTH = Dimensions.get("window").width;
 export default LinkedAccountsAndLinkedCard = ({
 	label,
 	accountNo,
+	status,
 	date,
 	iconComponent,
 	...props
@@ -21,10 +22,10 @@ export default LinkedAccountsAndLinkedCard = ({
 					alignItems:"center",
 					paddingVertical: 12,
 					paddingHorizontal: 20,
-					borderRadius: 4,
-					shadowRadius: 4,
-					elevation: 4,
-					backgroundColor: theme.colors.white,
+					borderRadius: 2,
+					shadowRadius: 2,
+					elevation: status==2? 0: 2,
+					backgroundColor: status==2? 'rgba(52, 52, 52, 0.08)': theme.colors.white,
 				}}
 			>
 				<Block
@@ -92,6 +93,7 @@ export default LinkedAccountsAndLinkedCard = ({
 						alignItems: "flex-end",
 						justifyContent: "center",
 					}}
+					disabled={status==2?true:false}
 					{...props}
 				>
 					

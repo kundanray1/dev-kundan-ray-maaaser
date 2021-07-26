@@ -19,7 +19,7 @@ import { StartACampaignValidationSchema } from "./../../../utility/ValidationSch
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RaisingMoneyType from "./RaisingMoneyType";
 import CategoryType from "./CategoryType";
-import Country from "./Country";
+import CountryCode from "./CountryCode";
 import StartACampaignOneIconComponent from "./../../../assets/icons/startACampaignOneIconComponent";
 import BeneficiersList from "./BeneficiersList";
 
@@ -34,7 +34,7 @@ const StartACampaign = ({ data, navigation, receiversData }) => {
   const [raisingMoneyTypeError, setRaisingMoneyTypeError] = useState(false);
   const [categoryType, setCategoryType] = useState("");
   const [categoryTypeError, setCategoryTypeError] = useState(false);
-  const [country, setCountry] = useState("");
+  const [countryName, setCountryName] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [countryCodeError, setCountryCodeError] = useState(false);
   const [allowSubCampaigns, setAllowSubCampaigns] = useState(true);
@@ -138,9 +138,10 @@ const StartACampaign = ({ data, navigation, receiversData }) => {
                 error={errors.targetAmount}
                 visible={touched.targetAmount}
               />
-              <Country
-                country={country}
-                setCountry={setCountry}
+              <CountryCode
+                countryName={countryName}
+                setCountryName={setCountryName}
+                countryCode={countryCode}
                 setCountryCode={setCountryCode}
                 setCountryCodeError={setCountryCodeError}
               />
@@ -290,4 +291,67 @@ const styles = StyleSheet.create({
     color: "#0DB952",
     backgroundColor: "#E9F9FF",
   },
+  container: {
+    flex: 1,
+  alignItems:"center"
+
+  },
+  modal: {
+    borderRadius: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 4,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    borderRadius: 3,
+    paddingTop: 2,
+
+  },
+  option: {
+    alignItems: "flex-start",
+  },
+  customPicker: {
+    height: 28,
+    flexDirection: "row",
+    paddingTop: 6,
+    justifyContent: "space-between",
+    borderColor: theme.colors.solidGray,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    paddingVertical:6,
+    
+  },
+  vwClear: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+
+  vwSearch: {
+    flex: 0.1,
+    justifyContent: "center",
+  },
+  icSearch: {
+    height: 20,
+    width: 20,
+  },
+  searchContainer: {
+    backgroundColor: theme.colors.white,
+    width: "100%",
+    height: 35,
+    marginBottom: 6,
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    flex: 0,
+    borderColor:theme.colors.gray2,
+    paddingHorizontal:10,
+    borderRadius: 2,
+  },
 });
+

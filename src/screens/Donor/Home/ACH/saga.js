@@ -53,7 +53,7 @@ export function* achUpdateStatus({ payload }) {
 		if (res.success) {
 			yield put(ACHUpdateStatusSuccess(res));
 			showMessage({
-				message: "Account deleted successfully!",
+				message: "Account updated successfully!",
 				type: "success",
 			});
 		} else {

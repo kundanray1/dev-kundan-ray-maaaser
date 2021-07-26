@@ -8,7 +8,8 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Image
 } from "react-native";
 import * as theme from "./../../../constants/theme.js";
 import country from "./../../../constants/country.json";
@@ -17,13 +18,13 @@ import {
   Block,
   Text,
 } from "../../../components/Index.js";
-// import SvgUri from "expo-svg-uri";
+import SvgUri from "expo-svg-uri";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 export default CountryCode = ({
-  countryCode,setCountryCode,setCountryCodeError
+  countryName,countryCode,setCountryCode,setCountryCodeError,setCountryName
 }) => {
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(country);
@@ -46,33 +47,28 @@ export default CountryCode = ({
   }
 
   const onCountryCodeItem = useCallback(
-    (code) => {
+    (code,name) => {
       setCountryCode(code);
       setCountryCodeModalVisible(false);
       setCountryCodeError(false);
+      setCountryName(name)
     },
     [setCountryCode]
   );
 
 
-  const RenderCountryCodeOptions = ({ code, url, name }) => (
+  const RenderCountryCodeOptions = ({ code, name }) => (
     <TouchableOpacity
-      onPress={() => onCountryCodeItem(code)}
+      onPress={() => onCountryCodeItem(code,name)}
       style={{ marginVertical: 2 }}
     >
       <Block row>
-        {/*<SvgUri
-      width="20"
-      height="20"
-      source={{
-        uri:  `https:${url}`
-      }}
-    />*/}
-        <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
-          {name}
-        </Text>
-        <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
-          ({code})
+        <Image
+            source={{ uri: `https://www.countryflags.io/${code}/flat/64.png` }}
+            style={{height:20,width:35}}
+          />
+        <Text style={{ paddingVertical: 4, fontSize: 15,justifyContent:"center",fontWeight:"700",marginLeft:14 }}>
+          {code}
         </Text>
       </Block>
     </TouchableOpacity>
@@ -88,9 +84,13 @@ export default CountryCode = ({
         style={styles.customPicker}
         onPress={() => setCountryCodeModalVisible(!countryCodeModalVisible)}
       >
-        <Block>
-          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>
-            {countryCode}
+        <Block row>
+         <Image
+            source={{ uri: `https://www.countryflags.io/${countryCode}/flat/64.png` }}
+            style={{height:20,width:35}}
+          />
+          <Text bold style={{ fontSize: 16, color: theme.colors.solidGray,marginLeft:12 }}>
+            {countryName}
           </Text>
         </Block>
         <Block style={{ alignItems: "flex-end" }} >
@@ -152,13 +152,12 @@ export default CountryCode = ({
               data={filteredDataSource}
               showsVerticalScrollIndicator={true}
               keyExtractor={(data) => {
-                return data.alpha3;
+                return data.code;
               }}
               renderItem={(data) => (
                 <Block style={{flex:0,paddingHorizontal:10}}>
                 <RenderCountryCodeOptions
-                  code={data.item.alpha3}
-                  url={data.item.file_url}
+                  code={data.item.code}
                   name={data.item.name}
                 />
                 </Block>
@@ -214,7 +213,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
   },
 
   vwSearch: {

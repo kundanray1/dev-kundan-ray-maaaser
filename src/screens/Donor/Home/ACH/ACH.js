@@ -90,43 +90,97 @@ const ACH = ({
                   row
                   style={{
                     flex: 0.6,
-                    justifyContent: "space-between",
+                    justifyContent:
+                      accountData != undefined
+                        ? accountData.bankstatus == 2
+                          ? "center"
+                          : "space-between"
+                        : "space-between",
                   }}
                 >
+                  {accountData != undefined ? (
+                    accountData.bankstatus == 2 ? (
+                      <Block style={{ flex: 0 }} />
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setConfirmationSuccessfulVisible(false);
+                          navigation.navigate("Link New Account", {
+                            account: accountData,
+                            screenName: "ACH",
+                          });
+                        }}
+                        style={{ paddingHorizontal: 10 }}
+                      >
+                        <MaterialCommunityIcons
+                          name="pencil-circle"
+                          size={50}
+                          color={theme.colors.primary2}
+                        />
+                        <Text
+                          center
+                          style={{ fontSize: 14, fontWeight: "700" }}
+                        >
+                          Edit
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setConfirmationSuccessfulVisible(false);
+                        navigation.navigate("Link New Account", {
+                          account: accountData,
+                          screenName: "ACH",
+                        });
+                      }}
+                      style={{ paddingHorizontal: 10 }}
+                    >
+                      <MaterialCommunityIcons
+                        name="pencil-circle"
+                        size={50}
+                        color={theme.colors.primary2}
+                      />
+                      <Text center style={{ fontSize: 14, fontWeight: "700" }}>
+                        Edit
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+
                   <TouchableOpacity
                     onPress={() => {
                       setConfirmationSuccessfulVisible(false);
-                      navigation.navigate("Link New Account", {
-                        account: accountData,
-                        screenName: "ACH",
-                      });
+                      handleStatus();
                     }}
                     style={{ paddingHorizontal: 10 }}
                   >
-                    <MaterialCommunityIcons
+                   {accountData != undefined ? (
+                        accountData.bankstatus == 2 ? <MaterialCommunityIcons
                       name="pencil-circle"
-                      size={50}
-                      color={theme.colors.primary2}
-                    />
-                    <Text center style={{ fontSize: 14, fontWeight: "700" }}>
-                      Edit
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setConfirmationSuccessfulVisible(false);
-                      handleDelete();
-                    }}
-                    style={{ paddingHorizontal: 10 }}
-                  >
-                    <MaterialCommunityIcons
+                        size={50}
+                        color={theme.colors.primary2}
+                    /> : <MaterialCommunityIcons
                       name="delete-circle"
                       size={50}
                       color={theme.colors.red}
                     />
-                    <Text center style={{ fontSize: 14, fontWeight: "700" }}>
-                      Delete
-                    </Text>
+                    ) : (
+                     <MaterialCommunityIcons
+                      name="delete-circle"
+                      size={50}
+                      color={theme.colors.red}
+                    />
+                    )}
+
+                    {accountData != undefined ? (
+                      <Text center style={{ fontSize: 14, fontWeight: "700" }}>
+                        {accountData.bankstatus == 2 ? "Enable" : "Disable"}
+                      </Text>
+                    ) : (
+                      <Text center style={{ fontSize: 14, fontWeight: "700" }}>
+                        Disable
+                      </Text>
+                    )}
                   </TouchableOpacity>
                 </Block>
               </Block>
@@ -136,21 +190,25 @@ const ACH = ({
       </Modal>
     </SafeAreaView>
   );
-  const handleDeleteConfirm = () => {
+  const handleConfirm = () => {
     const updateData = new PaymentProto.Bank();
     updateData.setBankid(accountData.bankid);
     updateData.setBankname(accountData.bankname);
     updateData.setAccountholdername(accountData.accountholdername);
     updateData.setAccountnumber(accountData.accountnumber);
     updateData.setRoutingnumber(accountData.routingnumber);
-    updateData.setBankstatus(PaymentProto.Bank.BankStatus.INACTIVE_STATUS);
+    updateData.setBankstatus(
+      accountData.bankstatus == 2
+        ? PaymentProto.Bank.BankStatus.ACTIVE_STATUS
+        : PaymentProto.Bank.BankStatus.INACTIVE_STATUS
+    );
     ACHUpdateStatusStart(updateData);
   };
 
-  const handleDelete = () => {
+  const handleStatus = () => {
     Alert.alert(
-      "Account Deletion",
-      "Are you sure you want to delete this account?",
+      "Update account status",
+      "Are you sure you want to update this account status?",
       [
         {
           text: "Cancel",
@@ -159,13 +217,14 @@ const ACH = ({
             color: theme.colors.primary2,
           },
         },
-        { text: "Confirm", onPress: () => handleDeleteConfirm() },
+        { text: "Confirm", onPress: () => handleConfirm() },
       ],
       {
         cancelable: true,
       }
     );
   };
+
   return (
     <>
       <SafeAreaView>
@@ -199,12 +258,8 @@ const ACH = ({
                     onRefresh={onRefresh}
                   />
                 }
-                
                 ListEmptyComponent={() => (
-                  <Empty
-                    iconName="accounts"
-                    title="You don't have any data."
-                  />
+                  <Empty iconName="accounts" title="You don't have any data." />
                 )}
                 ListFooterComponent={() => (
                   <Block
@@ -216,38 +271,38 @@ const ACH = ({
                 ListFooterComponentStyle={{
                   paddingVertical: 20,
                 }}
-                renderItem={(post) =>
-                  post.item.bankstatus == 1 && (
-                    <Pressable
-                      style={{
-                        paddingHorizontal: 16,
-                        marginVertical: 6,
+                renderItem={(post) => (
+                  <Pressable
+                    style={{
+                      paddingHorizontal: 16,
+                      marginVertical: 6,
+                    }}
+                    onLongPress={() => {
+                      setAccountData();
+                      setConfirmationSuccessfulVisible(true);
+                      setAccountData(post.item);
+                    }}
+                    delayLongPress={500}
+                  >
+                    <LinkedAccountsAndLinkedCard
+                      accountNo={post.item.accountnumber}
+                      label={post.item.bankname}
+                      status={post.item.bankstatus}
+                      iconComponent={
+                        <BlueBankIconComponent
+                          width={40}
+                          height={40}
+                          style={{ alignItems: "center" }}
+                        />
+                      }
+                      onPress={() => {
+                        navigation.navigate("ACH Load Fund", {
+                          accountData: post.item,
+                        });
                       }}
-                      onLongPress={() => {
-                        setConfirmationSuccessfulVisible(true);
-                        setAccountData(post.item);
-                      }}
-                      delayLongPress={500}
-                    >
-                      <LinkedAccountsAndLinkedCard
-                        accountNo={post.item.accountnumber}
-                        label={post.item.bankname}
-                        iconComponent={
-                          <BlueBankIconComponent
-                            width={40}
-                            height={40}
-                            style={{ alignItems: "center" }}
-                          />
-                        }
-                        onPress={() => {
-                          navigation.navigate("ACH Load Fund", {
-                            accountData: post.item,
-                          });
-                        }}
-                      />
-                    </Pressable>
-                  )
-                }
+                    />
+                  </Pressable>
+                )}
               />
             </>
           )}

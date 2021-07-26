@@ -85,7 +85,8 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.toObject = function(includeInstanc
     balance: (f = msg.getBalance()) && payment_pb.Transaction.toObject(includeInstance, f),
     dataquery: (f = msg.getDataquery()) && treeleaf_pb.DataQuery.toObject(includeInstance, f),
     scheduletransaction: (f = msg.getScheduletransaction()) && payment_pb.ScheduleTransaction.toObject(includeInstance, f),
-    transactionfilter: (f = msg.getTransactionfilter()) && payment_pb.TransactionFilter.toObject(includeInstance, f)
+    transactionfilter: (f = msg.getTransactionfilter()) && payment_pb.TransactionFilter.toObject(includeInstance, f),
+    transactionexportrequest: (f = msg.getTransactionexportrequest()) && payment_pb.TransactionExportRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -194,6 +195,11 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.deserializeBinaryFromReader = func
       var value = new payment_pb.TransactionFilter;
       reader.readMessage(value,payment_pb.TransactionFilter.deserializeBinaryFromReader);
       msg.setTransactionfilter(value);
+      break;
+    case 17:
+      var value = new payment_pb.TransactionExportRequest;
+      reader.readMessage(value,payment_pb.TransactionExportRequest.deserializeBinaryFromReader);
+      msg.setTransactionexportrequest(value);
       break;
     default:
       reader.skipField();
@@ -343,6 +349,14 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.serializeBinaryToWriter = function
       16,
       f,
       payment_pb.TransactionFilter.serializeBinaryToWriter
+    );
+  }
+  f = message.getTransactionexportrequest();
+  if (f != null) {
+    writer.writeMessage(
+      17,
+      f,
+      payment_pb.TransactionExportRequest.serializeBinaryToWriter
     );
   }
 };
@@ -738,6 +752,36 @@ proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.clearTransactionfilter =
  */
 proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.hasTransactionfilter = function() {
   return jspb.Message.getField(this, 16) != null;
+};
+
+
+/**
+ * optional brilltech.maaser.entities.TransactionExportRequest transactionExportRequest = 17;
+ * @return {?proto.brilltech.maaser.entities.TransactionExportRequest}
+ */
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.getTransactionexportrequest = function() {
+  return /** @type{?proto.brilltech.maaser.entities.TransactionExportRequest} */ (
+    jspb.Message.getWrapperField(this, payment_pb.TransactionExportRequest, 17));
+};
+
+
+/** @param {?proto.brilltech.maaser.entities.TransactionExportRequest|undefined} value */
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.setTransactionexportrequest = function(value) {
+  jspb.Message.setWrapperField(this, 17, value);
+};
+
+
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.clearTransactionexportrequest = function() {
+  this.setTransactionexportrequest(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.brilltech.maaser.rpc.PaymentBaseRequest.prototype.hasTransactionexportrequest = function() {
+  return jspb.Message.getField(this, 17) != null;
 };
 
 

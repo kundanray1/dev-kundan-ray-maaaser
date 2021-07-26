@@ -99,6 +99,8 @@ export default SubCampaignQRCode = ({ navigation, route }) => {
             flex: 1,
             justifyContent: "center",
             paddingVertical: HEIGHT / 16,
+            marginBottom:8
+            
           }}
         >
           <SvgQRCode
@@ -121,8 +123,7 @@ export default SubCampaignQRCode = ({ navigation, route }) => {
           <Text
             style={{
               color: theme.colors.primary2,
-              fontWeight: "700",
-              fontSize: 20,
+              fontSize: 16,
               textTransform: "capitalize",
               marginTop: 10,
             }}
@@ -133,7 +134,7 @@ export default SubCampaignQRCode = ({ navigation, route }) => {
             style={{
               color: theme.colors.solidGray,
               fontWeight: "700",
-              fontSize: 20,
+              fontSize: 16,
               marginTop: 6,
               textTransform: "capitalize",
             }}
@@ -144,7 +145,7 @@ export default SubCampaignQRCode = ({ navigation, route }) => {
             style={{
               color: "#333333",
               fontWeight: "500",
-              fontSize: 18,
+              fontSize: 16,
               marginTop: 18,
             }}
           >

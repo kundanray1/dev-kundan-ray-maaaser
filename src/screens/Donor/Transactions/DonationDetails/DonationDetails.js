@@ -93,7 +93,7 @@ const DonationDetails = ({
                 style={{ fontSize: 16, fontWeight: "700" }}
                 color={theme.colors.solidGray}
               >
-              Campaign
+              Campaign Title
               </Text>
               <Text
                 color={theme.colors.solidGray}
@@ -154,6 +154,55 @@ const DonationDetails = ({
             </Text>
             <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
               {data.donationDetails.transaction.remark}
+            </Text>
+          </Block>
+           <Block style={{ flex: 0, paddingVertical: 8 }}>
+            <Text
+              bold
+              style={{ fontSize: 16, fontWeight: "700" }}
+              color={theme.colors.solidGray}
+            >
+              Status
+            </Text>
+            
+            <Text
+              center
+              style={{
+                fontSize: 14,
+                backgroundColor:
+                  data.donationDetails.transaction.transactionstatus == 1
+                    ? theme.colors.schedulingBackground
+                    : data.donationDetails.transaction.transactionstatus == 2
+                    ? "#F1AEFC"
+                    : data.donationDetails.transaction.transactionstatus == 3
+                    ? "#AEE6FC"
+                    : data.donationDetails.transaction.transactionstatus == 4
+                    ? theme.colors.cancelledBackground
+                    : theme.colors.schedulingBackground,
+                paddingVertical: 4,
+                paddingHorizontal: 8,
+                width: 130,
+              }}
+              color={
+                data.donationDetails.transaction.transactionstatus == 1
+                  ? theme.colors.schedulingText
+                  : data.donationDetails.transaction.transactionstatus == 2
+                  ? "#9B59B6"
+                  : data.donationDetails.transaction.transactionstatus == 3
+                  ? "#037CC4"
+                  : data.donationDetails.transaction.transactionstatus == 4
+                  ? theme.colors.cancelledText
+                  : theme.colors.schedulingText
+              }
+            >
+              { data.donationDetails.transaction.transactionstatus == 1
+                  ? "APPROVED"
+                  : data.donationDetails.transaction.transactionstatus == 2
+                  ? "SUBMITTED"
+                  : data.donationDetails.transaction.transactionstatus == 3
+                  ? "POSTED"
+                  : data.donationDetails.transaction.transactionstatus == 4
+                  ? "CANCELLED":"NOT AVAILABLE"}
             </Text>
           </Block>
         </>

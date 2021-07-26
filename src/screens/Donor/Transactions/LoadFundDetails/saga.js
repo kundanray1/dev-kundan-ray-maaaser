@@ -1,7 +1,8 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { LOAD_FUND_DETAILS_START,GENERATE_LOAD_FUND_RECEIPT_START } from "./actions";
+import { LOAD_FUND_DETAILS_START,GENERATE_LOAD_FUND_RECEIPT_START,GENERATE_EXCEL_RECEIPT_START } from "./actions";
 import { loadFundDetailsSuccess, loadFundDetailsFail,generateLoadFundReceiptSuccess,
-generateLoadFundReceiptFail } from "./actions";
+generateLoadFundReceiptFail,generateExcelReceiptSuccess,
+generateExcelReceiptFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -39,7 +40,7 @@ export function* loadFundDetails({ payload }) {
 
 export function* generateLoadFundReceipt({ payload }) {
 	try {
-		const response = yield call(requestProto, `${APIEndpoints.TRANSACTION_RECEIPT}/${payload}`, {
+		const response = yield call(requestProto, `${APIEndpoints.TRANSACTION_PDF_RECEIPT}/${payload}`, {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
@@ -65,7 +66,36 @@ export function* generateLoadFundReceipt({ payload }) {
 }
 
 
+export function* generateExcelReceipt({ payload }) {
+	try {
+		const response = yield call(requestProto, APIEndpoints.TRANSACTION_EXCEL_RECEIPT, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(generateExcelReceiptSuccess(res));
+		} else {
+			yield put(generateExcelReceiptFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(generateExcelReceiptFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
+
 export default function* loadFundDetailsSaga() {
 	yield takeLatest(LOAD_FUND_DETAILS_START, loadFundDetails);
 	yield takeLatest(GENERATE_LOAD_FUND_RECEIPT_START, generateLoadFundReceipt);
+	yield takeLatest(GENERATE_EXCEL_RECEIPT_START, generateExcelReceipt);
 }

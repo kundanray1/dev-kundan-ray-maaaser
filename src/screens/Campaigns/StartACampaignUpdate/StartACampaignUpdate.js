@@ -21,7 +21,7 @@ import { StartACampaignValidationSchema } from "./../../../utility/ValidationSch
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RaisingMoneyType from "./RaisingMoneyType";
 import CategoryType from "./CategoryType";
-import Country from "./Country";
+import CountryCode from "./CountryCode";
 import StartACampaignOneIconComponent from "./../../../assets/icons/startACampaignOneIconComponent";
 import BeneficiersList from "./BeneficiersList";
 import CampaignProto from "./../../../protos/campaign_pb";
@@ -48,7 +48,7 @@ const StartACampaignUpdate = ({
   const [raisingMoneyType, setRaisingMoneyType] = useState(route.params.campaignDetails.campaign.beneficiarytype==1?"Myself":"Myself", "Someone else");
   const [beneficiaryType, setBeneficiaryType] = useState(route.params.campaignDetails.campaign.beneficiarytype);
   const [categoryType, setCategoryType] = useState(route.params.campaignDetails.campaign.category);
-  const [country, setCountry] = useState(route.params.campaignDetails.campaign.countrycode);
+  const [countryName, setCountryName] = useState(route.params.campaignDetails.campaign.countrycode);
   const [countryCode, setCountryCode] = useState(route.params.campaignDetails.campaign.countrycode);
   const [allowSubCampaigns, setAllowSubCampaigns] = useState(route.params.campaignDetails.campaign.allowsubcampaign);
   const [targetAmount, setTargetAmount] = useState((route.params.campaignDetails.campaign.targetamount/100).toString());
@@ -173,7 +173,12 @@ const StartACampaignUpdate = ({
               </Block>
               </>
               :route.params.country=="country" ?
-              <Country country={country} setCountry={setCountry} setCountryCode={setCountryCode} />
+              <CountryCode
+                countryName={countryName}
+                setCountryName={setCountryName}
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+              />
                :route.params.title=="title" ?
                <>
               <Input
