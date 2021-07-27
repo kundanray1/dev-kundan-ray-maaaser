@@ -170,7 +170,6 @@ export default ReceiversList = ({ receiverId, setReceiverId,setReceiverName, dat
 };
 
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

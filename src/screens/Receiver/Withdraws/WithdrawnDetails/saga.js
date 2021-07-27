@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { WITHDRAWN_DETAILS_START } from "./actions";
-import { withdrawnDetailsSuccess, withdrawnDetailsFail } from "./actions";
+import { WITHDRAWN_DETAILS_START,GENERATE_WITHDRAWN_EXCEL_RECEIPT_START } from "./actions";
+import { withdrawnDetailsSuccess, withdrawnDetailsFail,generateWithdrawnExcelReceiptSuccess,
+generateWithdrawnExcelReceiptFail } from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -16,7 +17,6 @@ export function* withdrawnDetails({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("withdrawnDetails",res);
 		if (res.success) {
 			yield put(withdrawnDetailsSuccess(res));
 		} else {
@@ -35,6 +35,35 @@ export function* withdrawnDetails({ payload }) {
 	}
 }
 
+
+export function* generateWithdrawnExcelReceipt({ payload }) {
+	try {
+		const response = yield call(requestProto, APIEndpoints.TRANSACTION_EXCEL_RECEIPT, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(generateWithdrawnExcelReceiptSuccess(res));
+		} else {
+			yield put(generateWithdrawnExcelReceiptFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(generateWithdrawnExcelReceiptFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
 export default function* withdrawnDetailsSaga() {
 	yield takeLatest(WITHDRAWN_DETAILS_START, withdrawnDetails);
+	yield takeLatest(GENERATE_WITHDRAWN_EXCEL_RECEIPT_START, generateWithdrawnExcelReceipt);
 }

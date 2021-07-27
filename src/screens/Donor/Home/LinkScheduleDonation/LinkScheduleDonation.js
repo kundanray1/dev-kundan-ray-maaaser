@@ -358,9 +358,10 @@ const LinkScheduleDonation = ({
                       bold
                       style={{ fontSize: 16, color: theme.colors.solidGray }}
                     >
-                      {scheduleType == "One Time"
+                      {(scheduleType == "One Time" && startDate!="2021-07-03T15:21:15.513Z")
                         ? moment(startDate).format("DD/MM/YYYY")
-                        : endDate == "2021-07-03T15:21:15.513Z"
+                        : ""}
+                       {endDate == "2021-07-03T15:21:15.513Z"
                         ? ""
                         : moment(endDate).format("DD/MM/YYYY")}
                     </Text>

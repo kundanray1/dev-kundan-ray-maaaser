@@ -49,12 +49,6 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId,startACa
               />
             }
             ItemSeparatorComponent={() => <Block style={{ marginTop: 10 }} />}
-            ListEmptyComponent={() => (
-              <Empty
-                iconName="campaigns"
-                title="You haven’t started any campaigns yet."
-              />
-            )}
             ListFooterComponent={() => (
               <Block style={{ marginVertical: 40, flex: 0 }} />
             )}
@@ -69,6 +63,7 @@ const Campaigns = ({ navigation, data, loginData, campaigns, campaignId,startACa
                     navigation={navigation}
                     mycampaign={"mycampaign"}
                     editCampaignId={post.item.campaignid}
+                     countryCode={post.item.countrycode}
                     onPress={() => {
                       campaignId(post.item.campaignid)
                       navigation.navigate("Campaign Details");

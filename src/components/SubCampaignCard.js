@@ -28,11 +28,11 @@ export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,coll
 			<Block row>
 				<Block style={{ flex: 1}}>
 					{profilePic == "" ? (
-						<UserIconComponent height={45} width={45} />
+						<UserIconComponent height={"65%"} width={"70%"} />
 					) : (
 						<Image
 							source={{ uri: profilePic }}
-							style={{ height: 45, width: 45, borderRadius: 30 }}
+							style={{ height: "65%", width: "70%", borderRadius: 30 }}
 						/>
 					)}
 				</Block>

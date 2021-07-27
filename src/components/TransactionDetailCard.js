@@ -93,19 +93,19 @@ export default TransactionDetailCard = ({
 				}}
 			>
 				{transactionType == 1 ? (
-					<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
+					<Text style={{ fontSize: 14, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 						Fund loaded by {fullname}
 						asdlkajsdklasjdlkasjdlk
 					</Text>
 				) : (transactionType == 2 || transactionType == 4 || transactionType == 5) ? (
 					<>
-						<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
+						<Text style={{ fontSize: 14, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 							Donated to {fullname}
 						</Text>
 
 						{campaignTitle != undefined && (
 							<Text
-						style={{ fontSize: 16, fontWeight: "700" , width: WIDTH-200}}
+						style={{ fontSize: 14, fontWeight: "700" , width: WIDTH-200}}
 						color={theme.colors.solidGray}
 						 numberOfLines={1}
 					>
@@ -114,17 +114,17 @@ export default TransactionDetailCard = ({
 						)}
 					</>
 				) : transactionType == 3 ? (
-					<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
+					<Text style={{ fontSize: 14, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 						Fund withdrawn by {fullname}
 					</Text>
 				) : (
-					<Text style={{ fontSize: 16, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
+					<Text style={{ fontSize: 14, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
 						Fund donated to {fullname}
 					</Text>
 				)}
 				<Block row center style={{ flex: 0, paddingTop: 4 }}>
 					<Text
-						style={{ fontSize: 14}}
+						style={{ fontSize: 13}}
 						color={theme.colors.solidGray}
 					>
 						{moment(date).format("DD MMM, YYYY")} at{" "}
@@ -152,8 +152,7 @@ export default TransactionDetailCard = ({
 								bold
 								style={{
 									paddingVertical: 4,
-									fontSize: 18,
-									fontSize: 16,
+									fontSize: 14,
 									fontWeight: "700",
 								}}
 								color={textColor}

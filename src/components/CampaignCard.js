@@ -25,6 +25,7 @@ import { subCampaignsEditStart } from "./../screens/Campaigns/SubCampaigns/actio
 import CampaignProto from "./../protos/campaign_pb";
 import moment from "moment";
 import TimeRemainingIconComponent from "./../assets/icons/TimeRemainingIconComponent";
+import PinLocationIconComponent from "./../assets/icons/PinLocationIconComponent";
 import { campaignId } from "./../screens/Campaigns/actions";
 import { subCampaignId } from "./../screens/Campaigns/CampaignSubCampaign/actions";
 
@@ -41,6 +42,7 @@ export default CampaignCard = ({
 	collectedAmount,
 	campaignstatus,
 	date,
+	countryCode,
 	...props
 }) => {
 	const dispatch = useDispatch();
@@ -87,7 +89,6 @@ export default CampaignCard = ({
 			dispatch(campaignsEditStart(updateData));
 		}
 	};
-
 
 	const handleEdit = () => {
 		if (mycampaign == "subcampaign") {
@@ -148,50 +149,48 @@ export default CampaignCard = ({
 									paddingBottom: 16,
 								}}
 							>
-							{/*1 open---Close/Disable
+								{/*1 open---Close/Disable
 							2 close---Don't show options
 							3 Disable---Close/Open*/}
-								{
-									campaignstatus==3 ?
-								
-								<TouchableOpacity
-									activeOpacity={0.8}
-									onPress={() => {
-										OpenWarning();
-										setEditModalVisible(false);
-									}}
-									style={{ paddingVertical: 6 }}
-								>
-									<Text
-										style={{
-											fontWeight: "700",
-											fontSize: 16,
-											paddingVertical: 4,
+								{campaignstatus == 3 ? (
+									<TouchableOpacity
+										activeOpacity={0.8}
+										onPress={() => {
+											OpenWarning();
+											setEditModalVisible(false);
 										}}
+										style={{ paddingVertical: 6 }}
 									>
-										Open
-									</Text>
-								</TouchableOpacity>
-								:
-								<TouchableOpacity
-									activeOpacity={0.8}
-									onPress={() => {
-										DisableWarning();
-										setEditModalVisible(false);
-									}}
-									style={{ paddingVertical: 6 }}
-								>
-									<Text
-										style={{
-											fontWeight: "700",
-											fontSize: 16,
-											paddingVertical: 4,
+										<Text
+											style={{
+												fontWeight: "700",
+												fontSize: 16,
+												paddingVertical: 4,
+											}}
+										>
+											Open
+										</Text>
+									</TouchableOpacity>
+								) : (
+									<TouchableOpacity
+										activeOpacity={0.8}
+										onPress={() => {
+											DisableWarning();
+											setEditModalVisible(false);
 										}}
+										style={{ paddingVertical: 6 }}
 									>
-										Disable
-									</Text>
-								</TouchableOpacity>
-							}
+										<Text
+											style={{
+												fontWeight: "700",
+												fontSize: 16,
+												paddingVertical: 4,
+											}}
+										>
+											Disable
+										</Text>
+									</TouchableOpacity>
+								)}
 								<TouchableOpacity
 									activeOpacity={0.8}
 									onPress={() => {
@@ -209,7 +208,6 @@ export default CampaignCard = ({
 										Close
 									</Text>
 								</TouchableOpacity>
-							
 							</Block>
 
 							<Block
@@ -263,7 +261,6 @@ export default CampaignCard = ({
 			}
 		);
 	};
-
 
 	const CloseWarning = () => {
 		Alert.alert(
@@ -372,12 +369,12 @@ export default CampaignCard = ({
 				>
 					<Text
 						color="#3B414B"
-
 						style={{
-							fontSize: 17,
+							fontSize: 16,
 							fontWeight: "700",
 							textTransform: "capitalize",
-						   width:WIDTH- 80}} 
+							width: WIDTH - 80,
+						}}
 						numberOfLines={1}
 					>
 						{label}
@@ -439,13 +436,24 @@ export default CampaignCard = ({
 							</Block>
 						</>
 					)}
-
+					<Block row style={{paddingVertical:8}}>
+						<PinLocationIconComponent height={"100%"} width={"5%"} />
+						<Text
+							style={{
+								fontSize: 14,
+								fontWeight: "700",
+								marginLeft: 6,
+							}}
+							color={theme.colors.solidGray}
+						>
+							{countryCode}
+						</Text>
+					</Block>
 					<Block
 						row
 						style={{
 							flex: 0,
 							overflow: "hidden",
-							paddingTop: 12,
 						}}
 					>
 						<Block
@@ -455,10 +463,10 @@ export default CampaignCard = ({
 							}}
 						>
 							<TimeRemainingIconComponent
-								height={HEIGHT/22}
-								width={WIDTH/12}
+								height={HEIGHT / 22}
+								width={WIDTH / 12}
 							/>
-							<Block column style={{flex:0}}>
+							<Block column style={{ flex: 0 }}>
 								<Text
 									color="#5F6062"
 									style={{

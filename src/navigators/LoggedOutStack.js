@@ -13,7 +13,7 @@ import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
 const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {
   return (
-      <AuthStack.Navigator initialRouteName="Welcome">
+      <AuthStack.Navigator initialRouteName="Login">
 
          <AuthStack.Screen
           name="Welcome"

@@ -38,7 +38,6 @@ const Login = ({ navigation, data, login }) => {
           Login to your account
         </Text>
       </Block>
-
       <Formik
         initialValues={{
           identifier: "jp@gmail.com",

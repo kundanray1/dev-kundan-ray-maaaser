@@ -96,7 +96,8 @@ const DonorReceiver = ({
     data.donorReceiverDonateConfirmation,
     ACHLoadFundConfirmationData.ACHLoadFundConfirmation,
     cardLoadFundConfirmationData.cardLoadFundConfirmation,
-    linkScheduleDonationData.linkScheduleDonation
+    linkScheduleDonationData.linkScheduleDonation,
+    manualDonateConfirmationData.manualDonateConfirmation
   ]);
 
   useEffect(() => {
@@ -404,11 +405,11 @@ const DonorReceiver = ({
                       flex: 1,
                     }}>
                   {profileData.profile.profilepic == "" ? (
-                    <UserIconComponent height={40} width={40} />
+                    <UserIconComponent height={"65%"} width={"75%"} />
                   ) : (
                     <Image
                       source={{ uri: profileData.profile.profilepic }}
-                      style={{ height: 40, width: 40, borderRadius: 30 }}
+                      style={{ height: "65%", width: "75%", borderRadius: 30 }}
                     />
                   )}
                 </Block>
@@ -481,6 +482,7 @@ const DonorReceiver = ({
             </ImageBackground>
           </Block>
 
+          {allCampaignsData.allCampaigns.campaignsList.length != 0 &&
           <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
               <Text style={{ fontSize: 16, fontWeight: "700",textTransform:"capitalize" }}>
@@ -535,6 +537,7 @@ const DonorReceiver = ({
                       label={post.item.title}
                       collectedAmount={post.item.collectedamount}
                       targetAmount={post.item.targetamount}
+                      countryCode={post.item.countrycode}
                       onPress={() => {
                         campaignId(post.item.campaignid);
                         navigation.navigate("Campaign Details");
@@ -545,10 +548,12 @@ const DonorReceiver = ({
               />
             </Block>
           </Block>
+        }
 
+          {(upcomingDonationsData.upcomingDonations.length != 0) && (
           <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+              <Text style={{ fontSize: 16, fontWeight: "700" }}>
                 Upcoming Donations
               </Text>
               <Text
@@ -559,24 +564,15 @@ const DonorReceiver = ({
                 View All
               </Text>
             </Block>
-
-            {upcomingDonationsData.upcomingDonations == undefined ||
-            upcomingDonationsData.upcomingDonations.length == 0 ? (
-              <Block style={{ flex: 1 }}>
-                <Empty
-                  iconName="transactions"
-                  dashboard={0}
-                  title="You don't have any data."
-                />
-              </Block>
-            ) : (
-              <Block style={{ flex: 1,marginTop:8 }}>{renderUpcomingDonations()}</Block>
-            )}
+            <Block style={{ flex: 1,marginTop:8 }}>{renderUpcomingDonations()}</Block>
           </Block>
+           )}
+
+            {(donationsMadeData.donationsMade.length != 0) && (
 
           <Block style={{ paddingHorizontal: 20,marginTop:10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>
+              <Text style={{ fontSize: 16, fontWeight: "700" }}>
                 Donations Made
               </Text>
               <Text
@@ -587,23 +583,14 @@ const DonorReceiver = ({
                 View All
               </Text>
             </Block>
-
-            {donationsMadeData.donationsMade == undefined ||
-            donationsMadeData.donationsMade.length == 0 ? (
-              <Block style={{ flex: 1 }}>
-                <Empty
-                  iconName="transactions"
-                  dashboard={0}
-                  title="You don't have any data."
-                />
-              </Block>
-            ) : (
               <Block style={{ flex: 1,marginTop:8 }}>{renderDonationsMade()}</Block>
-            )}
           </Block>
+            )}
+
+             {(receiversData.receivers.length != 0) && (
           <Block style={{ paddingHorizontal: 20, paddingBottom: 80,marginTop:10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-              <Text style={{ fontSize: 18, fontWeight: "700" }}>Receivers</Text>
+              <Text style={{ fontSize: 16, fontWeight: "700" }}>Receivers</Text>
               <Text
                 onPress={() => navigation.navigate("Receivers")}
                 style={{ fontSize: 15, fontWeight: "500" }}
@@ -612,19 +599,9 @@ const DonorReceiver = ({
                 View All
               </Text>
             </Block>
-            {receiversData.receivers == undefined ||
-            receiversData.receivers.length == 0 ? (
-              <Block style={{ flex: 1 }}>
-                <Empty
-                  iconName="transactions"
-                  dashboard={0}
-                  title="You don't have any data."
-                />
-              </Block>
-            ) : (
               <Block style={{ flex: 1,marginTop:8 }}>{renderReceivers()}</Block>
+             </Block>
             )}
-          </Block>
         </ScrollView>
       )}
       {DonateModal()}

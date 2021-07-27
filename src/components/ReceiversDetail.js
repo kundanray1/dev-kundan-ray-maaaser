@@ -31,13 +31,13 @@ export default ReceiversDetail = ({
 				}}
 			>
 				{profilePic == "" ? (
-					<UserIconComponent height={"100%"} width={"80%"} />
+					<UserIconComponent height={"100%"} width={"70%"} />
 				) : (
 					<Image
 						source={{ uri: profilePic }}
 						style={{
 							height: "100%",
-							width: "80%",
+							width: "70%",
 							borderRadius: 30,
 						}}
 					/>
@@ -50,7 +50,7 @@ export default ReceiversDetail = ({
 			>
 				<Text
 					style={{
-						fontSize: 16,
+						fontSize: 14,
 						fontWeight: "700",
 						textTransform: "capitalize",
 						width: WIDTH - 200,
@@ -60,7 +60,7 @@ export default ReceiversDetail = ({
 					{name}
 				</Text>
 				<Text
-					style={{ fontSize: 15, textTransform: "capitalize" }}
+					style={{ fontSize: 13, textTransform: "capitalize" }}
 					color={theme.colors.solidGray}
 				>
 					{clientType === 1 ? "Individual" : "Organization"}

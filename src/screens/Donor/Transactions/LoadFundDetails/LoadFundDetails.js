@@ -43,7 +43,6 @@ const LoadFundDetails = ({
   useEffect(() => {
     loadFundDetailsStart(details.transactionid);
     generateLoadFundReceiptStart(details.transactionid);
-    generateExcelReceiptStart();
   }, []);
 
   React.useLayoutEffect(() => {
@@ -70,11 +69,7 @@ const LoadFundDetails = ({
     setConfirmationSuccessfulVisible(false);
     Linking.openURL(data.generateLoadFundReceipt.msg);
   };
-  const downloadEXCEL = () => {
-    setConfirmationSuccessfulVisible(false);
-    Linking.openURL(data.generateExcelReceipt.msg);
-  };
-
+  
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
@@ -133,7 +128,7 @@ const LoadFundDetails = ({
                     PDF
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+               {/* <TouchableOpacity
                   activeOpacity={0.8}
                   style={{ flexDirection: "column" }}
                   onPress={() => downloadEXCEL()}
@@ -142,7 +137,7 @@ const LoadFundDetails = ({
                   <Text center style={{ fontWeight: "400", fontSize: 14 }}>
                     Excel
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
               </Block>
               <Block
                 center
@@ -173,7 +168,7 @@ const LoadFundDetails = ({
   );
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
-      {data.isLoading ? (
+      {data.isLoading || data.generateLoadFundReceiptLoading? (
         <ActivityIndicator
           size="large"
           color={theme.colors.primary2}

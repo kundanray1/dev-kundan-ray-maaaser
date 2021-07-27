@@ -18,15 +18,15 @@ import {
   Block,
   Text,
 } from "../../../components/Index.js";
-import SvgUri from "expo-svg-uri";
+import getCountryISO3 from "country-iso-2-to-3";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
-
 export default CountryCode = ({
   countryName,countryCode,setCountryCode,setCountryName
 }) => {
   const [search, setSearch] = useState();
+  const [country2Code, setCountry2Code] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState(country);
   const [masterDataSource, setMasterDataSource] = useState(country);
   const [countryCodeModalVisible, setCountryCodeModalVisible] = useState(false);
@@ -48,9 +48,10 @@ export default CountryCode = ({
 
   const onCountryCodeItem = useCallback(
     (code,name) => {
-      setCountryCode(code);
+      setCountryCode(getCountryISO3(code));
       setCountryCodeModalVisible(false);
       setCountryName(name)
+      setCountry2Code(code)
     },
     [setCountryCode]
   );
@@ -61,13 +62,13 @@ export default CountryCode = ({
       onPress={() => onCountryCodeItem(code,name)}
       style={{ marginVertical: 2 }}
     >
-      <Block row>
+      <Block row style={{paddingVertical:5}}>
         <Image
             source={{ uri: `https://www.countryflags.io/${code}/flat/64.png` }}
             style={{height:20,width:35}}
           />
-        <Text style={{ paddingVertical: 4, fontSize: 15,justifyContent:"center",fontWeight:"700",marginLeft:14 }}>
-          {code}
+        <Text style={{ fontSize: 15,justifyContent:"center",fontWeight:"700",marginLeft:14 }}>
+          {name}
         </Text>
       </Block>
     </TouchableOpacity>
@@ -76,7 +77,7 @@ export default CountryCode = ({
  
   return (    
     <SafeAreaView style={{ paddingVertical: 6 }}>
-      <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+       <Text bold style={{ fontSize: 16 }}>
         Country
       </Text>
       <TouchableOpacity
@@ -85,14 +86,14 @@ export default CountryCode = ({
       >
         <Block row>
          <Image
-            source={{ uri: `https://www.countryflags.io/${countryCode}/flat/64.png` }}
+            source={{ uri: `https://www.countryflags.io/${country2Code}/flat/64.png` }}
             style={{height:20,width:35}}
           />
           <Text bold style={{ fontSize: 16, color: theme.colors.solidGray,marginLeft:12 }}>
             {countryName}
           </Text>
         </Block>
-        <Block style={{ alignItems: "flex-end" }} >
+        <Block style={{ alignItems: "flex-end",flex:0.2 }} >
           <AntDesign
             name="caretdown"
             size={16}
@@ -120,7 +121,7 @@ export default CountryCode = ({
           <TouchableWithoutFeedback>
 
           <View
-            style={[styles.modal, { width: WIDTH - 40, height: 235,marginTop:"108%" }]}
+            style={[styles.modal, { width: WIDTH - 40, height: 235 }]}
           >
             <Block style={styles.searchContainer}>
               <Block style={styles.vwSearch}>
@@ -175,8 +176,8 @@ export default CountryCode = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  alignItems:"center"
-
+    alignItems:"center",
+    justifyContent:"flex-end"
   },
   modal: {
     borderRadius: 4,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 6,
     justifyContent: "space-between",
-    borderColor:"#E7E7E7",
+    borderColor: "#E7E7E7",
     alignItems: "center",
     borderBottomWidth: 1,
     paddingVertical:6,

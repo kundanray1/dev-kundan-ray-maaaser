@@ -111,7 +111,7 @@ export default ScheduleDonationCard = ({
 				</Block>
 				<Block center row style={{ flex: 0,paddingVertical:4 }}>
 					<Text
-						style={{ fontSize: 13 }}
+						style={{ fontSize: 14 }}
 						color={theme.colors.solidGray}
 					>
 						{moment(startDate).format("DD MMM, YYYY")}

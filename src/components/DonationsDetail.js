@@ -34,11 +34,11 @@ export default DonationsDetail = ({
         }}
       >
         {profilePic == "" ? (
-          <UserIconComponent height={"100%"} width={"80%"} />
+          <UserIconComponent height={"100%"} width={"70%"} />
         ) : (
           <Image
             source={{ uri: profilePic }}
-            style={{ height: "100%", width: "80%", borderRadius: 30 }}
+            style={{ height: "100%", width: "70%", borderRadius: 30 }}
           />
         )}
       </Block>
@@ -49,7 +49,7 @@ export default DonationsDetail = ({
       >
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: "700",
             textTransform: "capitalize",
             width: WIDTH-200,
@@ -58,7 +58,7 @@ export default DonationsDetail = ({
         >
           {name}
         </Text>
-        <Text style={{ fontSize: 15 }} color={theme.colors.solidGray}>
+        <Text style={{ fontSize: 13 }} color={theme.colors.solidGray}>
           {moment(date).format("DD MMM, YYYY")}
         </Text>
       </Block>
@@ -81,10 +81,9 @@ export default DonationsDetail = ({
               bold
               style={{
                 paddingVertical: 4,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: "700",
               }}
-              color={textColor}
             >
               {formattedValue}
             </Text>

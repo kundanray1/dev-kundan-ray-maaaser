@@ -27,11 +27,11 @@ export default DonorsDetail = ({ profilePic, name, clientType, ...props }) => {
 				}}
 			>
 				{profilePic == "" ? (
-					<UserIconComponent height={40} width={40} />
+					<UserIconComponent height={"100%"} width={"70%"} />
 				) : (
 					<Image
 						source={{ uri: profilePic }}
-						style={{ height: 40, width: 40, borderRadius: 30 }}
+						style={{ height:"100%", width:"70%", borderRadius: 30 }}
 					/>
 				)}
 			</Block>
@@ -42,7 +42,7 @@ export default DonorsDetail = ({ profilePic, name, clientType, ...props }) => {
 			>
 				<Text
 					style={{
-						fontSize: 16,
+						fontSize: 14,
 						fontWeight: "700",
 						textTransform: "capitalize",
 					 width: WIDTH-200,
@@ -50,7 +50,7 @@ export default DonorsDetail = ({ profilePic, name, clientType, ...props }) => {
 					{name}
 				</Text>
 				<Text
-					style={{ fontSize: 15, textTransform: "capitalize" }}
+					style={{ fontSize: 13, textTransform: "capitalize" }}
 					color={theme.colors.solidGray}
 				>
 					{clientType === 1 ? "Individual" : "Organization"}

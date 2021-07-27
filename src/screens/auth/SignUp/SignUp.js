@@ -91,7 +91,7 @@ setClientTypeError
     <KeyboardAwareScrollView  resetScrollToCoords={{ x: 0, y: 0 }} contentContainerStyle={{flex:1,justifyContent:"center",alignItems:"center"}}>
         <Image
         source={require("../../../assets/icons/logo.png")}
-        style={{ height: 100, width: 100 }}
+        style={{ height: 90, width: 90 }}
       />
         <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
           Create your maaser account

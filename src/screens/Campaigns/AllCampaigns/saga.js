@@ -45,14 +45,13 @@ export function* allCampaignsSearch({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("allCampaignsSearch",res);
 		if (res.success) {
 			yield put(allCampaignsSearchSuccess(res));
 		} else {
 			yield put(allCampaignsSearchFail(res));
 			showMessage({
-				message: "Error from server or check your credentials!",
-				type: "success",
+				message: "Invalid date!",
+				type: "danger",
 			});
 		}
 	} catch (e) {

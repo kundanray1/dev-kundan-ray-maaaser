@@ -91,7 +91,7 @@ export default CampaignCommentCard = ({
 				>
 					<Text
 						style={{
-							fontSize: 16,
+							fontSize: 14,
 							marginLeft: 44,
 							color: "#5F6062",
 						}}

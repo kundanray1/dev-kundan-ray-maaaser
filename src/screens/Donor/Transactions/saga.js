@@ -1,6 +1,10 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { TRANSACTIONS_START,SEARCH_START } from "./actions";
-import { transactionsSuccess,transactionsFail,searchSuccess, searchFail, } from "./actions";
+import { TRANSACTIONS_START,SEARCH_START,GENERATE_TRANSACTIONS_PDF_RECEIPT_START,
+GENERATE_TRANSACTIONS_EXCEL_RECEIPT_START } from "./actions";
+import { transactionsSuccess,transactionsFail,searchSuccess, searchFail,generateTransactionsPDFReceiptSuccess,
+generateTransactionsPDFReceiptFail,
+generateTransactionsExcelReceiptSuccess,
+generateTransactionsExcelReceiptFail, } from "./actions";
 import base from "./../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { requestProto } from "../../../utility/request";
@@ -63,8 +67,68 @@ export function* search({ payload }) {
 	}
 }
 
+export function* generateTransactionsPDFReceipt({ payload }) {
+	try {
+		const {fromDate,toDate,medium,type,search}=payload
+		const response = yield call(requestProto,`${APIEndpoints.TRANSACTIONS_PDF_RECEIPT}&from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}&searchTerm=${search}`, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		console.log("generateTransactionsPDFReceipt",res);
+		if (res.success) {
+			yield put(generateTransactionsPDFReceiptSuccess(res));
+		} else {
+			yield put(generateTransactionsPDFReceiptFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(generateTransactionsPDFReceiptFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
+
+export function* generateTransactionsExcelReceipt({ payload }) {
+	try {
+		const {fromDate,toDate,medium,type,search}=payload
+		const response = yield call(requestProto,`${APIEndpoints.TRANSACTIONS_EXCEL_RECEIPT}&from=${fromDate}&to=${toDate}&medium=${medium}&type=${type}&searchTerm=${search}`, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = base.PaymentBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(generateTransactionsExcelReceiptSuccess(res));
+		} else {
+			yield put(generateTransactionsExcelReceiptFail(res));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(generateTransactionsExcelReceiptFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
+
 export default function* transactionsSaga() {
 	yield takeLatest(TRANSACTIONS_START, transactions);
 	yield takeLatest(SEARCH_START, search);
-
+	yield takeLatest(GENERATE_TRANSACTIONS_PDF_RECEIPT_START, generateTransactionsPDFReceipt);
+	yield takeLatest(GENERATE_TRANSACTIONS_EXCEL_RECEIPT_START, generateTransactionsExcelReceipt);
 }

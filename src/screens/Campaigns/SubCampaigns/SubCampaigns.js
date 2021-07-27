@@ -57,12 +57,6 @@ const SubCampaigns = ({
               />
             }
             ItemSeparatorComponent={() => <Block style={{ marginTop: 10 }} />}
-            ListEmptyComponent={() => (
-              <Empty
-                iconName="campaigns"
-                title="You haven’t started any sub campaigns yet."
-              />
-            )}
             ListFooterComponent={() => (
               <Block style={{ marginVertical: 40, flex: 0 }} />
             )}
@@ -84,6 +78,7 @@ const SubCampaigns = ({
                     date={post.item.createdat}
                     navigation={navigation}
                     mycampaign={"subcampaign"}
+                     countryCode={post.item.campaign.countrycode}
                     onPress={() => {
                       subCampaignId(post.item.subcampaignid)
                       navigation.navigate("Sub Campaign Details");

@@ -288,17 +288,11 @@ function searchFilterFunction(text) {
                 onRefresh={onRefresh}
               />
             }
-            ListEmptyComponent={() => (
-              <Empty
-                iconName="campaigns"
-               title="You don't have any data."
-              />
-            )}
             ListFooterComponent={() => (
               <Block style={{ marginVertical: 40, flex: 0 }} />
             )}
             renderItem={(post) => (
-              post.item.campaignstarter.account.accountid !==loginData.user.account.accountid &&
+              (post.item.campaignstarter.account.accountid !==loginData.user.account.accountid && post.item.campaignstatus == 1) &&
              <Block style={{marginTop:12}}>
               <CampaignCard
                 image={post.item.thumbnailurl}
@@ -308,6 +302,7 @@ function searchFilterFunction(text) {
                 date={post.item.createdat}
                 navigation={navigation}
                 campaignstatus={post.item.campaignstatus}
+                countryCode={post.item.countrycode}
                 onPress={() => {
                       campaignId(post.item.campaignid)
                       navigation.navigate("Campaign Details");

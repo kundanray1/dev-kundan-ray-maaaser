@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import WithdrawnDetails from "./WithdrawnDetails";
-import { withdrawnDetailsStart,withdrawnDetailsClear } from "./actions";
+import { withdrawnDetailsStart,withdrawnDetailsClear,generateWithdrawnExcelReceiptStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.withdrawnDetails,
@@ -14,6 +14,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		withdrawnDetailsStart: (values) => dispatch(withdrawnDetailsStart(values)),
 		withdrawnDetailsClear: () => dispatch(withdrawnDetailsClear()),
+		generateWithdrawnExcelReceipt: () => dispatch(generateWithdrawnExcelReceiptStart()),
 	};
 };
 

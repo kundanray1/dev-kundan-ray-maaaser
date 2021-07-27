@@ -30,7 +30,7 @@ export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType }) => 
       style={{ marginVertical: 2 }}
       onPress={() => onPressItem(option)}
     >
-      <Text bold style={{ paddingVertical: 4, fontSize: 18}}>
+      <Text bold style={{ paddingVertical: 4, fontSize: 16}}>
         {option}
       </Text>
     </TouchableOpacity>

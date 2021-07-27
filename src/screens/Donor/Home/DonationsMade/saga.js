@@ -61,10 +61,10 @@ export function* donationsMadeSearch({ payload }) {
 				yield put(donationsMadeSuccess(res.transactionsList));
 			}
 		} else {
-			yield put(donationsMadeSearchFail(res));
+			yield put(donationsMadeFail(res));
 			showMessage({
 				message:
-					"Error from server or check your credentials!",
+					"Invalid date!",
 				type: "danger",
 			});
 		}

@@ -180,7 +180,6 @@ Disable---Open/Close
 
 
 Sign Up screen check everything
-Check campaign/subcampaign all fonts /limit characters
 Use keyboard scroll view in all form to keyboard dismiss when touched outside
 Add new Card error message  when procedd without any data at first
 
@@ -188,3 +187,20 @@ Add new Card error message  when procedd without any data at first
 
 UI
 schedule donations status button
+
+
+
+UI
+change card upate status to inactive
+implement excel documents from API in transactions
+
+Change the condition of rendering dependent on others after successful donation from receivers list, and check others also
+
+
+
+
+Sub Camppaign qr code and campaign qr code campare UI
+
+
+
+countryCode-signup/all campaign search/startacampaign/startacampaignupdate

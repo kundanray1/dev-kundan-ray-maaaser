@@ -16,8 +16,8 @@ GENERATE_EXCEL_RECEIPT_CLEAR
 const initialState = {
   isLoading: true,
   loadFundDetails: null,
+  generateLoadFundReceiptLoading:null,
   generateLoadFundReceipt: null,
-  generateExcelReceipt:null,
   error: null,
 };
 
@@ -49,18 +49,18 @@ export const loadFundDetailsReducer = (
     case GENERATE_LOAD_FUND_RECEIPT_START:
       return {
         ...state,
-        isLoading: true,
+        generateLoadFundReceiptLoading: true,
       };
     case GENERATE_LOAD_FUND_RECEIPT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        generateLoadFundReceiptLoading: false,
         generateLoadFundReceipt: payload,
       };
     case GENERATE_LOAD_FUND_RECEIPT_FAIL:
       return {
         ...state,
-        isLoading: false,
+        generateLoadFundReceiptLoading: false,
         error: payload,
       };
     case GENERATE_LOAD_FUND_RECEIPT_CLEAR:
