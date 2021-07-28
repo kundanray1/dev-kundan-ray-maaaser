@@ -50,7 +50,7 @@ export function* allCampaignsSearch({ payload }) {
 		} else {
 			yield put(allCampaignsSearchFail(res));
 			showMessage({
-				message: "Invalid date!",
+				message: "Error from server or check your credentials!",
 				type: "danger",
 			});
 		}

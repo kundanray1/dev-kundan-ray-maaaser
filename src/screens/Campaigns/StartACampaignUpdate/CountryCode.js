@@ -19,6 +19,7 @@ import {
   Text,
 } from "../../../components/Index.js";
 import getCountryISO3 from "country-iso-2-to-3";
+import getCountryISO2 from "country-iso-3-to-2";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -26,10 +27,12 @@ export default CountryCode = ({
   countryName,countryCode,setCountryCode,setCountryName
 }) => {
   const [search, setSearch] = useState();
-  const [country2Code, setCountry2Code] = useState("");
+  const [country2Code, setCountry2Code] = useState(getCountryISO2(countryCode));
   const [filteredDataSource, setFilteredDataSource] = useState(country);
   const [masterDataSource, setMasterDataSource] = useState(country);
   const [countryCodeModalVisible, setCountryCodeModalVisible] = useState(false);
+
+  const countryData = country.find(item => item.code == getCountryISO2(countryCode));
 
   function searchFilterFunction(text) {
     if (text) {
@@ -90,7 +93,7 @@ export default CountryCode = ({
             style={{height:20,width:35}}
           />
           <Text bold style={{ fontSize: 16, color: theme.colors.solidGray,marginLeft:12 }}>
-            {countryName}
+            {countryData.name}
           </Text>
         </Block>
         <Block style={{ alignItems: "flex-end",flex:0.2 }} >
@@ -121,7 +124,7 @@ export default CountryCode = ({
           <TouchableWithoutFeedback>
 
           <View
-            style={[styles.modal, { width: WIDTH - 40, height: 235,marginTop:"40%" }]}
+            style={[styles.modal, { width: WIDTH - 30, height: 235,marginTop:"40%" }]}
           >
             <Block style={styles.searchContainer}>
               <Block style={styles.vwSearch}>

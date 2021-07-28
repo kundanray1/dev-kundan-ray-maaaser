@@ -148,8 +148,10 @@ const ScheduleDonationReceiverDetail = ({
           End Date
         </Text>
         <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-          {moment(scheduleDonationReceiverDetail.scheduledetail.enddate).format(
-            "Do MMMM YYYY"
+        {scheduleTypeString = "ONE TIME"?moment(scheduleDonationReceiverDetail.scheduledetail.startDate).format(
+            "Do MMM, YYYY"
+          ):moment(scheduleDonationReceiverDetail.scheduledetail.enddate).format(
+            "Do MMM, YYYY"
           )}
         </Text>
       </Block>

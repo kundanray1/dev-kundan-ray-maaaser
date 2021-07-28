@@ -76,7 +76,7 @@ export default ReceiversList = ({
       onPress={() => onReceiverIdItem(name, id)}
       style={{ marginVertical: 2 }}
     >
-      <Text bold style={{ paddingVertical: 4, fontSize: 18 }}>
+      <Text bold style={{ paddingVertical: 4, fontSize: 16 }}>
         {name}({email})
       </Text>
     </TouchableOpacity>

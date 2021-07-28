@@ -67,7 +67,7 @@ const SubCampaigns = ({
                   onLongPress={() => {
                     bs.current.snapTo(0);
                     setCampaignData(post.item);
-                  }}
+                  }}zz
                   delayLongPress={500}
                 >
                   <CampaignCard

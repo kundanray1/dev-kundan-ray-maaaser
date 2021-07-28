@@ -19,6 +19,7 @@ import {
   DateWiseDonationDetailCard,
   Text,
   Button,
+  ErrorMessage
 } from "../../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
@@ -42,7 +43,8 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  
+  const [dateError, setDateError] = useState(false);
+
   const onChangeFromDate = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
     setShowFromDate(Platform.OS === "ios");
@@ -64,10 +66,15 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
   const onPressReset = () => {
   setFromDate("2021-05-03T15:21:15.513Z");
   setToDate("2021-09-03T15:21:15.513Z");
+  setDateError(false)
   };
-
+  
   const onPressSubmitApply = () => {
+    if((new Date(fromDate).getTime())>(new Date(toDate).getTime())){
+    setDateError(true)
+    }else{
     setConfirmationSuccessfulVisible(false)
+    setDateError(false)
     donationsMadeSearch({
       search:"",
       accountId:loginData.user.account.accountid,
@@ -76,6 +83,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
       search:search==undefined?"":""
     })
      onPressReset();
+    }
   };
 
   React.useLayoutEffect(() => {
@@ -269,6 +277,10 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
                 )}
               </Block>
             </Block>
+             <ErrorMessage
+                error={"Please enter a valid date"}
+                visible={dateError}
+              />
             <Button onPress={onPressSubmitApply}>
               <Text button style={{ fontSize: 18 }}>
                 Apply

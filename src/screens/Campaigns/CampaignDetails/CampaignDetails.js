@@ -9,6 +9,7 @@ import {
   ScrollView,
   RefreshControl,
   Share,
+  BackHandler,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
@@ -24,6 +25,9 @@ import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
 import EditIconComponent from "./../../../assets/icons/EditIconComponent.js";
 import CampaignEditIconComponent from "./../../../assets/icons/campaignEditIconComponent.js";
+import getCountryISO2 from "country-iso-3-to-2";
+import country  from "../../../constants/country.json";
+
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -40,15 +44,22 @@ const CampaignDetails = ({
   route,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
+  const [viewMore, setViewMore] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     campaignDetails(campaignId);
     setRefreshing(false);
   });
 
+  const backAction = () => {
+    navigation.navigate("All Campaigns")
+    return true;
+  };
   useEffect(() => {
     campaignDetails(campaignId);
     campaignDetailsURLStart(campaignId);
+    // BackHandler.addEventListener("hardwareBackPress", backAction);
+    // return () =>BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [campaignId, startACampaignThirdUpdateData.startACampaignThirdUpdate,campaignDonateNowConfirmationData.campaignDonateNowConfirmation]);
 
   const onShare = async () => {
@@ -69,7 +80,7 @@ const CampaignDetails = ({
       alert(error.message);
     }
   };
-
+ 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading || data.campaignDetailsURLLoading ? (
@@ -200,7 +211,7 @@ const CampaignDetails = ({
                   }}
                   color={theme.colors.solidGray}
                 >
-                  {data.campaignDetails.campaign.countrycode}
+                {country.find(item => item.code == getCountryISO2(data.campaignDetails.campaign.countrycode)).name}
                 </Text>
                 {route.params != undefined && (
                   <TouchableOpacity
@@ -565,7 +576,7 @@ const CampaignDetails = ({
             >
               <Text
                 style={{ fontSize: 16, color: "#5F6062", marginRight: 10 }}
-                numberOfLines={10}
+                numberOfLines={viewMore?100:2}
               >
                 {data.campaignDetails.campaign.description.replace(
                   /(<([^>]+)>)/gi,
@@ -598,6 +609,7 @@ const CampaignDetails = ({
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={{ flex: 1, alignItems: "flex-end" }}
+                onPress={()=>setViewMore(!viewMore)}
               >
                 <Text
                   style={{
@@ -606,7 +618,7 @@ const CampaignDetails = ({
                     fontWeight: "700",
                   }}
                 >
-                  View More
+                  {viewMore?"View less":"View More"}
                 </Text>
               </TouchableOpacity>
             </Block>

@@ -21,7 +21,6 @@ import {
   FloatingButton,
   ScheduleDonationCard,
 } from "../../../../components/Index.js";
-import { Bottom } from "./Bottom.js";
 import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -37,7 +36,7 @@ const ScheduleDonation = ({
   scheduleDonation,
   linkScheduleDonationData,
   scheduleDonationReceiverDetailData,
-  scheduleDonationSearch
+  scheduleDonationSearch,
 }) => {
   const [transactionssearch, setTransactionssearch] = useState();
   const [scheduleDonationData, setScheduleDonationData] = useState();
@@ -49,7 +48,8 @@ const ScheduleDonation = ({
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
-  
+  const [dateError, setDateError] = useState(false);
+
   const [refreshing, setRefreshing] = useState(false);
   let bs = React.createRef();
 
@@ -81,17 +81,23 @@ const ScheduleDonation = ({
   const onPressReset = () => {
     setFromDate("2021-05-03T15:21:15.513Z");
     setToDate("2021-09-03T15:21:15.513Z");
+    setDateError(false)
   };
 
   const onPressSubmitApply = () => {
-    setConfirmationSuccessfulVisible(false);
-    scheduleDonationSearch({
-      accountId: loginData.user.account.accountid,
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      search: transactionssearch == undefined ? "" : "",
-    });
-    onPressReset();
+    if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
+      setDateError(true);
+    } else {
+      setConfirmationSuccessfulVisible(false);
+      setDateError(false);
+      scheduleDonationSearch({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        search: transactionssearch == undefined ? "" : "",
+      });
+      onPressReset();
+    }
   };
 
   const ConfirmationMessage = () => (
@@ -232,6 +238,10 @@ const ScheduleDonation = ({
                   )}
                 </Block>
               </Block>
+              <ErrorMessage
+                error={"Please enter a valid date"}
+                visible={dateError}
+              />
               <Button onPress={onPressSubmitApply}>
                 <Text button style={{ fontSize: 18 }}>
                   Apply
@@ -255,155 +265,156 @@ const ScheduleDonation = ({
   }
   return (
     <>
-      
-        <SafeAreaView>
-          <Block row style={{ flex: 0, paddingHorizontal: 16,marginTop:6,marginBottom:20 }}>
-            <Block style={[searchStyles.boxSearchContainer,{width:"90%"}]}>
-              <Block style={searchStyles.boxVwSearch}>
-                <Ionicons
-                  name="search"
-                  color={theme.colors.solidGray}
-                  size={18}
-                />
-              </Block>
-
-              <TextInput
-                placeholder="Search"
-                placeholderTextColor={theme.colors.solidGray}
-                style={searchStyles.boxTextInput}
-                onChangeText={(text) => searchFilterFunction(text)}
-                value={transactionssearch}
+      <SafeAreaView>
+        <Block
+          row
+          style={{
+            flex: 0,
+            paddingHorizontal: 16,
+            marginTop: 6,
+            marginBottom: 20,
+          }}
+        >
+          <Block style={[searchStyles.boxSearchContainer, { width: "90%" }]}>
+            <Block style={searchStyles.boxVwSearch}>
+              <Ionicons
+                name="search"
+                color={theme.colors.solidGray}
+                size={18}
               />
-
-              {transactionssearch ? (
-                <TouchableOpacity
-                  onPress={() => searchFilterFunction()}
-                  style={searchStyles.vwClear}
-                >
-                  <Ionicons name="close-circle-sharp" color="black" size={18} />
-                </TouchableOpacity>
-              ) : (
-                <Block style={searchStyles.vwClear} />
-              )}
-              
             </Block>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                setConfirmationSuccessfulVisible(true);
-              }}
-              style={{
-                alignItems: "center",
-                marginTop:8,
-                marginLeft:16,
-                justifyContent: "center",
-              }}
-            >
-              <TransactionsSearchIconComponent height={25} width={20} />
-            </TouchableOpacity>
-            
-          </Block>
-          <Block style={{ flex: 0 }}>
-            {data.isLoading ? (
-              <ActivityIndicator size="large" color={theme.colors.primary2} />
+
+            <TextInput
+              placeholder="Search"
+              placeholderTextColor={theme.colors.solidGray}
+              style={searchStyles.boxTextInput}
+              onChangeText={(text) => searchFilterFunction(text)}
+              value={transactionssearch}
+            />
+
+            {transactionssearch ? (
+              <TouchableOpacity
+                onPress={() => searchFilterFunction()}
+                style={searchStyles.vwClear}
+              >
+                <Ionicons name="close-circle-sharp" color="black" size={18} />
+              </TouchableOpacity>
             ) : (
-              <>
-                <FlatList
-                  data={data.scheduleDonation}
-                  showsVerticalScrollIndicator={false}
-                  keyExtractor={(item) => {
-                    return item.scheduletransactionid.toString();
-                  }}
-                  refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
-                  ItemSeparatorComponent={() => (
-                    <Block style={{ marginTop: 2 }} />
-                  )}
-                  ListEmptyComponent={() => (
-                    <Empty
-                      iconName="transactions"
-                     title="You don't have any data."
-                    />
-                  )}
-                  ListFooterComponent={() => (
-                    <Block
-                      middle
-                      center
-                      style={{ marginBottom: 120, flex: 0 }}
-                    ></Block>
-                  )}
-                  ListFooterComponentStyle={{
-                    paddingVertical: 20,
-                  }}
-                  renderItem={(post) =>
-                    post.item.scheduletransactionstatus == 2 ||
-                    post.item.scheduletransactionstatus == 3 ? (
-                      <Pressable
-                        style={{
-                          paddingHorizontal: 16,
-                          marginVertical: 4,
-                        }}
-                      >
-                        <ScheduleDonationCard
-                          receiverName={
-                            post.item.clientList[1].account.fullname
-                          }
-                          profilePic={post.item.clientList[1].profilepic}
-                          amount={post.item.amount}
-                          startDate={post.item.scheduledetail.startdate}
-                          scheduleType={post.item.scheduledetail.scheduletype}
-                          scheduleTransactionStatus={
-                            post.item.scheduletransactionstatus
-                          }
-                          onPress={() =>
-                            navigation.navigate("Details", {
-                              scheduleDonationReceiverDetail: post.item,
-                            })
-                          }
-                        />
-                      </Pressable>
-                    ) : (
-                      <Pressable
-                        style={{
-                          paddingHorizontal: 16,
-                          marginVertical: 4,
-                        }}
-                        onLongPress={() => {
-                          bs.current.snapTo(0);
-                          setScheduleDonationData(post.item);
-                        }}
-                        delayLongPress={500}
-                      >
-                        <ScheduleDonationCard
-                          receiverName={
-                            post.item.clientList[1].account.fullname
-                          }
-                          profilePic={post.item.clientList[1].profilepic}
-                          amount={post.item.amount}
-                          startDate={post.item.scheduledetail.startdate}
-                          scheduleType={post.item.scheduledetail.scheduletype}
-                          scheduleTransactionStatus={
-                            post.item.scheduletransactionstatus
-                          }
-                          onPress={() =>
-                            navigation.navigate("Details", {
-                              scheduleDonationReceiverDetail: post.item,
-                            })
-                          }
-                        />
-                      </Pressable>
-                    )
-                  }
-                />
-              </>
+              <Block style={searchStyles.vwClear} />
             )}
           </Block>
-        </SafeAreaView>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              setConfirmationSuccessfulVisible(true);
+            }}
+            style={{
+              alignItems: "center",
+              marginTop: 8,
+              marginLeft: 16,
+              justifyContent: "center",
+            }}
+          >
+            <TransactionsSearchIconComponent height={25} width={20} />
+          </TouchableOpacity>
+        </Block>
+        <Block style={{ flex: 0 }}>
+          {data.isLoading ? (
+            <ActivityIndicator size="large" color={theme.colors.primary2} />
+          ) : (
+            <>
+              <FlatList
+                data={data.scheduleDonation}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => {
+                  return item.scheduletransactionid.toString();
+                }}
+                refreshControl={
+                  <RefreshControl
+                    colors={[theme.colors.primary2]}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                ItemSeparatorComponent={() => (
+                  <Block style={{ marginTop: 2 }} />
+                )}
+                ListEmptyComponent={() => (
+                  <Empty
+                    iconName="transactions"
+                    title="You don't have any data."
+                  />
+                )}
+                ListFooterComponent={() => (
+                  <Block
+                    middle
+                    center
+                    style={{ marginBottom: 120, flex: 0 }}
+                  ></Block>
+                )}
+                ListFooterComponentStyle={{
+                  paddingVertical: 20,
+                }}
+                renderItem={(post) =>
+                  post.item.scheduletransactionstatus == 2 ||
+                  post.item.scheduletransactionstatus == 3 ? (
+                    <Pressable
+                      style={{
+                        paddingHorizontal: 16,
+                        marginVertical: 4,
+                      }}
+                    >
+                      <ScheduleDonationCard
+                        receiverName={post.item.clientList[1].account.fullname}
+                        profilePic={post.item.clientList[1].profilepic}
+                        amount={post.item.amount}
+                        startDate={post.item.scheduledetail.startdate}
+                        scheduleType={post.item.scheduledetail.scheduletype}
+                        scheduleTransactionStatus={
+                          post.item.scheduletransactionstatus
+                        }
+                        onPress={() =>
+                          navigation.navigate("Details", {
+                            scheduleDonationReceiverDetail: post.item,
+                          })
+                        }
+                      />
+                    </Pressable>
+                  ) : (
+                    <Pressable
+                      style={{
+                        paddingHorizontal: 16,
+                        marginVertical: 4,
+                      }}
+                      onLongPress={() => {
+                        bs.current.snapTo(0);
+                        setScheduleDonationData(post.item);
+                      }}
+                      delayLongPress={500}
+                    >
+                      <ScheduleDonationCard
+                        receiverName={post.item.clientList[1].account.fullname}
+                        profilePic={post.item.clientList[1].profilepic}
+                        amount={post.item.amount}
+                        createdDate={post.item.createdat}
+                        scheduleType={post.item.scheduledetail.scheduletype}
+                        scheduleTransactionStatus={
+                          post.item.scheduletransactionstatus
+                        }
+                        onPress={() =>
+                          navigation.navigate("Details", {
+                            scheduleDonationReceiverDetail: post.item,
+                          })
+                        }
+                      />
+                    </Pressable>
+                  )
+                }
+              />
+            </>
+          )}
+        </Block>
+      </SafeAreaView>
       <FloatingButton
         iconComponent={<AddIconComponent />}
         onPress={() => navigation.navigate("Link Schedule Donation")}
@@ -439,4 +450,3 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
 });
-

@@ -1,35 +1,39 @@
 import {
-  SCAN_QR_FAIL,
-  SCAN_QR_START,
-  SCAN_QR_SUCCESS,
-} from './actions';
+  SCAN_QR_DONATE_START,
+  SCAN_QR_DONATE_SUCCESS,
+  SCAN_QR_DONATE_FAIL,
+  SCAN_QR_DONATE_CLEAR,
+} from "./actions";
 
 const initialState = {
   isLoading: false,
-  scanQR: '',
+  scanQRDonate: null,
   error: null,
 };
 
-export const scanQRReducer=(state = initialState, { type, payload }) => {
+export const scanQRReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SCAN_QR_START:
-    return {
+    case SCAN_QR_DONATE_START:
+      return {
         ...state,
         isLoading: true,
       };
-    case SCAN_QR_SUCCESS:
+    case SCAN_QR_DONATE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        scanQR: payload,
+        scanQRDonate: payload,
       };
-    case SCAN_QR_FAIL:
+    case SCAN_QR_DONATE_FAIL:
       return {
         ...state,
         isLoading: false,
         error: payload,
       };
-   
+
+    case SCAN_QR_DONATE_CLEAR:
+      return initialState;
+
     default:
       return state;
   }

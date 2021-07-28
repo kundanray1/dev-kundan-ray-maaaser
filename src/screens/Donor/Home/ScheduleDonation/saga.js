@@ -20,7 +20,6 @@ export function* scheduleDonation({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-
 		if (res.success) {
 			if (res.scheduletransactionsList == undefined) {
 				yield put(scheduleDonationSuccess([]));

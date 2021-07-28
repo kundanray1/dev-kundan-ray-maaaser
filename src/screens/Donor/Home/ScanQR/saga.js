@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { SCAN_QR_START } from "./actions";
-import { scanQRSuccess, scanQRFail } from "./actions";
+import { SCAN_QR_DONATE_START } from "./actions";
+import { scanQRDonateSuccess, scanQRDonateFail } from "./actions";
 import base from "./../../../../protos/auth_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { ProtoHeaders } from "./../../../../constants/APIHeader";
@@ -8,40 +8,36 @@ import { requestProto } from "../../../../utility/request";
 import { showMessage } from "react-native-flash-message";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
-export function* scanQR({ payload }) {
-	console.log("payload==", payload);
+export function* scanQRDonate({ payload }) {
 	try {
 		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.LOGIN, {
-			method: "GET",
-			headers: ProtoHeaders,
+		const response = yield call(requestProto, APIEndpoints.TRANSACTION, {
+			method: "POST",
+			headers: API.authProtoHeader(),
 			body: serializedData,
 		});
-		const res = base.AuthBaseResponse.deserializeBinary(
+		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		if (res.error) {
-			yield put(scanQRFail(res.msg));
+		if (res.success) {
+			yield put(scanQRDonateSuccess(res));
+		} else {
+			yield put(scanQRDonateFail(res));
 			showMessage({
 				message: res.msg,
 				type: "danger",
 			});
-		} else {
-			yield put(scanQRSuccess(res.msg));
-			showMessage({
-				message: "Password changed successfully",
-				type: "success",
-			});
 		}
 	} catch (e) {
-		yield put(scanQRFail(e));
+		yield put(scanQRDonateFail(e));
 		showMessage({
-			message: "Sorry, error from server or check your credentials!",
+			message: "Error from server or check your credentials!",
 			type: "danger",
 		});
 	}
 }
 
+
 export default function* scanQRSaga() {
-	yield takeLatest(SCAN_QR_START, scanQR);
+	yield takeLatest(SCAN_QR_DONATE_START, scanQRDonate);
 }

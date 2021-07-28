@@ -99,17 +99,20 @@ const LinkScheduleDonation = ({
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
     const scheduleDetailProto = new PaymentProto.ScheduleDetail();
     if (scheduleType == "One Time") {
-      scheduleDetailProto.setStartdate(new Date(startDate).getTime());
-      // scheduleDetailProto.setEnddate(new Date(startDate).getTime());
-      // scheduleDetailProto.setStartdate(new Date(moment(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm')).getTime());
-      scheduleDetailProto.setEnddate(new Date(startDate).getTime());
+      const startDateConvert=new Date(startDate).getTime()
+      const startTimeConvert=new Date(startTime).getTime()
+
+      scheduleDetailProto.setStartdate(startDateConvert+startTimeConvert);
+      scheduleDetailProto.setEnddate(startDateConvert+startTimeConvert);
     } else {
       scheduleDetailProto.setStartdate(new Date(startDate).getTime());
       scheduleDetailProto.setEnddate(new Date(endDate).getTime());
+      
     }
     // scheduleDetailProto.setStarttime(startTime.getTime());
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
-
+      console.log("startDate",new Date(startDate).getTime());
+      console.log("endDate",new Date(startDate).getTime());
     if (route.params != undefined) {
       scheduleTransactionProto.setScheduletransactionid(
         route.params.scheduleDonationData.scheduletransactionid
@@ -299,7 +302,6 @@ const LinkScheduleDonation = ({
                 error={"Start date is a required field"}
                 visible={startDateError}
               />
-
               <Block style={{ paddingVertical: 8 }}>
                 <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
                   Start Time

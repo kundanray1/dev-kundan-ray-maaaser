@@ -19,6 +19,7 @@ import {
   TransactionDetailCard,
   Text,
   Button,
+  ErrorMessage,
 } from "../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -59,6 +60,7 @@ const Transactions = ({
   const [transactionsMediumId, setTransactionsMediumId] = useState("");
   const [transactionsType, setTransactionsType] = useState();
   const [transactionsTypeId, setTransactionsTypeId] = useState("");
+  const [dateError, setDateError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const onChangeFromDate = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
@@ -85,33 +87,39 @@ const Transactions = ({
     setTransactionsMediumId("");
     setTransactionsType();
     setTransactionsTypeId("");
+    setDateError(false);
   };
 
   const onPressSubmitApply = () => {
-    setConfirmationSuccessfulVisible(false);
-    search({
-      accountId: loginData.user.account.accountid,
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: transactionssearch == undefined ? "" : "",
-    });
-    generateTransactionsPDFReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: transactionssearch == undefined ? "" : "",
-    });
-    generateTransactionsExcelReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: transactionssearch == undefined ? "" : "",
-    });
-    onPressReset();
+    if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
+      setDateError(true);
+    } else {
+      setDateError(false);
+      setConfirmationSuccessfulVisible(false);
+      search({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: transactionssearch == undefined ? "" : "",
+      });
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: transactionssearch == undefined ? "" : "",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: transactionssearch == undefined ? "" : "",
+      });
+      onPressReset();
+    }
   };
 
   React.useLayoutEffect(() => {
@@ -121,7 +129,7 @@ const Transactions = ({
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
-               setDownloadModalVisible(true);
+              setDownloadModalVisible(true);
             }}
             style={{
               alignItems: "flex-end",
@@ -458,7 +466,10 @@ const Transactions = ({
                   )}
                 </Block>
               </Block>
-
+              <ErrorMessage
+                error={"Please enter a valid date"}
+                visible={dateError}
+              />
               <TransactionsMedium
                 transactionsMedium={transactionsMedium}
                 setTransactionsMedium={setTransactionsMedium}
@@ -490,20 +501,20 @@ const Transactions = ({
         type: transactionsTypeId,
         search: text,
       });
-    generateTransactionsPDFReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: text,
-    });
-    generateTransactionsExcelReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-     search: text,
-    });
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: text,
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: text,
+      });
     }
   }
   return (
@@ -534,8 +545,9 @@ const Transactions = ({
           )}
         </Block>
       </Block>
-      {data.isLoading || data.generateTransactionsPDFReceiptLoading ||
-data.generateTransactionsExcelReceiptLoading ? (
+      {data.isLoading ||
+      data.generateTransactionsPDFReceiptLoading ||
+      data.generateTransactionsExcelReceiptLoading ? (
         <Block center middle>
           <ActivityIndicator size="large" color={theme.colors.primary2} />
         </Block>

@@ -13,7 +13,6 @@ import CampaignComments from "../../screens/Campaigns/CampaignComments/index";
 import CampaignSubCampaign from "../../screens/Campaigns/CampaignSubCampaign/index";
 
 const CampaignSubCampaignTab = createMaterialTopTabNavigator();
-
 export default CampaignSubCampaignTabStack=()=> {
   return (
     <CampaignSubCampaignTab.Navigator

@@ -22,12 +22,15 @@ import TimeRemainingIconComponent from "./../../../assets/icons/TimeRemainingIco
 import BeneficiaryIconComponent from "./../../../assets/icons/BeneficiaryIconComponent";
 import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
+import getCountryISO2 from "country-iso-3-to-2";
+import country  from "../../../constants/country.json";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId,campaignDonateNowConfirmationData }) => {
   const [refreshing, setRefreshing] = useState(false);
+  const [viewMore, setViewMore] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     subCampaignDetails(subCampaignId);
@@ -143,7 +146,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 }}
                 color={theme.colors.solidGray}
               >
-                {data.subCampaignDetails.subcampaign.campaign.countrycode}
+                {country.find(item => item.code == getCountryISO2(data.subCampaignDetails.subcampaign.campaign.countrycode)).name}
               </Text>
             </Block>
               <PercentageBar
@@ -435,13 +438,14 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             >
               <Text
                 style={{ fontSize: 16, color: "#5F6062" }}
-                numberOfLines={10}
+                numberOfLines={viewMore?100:2}
               >
                 {data.subCampaignDetails.subcampaign.campaign.description.replace( /(<([^>]+)>)/ig, '')}
               </Text>
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={{ flex: 0, alignItems: "flex-end" }}
+               onPress={()=>setViewMore(!viewMore)}
               >
                 <Text
                   style={{
@@ -450,7 +454,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     fontWeight: "700",
                   }}
                 >
-                  View More
+                  {viewMore?"View less":"View More"}
                 </Text>
               </TouchableOpacity>
             </Block>

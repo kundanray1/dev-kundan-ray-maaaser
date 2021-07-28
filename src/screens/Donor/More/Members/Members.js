@@ -15,7 +15,6 @@ import {
   FloatingButton,
   MemberDetailCard,
 } from "../../../../components/Index.js";
-import { Bottom } from "./Bottom.js";
 import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 

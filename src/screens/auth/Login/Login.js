@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Image, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LoginValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Button,
   Block,
@@ -18,6 +19,7 @@ const Login = ({ navigation, data, login }) => {
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [asyncData, setAsyncData] = useState();
 
   //set all the required proto for updating and submitting
   const onSubmitLogin = (values) => {
@@ -25,9 +27,32 @@ const Login = ({ navigation, data, login }) => {
     loginData.setEmailphone(values.identifier);
     loginData.setPassword(values.password);
     login(loginData);
+    if (checked) {
+      AsyncStorage.setItem(
+        "LOGIN_DATA",
+        JSON.stringify({
+          emailPhone: values.identifier,
+          password: values.password,
+          rememberMe: checked,
+        })
+      );
+    }else{
+       AsyncStorage.removeItem("LOGIN_DATA");
+    }
   };
+  async function readData() {
+    const response = await AsyncStorage.getItem("LOGIN_DATA");
+    if (response !== null) {
+      setAsyncData(JSON.parse(response));
+      setChecked(JSON.parse(response).rememberMe);
+    }
+  }
+  useEffect(() => {
+    readData();
+  }, []);
+
+
   return (
-   
     <Block center middle>
       <Block center style={{ flex: 0, marginBottom: 20 }}>
         <Image
@@ -39,9 +64,10 @@ const Login = ({ navigation, data, login }) => {
         </Text>
       </Block>
       <Formik
+        enableReinitialize={true}
         initialValues={{
-          identifier: "jp@gmail.com",
-          password: "Joshan@1234",
+          identifier: asyncData != undefined ? asyncData.emailPhone:"",
+          password: asyncData != undefined ? asyncData.password: "",
         }}
         onSubmit={(values) => {
           onSubmitLogin(values);
@@ -131,7 +157,11 @@ const Login = ({ navigation, data, login }) => {
                       color={theme.colors.solidGray}
                     />
                   )}
-                  <Text bold style={{ paddingHorizontal: 8, marginTop: 2 }} color={theme.colors.solidGray}>
+                  <Text
+                    bold
+                    style={{ paddingHorizontal: 8, marginTop: 2 }}
+                    color={theme.colors.solidGray}
+                  >
                     Remember me
                   </Text>
                 </TouchableOpacity>
@@ -147,19 +177,18 @@ const Login = ({ navigation, data, login }) => {
                 </Text>
               </TouchableOpacity>
             </Block>
-              <Block style={{ flex: 0, paddingTop: 20,paddingBottom: 15 }}>
-
-            {!errors.identifier && !errors.password ? (
+            <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
+              {!errors.identifier && !errors.password ? (
                 <Button full onPress={handleSubmit}>
                   {data.isLoading ? (
                     <>
-                    <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Logging in..."
-                    />
-                    <Text button style={{ fontSize: 18 }}>
-                      Login
-                    </Text>
+                      <CustomActivityIndicator
+                        isLoading={data.isLoading}
+                        label="Logging in..."
+                      />
+                      <Text button style={{ fontSize: 18 }}>
+                        Login
+                      </Text>
                     </>
                   ) : (
                     <Text button style={{ fontSize: 18 }}>
@@ -167,14 +196,14 @@ const Login = ({ navigation, data, login }) => {
                     </Text>
                   )}
                 </Button>
-            ) : (
+              ) : (
                 <Button full>
                   <Text button style={{ fontSize: 18 }}>
-                  Login
+                    Login
                   </Text>
                 </Button>
-            )}
-              </Block>
+              )}
+            </Block>
 
             <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
               <Text h4 color={theme.colors.solidGray}>

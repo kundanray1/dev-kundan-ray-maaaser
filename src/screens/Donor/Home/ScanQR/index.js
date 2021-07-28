@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import ScanQR from "./ScanQR";
-import { welcomeStart } from "./actions";
+import { scanQRDonateStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.welcome,
+	data: (state) => state.scanQR,
 	loginData: (state) => state.login,
 	
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		welcome: (values) => dispatch(welcomeStart(values)),
+		scanQRDonate: (values) => dispatch(scanQRDonateStart(values)),
 	};
 };
 

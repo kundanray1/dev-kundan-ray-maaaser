@@ -13,7 +13,7 @@ import {
   TextInput
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
-import { Block, Empty, CampaignCard,Text } from "../../../components/Index.js";
+import { Block, Empty, CampaignCard,Text,ErrorMessage } from "../../../components/Index.js";
 import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -40,8 +40,9 @@ const AllCampaigns = ({
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
   const [showToDate, setShowToDate] = useState(false);
-  const [countryCode, setCountryCode] = useState();
+  const [countryCode, setCountryCode] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [dateError, setDateError] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     allCampaigns(loginData.user.account.accountid);
@@ -66,17 +67,24 @@ const AllCampaigns = ({
   setFromDate("2021-05-03T15:21:15.513Z");
   setToDate("2021-09-03T15:21:15.513Z");
   setCountryCode();
+  setCountryName("")
+  setDateError(false)
   };
 
   const onPressSubmitApply = () => {
-    setConfirmationSuccessfulVisible(false)
-    allCampaignsSearch({
+    if((new Date(fromDate).getTime())>(new Date(toDate).getTime())){
+    setDateError(true)
+    }else{
+      setConfirmationSuccessfulVisible(false)
+      setDateError(false)
+      allCampaignsSearch({
       fromDate:new Date(fromDate).getTime(),
       toDate:new Date(toDate).getTime(),
       country:countryCode==undefined?"":countryCode,
       search:search==undefined?"":" ",
     })
      onPressReset();
+    }
   };
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -214,6 +222,10 @@ const AllCampaigns = ({
                 )}
               </Block>
             </Block>
+             <ErrorMessage
+                error={"Please enter a valid date"}
+                visible={dateError}
+              />
                <CountryCode
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}

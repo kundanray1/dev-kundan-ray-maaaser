@@ -28,6 +28,8 @@ import TimeRemainingIconComponent from "./../assets/icons/TimeRemainingIconCompo
 import PinLocationIconComponent from "./../assets/icons/PinLocationIconComponent";
 import { campaignId } from "./../screens/Campaigns/actions";
 import { subCampaignId } from "./../screens/Campaigns/CampaignSubCampaign/actions";
+import getCountryISO2 from "country-iso-3-to-2";
+import country  from "../constants/country.json";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -47,6 +49,7 @@ export default CampaignCard = ({
 }) => {
 	const dispatch = useDispatch();
 	const [editModalVisible, setEditModalVisible] = useState(false);
+	const countryName = country.find(item => item.code == getCountryISO2(countryCode));
 
 	const handleOpenConfirm = () => {
 		if (mycampaign == "subcampaign") {
@@ -446,7 +449,7 @@ export default CampaignCard = ({
 							}}
 							color={theme.colors.solidGray}
 						>
-							{countryCode}
+							{countryName.name}
 						</Text>
 					</Block>
 					<Block
