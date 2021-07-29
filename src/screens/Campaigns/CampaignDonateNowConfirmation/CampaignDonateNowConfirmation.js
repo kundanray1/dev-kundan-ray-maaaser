@@ -30,8 +30,8 @@ const CampaignDonateNowConfirmation = ({
   navigation,
 }) => {
   const [
-    campaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible,
-    setCampaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible,
+    campaignDonateNowCampaignVisible,
+    setCampaignDonateNowCampaignVisible,
   ] = useState(false);
   const {
       refId,
@@ -58,7 +58,7 @@ const CampaignDonateNowConfirmation = ({
   useEffect(() => {
     if (data.campaignDonateNowConfirmation !== null) {
       if (data.campaignDonateNowConfirmation.success) {
-        setCampaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible(!campaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible);
+        setCampaignDonateNowCampaignVisible(!campaignDonateNowCampaignVisible);
         campaignDonateNowConfirmationClear();
       }
     }
@@ -67,12 +67,12 @@ const CampaignDonateNowConfirmation = ({
   const CampaignDonateNowConfirmationMessageVisible = () => (
     <SafeAreaView>
       <Modal
-        visible={campaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible}
+        visible={campaignDonateNowCampaignVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() =>
-          setCampaignDonateNowCampaignDonateNowConfirmationMessageVisibleVisible(false)
+          setCampaignDonateNowCampaignVisible(false)
         }
       >
         <View style={styles.container}>

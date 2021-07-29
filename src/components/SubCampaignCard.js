@@ -71,7 +71,7 @@ export default SubCampaignCard = ({ profilePic, name, comment,subcampaignid,coll
                     prefix={'$'}
                     decimalScale={2}
                     fixedDecimalScale={true}
-                    renderText={formattedValue => <Text 	color="#5F6062" style={{ fontSize: 14}}>{" "}raised from {formattedValue}</Text>} 
+                    renderText={formattedValue => <Text 	color="#5F6062" style={{ fontSize: 14}}>{" "}raised of {formattedValue}</Text>} 
                     />
 					</Block>
 				</Block>

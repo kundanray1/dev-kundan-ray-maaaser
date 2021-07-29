@@ -25,7 +25,8 @@ const mapStateToProps = createStructuredSelector({
 	ACHLoadFundConfirmationData: (state) => state.ACHLoadFundConfirmation,
 	cardLoadFundConfirmationData: (state) => state.cardLoadFundConfirmation,
 	linkScheduleDonationData: (state) => state.linkScheduleDonation,
-	manualDonateConfirmationData: (state) => state.manualDonateConfirmation,
+	donateViaScanConfirmationData: (state) => state.donateViaScanConfirmation,
+	donateFromReceiversListConfirmationData: (state) => state.donateFromReceiversListConfirmation,
 });
 const mapDispatchToProps = (dispatch) => {
 	return {

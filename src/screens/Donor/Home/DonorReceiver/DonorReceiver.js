@@ -61,17 +61,13 @@ const DonorReceiver = ({
   ACHLoadFundConfirmationData,
   cardLoadFundConfirmationData,
   linkScheduleDonationData,
-  manualDonateConfirmationData
+  donateViaScanConfirmationData,
+  donateFromReceiversListConfirmationData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
-  const [accountData, setAccountData] = useState();
   const [amountFocus, setAmountFocus] = useState();
   const [remarksFocus, setRemarksFocus] = useState();
-  const [donateModalVisible, setDonateModalVisible] = useState(false);
-  const [confirmationMessageVisible, setConfirmationMessageVisible] = useState(
-    false
-  );
-
+ 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     balance(loginData.user.account.accountid);
@@ -97,7 +93,8 @@ const DonorReceiver = ({
     ACHLoadFundConfirmationData.ACHLoadFundConfirmation,
     cardLoadFundConfirmationData.cardLoadFundConfirmation,
     linkScheduleDonationData.linkScheduleDonation,
-    manualDonateConfirmationData.manualDonateConfirmation
+    donateViaScanConfirmationData.donateViaScanConfirmation,
+    donateFromReceiversListConfirmationData.donateFromReceiversListConfirmation
   ]);
 
   useEffect(() => {
@@ -112,182 +109,9 @@ const DonorReceiver = ({
     data.donorReceiverDonateConfirmation,
     ACHLoadFundConfirmationData.ACHLoadFundConfirmationData,
     cardLoadFundConfirmationData.cardLoadFundConfirmation,
-    manualDonateConfirmationData.manualDonateConfirmation
+    donateViaScanConfirmationData.donateViaScanConfirmation,
+    donateFromReceiversListConfirmationData.donateFromReceiversListConfirmation
   ]);
-
-  const onSubmitDonateConfirmation = (values) => {
-    const donationProto = new PaymentProto.Transaction();
-    donationProto.setDonoraccountid(loginData.user.account.accountid);
-    donationProto.setReceiveraccountid(accountData.account.accountid);
-    donationProto.setAmount(values.amount * 100);
-    donationProto.setRemark(values.remarks);
-    donationProto.setTransactionmedium(
-      PaymentProto.TransactionMedium.INTERNAL_MEDIUM
-    );
-    donationProto.setTransactiontype(PaymentProto.TransactionType.DONATE_FUND);
-    donationProto.setTransactionstatus(
-      PaymentProto.TransactionStatus.TRANSACTION_APPROVED
-    );
-    donorReceiverDonateConfirmation(donationProto);
-    setDonateModalVisible(false);
-  };
-
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationMessageVisible(false)}
-      >
-        <View style={styles.container}>
-          <View style={[styles.modal, { width: WIDTH - 40 }]}>
-            <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-              Donation Successful!
-            </Text>
-            <View style={{ paddingVertical: 25, alignItems: "center" }}>
-              <TickIconComponent />
-            </View>
-            <View style={{ paddingHorizontal: 16 }}>
-              <Button  onPress={() => setConfirmationMessageVisible(false)}>
-                <Text button style={{ fontSize: 18 }}>
-                  OK
-                </Text>
-              </Button>
-            </View>
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
-  );
-
-  const DonateModal = () => (
-    <SafeAreaView>
-      <Modal
-        visible={donateModalVisible}
-        transparent={true}
-        animationType="fade"
-        statusBarTranslucent={true}
-        onRequestClose={() => setDonateModalVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() => setDonateModalVisible(false)}
-        >
-          <TouchableWithoutFeedback>
-            <View style={[styles.modal, { width: WIDTH - 40 }]}>
-              <Formik
-                initialValues={{
-                  amount: "",
-                  remarks: " ",
-                }}
-                onSubmit={(values) => {
-                  onSubmitDonateConfirmation(values);
-                }}
-                validationSchema={ManualValidationSchema}
-              >
-                {({
-                  handleChange,
-                  touched,
-                  setFieldTouched,
-                  handleSubmit,
-                  values,
-                  errors,
-                }) => (
-                  <>
-                    <Input
-                      label="Receiver Name"
-                      autoCapitalize="words"
-                      value={accountData.account.fullname}
-                      editable={false}
-                    />
-
-                    <Input
-                      label="Amount"
-                      focus={amountFocus}
-                      onChangeText={handleChange("amount")}
-                      onBlur={() => {
-                        setFieldTouched("amount");
-                        setAmountFocus(false);
-                      }}
-                      number
-                      onFocus={() => setAmountFocus(true)}
-                      value={values.amount}
-                      style={{
-                        borderBottomColor: amountFocus
-                          ? theme.colors.primary2
-                          : touched.amount && errors.amount
-                          ? theme.colors.red
-                          : theme.colors.solidGray,
-                      }}
-                    />
-                    <ErrorMessage
-                      error={errors.amount}
-                      visible={touched.amount}
-                    />
-                    <Input
-                      label="Remarks"
-                      autoCapitalize="sentences"
-                      focus={remarksFocus}
-                      onChangeText={handleChange("remarks")}
-                      onBlur={() => {
-                        setFieldTouched("remarks");
-                        setRemarksFocus(false);
-                      }}
-                      onFocus={() => setRemarksFocus(true)}
-                      value={values.remarks}
-                      style={{
-                        borderBottomColor: remarksFocus
-                          ? theme.colors.primary2
-                          : touched.remarks && errors.remarks
-                          ? theme.colors.red
-                          : theme.colors.solidGray,
-                      }}
-                    />
-                    <ErrorMessage
-                      error={errors.remarks}
-                      visible={touched.remarks}
-                    />
-                    <Block style={{ flex: 0, paddingVertical: 10 }}>
-                      {!errors.receiverName && !errors.amount ? (
-                        <Button onPress={handleSubmit}>
-                          {data.isLoading ? (
-                            <>
-                              <CustomActivityIndicator
-                                label="Requesting..."
-                                isLoading={
-                                  data.isLoading
-                                }
-                              />
-                              <Text button style={{ fontSize: 18 }}>
-                                Proceed
-                              </Text>
-                            </>
-                          ) : (
-                            <Text button style={{ fontSize: 18 }}>
-                              Proceed
-                            </Text>
-                          )}
-                        </Button>
-                      ) : (
-                        <Button>
-                          <Text button style={{ fontSize: 18 }}>
-                            Proceed
-                          </Text>
-                        </Button>
-                      )}
-                    </Block>
-                  </>
-                )}
-              </Formik>
-            </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
 
   const renderUpcomingDonations = () => {
     return upcomingDonationsData.upcomingDonations
@@ -299,7 +123,7 @@ const DonorReceiver = ({
             profilePic={item.clientList[1].profilepic}
             name={item.clientList[1].account.fullname}
             amount={item.amount}
-            date={item.createdat}
+            date={item.upcomingtxndate}
             textColor={theme.colors.black}
           />
         );
@@ -339,8 +163,7 @@ const DonorReceiver = ({
             name={item.account.fullname}
             clientType={item.clienttype}
             onPress={() => {
-              setDonateModalVisible(!donateModalVisible);
-              setAccountData(item);
+              navigation.navigate("Donate From Receivers List",{accountid:item.account.accountid,fullname:item.account.fullname,routeName:"Home"})
             }}
           />
         );
@@ -604,8 +427,6 @@ const DonorReceiver = ({
             )}
         </ScrollView>
       )}
-      {DonateModal()}
-      {ConfirmationMessage()}
       <FloatingButton
         onPress={() => navigation.navigate("Donate")}
         iconComponent={<DonateIconComponent />}

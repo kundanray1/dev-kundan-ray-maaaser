@@ -38,7 +38,7 @@ const CampaignDonateNow = ({ navigation, data, loginData,route }) => {
         <Formik
           initialValues={{
             amount: "",
-            remarks:" "
+            remarks:""
           }}
           onSubmit={(values) => {
             makeDonation(values);

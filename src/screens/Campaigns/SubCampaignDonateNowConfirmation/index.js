@@ -6,7 +6,7 @@ import SubCampaignDonateNowConfirmation from "./SubCampaignDonateNowConfirmation
 import { subCampaginDonateNowConfirmationStart,subCampaignDonateNowConfirmationClear } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.campaignDonateNowConfirmation,
+	data: (state) => state.subCampaignDonateNowConfirmation,
 	loginData: (state) => state.login,
 });
 const mapDispatchToProps = (dispatch) => {

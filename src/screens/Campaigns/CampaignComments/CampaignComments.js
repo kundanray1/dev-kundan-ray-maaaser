@@ -24,7 +24,6 @@ import {
   CustomActivityIndicator,
 } from "../../../components/Index.js";
 import API from "./../../../api/API";
-import { Dummy } from "./Dummy";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../utility/ValidationSchema.js";
 import CampaignProto from "./../../../protos/campaign_pb";
@@ -59,8 +58,13 @@ const CampaignComments = ({
   });
 
   useEffect(() => {
+    if(data.postCampaignComments!=null){
+    if(data.postCampaignComments.success){
+      setComment("")
+    }
+  }
     campaignComments(campaignId);
-  }, [
+  }, [campaignId,
     data.postCampaignComments,
     data.updateCampaignComments,
     data.deleteCampaignComments,

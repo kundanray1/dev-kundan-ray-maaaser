@@ -41,7 +41,12 @@ export const LetsGetStartedDonorValidationSchema = Yup.object().shape({
   street2: Yup.string().required().label("Street 2"),
   state: Yup.string().required().label("State"),
   city: Yup.string().required().label("City"),
-  zipCode: Yup.string().required().label("Zip Code"),
+  zipCode: Yup.number()
+    .positive()
+    .integer()
+    .typeError("CVC should contain number only")
+    .required()
+    .label("Zip Code"),
 });
 
 export const ProfileValidationSchema = Yup.object().shape({
@@ -60,7 +65,12 @@ export const LetsGetStartedReceiverValidationSchema = Yup.object().shape({
   street2: Yup.string().required().label("Street 2"),
   state: Yup.string().required().label("State"),
   city: Yup.string().required().label("City"),
-  zipCode: Yup.string().required().label("Zip Code"),
+  zipCode: Yup.number()
+    .positive()
+    .integer()
+    .typeError("CVC should contain number only")
+    .required()
+    .label("Zip Code"),
   bio: Yup.string().required().label("Bio"),
 });
 

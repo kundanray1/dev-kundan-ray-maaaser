@@ -18,6 +18,8 @@ import {
 
 const initialState = {
   isLoading: true,
+  isPostLoading: false,
+  isUpdateLoading: false,
   subCampaignComments: null,
   postSubCampaignComments: null,
   postSubCampaignCommentsClear: null,
@@ -53,18 +55,18 @@ export const subCampaignCommentsReducer = (
     case POST_SUB_CAMPAIGN_COMMENTS_START:
       return {
         ...state,
-        isLoading: true,
+        isPostLoading: true,
       };
     case POST_SUB_CAMPAIGN_COMMENTS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isPostLoading: false,
         postSubCampaignComments: payload,
       };
     case POST_SUB_CAMPAIGN_COMMENTS_FAIL:
       return {
         ...state,
-        isLoading: false,
+        isPostLoading: false,
         error: payload,
       };
 
@@ -74,18 +76,18 @@ export const subCampaignCommentsReducer = (
     case UPDATE_SUB_CAMPAIGN_COMMENTS_START:
       return {
         ...state,
-        isLoading: true,
+        isUpdateLoading: true,
       };
     case UPDATE_SUB_CAMPAIGN_COMMENTS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isUpdateLoading: false,
         updateSubCampaignComments: payload,
       };
     case UPDATE_SUB_CAMPAIGN_COMMENTS_FAIL:
       return {
         ...state,
-        isLoading: false,
+        isUpdateLoading: false,
         error: payload,
       };
     case UPDATE_SUB_CAMPAIGN_COMMENTS_CLEAR:

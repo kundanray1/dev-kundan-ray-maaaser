@@ -25,6 +25,9 @@ import linkNewCardSaga from "./../../screens/Donor/Home/LinkNewCard/saga";
 import loadFundSaga from "./../../screens/Donor/Home/LoadFund/saga";
 import manualSaga from "./../../screens/Donor/Home/Manual/saga";
 import manualDonateConfirmationSaga from "./../../screens/Donor/Home/ManualDonateConfirmation/saga";
+import donateViaScanSaga from "./../../screens/Donor/Home/DonateViaScan/saga";
+import donateViaScanConfirmationSaga from "./../../screens/Donor/Home/DonateViaScanConfirmation/saga";
+import donateFromReceiversListConfirmationSaga from "./../../screens/Donor/Home/DonateFromReceiversListConfirmation/saga";
 import receiversSaga from "./../../screens/Donor/Home/Receivers/saga";
 import scanQRSaga from "./../../screens/Donor/Home/ScanQR/saga";
 import linkScheduleDonationSaga from "./../../screens/Donor/Home/LinkScheduleDonation/saga";
@@ -50,6 +53,7 @@ import campaignDonorsSaga from "./../../screens/Campaigns/CampaignDonors/saga";
 import subCampaignDonorsSaga from "./../../screens/Campaigns/SubCampaignDonors/saga";
 import campaignCommentsSaga from "./../../screens/Campaigns/CampaignComments/saga";
 import subCampaignCommentsSaga from "./../../screens/Campaigns/SubCampaignComments/saga";
+import subCampaignDonateNowConfirmationSaga from "./../../screens/Campaigns/SubCampaignDonateNowConfirmation/saga";
 
 //more
 import moreSaga from "./../../screens/Donor/More/saga";
@@ -112,6 +116,9 @@ export default function* rootSaga() {
 		loadFundSaga(),
 		manualSaga(),
 		manualDonateConfirmationSaga(),
+		donateViaScanSaga(),
+		donateViaScanConfirmationSaga(),
+		donateFromReceiversListConfirmationSaga(),
 		receiversSaga(),
 		scanQRSaga(),
 		linkScheduleDonationSaga(),
@@ -137,6 +144,7 @@ export default function* rootSaga() {
 		subCampaignDonorsSaga(),
 		campaignCommentsSaga(),
 		subCampaignCommentsSaga(),
+		subCampaignDonateNowConfirmationSaga(),
 
 		//more
 		moreSaga(),

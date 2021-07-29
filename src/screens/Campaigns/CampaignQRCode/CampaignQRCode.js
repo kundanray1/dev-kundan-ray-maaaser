@@ -108,7 +108,7 @@ export default CampaignQRCode = ({
         >
           <SvgQRCode
             size={HEIGHT / 6}
-            value={route.params.campaignurl}
+            value={"CampaignQRCode " + route.params.refId + route.params.receiverName}
             getRef={(c) => setSvg(c)}
           />
         </Block>

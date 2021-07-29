@@ -138,11 +138,11 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
   };
 
   useEffect(() => {
-    if (data.donationsMade == null) {
+    if (data.donationsMadeSearch == null) {
       donationsMade(loginData.user.account.accountid);
     } else {
       const sortedData = Object.values(
-        data.donationsMade.reduce((acc, item) => {
+        data.donationsMadeSearch.reduce((acc, item) => {
           if (!acc[moment(item.createdat).format("Do MMM YYYY")])
             acc[moment(item.createdat).format("Do MMM YYYY")] = {
               title: moment(item.createdat).format("Do MMM YYYY"),
@@ -154,7 +154,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
       );
       setDonationsMadeData(sortedData);
     }
-  }, [data.donationsMade]);
+  }, [data.donationsMadeSearch]);
 
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -342,7 +342,7 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
             renderItem={renderItems}
             renderSectionHeader={renderHeader}
             ListEmptyComponent={() => (
-              <Empty iconName="transactions" title="You don't any donations made yet." />
+              <Empty iconName="transactions" title="No donations data." />
             )}
             refreshControl={
                     <RefreshControl

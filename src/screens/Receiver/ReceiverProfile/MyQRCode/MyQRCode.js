@@ -59,7 +59,7 @@ export default MyQRCode = ({
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://maaser-frontend-tlldytlira-uw.a.run.app/account/profile/${loginData.user.account.accountid}`,
+        message: loginData.user.account.accountid,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -104,7 +104,7 @@ export default MyQRCode = ({
             marginBottom:8
           }}
         >
-          <SvgQRCode size={HEIGHT/6}  getRef={(c) => setSvg(c)} value={`https://maaser-frontend-tlldytlira-uw.a.run.app/account/profile/${loginData.user.account.accountid}`}/>
+          <SvgQRCode size={HEIGHT/6}  getRef={(c) => setSvg(c)} value={loginData.user.account.accountid}/>
         </Block>
         <Block row style={{ paddingHorizontal: 100 }}>
           <Block style={{ alignItems: "flex-start" }}>

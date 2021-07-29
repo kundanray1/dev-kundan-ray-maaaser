@@ -24,8 +24,10 @@ export function* donationsMade({ payload }) {
 		if (res.success) {
 			if (res.transactionsList == undefined) {
 				yield put(donationsMadeSuccess([]));
+				yield put(donationsMadeSearchSuccess([]));
 			} else {
 				yield put(donationsMadeSuccess(res.transactionsList));
+				yield put(donationsMadeSearchSuccess(res.transactionsList));
 			}
 		} else {
 			yield put(donationsMadeFail(res));
@@ -56,12 +58,12 @@ export function* donationsMadeSearch({ payload }) {
 		).toObject();
 		if (res.success) {
 			if (res.transactionsList == undefined) {
-				yield put(donationsMadeSuccess([]));
+				yield put(donationsMadeSearchSuccess([]));
 			} else {
-				yield put(donationsMadeSuccess(res.transactionsList));
+				yield put(donationsMadeSearchSuccess(res.transactionsList));
 			}
 		} else {
-			yield put(donationsMadeFail(res));
+			yield put(donationsMadeSearchFail(res));
 			showMessage({
 				message:
 					"Invalid date!",

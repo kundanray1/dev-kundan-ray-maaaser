@@ -28,7 +28,7 @@ import country  from "../../../constants/country.json";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId,campaignDonateNowConfirmationData }) => {
+const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId,subCampaignDonateNowConfirmationData }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [viewMore, setViewMore] = useState(false);
   const onRefresh = React.useCallback(() => {
@@ -38,7 +38,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
   });
   useEffect(() => {
     subCampaignDetails(subCampaignId);
-  }, [subCampaignId,campaignDonateNowConfirmationData.campaignDonateNowConfirmation]);
+  }, [subCampaignId,subCampaignDonateNowConfirmationData.subCampaignDonateNowConfirmation,]);
    const onShare = async () => {
     try {
       const result = await Share.share({

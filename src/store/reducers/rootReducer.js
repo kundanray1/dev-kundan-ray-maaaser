@@ -13,11 +13,9 @@ import { letsGetStartedReceiverReducer } from "./../../screens/auth/LetsGetStart
 import { ACHReducer } from "./../../screens/Donor/Home/ACH/reducer";
 import { ACHLoadFundReducer } from "./../../screens/Donor/Home/ACHLoadFund/reducer";
 import { ACHLoadFundConfirmationReducer } from "./../../screens/Donor/Home/ACHLoadFundConfirmation/reducer";
-
 import { cardReducer } from "./../../screens/Donor/Home/Card/reducer";
 import { cardLoadFundReducer } from "./../../screens/Donor/Home/CardLoadFund/reducer";
 import { cardLoadFundConfirmationReducer } from "./../../screens/Donor/Home/CardLoadFundConfirmation/reducer";
-
 import { donateNowReducer } from "./../../screens/Donor/Home/DonateNow/reducer";
 import { donationsMadeReducer } from "./../../screens/Donor/Home/DonationsMade/reducer";
 import { donorReceiverReducer } from "./../../screens/Donor/Home/DonorReceiver/reducer";
@@ -26,7 +24,9 @@ import { linkNewCardReducer } from "./../../screens/Donor/Home/LinkNewCard/reduc
 import { loadFundReducer } from "./../../screens/Donor/Home/LoadFund/reducer";
 import { manualReducer } from "./../../screens/Donor/Home/Manual/reducer";
 import { manualDonateConfirmationReducer } from "./../../screens/Donor/Home/ManualDonateConfirmation/reducer";
-
+import { donateViaScanReducer } from "./../../screens/Donor/Home/DonateViaScan/reducer";
+import { donateViaScanConfirmationReducer } from "./../../screens/Donor/Home/DonateViaScanConfirmation/reducer";
+import { donateFromReceiversListConfirmationReducer } from "./../../screens/Donor/Home/DonateFromReceiversListConfirmation/reducer";
 import { receiversReducer } from "./../../screens/Donor/Home/Receivers/reducer";
 import { scanQRCodeReducer } from "./../../screens/Donor/Home/ScanQRCode/reducer";
 import { scanQRReducer } from "./../../screens/Donor/Home/ScanQR/reducer";
@@ -52,6 +52,7 @@ import { campaignDonorsReducer } from "./../../screens/Campaigns/CampaignDonors/
 import { subCampaignDonorsReducer } from "./../../screens/Campaigns/SubCampaignDonors/reducer";
 import { campaignCommentsReducer } from "./../../screens/Campaigns/CampaignComments/reducer";
 import { subCampaignCommentsReducer } from "./../../screens/Campaigns/SubCampaignComments/reducer";
+import { subCampaignDonateNowConfirmationReducer } from "./../../screens/Campaigns/SubCampaignDonateNowConfirmation/reducer";
 
 //more
 import { moreReducer } from "./../../screens/Donor/More/reducer";
@@ -116,6 +117,9 @@ const appReducer = combineReducers({
 	loadFund: loadFundReducer,
 	manual: manualReducer,
 	manualDonateConfirmation: manualDonateConfirmationReducer,
+	donateViaScan:donateViaScanReducer,
+	donateViaScanConfirmation: donateViaScanConfirmationReducer,
+	donateFromReceiversListConfirmation:donateFromReceiversListConfirmationReducer,
 	receivers: receiversReducer,
 	scanQRCode: scanQRCodeReducer,
 	scanQR: scanQRReducer,
@@ -142,6 +146,7 @@ const appReducer = combineReducers({
 	subCampaignDonors: subCampaignDonorsReducer,
 	campaignComments: campaignCommentsReducer,
 	subCampaignComments: subCampaignCommentsReducer,
+	subCampaignDonateNowConfirmation: subCampaignDonateNowConfirmationReducer,
 
 	//more
 	more: moreReducer,

@@ -19,6 +19,10 @@ import DonationsMade from "../screens/Donor/Home/DonationsMade/index";
 import Receivers from "../screens/Donor/Home/Receivers/index";
 import Manual from "../screens/Donor/Home/Manual/index";
 import ManualDonateConfirmation from "../screens/Donor/Home/ManualDonateConfirmation/index";
+import DonateViaScan from "../screens/Donor/Home/DonateViaScan/index";
+import DonateViaScanConfirmation from "../screens/Donor/Home/DonateViaScanConfirmation/index";
+import DonateFromReceiversList from "../screens/Donor/Home/DonateFromReceiversList/index";
+import DonateFromReceiversListConfirmation from "../screens/Donor/Home/DonateFromReceiversListConfirmation/index";
 import ACH from "../screens/Donor/Home/ACH/index";
 import ACHLoadFund from "../screens/Donor/Home/ACHLoadFund/index";
 import ACHLoadFundConfirmation from "../screens/Donor/Home/ACHLoadFundConfirmation/index";
@@ -166,7 +170,16 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={ManualDonateConfirmation}
       />
-
+       <AuthStack.Screen
+        name="Donate Via Scan"
+        options={{ headerShown: true,title: "Donate"  }}
+        component={DonateViaScan}
+      />
+       <AuthStack.Screen
+        name="Donate Via Scan Confirmation"
+        options={{ headerShown: true,title: "Donate Confirmation" }}
+        component={DonateViaScanConfirmation}
+      />
       <AuthStack.Screen
         name="ACH"
         options={{ headerShown: true }}
@@ -389,6 +402,17 @@ const LoggedInStack = ({ data }) => {
         name="Withdrawn Details"
         options={{ headerShown: true, title: "Details" }}
         component={WithdrawnDetails}
+      />
+
+       <AuthStack.Screen
+        name="Donate From Receivers List"
+        options={{ headerShown: true, title: "Details" }}
+        component={DonateFromReceiversList}
+      />
+       <AuthStack.Screen
+        name="Donate From Receivers List Confirmation"
+        options={{ headerShown: true, title: "Details" }}
+        component={DonateFromReceiversListConfirmation}
       />
     </AuthStack.Navigator>
   );

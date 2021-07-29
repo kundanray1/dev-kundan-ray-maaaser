@@ -26,9 +26,10 @@ export function* upcomingDonations({ payload }) {
 		if (res.success) {
 			if (res.scheduletransactionsList == undefined) {
 				yield put(upcomingDonationsSuccess([]));
+				yield put(upcomingDonationsSearchSuccess([]));
 			} else {
-				yield put(upcomingDonationsSuccess(res.scheduletransactionsList)
-				);
+				yield put(upcomingDonationsSuccess(res.scheduletransactionsList))
+				yield put(upcomingDonationsSearchSuccess(res.scheduletransactionsList))
 			}
 		} else {
 			yield put(upcomingDonationsFail(res.msg));
@@ -48,7 +49,6 @@ export function* upcomingDonations({ payload }) {
 	}
 }
 
-
 export function* upcomingDonationsSearch({ payload }) {
 	try {
 		const {search,fromDate,toDate}=payload
@@ -60,7 +60,7 @@ export function* upcomingDonationsSearch({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
-			yield put(upcomingDonationsSuccess(res.transactionsList));
+			yield put(upcomingDonationsSearchSuccess(res.scheduletransactionsList));
 		} else {
 			yield put(upcomingDonationsSearchFail(res));
 			showMessage({
@@ -76,7 +76,6 @@ export function* upcomingDonationsSearch({ payload }) {
 		});
 	}
 }
-
 
 export default function* upcomingDonationsSaga() {
 	yield takeLatest(UPCOMING_DONATIONS_START, upcomingDonations);

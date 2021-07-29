@@ -18,7 +18,7 @@ const SubCampaignDonateNow = ({ navigation, data, loginData,route }) => {
   const [remarksFocus, setRemarksFocus] = useState();
   //set all the required proto for updating and submitting
   const makeDonation = (values) => {
-     navigation.navigate("Campaign Donate Now Confirmation",{
+     navigation.navigate("Sub Campaign Donate Now Confirmation",{
       refId:route.params.refId,
       receiverName:route.params.receiverName,
       amount:values.amount,
@@ -38,7 +38,7 @@ const SubCampaignDonateNow = ({ navigation, data, loginData,route }) => {
         <Formik
           initialValues={{
             amount: "",
-            remarks:" "
+            remarks:""
           }}
           onSubmit={(values) => {
             makeDonation(values);

@@ -127,32 +127,6 @@ const LetsGetStartedDonor = ({
               </Text>
             )}
 
-            {/*<TouchableOpacity onPress={pickImage}>
-              {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={{
-                    height: HEIGHT * 0.105,
-                    width: WIDTH * 0.2,
-                    borderRadius: 100,
-                  }}
-                />
-              ) : (
-                <ProfileIconComponent />
-              )}
-
-              <Block
-                style={{
-                  padding: 2,
-                  borderRadius: 10,
-                  position: "absolute",
-                  marginLeft: WIDTH * 0.17,
-                  marginTop: HEIGHT * 0.074,
-                }}
-              >
-                <CameraIconComponent />
-              </Block>
-            </TouchableOpacity>*/}
             <TouchableOpacity
               onPress={pickImage}
               style={{
@@ -359,6 +333,7 @@ const LetsGetStartedDonor = ({
 
                   <Input
                     full
+                    number
                     placeholder="Zip Code"
                     style={{ marginBottom: 5 }}
                     onChangeText={handleChange("zipCode")}

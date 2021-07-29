@@ -26,8 +26,8 @@ import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconCom
 import EditIconComponent from "./../../../assets/icons/EditIconComponent.js";
 import CampaignEditIconComponent from "./../../../assets/icons/campaignEditIconComponent.js";
 import getCountryISO2 from "country-iso-3-to-2";
-import country  from "../../../constants/country.json";
-
+import country from "../../../constants/country.json";
+import RenderHtml from "react-native-render-html";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -52,7 +52,7 @@ const CampaignDetails = ({
   });
 
   const backAction = () => {
-    navigation.navigate("All Campaigns")
+    navigation.navigate("All Campaigns");
     return true;
   };
   useEffect(() => {
@@ -60,7 +60,11 @@ const CampaignDetails = ({
     campaignDetailsURLStart(campaignId);
     // BackHandler.addEventListener("hardwareBackPress", backAction);
     // return () =>BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, [campaignId, startACampaignThirdUpdateData.startACampaignThirdUpdate,campaignDonateNowConfirmationData.campaignDonateNowConfirmation]);
+  }, [
+    campaignId,
+    startACampaignThirdUpdateData.startACampaignThirdUpdate,
+    campaignDonateNowConfirmationData.campaignDonateNowConfirmation,
+  ]);
 
   const onShare = async () => {
     try {
@@ -80,7 +84,7 @@ const CampaignDetails = ({
       alert(error.message);
     }
   };
- 
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {data.isLoading || data.campaignDetailsURLLoading ? (
@@ -153,11 +157,11 @@ const CampaignDetails = ({
                         fontSize: 18,
                         fontWeight: "700",
                         textTransform: "capitalize",
-                       width:WIDTH-180
+                        width: WIDTH - 180,
                       }}
                       numberOfLines={1}
                     >
-                       {data.campaignDetails.campaign.title}
+                      {data.campaignDetails.campaign.title}
                     </Text>
                   </Block>
                   {route.params != undefined && (
@@ -184,6 +188,8 @@ const CampaignDetails = ({
                   onPress={() =>
                     navigation.navigate("Campaign QR Code", {
                       campaignurl: data.campaignDetailsURL.campaignurl,
+                      refId:campaignId,
+                      receiverName:data.campaignDetails.campaign.campaignbeneficiary.account.fullname,
                     })
                   }
                   activeOpacity={0.8}
@@ -211,7 +217,15 @@ const CampaignDetails = ({
                   }}
                   color={theme.colors.solidGray}
                 >
-                {country.find(item => item.code == getCountryISO2(data.campaignDetails.campaign.countrycode)).name}
+                  {
+                    country.find(
+                      (item) =>
+                        item.code ==
+                        getCountryISO2(
+                          data.campaignDetails.campaign.countrycode
+                        )
+                    ).name
+                  }
                 </Text>
                 {route.params != undefined && (
                   <TouchableOpacity
@@ -278,7 +292,7 @@ const CampaignDetails = ({
                       }}
                     >
                       {" "}
-                      raised from {formattedValue}
+                      raised of {formattedValue}
                     </Text>
                   )}
                 />
@@ -320,7 +334,7 @@ const CampaignDetails = ({
                 }}
               >
                 <Block>
-                  <Block row center style={{ flex: 0}}>
+                  <Block row center style={{ flex: 0 }}>
                     {data.campaignDetails.campaign.campaignstarter.profilepic ==
                     "" ? (
                       <UserIconComponent height={30} width={30} />
@@ -341,7 +355,7 @@ const CampaignDetails = ({
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 10,
-                        color: "#5F6062"
+                        color: "#5F6062",
                       }}
                     >
                       {data.campaignDetails.campaign.campaignstarter.account.fullname.substring(
@@ -366,7 +380,7 @@ const CampaignDetails = ({
                 </Block>
 
                 <Block>
-                  <Block row center style={{ flex: 0,overflow:"hidden"}}>
+                  <Block row center style={{ flex: 0, overflow: "hidden" }}>
                     <BeneficiaryIconComponent style={{ marginRight: 8 }} />
 
                     {data.campaignDetails.campaign.campaignbeneficiary
@@ -432,8 +446,10 @@ const CampaignDetails = ({
             >
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TargetAmountIconComponent height={HEIGHT/20}
-                width={WIDTH/10} />
+                  <TargetAmountIconComponent
+                    height={HEIGHT / 20}
+                    width={WIDTH / 10}
+                  />
                   <Block column>
                     <NumberFormat
                       value={data.campaignDetails.campaign.targetamount / 100}
@@ -469,8 +485,7 @@ const CampaignDetails = ({
 
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TagsIconComponent height={HEIGHT/20}
-                width={WIDTH/10}  />
+                  <TagsIconComponent height={HEIGHT / 20} width={WIDTH / 10} />
                   <Block column>
                     <Text
                       color="#5F6062"
@@ -479,7 +494,7 @@ const CampaignDetails = ({
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 10,
-                        width:WIDTH-280
+                        width: WIDTH - 280,
                       }}
                       numberOfLines={1}
                     >
@@ -537,8 +552,10 @@ const CampaignDetails = ({
               >
                 <Block>
                   <Block row style={{ flex: 0, overflow: "hidden" }}>
-                    <TimeRemainingIconComponent height={HEIGHT/20}
-                width={WIDTH/10}  />
+                    <TimeRemainingIconComponent
+                      height={HEIGHT / 20}
+                      width={WIDTH / 10}
+                    />
                     <Block column>
                       <Text
                         color="#5F6062"
@@ -574,15 +591,13 @@ const CampaignDetails = ({
                 paddingTop: 10,
               }}
             >
-              <Text
-                style={{ fontSize: 16, color: "#5F6062", marginRight: 10 }}
-                numberOfLines={viewMore?100:2}
-              >
-                {data.campaignDetails.campaign.description.replace(
-                  /(<([^>]+)>)/gi,
-                  ""
-                )}
-              </Text>
+              <RenderHtml
+                contentWidth={WIDTH}
+                source={{
+                  html:`${data.campaignDetails.campaign.description}`,
+                }}
+                 enableExperimentalMarginCollapsing={true}
+              />
 
               {route.params != undefined && (
                 <TouchableOpacity
@@ -609,7 +624,7 @@ const CampaignDetails = ({
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={{ flex: 1, alignItems: "flex-end" }}
-                onPress={()=>setViewMore(!viewMore)}
+                onPress={() => setViewMore(!viewMore)}
               >
                 <Text
                   style={{
@@ -618,7 +633,7 @@ const CampaignDetails = ({
                     fontWeight: "700",
                   }}
                 >
-                  {viewMore?"View less":"View More"}
+                  {viewMore ? "View less" : "View More"}
                 </Text>
               </TouchableOpacity>
             </Block>

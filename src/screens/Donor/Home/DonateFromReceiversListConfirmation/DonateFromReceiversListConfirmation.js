@@ -7,26 +7,25 @@ import {
   View,
   Dimensions,
 } from "react-native";
-import * as theme from "../../../constants/theme.js";
+import * as theme from "../../../../constants/theme.js";
 import {
   Block,
   Text,
   Button,
   CustomActivityIndicator,
-} from "../../../components/Index.js";
+} from "../../../../components/Index.js";
 import moment from "moment";
-import PaymentProto from "./../../../protos/payment_pb";
-import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
+import PaymentProto from "./../../../../protos/payment_pb";
+import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 import NumberFormat from "react-number-format";
 
 const WIDTH = Dimensions.get("window").width;
 
-const SubCampaignDonateNowConfirmation = ({
+const DonateFromReceiversListConfirmation = ({
   route,
   data,
-  loginData,
-  subCampaignDonateNowConfirmationStart,
-  subCampaignDonateNowConfirmationClear,
+  donateFromReceiversListConfirmationStart,
+  donateFromReceiversListConfirmationClear,
   navigation,
 }) => {
   const [
@@ -34,36 +33,36 @@ const SubCampaignDonateNowConfirmation = ({
     setConfirmationSuccessfulVisible,
   ] = useState(false);
   const {
-      refId,
-      receiverName,
-      amount,
-      remarks,
-      transactionMedium,
-      transactionType,
-      transactionStatus,
+    accountid,
+    receiverId,
+    receiverName,
+    amount,
+    remarks,
+    transactionMedium,
+    transactionType,
+    transactionStatus,
   } = route.params;
   //set all the required proto for updating and submitting
-  const onSubmitDonateFund = () => {
-    const donateProto = new PaymentProto.Transaction();
-    donateProto.setRefid(refId);
-    donateProto.setDonoraccountid(loginData.user.account.accountid);
-    donateProto.setAmount(amount * 100);
-    donateProto.setRemark(remarks);
-    donateProto.setTransactionmedium(transactionMedium);
-    donateProto.setTransactiontype(transactionType);
-    donateProto.setTransactionstatus(transactionStatus);
-    subCampaignDonateNowConfirmationStart(donateProto);
-    console.log("onSubmitDonateFund");
+  const onSubmitDonateFromReceiversListConfirmation = () => {
+    const donationProto = new PaymentProto.Transaction();
+    donationProto.setDonoraccountid(accountid);
+    donationProto.setReceiveraccountid(receiverId);
+    donationProto.setAmount(amount*100);
+    donationProto.setRemark(remarks);
+    donationProto.setTransactionmedium(transactionMedium);
+    donationProto.setTransactiontype(transactionType);
+    donationProto.setTransactionstatus(transactionStatus);
+    donateFromReceiversListConfirmationStart(donationProto);
   };
 
   useEffect(() => {
-    if (data.subCampaignDonateNowConfirmation !== null) {
-      if (data.subCampaignDonateNowConfirmation.success) {
-        setConfirmationSuccessfulVisible(!confirmationMessageVisible);
-        subCampaignDonateNowConfirmationClear();
+    if (data.donateFromReceiversListConfirmation !== null) {
+      if (data.donateFromReceiversListConfirmation.success) {
+        setConfirmationSuccessfulVisible(true);
+        donateFromReceiversListConfirmationClear();
       }
     }
-  }, [data.subCampaignDonateNowConfirmation]);
+  }, [data.donateFromReceiversListConfirmation]);
 
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -82,10 +81,13 @@ const SubCampaignDonateNowConfirmation = ({
               Donation Successful!
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
-              <TickIconComponent />
+             <TickIconComponent/>
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() =>  navigation.navigate("Sub Campaign Details")}>
+              <Button onPress={()=>{
+                setConfirmationSuccessfulVisible(false)
+                navigation.navigate(route.params.routeName)
+              }}>
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -103,15 +105,9 @@ const SubCampaignDonateNowConfirmation = ({
       <Block
         style={{
           flex: 0,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-          borderRadius:1.5,
-          elevation: 1.5,
+          borderRadius: 2,
+            shadowRadius: 2,
+            elevation: 2,
         }}
       >
         <Block
@@ -138,7 +134,7 @@ const SubCampaignDonateNowConfirmation = ({
               </Text>
             </Block>
           </Block>
-          
+
           <Block row style={{ flex: 0, paddingVertical: 8 }}>
             <Block>
               <Text
@@ -150,19 +146,20 @@ const SubCampaignDonateNowConfirmation = ({
               </Text>
             </Block>
             <Block>
-              <NumberFormat
-                value={amount}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"$"}
-                decimalScale={2}
-                fixedDecimalScale={true}
-                renderText={(formattedValue) => (
-                  <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                    {formattedValue}
-                  </Text>
-                )}
-              />
+             
+               <NumberFormat
+          value={amount}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={"$"}
+          decimalScale={2}
+          fixedDecimalScale={true}
+          renderText={(formattedValue) => (
+            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+              {formattedValue}
+            </Text>
+          )}
+        />
             </Block>
           </Block>
 
@@ -202,17 +199,17 @@ const SubCampaignDonateNowConfirmation = ({
             style={{
               marginTop: 30,
             }}
-            onPress={onSubmitDonateFund}
+            onPress={onSubmitDonateFromReceiversListConfirmation}
           >
             {data.isLoading ? (
               <>
-                <CustomActivityIndicator
-                  label="Requesting..."
-                  isLoading={data.isLoading}
-                />
-                <Text button style={{ fontSize: 18 }}>
-                 Donate
-                </Text>
+              <CustomActivityIndicator
+                label="Requesting..."
+                isLoading={data.isLoading}
+              />
+              <Text button style={{ fontSize: 18 }}>
+                Donate
+              </Text>
               </>
             ) : (
               <Text button style={{ fontSize: 18 }}>
@@ -229,7 +226,7 @@ const SubCampaignDonateNowConfirmation = ({
         >
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Sub Campaign Details")}
+            onPress={() => navigation.navigate("Donate Now")}
             style={{
               flex: 0,
               borderTopWidth: 2,
@@ -252,7 +249,7 @@ const SubCampaignDonateNowConfirmation = ({
   );
 };
 
-export default SubCampaignDonateNowConfirmation;
+export default DonateFromReceiversListConfirmation;
 
 const styles = StyleSheet.create({
   container: {

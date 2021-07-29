@@ -326,6 +326,7 @@ const letsGetStartedReceiver = ({
                 <ErrorMessage error={errors.city} visible={touched.city} />
 
                 <Input
+                  number
                   placeholder="Zip Code"
                   style={{ marginBottom: 5 }}
                   onChangeText={handleChange("zipCode")}

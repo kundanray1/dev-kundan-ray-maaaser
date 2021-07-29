@@ -16,7 +16,7 @@ export const subCampaignDonateNowConfirmationReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case SUB_AMPAIGN_DONATE_NOW_CONFIRMATION_START:
+    case SUB_CAMPAIGN_DONATE_NOW_CONFIRMATION_START:
       return {
         ...state,
         isLoading: true,

@@ -33,6 +33,7 @@ const CampaignSubCampaigns = ({
  useEffect(() => {
     campaignDetails(campaignId);
   }, [startASubCampaign.startASubCampaign]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {campaignDetailsdata.isLoading ? (
@@ -95,8 +96,8 @@ const CampaignSubCampaigns = ({
               }
             />
           </Block>
-          {campaignDetailsdata.campaignDetails.campaign.campaignstatus==1
-           && (
+          {((campaignDetailsdata.campaignDetails.campaign.campaignstatus==1) && (campaignDetailsdata.campaignDetails.campaign.targetamount > campaignDetailsdata.campaignDetails.campaign.collectedamount))
+           &&
             <Block
               style={{
                 paddingHorizontal: 18,
@@ -116,7 +117,7 @@ const CampaignSubCampaigns = ({
                 </Text>
               </Button>
             </Block>
-          )}
+          }
         </>
         :
                 <Empty
