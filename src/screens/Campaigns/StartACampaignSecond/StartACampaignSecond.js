@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  Dimensions,
-  ImageBackground,
-} from "react-native";
+import { TouchableOpacity, Dimensions, ImageBackground } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
   Block,
   Text,
   Button,
+  ErrorMessage,
 } from "../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -21,9 +18,10 @@ const StartACampaignSecond = ({
   navigation,
   imageUpload,
   route,
-  letsGetStartedDonorData
+  letsGetStartedDonorData,
 }) => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(letsGetStartedDonorData.image!=null?letsGetStartedDonorData.image:"");
+  const [imageError, setImageError] = useState(false);
 
   //select image function
   const pickImage = async () => {
@@ -34,22 +32,28 @@ const StartACampaignSecond = ({
       quality: 1,
     });
     if (!result.cancelled) {
-      setImage(result.uri);
       imageUpload(result.uri);
+      setImage(result.uri);
+      setImageError(false)
     }
   };
   const onSubmitStartACampaignSecond = () => {
-     navigation.navigate("Start a campaign third",{
-      title:route.params.title,
-      raisingMoneyType: route.params.raisingMoneyType,
-      beneficiaryType: route.params.beneficiaryType,
-      categoryType: route.params.categoryType,
-      countryCode: route.params.countryCode,
-      allowSubCampaigns: route.params.allowSubCampaigns,
-      targetAmount: route.params.targetAmount,
-      beneficiaryAccountId: route.params.beneficiaryAccountId,
-     })}
-  
+    if (image == "") {
+      setImageError(true);
+    } else {
+      setImageError(false);
+      navigation.navigate("Start a campaign third", {
+        title: route.params.title,
+        raisingMoneyType: route.params.raisingMoneyType,
+        beneficiaryType: route.params.beneficiaryType,
+        categoryType: route.params.categoryType,
+        countryCode: route.params.countryCode,
+        allowSubCampaigns: route.params.allowSubCampaigns,
+        targetAmount: route.params.targetAmount,
+        beneficiaryAccountId: route.params.beneficiaryAccountId,
+      });
+    }
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -134,30 +138,27 @@ const StartACampaignSecond = ({
             </>
           )}
         </TouchableOpacity>
-        <Block style={{ paddingVertical: 30,borderBottomWidth:1,borderColor:theme.colors.gray2 }}>
-          {image == "" || letsGetStartedDonorData.image==null ? (
-            <Button>
-              <Text button style={{ fontSize: 18 }}>
-                Proceed
-              </Text>
-            </Button>
-          ) : (
-            <Button
-            onPress={()=>onSubmitStartACampaignSecond()}
-            >
-              <Text button style={{ fontSize: 18 }}>
-                Proceed
-              </Text>
-            </Button>
-          )}
+        <ErrorMessage error={"Please upload image"} visible={imageError} />
+        <Block
+          style={{
+            paddingVertical: 30,
+            borderBottomWidth: 1,
+            borderColor: theme.colors.gray2,
+          }}
+        >
+          <Button onPress={() => onSubmitStartACampaignSecond()}>
+            <Text button style={{ fontSize: 18 }}>
+              Proceed
+            </Text>
+          </Button>
         </Block>
         <TouchableOpacity
           activeOpacity={0.8}
-          style={{paddingVertical:24}}
+          style={{ paddingVertical: 24 }}
           onPress={() => navigation.navigate("Start a campaign")}
         >
           <Text
-          center
+            center
             color={theme.colors.primary2}
             style={{ fontSize: 16, fontWeight: "700" }}
           >

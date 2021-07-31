@@ -34,21 +34,21 @@ const CardLoadFundConfirmation = ({
   ] = useState(false);
   const {
     cardid,
-accountid,
-amount,
-remarks,
-transactionMedium,
-transactionType,
-transactionStatus,
-cardHolderName,
-cardNumber
+    accountid,
+    amount,
+    remarks,
+    transactionMedium,
+    transactionType,
+    transactionStatus,
+    cardHolderName,
+    cardNumber,
   } = route.params;
   //set all the required proto for updating and submitting
   const onSubmitCardLoadFund = () => {
     const cardFundProto = new PaymentProto.Transaction();
     cardFundProto.setCardid(cardid);
     cardFundProto.setDonoraccountid(accountid);
-    cardFundProto.setAmount(amount*100);
+    cardFundProto.setAmount(amount * 100);
     cardFundProto.setRemark(remarks);
     cardFundProto.setTransactionmedium(transactionMedium);
     cardFundProto.setTransactiontype(transactionType);
@@ -72,21 +72,25 @@ cardNumber
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+          navigation.navigate("Card");
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
               Load Fund Successful!
             </Text>
-            <View style={{ paddingVertical: 25,alignItems:"center"}}>
-             <TickIconComponent/>
+            <View style={{ paddingVertical: 25, alignItems: "center" }}>
+              <TickIconComponent />
             </View>
-            <View style={{paddingHorizontal:30}}>
+            <View style={{ paddingHorizontal: 30 }}>
               <Button
-                onPress={() => navigation.navigate("Card")}
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(!confirmationMessageVisible);
+                  navigation.navigate("Card");
+                }}
               >
                 <Text button style={{ fontSize: 18 }}>
                   OK
@@ -99,13 +103,15 @@ cardNumber
     </SafeAreaView>
   );
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 24, justifyContent:"center" }}>
+    <SafeAreaView
+      style={{ flex: 1, paddingHorizontal: 24, justifyContent: "center" }}
+    >
       <Block
         style={{
           flex: 0,
           borderRadius: 2,
-            shadowRadius: 2,
-            elevation: 2,
+          shadowRadius: 2,
+          elevation: 2,
         }}
       >
         <Block
@@ -155,23 +161,23 @@ cardNumber
                 style={{ fontSize: 16, fontWeight: "700" }}
                 color={theme.colors.solidGray}
               >
-               Amount
+                Amount
               </Text>
             </Block>
             <Block>
-               <NumberFormat
-          value={amount}
-          displayType={"text"}
-          thousandSeparator={true}
-          prefix={"$"}
-          decimalScale={2}
-          fixedDecimalScale={true}
-          renderText={(formattedValue) => (
-            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-              {formattedValue}
-            </Text>
-          )}
-        />
+              <NumberFormat
+                value={amount}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                renderText={(formattedValue) => (
+                  <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+                    {formattedValue}
+                  </Text>
+                )}
+              />
             </Block>
           </Block>
 
@@ -215,13 +221,13 @@ cardNumber
           >
             {data.isLoading ? (
               <>
-              <CustomActivityIndicator
-                label="Requesting..."
-                isLoading={data.isLoading}
-              />
+                <CustomActivityIndicator
+                  label="Requesting..."
+                  isLoading={data.isLoading}
+                />
                 <Text button style={{ fontSize: 18 }}>
-                Load Fund
-              </Text>
+                  Load Fund
+                </Text>
               </>
             ) : (
               <Text button style={{ fontSize: 18 }}>

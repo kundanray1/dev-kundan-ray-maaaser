@@ -71,8 +71,11 @@ const CampaignDonateNowConfirmation = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
+        onRequestClose={() =>{
+
           setCampaignDonateNowCampaignVisible(false)
+           navigation.navigate("Campaign Details")
+        }
         }
       >
         <View style={styles.container}>
@@ -84,7 +87,11 @@ const CampaignDonateNowConfirmation = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Campaign Details")}>
+              <Button onPress={() => {
+
+          setCampaignDonateNowCampaignVisible(false)
+           navigation.navigate("Campaign Details")
+        }}>
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>

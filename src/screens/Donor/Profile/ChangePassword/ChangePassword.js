@@ -56,8 +56,8 @@ export default ChangePassword = ({
 				<Formik
 					initialValues={{
 						currentPassword:"",
-						password: "",
-						confirmPassword: "",
+						password:"",
+						confirmPassword:"",
 					}}
 					onSubmit={(values) => {
 						onSubmitChangePassword(values);
@@ -103,7 +103,7 @@ export default ChangePassword = ({
 							<Input
 								
 								password
-								label="Password"
+								label="New Password"
 								focus={passwordFocus}
 								style={{ marginBottom: 5 }}
 								onChangeText={handleChange("password")}
@@ -154,7 +154,7 @@ export default ChangePassword = ({
 								visible={touched.confirmPassword}
 							/>
 							<Block style={{ flex: 0, paddingTop:22 }}>
-							{!errors.currentPassword && !errors.confirmPassword && !errors.password ? (
+							{!errors.currentPassword || !errors.password || !errors.confirmPassword ? (
 								<Button
 									onPress={handleSubmit}
 								>

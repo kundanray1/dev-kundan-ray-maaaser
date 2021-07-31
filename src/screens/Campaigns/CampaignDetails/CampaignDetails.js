@@ -50,16 +50,9 @@ const CampaignDetails = ({
     campaignDetails(campaignId);
     setRefreshing(false);
   });
-
-  const backAction = () => {
-    navigation.navigate("All Campaigns");
-    return true;
-  };
   useEffect(() => {
     campaignDetails(campaignId);
     campaignDetailsURLStart(campaignId);
-    // BackHandler.addEventListener("hardwareBackPress", backAction);
-    // return () =>BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [
     campaignId,
     startACampaignThirdUpdateData.startACampaignThirdUpdate,
@@ -188,8 +181,10 @@ const CampaignDetails = ({
                   onPress={() =>
                     navigation.navigate("Campaign QR Code", {
                       campaignurl: data.campaignDetailsURL.campaignurl,
-                      refId:campaignId,
-                      receiverName:data.campaignDetails.campaign.campaignbeneficiary.account.fullname,
+                      refId: campaignId,
+                      receiverName:
+                        data.campaignDetails.campaign.campaignbeneficiary
+                          .account.fullname,
                     })
                   }
                   activeOpacity={0.8}
@@ -296,25 +291,6 @@ const CampaignDetails = ({
                     </Text>
                   )}
                 />
-                {route.params != undefined && (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={{ paddingHorizontal: 14, paddingVertical: 4 }}
-                    onPress={() =>
-                      navigation.navigate("Start a campaign update", {
-                        campaignDetails: data.campaignDetails,
-                        title: "",
-                        targetamount: "targetamount",
-                        country: "",
-                        beneficiarytype: "",
-                        beneficierslist: "",
-                        category: "",
-                      })
-                    }
-                  >
-                    <EditIconComponent />
-                  </TouchableOpacity>
-                )}
               </Block>
             </Block>
 
@@ -473,12 +449,36 @@ const CampaignDetails = ({
                         </Text>
                       )}
                     />
-
-                    <Text
-                      style={{ fontSize: 14, marginLeft: 10, color: "#5F6062" }}
-                    >
-                      Target Amount
-                    </Text>
+                    <Block row style={{ flex: 0 }}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          marginLeft: 10,
+                          color: "#5F6062",
+                        }}
+                      >
+                        Target Amount
+                      </Text>
+                      {route.params != undefined && (
+                        <TouchableOpacity
+                          activeOpacity={0.8}
+                          style={{ paddingHorizontal: 14, paddingVertical: 4 }}
+                          onPress={() =>
+                            navigation.navigate("Start a campaign update", {
+                              campaignDetails: data.campaignDetails,
+                              title: "",
+                              targetamount: "targetamount",
+                              country: "",
+                              beneficiarytype: "",
+                              beneficierslist: "",
+                              category: "",
+                            })
+                          }
+                        >
+                          <EditIconComponent />
+                        </TouchableOpacity>
+                      )}
+                    </Block>
                   </Block>
                 </Block>
               </Block>
@@ -594,9 +594,8 @@ const CampaignDetails = ({
               <RenderHtml
                 contentWidth={WIDTH}
                 source={{
-                  html:`${data.campaignDetails.campaign.description}`,
+                  html: `${data.campaignDetails.campaign.description}`,
                 }}
-                 enableExperimentalMarginCollapsing={true}
               />
 
               {route.params != undefined && (

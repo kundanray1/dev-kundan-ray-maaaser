@@ -56,6 +56,9 @@ const SubCampaigns = ({
                 onRefresh={onRefresh}
               />
             }
+            ListEmptyComponent={() => (
+                  <Empty iconName="campaigns" title="No campaigns data." />
+                )}
             ItemSeparatorComponent={() => <Block style={{ marginTop: 10 }} />}
             ListFooterComponent={() => (
               <Block style={{ marginVertical: 40, flex: 0 }} />

@@ -329,7 +329,9 @@ export default CampaignCard = ({
 						{mycampaign == "mycampaign" ||
 						mycampaign == "subcampaign" ? (
 							<Block row style={{ justifyContent: "flex-end" }}>
-								<TouchableOpacity
+
+								{campaignstatus !== 2 && (
+									<TouchableOpacity
 									activeOpacity={0.8}
 									onPress={() => handleEdit()}
 								>
@@ -340,6 +342,7 @@ export default CampaignCard = ({
 										}}
 									/>
 								</TouchableOpacity>
+								)}
 								{campaignstatus !== 2 && (
 									<TouchableOpacity
 										activeOpacity={0.8}

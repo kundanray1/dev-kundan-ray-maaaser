@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   Dimensions,
@@ -36,7 +36,7 @@ const StartACampaignUpdate = ({
   startACampaignThirdUpdateStart,
   startACampaignThirdUpdateClear,
   route,
-  loginData
+  loginData,
 }) => {
   const [
     confirmationMessageVisible,
@@ -45,30 +45,53 @@ const StartACampaignUpdate = ({
   const [beneficierId, setBeneficierId] = useState("");
   const [beneficierName, setBeneficierName] = useState("");
   const [titleFocus, setTitleFocus] = useState();
-  const [raisingMoneyType, setRaisingMoneyType] = useState(route.params.campaignDetails.campaign.beneficiarytype==1?"Myself":"Myself", "Someone else");
-  const [beneficiaryType, setBeneficiaryType] = useState(route.params.campaignDetails.campaign.beneficiarytype);
-  const [categoryType, setCategoryType] = useState(route.params.campaignDetails.campaign.category);
-  const [countryName, setCountryName] = useState(route.params.campaignDetails.campaign.countrycode);
-  const [countryCode, setCountryCode] = useState(route.params.campaignDetails.campaign.countrycode);
-  const [allowSubCampaigns, setAllowSubCampaigns] = useState(route.params.campaignDetails.campaign.allowsubcampaign);
-  const [targetAmount, setTargetAmount] = useState((route.params.campaignDetails.campaign.targetamount/100).toString());
+  const [raisingMoneyType, setRaisingMoneyType] = useState(
+    route.params.campaignDetails.campaign.beneficiarytype == 1
+      ? "Myself"
+      : "Myself",
+    "Someone else"
+  );
+  const [beneficiaryType, setBeneficiaryType] = useState(
+    route.params.campaignDetails.campaign.beneficiarytype
+  );
+  const [categoryType, setCategoryType] = useState(
+    route.params.campaignDetails.campaign.category
+  );
+  const [countryName, setCountryName] = useState(
+    route.params.campaignDetails.campaign.countrycode
+  );
+  const [countryCode, setCountryCode] = useState(
+    route.params.campaignDetails.campaign.countrycode
+  );
+  const [allowSubCampaigns, setAllowSubCampaigns] = useState(
+    route.params.campaignDetails.campaign.allowsubcampaign
+  );
+  const [targetAmount, setTargetAmount] = useState(
+    (route.params.campaignDetails.campaign.targetamount / 100).toString()
+  );
 
   const onSubmitStartACampaign = (values) => {
     const campaignData = new CampaignProto.Campaign();
-    campaignData.setCampaignid(route.params.campaignDetails.campaign.campaignid);
+    campaignData.setCampaignid(
+      route.params.campaignDetails.campaign.campaignid
+    );
     campaignData.setAccountid(loginData.user.account.accountid);
-    campaignData.setTargetamount(targetAmount*100);
+    campaignData.setTargetamount(targetAmount * 100);
     campaignData.setCountrycode(countryCode);
     campaignData.setTitle(values.title);
-    campaignData.setBeneficiarytype(
-      raisingMoneyType=="Myself"?1:2
-    );
+    campaignData.setBeneficiarytype(raisingMoneyType == "Myself" ? 1 : 2);
     campaignData.setBeneficiaryaccountid(beneficierId);
     campaignData.setCategory(categoryType);
-    campaignData.setDescription(route.params.campaignDetails.campaign.description);
-    campaignData.setThumbnailurl(route.params.campaignDetails.campaign.thumbnailurl);
+    campaignData.setDescription(
+      route.params.campaignDetails.campaign.description
+    );
+    campaignData.setThumbnailurl(
+      route.params.campaignDetails.campaign.thumbnailurl
+    );
     campaignData.setAllowsubcampaign(allowSubCampaigns);
-    campaignData.setCampaignstatus(route.params.campaignDetails.campaign.campaignstatus);
+    campaignData.setCampaignstatus(
+      route.params.campaignDetails.campaign.campaignstatus
+    );
     startACampaignThirdUpdateStart(campaignData);
   };
 
@@ -87,7 +110,10 @@ const StartACampaignUpdate = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.goBack();
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -98,7 +124,12 @@ const StartACampaignUpdate = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.goBack()}>
+              <Button
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(false);
+                  navigation.goBack();
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>
@@ -117,7 +148,16 @@ const StartACampaignUpdate = ({
       <Block style={{ paddingHorizontal: 16 }}>
         <Formik
           initialValues={{
-            title: route.params.campaignDetails.campaign.title!==undefined?route.params.campaignDetails.campaign.title:"",
+            title:
+              route.params.campaignDetails.campaign.title !== undefined
+                ? route.params.campaignDetails.campaign.title
+                : "",
+            targetAmount:
+              route.params.campaignDetails.campaign.targetamount !== undefined
+                ? (
+                    route.params.campaignDetails.campaign.targetamount / 100
+                  ).toString()
+                : "",
           }}
           onSubmit={(values) => {
             onSubmitStartACampaign(values);
@@ -133,145 +173,148 @@ const StartACampaignUpdate = ({
             errors,
           }) => (
             <Block>
-            {
-              route.params.targetamount=="targetamount"?
-            <>
-              <Text
-                center
-                style={{
-                  fontSize: 20,
-                  paddingVertical: 20,
-                  fontWeight: "700",
-                  color: "#5F6062",
-                }}
-              >
-                Enter your goal
-              </Text>
-
-              <Block style={{ flex: 0, paddingBottom: 10 }}>
-                <Block style={styles.amountSection}>
+              {route.params.targetamount == "targetamount" ? (
+                <>
                   <Text
                     center
                     style={{
                       fontSize: 20,
+                      paddingVertical: 20,
                       fontWeight: "700",
-                      color: "#0DB952",
+                      color: "#5F6062",
                     }}
                   >
-                    $
+                    Enter your goal
                   </Text>
-                  <TextInput
-                    style={styles.input}
-                    textAlign={"center"}
-                    value={targetAmount}
-                    onChangeText={(value) => setTargetAmount(value)}
-                    placeholder="0"
-                    placeholderTextColor="#0DB952"
-                    keyboardType="numeric"
-                  />
-                </Block>
-              </Block>
-              </>
-              :route.params.country=="country" ?
-              <CountryCode
-                countryName={countryName}
-                setCountryName={setCountryName}
-                countryCode={countryCode}
-                setCountryCode={setCountryCode}
-              />
-               :route.params.title=="title" ?
-               <>
-              <Input
-                label="Campaign Title"
-                focus={titleFocus}
-                onChangeText={handleChange("title")}
-                onBlur={() => {
-                  setFieldTouched("title");
-                  setTitleFocus(false);
-                }}
-                onFocus={() => setTitleFocus(true)}
-                value={values.title}
-                style={{
-                  borderBottomColor: titleFocus
-                    ? theme.colors.primary2
-                    : touched.title && errors.title
-                    ? theme.colors.red
-                    : theme.colors.solidGray,
-                }}
-              />
-              <ErrorMessage error={errors.title} visible={touched.title} />
-              </>
-                :route.params.category=="category" ?
-              <CategoryType
-                categoryType={categoryType}
-                setCategoryType={setCategoryType}
-              />
-               :route.params.beneficierslist=="beneficierslist" ?
-              <BeneficiersList
-                beneficierName={beneficierName}
-                setBeneficierId={setBeneficierId}
-                setBeneficierName={setBeneficierName}
-                receiversData={receiversData}
-                navigation={navigation}
-              />
-              :route.params.category=="category" ?
-              <CategoryType
-                categoryType={categoryType}
-                setCategoryType={setCategoryType}
-              />
-              :
-              <Block style={{ flex: 0 }}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => setAllowSubCampaigns(!allowSubCampaigns)}
-                  style={{ flexDirection: "row" }}
-                >
-                  {allowSubCampaigns ? (
-                    <MaterialCommunityIcons
-                      name="checkbox-marked"
-                      size={22}
-                      color={theme.colors.primary2}
-                    />
-                  ) : (
-                    <MaterialCommunityIcons
-                      name="checkbox-blank-outline"
-                      size={22}
-                      color={theme.colors.solidGray}
-                    />
-                  )}
-                  <Text
-                    bold
-                    style={{ fontSize: 16, paddingHorizontal: 8, marginTop: 2 }}
-                    color={theme.colors.solidGray}
-                  >
-                    Allow sub-campaigns
-                  </Text>
-                </TouchableOpacity>
-                </Block>
-            }
-                <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                  onPress={handleSubmit}
-                >
-                      <Text button style={{ fontSize: 18 }}>
-                        Update
+
+                  <Block style={{ flex: 0, paddingBottom: 10 }}>
+                    <Block style={styles.amountSection}>
+                      <Text
+                        center
+                        style={{
+                          fontSize: 20,
+                          fontWeight: "700",
+                          color: "#0DB952",
+                        }}
+                      >
+                        $
                       </Text>
-                </Button>
+                      <TextInput
+                        style={styles.input}
+                        textAlign={"center"}
+                        value={targetAmount}
+                        onChangeText={(value) => setTargetAmount(value)}
+                        placeholder="0"
+                        placeholderTextColor="#0DB952"
+                        keyboardType="numeric"
+                      />
+                    </Block>
+                  </Block>
+                </>
+              ) : route.params.country == "country" ? (
+                <CountryCode
+                  countryName={countryName}
+                  setCountryName={setCountryName}
+                  countryCode={countryCode}
+                  setCountryCode={setCountryCode}
+                />
+              ) : route.params.title == "title" ? (
+                <>
+                  <Input
+                    label="Campaign Title"
+                    focus={titleFocus}
+                    onChangeText={handleChange("title")}
+                    onBlur={() => {
+                      setFieldTouched("title");
+                      setTitleFocus(false);
+                    }}
+                    onFocus={() => setTitleFocus(true)}
+                    value={values.title}
+                    style={{
+                      borderBottomColor: titleFocus
+                        ? theme.colors.primary2
+                        : touched.title && errors.title
+                        ? theme.colors.red
+                        : theme.colors.solidGray,
+                    }}
+                  />
+                  <ErrorMessage error={errors.title} visible={touched.title} />
+                </>
+              ) : route.params.category == "category" ? (
+                <CategoryType
+                  categoryType={categoryType}
+                  setCategoryType={setCategoryType}
+                />
+              ) : route.params.beneficierslist == "beneficierslist" ? (
+                <BeneficiersList
+                  beneficierName={beneficierName}
+                  setBeneficierId={setBeneficierId}
+                  setBeneficierName={setBeneficierName}
+                  receiversData={receiversData}
+                  navigation={navigation}
+                />
+              ) : route.params.category == "category" ? (
+                <CategoryType
+                  categoryType={categoryType}
+                  setCategoryType={setCategoryType}
+                />
+              ) : (
+                <Block style={{ flex: 0 }}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => setAllowSubCampaigns(!allowSubCampaigns)}
+                    style={{ flexDirection: "row" }}
+                  >
+                    {allowSubCampaigns ? (
+                      <MaterialCommunityIcons
+                        name="checkbox-marked"
+                        size={22}
+                        color={theme.colors.primary2}
+                      />
+                    ) : (
+                      <MaterialCommunityIcons
+                        name="checkbox-blank-outline"
+                        size={22}
+                        color={theme.colors.solidGray}
+                      />
+                    )}
+                    <Text
+                      bold
+                      style={{
+                        fontSize: 16,
+                        paddingHorizontal: 8,
+                        marginTop: 2,
+                      }}
+                      color={theme.colors.solidGray}
+                    >
+                      Allow sub-campaigns
+                    </Text>
+                  </TouchableOpacity>
+                </Block>
+              )}
+              <Button
+                style={{
+                  marginTop: 12,
+                  marginBottom: 12,
+                }}
+                onPress={handleSubmit}
+              >
+                <Text button style={{ fontSize: 18 }}>
+                  Update
+                </Text>
+              </Button>
             </Block>
           )}
         </Formik>
       </Block>
-       {data.isLoading?
-       <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Requesting..."
-                    />
-                    :
-                    <Block/>
-      }
+      {data.isLoading ? (
+        <CustomActivityIndicator
+          isLoading={data.isLoading}
+          label="Requesting..."
+        />
+      ) : (
+        <Block />
+      )}
       {ConfirmationMessage()}
     </KeyboardAwareScrollView>
   );
@@ -280,7 +323,7 @@ const StartACampaignUpdate = ({
 export default StartACampaignUpdate;
 
 const styles = StyleSheet.create({
-   amountSection: {
+  amountSection: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -297,7 +340,7 @@ const styles = StyleSheet.create({
     color: "#0DB952",
     backgroundColor: "#E9F9FF",
   },
-   container: {
+  container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

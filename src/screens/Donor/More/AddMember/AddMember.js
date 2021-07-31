@@ -160,7 +160,7 @@ const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
             <ErrorMessage error={errors.password} visible={touched.password} />
 */}
               <Block style={{ flex: 0, marginTop: 20 }}>
-                {!errors.name && !errors.email ? (
+                {!errors.name || !errors.email ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
                       <>

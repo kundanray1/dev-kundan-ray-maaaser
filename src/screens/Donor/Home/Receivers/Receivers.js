@@ -60,7 +60,7 @@ const Receivers = ({ data, loginData, receivers, navigation }) => {
       });
       setFilteredDataSource(newData);
     } else {
-      setMasterDataSource(masterDataSource);
+      setFilteredDataSource(masterDataSource);
     }
   }
 

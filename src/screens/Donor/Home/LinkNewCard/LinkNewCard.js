@@ -374,11 +374,11 @@ const LinkNewCard = ({
               />
               <ErrorMessage error={errors.zipCode} visible={touched.zipCode} />*/}
               {
-              !errors.cardholderName &&
-              !errors.cardNumber &&
-              !errors.cvc &&
-              !errors.street1 && 
-              !errors.city &&
+              !errors.cardholderName||
+              !errors.cardNumber ||
+              !errors.cvc ||
+              !errors.street1 || 
+              !errors.city ||
               !errors.state 
                ? (
                 <Button

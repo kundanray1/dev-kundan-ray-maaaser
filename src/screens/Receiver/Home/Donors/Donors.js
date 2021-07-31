@@ -8,17 +8,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
-import {
-  Block,
-  Empty,
-  DonorsDetail,
-} from "../../../../components/Index.js";
-import styles  from "../../../../utility/globalStyles.js";
+import { Block, Empty, DonorsDetail } from "../../../../components/Index.js";
+import styles from "../../../../utility/globalStyles.js";
 import { Ionicons } from "@expo/vector-icons";
 
-const Donors = ({  data, donors }) => {
+const Donors = ({ data, donors }) => {
   const [search, setSearch] = useState();
-const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [filteredDataSource, setFilteredDataSource] = useState(
     data.donors != null ? data.donors.clientsList : null
   );
@@ -42,16 +38,16 @@ const [refreshing, setRefreshing] = useState(false);
   });
   function searchFilterFunction(text) {
     if (text) {
-      const newData = masterDataSource.filter(function (item) {
-        const itemData = item.account.fullname ? item.account.fullname.toUpperCase() : "".toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredDataSource(newData);
-      setSearch(text);
+        const newData = masterDataSource.filter(function (item) {
+          const itemData = item.account.fullname
+            ? item.account.fullname.toUpperCase()
+            : "".toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+        setFilteredDataSource(newData);
     } else {
-      setMasterDataSource(masterDataSource);
-      setSearch(text);
+      setFilteredDataSource(masterDataSource);
     }
   }
   return (
@@ -94,20 +90,23 @@ const [refreshing, setRefreshing] = useState(false);
               return item.clientid.toString();
             }}
             refreshControl={
-                    <RefreshControl
-                      colors={[theme.colors.primary2]}
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
+              <RefreshControl
+                colors={[theme.colors.primary2]}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
             ItemSeparatorComponent={() => <Block style={{ marginTop: 2 }} />}
-              ListFooterComponent={() => (
-                  <Block middle center style={{ marginBottom:120,flex: 0 }}>
-                  </Block>
-                )}
-                ListFooterComponentStyle={{
-                  paddingVertical:20,
-                }}
+            ListFooterComponent={() => (
+              <Block
+                middle
+                center
+                style={{ marginBottom: 120, flex: 0 }}
+              ></Block>
+            )}
+            ListFooterComponentStyle={{
+              paddingVertical: 20,
+            }}
             ListEmptyComponent={() => (
               <Empty iconName="donors" title="You don't have any data." />
             )}

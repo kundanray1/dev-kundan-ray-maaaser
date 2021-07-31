@@ -71,9 +71,10 @@ const DonateFromReceiversListConfirmation = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
+        onRequestClose={() =>{
           setConfirmationSuccessfulVisible(false)
-        }
+          navigation.navigate(route.params.routeName)
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>

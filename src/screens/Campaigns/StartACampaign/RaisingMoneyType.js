@@ -14,7 +14,7 @@ import styles from "../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType,setRaisingMoneyTypeError }) => {
+export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType,setRaisingMoneyTypeError,disabled }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const options = ["Myself", "Someone else"];
   
@@ -46,6 +46,7 @@ export default RaisingMoneyType = ({ raisingMoneyType,setRaisingMoneyType,setRai
       <TouchableOpacity
         style={styles.customPicker}
         onPress={() => setModalVisible(!isModalVisible)}
+        disabled={disabled}
       >
         <Block style={{flex:3}}>
           <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>

@@ -45,6 +45,7 @@ export function* allCampaignsSearch({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("allCampaignsSearch",res);
 		if (res.success) {
 			yield put(allCampaignsSearchSuccess(res));
 		} else {

@@ -19,7 +19,7 @@ import { receiversStart } from "./../../Donor/Home/Receivers/actions";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,setBeneficierName, receiversData,setBeneficierIdError }) => {
+export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,setBeneficierName, receiversData,setBeneficierIdError,disabled }) => {
   const [beneficier, setBeneficier] = useState();
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(receiversData.receivers.clientsList);
@@ -82,6 +82,7 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
       <TouchableOpacity
         style={styles.customPicker}
         onPress={() => setBeneficiersListModalVisible(!beneficiersListModalVisible)}
+        disabled={disabled}
       >
         <Block>
           <Text bold style={{ fontSize: 16, color: theme.colors.solidGray }}>

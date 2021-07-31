@@ -182,7 +182,12 @@ export const CardLoadFundValidationSchema = Yup.object().shape({
 export const ChangePasswordValidationSchema = Yup.object().shape({
   currentPassword: Yup.string().required().min(6).max(50).label("Current Password"),
   password: Yup.string().required().min(6).max(50).label("Password"),
-  confirmPassword: Yup.string().required().min(6).max(50).label("Confirm Password"),
+  confirmPassword: Yup.string()
+    .required()
+    .min(6)
+    .max(50)
+    .oneOf([Yup.ref("password"), null], "Both new password and confirm password must match")
+    .label("Confirm Password"),
 });
 
 export const StartACampaignValidationSchema = Yup.object().shape({

@@ -305,7 +305,8 @@ const DonorReceiver = ({
             </ImageBackground>
           </Block>
 
-          {allCampaignsData.allCampaigns.campaignsList.length != 0 &&
+          {
+            allCampaignsData.allCampaigns.campaignsList.length != 0 &&
           <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
             <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
               <Text style={{ fontSize: 16, fontWeight: "700",textTransform:"capitalize" }}>
@@ -347,9 +348,9 @@ const DonorReceiver = ({
                 )}
                 ListEmptyComponent={() => (
                   <Empty
-                    iconName="transactions"
+                    iconName="campaigns"
                     dashboard={0}
-                    title="You don't have any data."
+                    title="No campaigns data."
                   />
                 )}
                 renderItem={(post) =>

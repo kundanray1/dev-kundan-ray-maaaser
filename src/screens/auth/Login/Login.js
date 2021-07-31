@@ -178,7 +178,7 @@ const Login = ({ navigation, data, login }) => {
               </TouchableOpacity>
             </Block>
             <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
-              {!errors.identifier && !errors.password ? (
+              {!errors.identifier || !errors.password ? (
                 <Button full onPress={handleSubmit}>
                   {data.isLoading ? (
                     <>

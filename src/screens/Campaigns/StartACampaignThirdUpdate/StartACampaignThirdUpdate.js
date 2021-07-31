@@ -19,6 +19,8 @@ import CampaignProto from "./../../../protos/campaign_pb";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import StartACampaignSecondIconComponent from "./../../../assets/icons/StartACampaignSecondIconComponent";
 import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
+import { StartACampaignThirdValidationSchema } from "./../../../utility/ValidationSchema.js";
+import { Formik } from "formik";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -35,8 +37,7 @@ const StartACampaignThirdUpdate = ({
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [description, setDescription] = useState(route.params.campaignDetails.campaign.description);
-  const onSubmitStartACampaignThird = () => {
+  const onSubmitStartACampaignThird = (values) => {
     const campaignData = new CampaignProto.Campaign();
     campaignData.setCampaignid(route.params.campaignDetails.campaign.campaignid);
     campaignData.setAccountid(loginData.user.account.accountid);
@@ -48,7 +49,7 @@ const StartACampaignThirdUpdate = ({
     );
     campaignData.setBeneficiaryaccountid(route.params.campaignDetails.campaign.beneficiaryaccountid);
     campaignData.setCategory(route.params.campaignDetails.campaign.category);
-    campaignData.setDescription(description);
+    campaignData.setDescription(values.description);
     campaignData.setThumbnailurl(route.params.campaignDetails.campaign.thumbnailurl);
     campaignData.setAllowsubcampaign(route.params.campaignDetails.campaign.allowSubCampaigns);
     campaignData.setCampaignstatus(route.params.campaignDetails.campaign.campaignstatus);
@@ -71,7 +72,10 @@ const StartACampaignThirdUpdate = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
+           onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.goBack();
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -82,7 +86,10 @@ const StartACampaignThirdUpdate = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.goBack()}>
+              <Button onPress={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.goBack();
+        }}>
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>
@@ -100,48 +107,85 @@ const StartACampaignThirdUpdate = ({
       showsVerticalScrollIndicator={false}
     >
       <Block style={{ paddingHorizontal: 16 }}>
-        <Text
-          center
-          style={{
-            fontSize: 20,
-            paddingVertical: 20,
-            fontWeight: "700",
-            color: "#5F6062",
+        <Formik
+          initialValues={{
+            description: route.params.campaignDetails.campaign.description,
           }}
+          onSubmit={(values) => {
+            onSubmitStartACampaignThird(values);
+          }}
+          validationSchema={StartACampaignThirdValidationSchema}
         >
-          Describe why are you are fundraising
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          onChangeText={(value)=>setDescription(value)}
-          value={description}
-          placeholder="Explain about the campaignDetails.campaign."
-          keyboardType="default"
-          multiline
-          numberOfLines={10}
-        />
-
-        <Block
-          style={{
-            paddingVertical: 30,
-           }}
-        >
-          <Button onPress={() => onSubmitStartACampaignThird()}>
-            <Text button style={{ fontSize: 18 }}>
-              Update
-            </Text>
-          </Button>
+          {({
+            handleChange,
+            touched,
+            setFieldTouched,
+            handleSubmit,
+            values,
+            errors,
+          }) => (
+            <Block>
+              <Text
+                center
+                style={{
+                  fontSize: 20,
+                  paddingVertical: 20,
+                  fontWeight: "700",
+                  color: "#5F6062",
+                }}
+              >
+                Describe why are you are fundraising
+              </Text>
+              <TextInput
+                placeholder="Explain about the campaign."
+                keyboardType="default"
+                multiline
+                numberOfLines={10}
+                style={styles.input}
+                onChangeText={handleChange("description")}
+                onBlur={() => {
+                  setFieldTouched("description");
+                }}
+                value={values.description}
+              />
+              <ErrorMessage
+                error={errors.description}
+                visible={touched.description}
+              />
+               <Block style={{ paddingVertical: 30 }}>
+              {!errors.description ? (
+                <Button
+                  onPress={handleSubmit}
+                >
+                  {data.isLoading ? (
+                    <>
+                      <CustomActivityIndicator
+                        label="Requesting..."
+                        isLoading={data.isLoading}
+                      />
+                      <Text button style={{ fontSize: 18 }}>
+                        Update
+                      </Text>
+                    </>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Update
+                    </Text>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                >
+                  <Text button style={{ fontSize: 18 }}>
+                    Update
+                  </Text>
+                </Button>
+              )}
+            </Block>
+          </Block>
+          )}
+        </Formik>
         </Block>
-      </Block>
-      {data.isLoading?
-       <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Requesting..."
-                    />
-                    :
-                    <Block/>
-      }
       {ConfirmationMessage()}
     </KeyboardAwareScrollView>
   );

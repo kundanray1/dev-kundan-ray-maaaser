@@ -74,9 +74,10 @@ const ACHLoadFundConfirmation = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(false)
-        }
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.navigate("ACH");
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -87,7 +88,12 @@ const ACHLoadFundConfirmation = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("ACH")}>
+              <Button
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(false);
+                  navigation.navigate("ACH");
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -106,8 +112,8 @@ const ACHLoadFundConfirmation = ({
         style={{
           flex: 0,
           borderRadius: 2,
-            shadowRadius: 2,
-            elevation: 2,
+          shadowRadius: 2,
+          elevation: 2,
         }}
       >
         <Block

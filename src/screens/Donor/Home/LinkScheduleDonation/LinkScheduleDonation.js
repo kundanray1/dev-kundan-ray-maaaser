@@ -412,7 +412,7 @@ const LinkScheduleDonation = ({
               />
               <ErrorMessage error={errors.remarks} visible={touched.remarks} />
               <Block style={{ flex: 0, paddingVertical: 20 }}>
-                {!errors.remarks && !errors.amount ? (
+                {!errors.remarks || !errors.amount ? (
                   <Button onPress={handleSubmit}>
                     {data.isLoading ? (
                       <CustomActivityIndicator

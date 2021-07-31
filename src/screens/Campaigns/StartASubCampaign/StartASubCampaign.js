@@ -23,7 +23,7 @@ const WIDTH = Dimensions.get("window").width;
 
 const StartASubCampaign = ({
   data,
-  navigation: { goBack },
+  navigation,
   loginData,
   startASubCampaignStart,
   startASubCampaignClear,
@@ -76,7 +76,10 @@ const StartASubCampaign = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false)
+          navigation.goBack()
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -95,7 +98,10 @@ const StartASubCampaign = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => goBack()}>
+              <Button onPress={() =>{ 
+                    setConfirmationSuccessfulVisible(false)
+                    navigation.goBack()
+              }}>
                 <Text button style={{ fontSize: 18 }}>
                   View Sub Campaigns
                 </Text>

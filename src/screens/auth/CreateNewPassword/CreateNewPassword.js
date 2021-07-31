@@ -143,7 +143,7 @@ export default CreateNewPassword = ({
 								visible={touched.confirmPassword}
 							/>
 							<Block style={{ flex: 0, paddingTop:22 }}>
-							{!errors.confirmPassword && !errors.password ? (
+							{!errors.confirmPassword || !errors.password ? (
 								<Button
 									full
 									onPress={handleSubmit}

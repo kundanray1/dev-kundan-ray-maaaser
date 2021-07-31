@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   Dimensions,
@@ -13,7 +13,7 @@ import {
   Block,
   Text,
   Button,
-  CustomActivityIndicator
+  CustomActivityIndicator,
 } from "../../../components/Index.js";
 import * as ImagePicker from "expo-image-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -34,13 +34,15 @@ const StartACampaignSecondUpdate = ({
   startACampaignThirdUpdateClear,
   data,
   route,
-  loginData
+  loginData,
 }) => {
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [image, setImage] = useState(route.params.campaignDetails.campaign.thumbnailurl);
+  const [image, setImage] = useState(
+    route.params.campaignDetails.campaign.thumbnailurl
+  );
 
   //select image function
   const pickImage = async () => {
@@ -56,24 +58,38 @@ const StartACampaignSecondUpdate = ({
     }
   };
   const onSubmitStartACampaignSecond = () => {
-     const campaignData = new CampaignProto.Campaign();
-    campaignData.setCampaignid(route.params.campaignDetails.campaign.campaignid);
+    const campaignData = new CampaignProto.Campaign();
+    campaignData.setCampaignid(
+      route.params.campaignDetails.campaign.campaignid
+    );
     campaignData.setAccountid(loginData.user.account.accountid);
-    campaignData.setTargetamount(route.params.campaignDetails.campaign.targetamount);
-    campaignData.setCountrycode(route.params.campaignDetails.campaign.countrycode);
+    campaignData.setTargetamount(
+      route.params.campaignDetails.campaign.targetamount
+    );
+    campaignData.setCountrycode(
+      route.params.campaignDetails.campaign.countrycode
+    );
     campaignData.setTitle(route.params.campaignDetails.campaign.title);
     campaignData.setBeneficiarytype(
       route.params.campaignDetails.campaign.beneficiarytype
     );
-    campaignData.setBeneficiaryaccountid(route.params.campaignDetails.campaign.beneficiaryaccountid);
+    campaignData.setBeneficiaryaccountid(
+      route.params.campaignDetails.campaign.beneficiaryaccountid
+    );
     campaignData.setCategory(route.params.campaignDetails.campaign.category);
-    campaignData.setDescription(route.params.campaignDetails.campaign.description);
+    campaignData.setDescription(
+      route.params.campaignDetails.campaign.description
+    );
     campaignData.setThumbnailurl(letsGetStartedDonorData.image);
-    campaignData.setAllowsubcampaign(route.params.campaignDetails.campaign.allowSubCampaigns);
-    campaignData.setCampaignstatus(route.params.campaignDetails.campaign.campaignstatus);
+    campaignData.setAllowsubcampaign(
+      route.params.campaignDetails.campaign.allowSubCampaigns
+    );
+    campaignData.setCampaignstatus(
+      route.params.campaignDetails.campaign.campaignstatus
+    );
     startACampaignThirdUpdateStart(campaignData);
-     }
-   useEffect(() => {
+  };
+  useEffect(() => {
     if (data.startACampaignThirdUpdate !== null) {
       if (data.startACampaignThirdUpdate.success) {
         setConfirmationSuccessfulVisible(!confirmationMessageVisible);
@@ -82,14 +98,17 @@ const StartACampaignSecondUpdate = ({
       }
     }
   }, [data.startACampaignThirdUpdate]);
-const ConfirmationMessage = () => (
+  const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
         visible={confirmationMessageVisible}
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.goBack();
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -100,7 +119,12 @@ const ConfirmationMessage = () => (
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.goBack()}>
+              <Button
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(false);
+                  navigation.goBack();
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>
@@ -111,7 +135,6 @@ const ConfirmationMessage = () => (
       </Modal>
     </SafeAreaView>
   );
-
 
   return (
     <KeyboardAwareScrollView
@@ -194,9 +217,7 @@ const ConfirmationMessage = () => (
               </Text>
             </Button>
           ) : (
-            <Button
-            onPress={()=>onSubmitStartACampaignSecond()}
-            >
+            <Button onPress={() => onSubmitStartACampaignSecond()}>
               <Text button style={{ fontSize: 18 }}>
                 Update
               </Text>
@@ -204,22 +225,21 @@ const ConfirmationMessage = () => (
           )}
         </Block>
       </Block>
-       {data.isLoading?
-       <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Requesting..."
-                    />
-                    :
-                    <Block/>
-      }
-       {ConfirmationMessage()}
-       {
-        letsGetStartedDonorData.isLoading &&
+      {data.isLoading ? (
         <CustomActivityIndicator
-                      isLoading={data.isLoading}
-                      label="Requesting..."
+          isLoading={data.isLoading}
+          label="Requesting..."
         />
-       }
+      ) : (
+        <Block />
+      )}
+      {ConfirmationMessage()}
+      {letsGetStartedDonorData.isLoading && (
+        <CustomActivityIndicator
+          isLoading={data.isLoading}
+          label="Requesting..."
+        />
+      )}
     </KeyboardAwareScrollView>
   );
 };
@@ -245,8 +265,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: theme.colors.solidGray,
     paddingHorizontal: 8,
-    paddingVertical:4,
-    borderWidth:1,
-    textAlignVertical:"top",
+    paddingVertical: 4,
+    borderWidth: 1,
+    textAlignVertical: "top",
   },
 });

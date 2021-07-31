@@ -230,8 +230,8 @@ const LinkNewAccount = ({
                 visible={touched.confirmAccountNumber}
               />
 
-              {!errors.bankName &&
-              !errors.accountNumber &&
+              {!errors.bankName ||
+              !errors.accountNumber ||
               !errors.routingNumber ? (
                 <Button
                   style={{

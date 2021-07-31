@@ -32,11 +32,17 @@ const StartACampaignThird = ({
   imageUploadClear,
   letsGetStartedDonorData,
   route,
+  campaignId,
 }) => {
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
+  const [
+    campaignDetailId,
+    setCampaignDetailId,
+  ] = useState("");
+  
   const onSubmitStartACampaignThird = (values) => {
     const campaignData = new CampaignProto.Campaign();
     campaignData.setTargetamount(route.params.targetAmount * 100);
@@ -57,13 +63,13 @@ const StartACampaignThird = ({
   useEffect(() => {
     if (data.startACampaignThird !== null) {
       if (data.startACampaignThird.success) {
+        setCampaignDetailId(data.startACampaignThird.campaign.campaignid)
         setConfirmationSuccessfulVisible(!confirmationMessageVisible);
         startACampaignThirdClear();
         imageUploadClear();
       }
     }
   }, [data.startACampaignThird]);
-
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
@@ -71,7 +77,10 @@ const StartACampaignThird = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
+        onRequestClose={() =>{
+                setConfirmationSuccessfulVisible(false)
+                navigation.navigate("Campaigns") 
+              }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -82,7 +91,11 @@ const StartACampaignThird = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => navigation.navigate("Campaigns")}>
+              <Button onPress={() =>{
+                setConfirmationSuccessfulVisible(false)
+                campaignId(campaignDetailId)
+                navigation.navigate("Campaign Details");
+              }}>
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>

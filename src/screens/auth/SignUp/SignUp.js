@@ -214,8 +214,9 @@ setClientTypeError
                 visible={touched.confirmPassword}
               />
               <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
-                {!errors.emailOrPhone &&
-                !errors.confirmPassword &&
+                {
+                !errors.emailOrPhone ||
+                !errors.confirmPassword ||
                 !errors.password 
                 ? (
                   <Button full onPress={handleSubmit}>

@@ -253,6 +253,13 @@ function searchFilterFunction(text) {
       country:countryCode==undefined?"":countryCode,
       search:text
     })
+    }else{
+      allCampaignsSearch({
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      country:countryCode==undefined?"":countryCode,
+      search:""
+    })
     }
   }
   return (
@@ -300,6 +307,9 @@ function searchFilterFunction(text) {
                 onRefresh={onRefresh}
               />
             }
+             ListEmptyComponent={() => (
+                  <Empty iconName="campaigns" title="No campaigns data." />
+                )}
             ListFooterComponent={() => (
               <Block style={{ marginVertical: 40, flex: 0 }} />
             )}

@@ -71,9 +71,11 @@ const DonateViaScanConfirmation = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
+        onRequestClose={() =>{
           setConfirmationSuccessfulVisible(false)
-        }
+            navigation.navigate("Donate")
+        
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>

@@ -47,7 +47,7 @@ const ManualDonateConfirmation = ({
     const donationProto = new PaymentProto.Transaction();
     donationProto.setDonoraccountid(accountid);
     donationProto.setReceiveraccountid(receiverId);
-    donationProto.setAmount(amount*100);
+    donationProto.setAmount(amount * 100);
     donationProto.setRemark(remarks);
     donationProto.setTransactionmedium(transactionMedium);
     donationProto.setTransactiontype(transactionType);
@@ -71,9 +71,10 @@ const ManualDonateConfirmation = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(false)
-        }
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.navigate("Donate");
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -81,13 +82,15 @@ const ManualDonateConfirmation = ({
               Donation Successful!
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
-             <TickIconComponent/>
+              <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={()=>{
-                setConfirmationSuccessfulVisible(false)
-                navigation.navigate("Donate")
-              }}>
+              <Button
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(false);
+                  navigation.navigate("Donate");
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -106,8 +109,8 @@ const ManualDonateConfirmation = ({
         style={{
           flex: 0,
           borderRadius: 2,
-            shadowRadius: 2,
-            elevation: 2,
+          shadowRadius: 2,
+          elevation: 2,
         }}
       >
         <Block
@@ -146,20 +149,19 @@ const ManualDonateConfirmation = ({
               </Text>
             </Block>
             <Block>
-             
-               <NumberFormat
-          value={amount}
-          displayType={"text"}
-          thousandSeparator={true}
-          prefix={"$"}
-          decimalScale={2}
-          fixedDecimalScale={true}
-          renderText={(formattedValue) => (
-            <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-              {formattedValue}
-            </Text>
-          )}
-        />
+              <NumberFormat
+                value={amount}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                renderText={(formattedValue) => (
+                  <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
+                    {formattedValue}
+                  </Text>
+                )}
+              />
             </Block>
           </Block>
 
@@ -203,13 +205,13 @@ const ManualDonateConfirmation = ({
           >
             {data.isLoading ? (
               <>
-              <CustomActivityIndicator
-                label="Requesting..."
-                isLoading={data.isLoading}
-              />
-              <Text button style={{ fontSize: 18 }}>
-                Donate
-              </Text>
+                <CustomActivityIndicator
+                  label="Requesting..."
+                  isLoading={data.isLoading}
+                />
+                <Text button style={{ fontSize: 18 }}>
+                  Donate
+                </Text>
               </>
             ) : (
               <Text button style={{ fontSize: 18 }}>

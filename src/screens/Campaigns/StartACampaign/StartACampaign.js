@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   TouchableOpacity,
   Dimensions,
@@ -11,7 +11,7 @@ import {
   Text,
   Button,
   CustomActivityIndicator,
-  ErrorMessage
+  ErrorMessage,
 } from "../../../components/Index.js";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
@@ -25,12 +25,22 @@ import BeneficiersList from "./BeneficiersList";
 
 const WIDTH = Dimensions.get("window").width;
 
-const StartACampaign = ({ data, navigation, receiversData }) => {
-  const [beneficierId, setBeneficierId] = useState("");
+const StartACampaign = ({ data, navigation, loginData,imageUploadClear, receiversData }) => {
+  const [beneficierId, setBeneficierId] = useState(
+    loginData.user.account.accounttype == 3
+      ? loginData.user.account.accountid
+      : ""
+  );
   const [beneficierIdError, setBeneficierIdError] = useState(false);
-  const [beneficierName, setBeneficierName] = useState("");
+  const [beneficierName, setBeneficierName] = useState(
+    loginData.user.account.accounttype == 3
+      ? loginData.user.account.fullname
+      :  ""
+  );
   const [titleFocus, setTitleFocus] = useState();
-  const [raisingMoneyType, setRaisingMoneyType] = useState("");
+  const [raisingMoneyType, setRaisingMoneyType] = useState(
+    loginData.user.account.accounttype == 3 ? "Myself" : ""
+  );
   const [raisingMoneyTypeError, setRaisingMoneyTypeError] = useState(false);
   const [categoryType, setCategoryType] = useState("");
   const [categoryTypeError, setCategoryTypeError] = useState(false);
@@ -46,7 +56,21 @@ const StartACampaign = ({ data, navigation, receiversData }) => {
     } else if (raisingMoneyType == "") {
       setRaisingMoneyTypeError(true);
     } else if (beneficierId == "") {
+      if(raisingMoneyType == "Myself"){
+      setBeneficierId(loginData.user.account.accountid);
+      setBeneficierIdError(false);
+       navigation.navigate("Start a campaign second", {
+        title: values.title,
+        raisingMoneyType: raisingMoneyType,
+        categoryType: categoryType,
+        countryCode: countryCode,
+        allowSubCampaigns: allowSubCampaigns,
+        targetAmount: values.targetAmount,
+        beneficiaryAccountId:beneficierId,
+      });
+      }else{
       setBeneficierIdError(true);
+      }
     } else if (raisingMoneyType == "") {
       setRaisingMoneyTypeError(true);
     } else {
@@ -57,10 +81,14 @@ const StartACampaign = ({ data, navigation, receiversData }) => {
         countryCode: countryCode,
         allowSubCampaigns: allowSubCampaigns,
         targetAmount: values.targetAmount,
-        beneficiaryAccountId: beneficierId,
+        beneficiaryAccountId:beneficierId,
       });
     }
   };
+
+useEffect(()=>{
+  imageUploadClear()
+},[])
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -168,24 +196,49 @@ const StartACampaign = ({ data, navigation, receiversData }) => {
                 }}
               />
               <ErrorMessage error={errors.title} visible={touched.title} />
-              <RaisingMoneyType
-                raisingMoneyType={raisingMoneyType}
-                setRaisingMoneyType={setRaisingMoneyType}
-                setRaisingMoneyTypeError={setRaisingMoneyTypeError}
-              />
+
+              {loginData.user.account.accounttype == 3 ? (
+                <RaisingMoneyType
+                  raisingMoneyType={raisingMoneyType}
+                  setRaisingMoneyType={setRaisingMoneyType}
+                  setRaisingMoneyTypeError={setRaisingMoneyTypeError}
+                  disabled={true}
+                />
+              ) : (
+                <RaisingMoneyType
+                  raisingMoneyType={raisingMoneyType}
+                  setRaisingMoneyType={setRaisingMoneyType}
+                  setRaisingMoneyTypeError={setRaisingMoneyTypeError}
+                  disabled={false}
+                />
+              )}
               <ErrorMessage
                 error={"Raising money type is a required field"}
                 visible={raisingMoneyTypeError}
               />
+              {loginData.user.account.accounttype == 3 ||
+              raisingMoneyType == "Myself" ? (
+                <BeneficiersList
+                  beneficierName={loginData.user.account.fullname}
+                  setBeneficierId={setBeneficierId}
+                  setBeneficierIdError={false}
+                  setBeneficierName={setBeneficierName}
+                  receiversData={receiversData}
+                  navigation={navigation}
+                  disabled={true}
+                />
+              ) : (
+                <BeneficiersList
+                  beneficierName={beneficierName}
+                  setBeneficierId={setBeneficierId}
+                  setBeneficierIdError={setBeneficierIdError}
+                  setBeneficierName={setBeneficierName}
+                  receiversData={receiversData}
+                  navigation={navigation}
+                  disabled={false}
+                />
+              )}
 
-              <BeneficiersList
-                beneficierName={beneficierName}
-                setBeneficierId={setBeneficierId}
-                setBeneficierIdError={setBeneficierIdError}
-                setBeneficierName={setBeneficierName}
-                receiversData={receiversData}
-                navigation={navigation}
-              />
               <ErrorMessage
                 error={"Beneficier name is a required field"}
                 visible={beneficierIdError}
@@ -227,7 +280,7 @@ const StartACampaign = ({ data, navigation, receiversData }) => {
                   </Text>
                 </TouchableOpacity>
               </Block>
-              {!errors.title && !errors.targetAmount ? (
+              {!errors.title || !errors.targetAmount ? (
                 <Button
                   style={{
                     marginTop: 12,
@@ -293,8 +346,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  alignItems:"center"
-
+    alignItems: "center",
   },
   modal: {
     borderRadius: 4,
@@ -307,7 +359,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     borderRadius: 3,
     paddingTop: 2,
-
   },
   option: {
     alignItems: "flex-start",
@@ -320,8 +371,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.solidGray,
     alignItems: "center",
     borderBottomWidth: 1,
-    paddingVertical:6,
-    
+    paddingVertical: 6,
   },
   vwClear: {
     flex: 0.2,
@@ -349,9 +399,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     flex: 0,
-    borderColor:theme.colors.gray2,
-    paddingHorizontal:10,
+    borderColor: theme.colors.gray2,
+    paddingHorizontal: 10,
     borderRadius: 2,
   },
 });
-

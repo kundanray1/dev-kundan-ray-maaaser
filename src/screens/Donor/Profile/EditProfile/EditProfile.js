@@ -327,11 +327,11 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                       </Block>
 
                       <Block style={{ marginVertical: HEIGHT / 50 }}>
-                        {!errors.fullName &&
-                        !errors.street1 &&
-                        !errors.street2 &&
-                        !errors.state &&
-                        !errors.city &&
+                        {!errors.fullName ||
+                        !errors.street1 ||
+                        !errors.street2 ||
+                        !errors.state ||
+                        !errors.city ||
                         !errors.zipCode ? (
                           <Button onPress={handleSubmit}>
                             {data.isLoading || letsGetStartedDonorData.isLoading ? (
