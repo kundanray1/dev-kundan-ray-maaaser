@@ -46,6 +46,10 @@ const APIEndPoints = {
     // CAMPAIGN_GET_ALL:MainAPI + '/account/profile',
     // CAMPAIGN_GET_BY_ACCOUNT_ID:MainAPI + '/account/profile',
 
+
+    //PERMISSIONS
+    POST_PERMISSIONS:MainAPI + '/permission/assign',
+
     LOGOUT:MainAPI + '/logout'
 };
 

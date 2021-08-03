@@ -191,7 +191,7 @@ export const ChangePasswordValidationSchema = Yup.object().shape({
 });
 
 export const StartACampaignValidationSchema = Yup.object().shape({
-  title: Yup.string().required().min(6).label("Title"),
+  title: Yup.string().required().min(1).label("Title"),
   targetAmount: Yup.number()
     .positive()
     .min(1, "Minimum amount is 1")
@@ -209,5 +209,5 @@ export const StartASubCampaignValidationSchema = Yup.object().shape({
     .label("Target amount"),
 });
 export const StartACampaignThirdValidationSchema = Yup.object().shape({
-  description: Yup.string().required().min(6).label("Description"),
+  description: Yup.string().required().min(1).label("Description"),
 });

@@ -29,8 +29,8 @@ import PinLocationIconComponent from "./../assets/icons/PinLocationIconComponent
 import { campaignId } from "./../screens/Campaigns/actions";
 import { subCampaignId } from "./../screens/Campaigns/CampaignSubCampaign/actions";
 import getCountryISO2 from "country-iso-3-to-2";
-import country  from "../constants/country.json";
-
+import country from "../constants/country.json";
+import { Video, AVPlaybackStatus } from "expo-av";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
@@ -49,7 +49,12 @@ export default CampaignCard = ({
 }) => {
 	const dispatch = useDispatch();
 	const [editModalVisible, setEditModalVisible] = useState(false);
-	const countryName = country.find(item => item.code == getCountryISO2(countryCode));
+	const countryName = country.find(
+		(item) => item.code == getCountryISO2(countryCode)
+	);
+	const a = "https://i.imgur.com/qMUWuXV.jpg"; //your url
+	const b = ["jpeg", "jpg", "png", "gif", "raw"]; //format img
+	const c = a.split("."); // ["https://i", "imgur", "com/qMUWuXV", "jpg"]
 
 	const handleOpenConfirm = () => {
 		if (mycampaign == "subcampaign") {
@@ -317,53 +322,55 @@ export default CampaignCard = ({
 				}}
 				{...props}
 			>
-				<Block style={{ flex: 0 }}>
-					<ImageBackground
-						style={{
-							height: HEIGHT / 3.5,
-							width: "100%",
-							borderRadius: 6,
-						}}
-						source={{ uri: image }}
-					>
-						{mycampaign == "mycampaign" ||
-						mycampaign == "subcampaign" ? (
-							<Block row style={{ justifyContent: "flex-end" }}>
-
-								{campaignstatus !== 2 && (
-									<TouchableOpacity
-									activeOpacity={0.8}
-									onPress={() => handleEdit()}
+					<Block style={{ flex: 0 }}>
+						<ImageBackground
+							style={{
+								height: HEIGHT / 3.5,
+								width: "100%",
+								borderRadius: 6,
+							}}
+							source={{ uri: image }}
+						>
+							{mycampaign == "mycampaign" ||
+							mycampaign == "subcampaign" ? (
+								<Block
+									row
+									style={{flex:0, justifyContent: "flex-end"}}
 								>
-									<CampaignsEditIconComponent
-										style={{
-											marginRight: 10,
-											marginTop: 10,
-										}}
-									/>
-								</TouchableOpacity>
-								)}
-								{campaignstatus !== 2 && (
-									<TouchableOpacity
-										activeOpacity={0.8}
-										onPress={() =>
-											setEditModalVisible(true)
-										}
-									>
-										<HorizontalDotsIconComponent
-											style={{
-												marginRight: 10,
-												marginTop: 10,
-											}}
-										/>
-									</TouchableOpacity>
-								)}
-							</Block>
-						) : (
-							<Block style={{ flex: 0 }} />
-						)}
-					</ImageBackground>
-				</Block>
+									{campaignstatus !== 2 && (
+										<TouchableOpacity
+											activeOpacity={0.8}
+											onPress={() => handleEdit()}
+										>
+											<CampaignsEditIconComponent
+												style={{
+													marginRight: 10,
+													marginTop: 10,
+												}}
+											/>
+										</TouchableOpacity>
+									)}
+									{campaignstatus !== 2 && (
+										<TouchableOpacity
+											activeOpacity={0.8}
+											onPress={() =>
+												setEditModalVisible(true)
+											}
+										>
+											<HorizontalDotsIconComponent
+												style={{
+													marginRight: 10,
+													marginTop: 10,
+												}}
+											/>
+										</TouchableOpacity>
+									)}
+								</Block>
+							) : (
+								<Block style={{ flex: 0 }} />
+							)}
+						</ImageBackground>
+					</Block>
 
 				<Block
 					style={{
@@ -442,8 +449,11 @@ export default CampaignCard = ({
 							</Block>
 						</>
 					)}
-					<Block row style={{paddingVertical:8}}>
-						<PinLocationIconComponent height={"100%"} width={"5%"} />
+					<Block row style={{ paddingVertical: 8 }}>
+						<PinLocationIconComponent
+							height={"100%"}
+							width={"5%"}
+						/>
 						<Text
 							style={{
 								fontSize: 14,
@@ -508,13 +518,13 @@ export default CampaignCard = ({
 								) : campaignstatus == 2 ? (
 									<Text
 										style={{
-											fontSize: 13,
+											fontSize: 14,
 											fontWeight: "700",
 											textTransform: "capitalize",
 											backgroundColor: "#DE4C3C",
-											paddingVertical: 5,
+											paddingVertical: 7,
 											borderTopLeftRadius: 6,
-											paddingHorizontal: 32,
+											paddingHorizontal: 36,
 										}}
 										color="white"
 									>
@@ -523,13 +533,13 @@ export default CampaignCard = ({
 								) : (
 									<Text
 										style={{
-											fontSize: 13,
+											fontSize: 14,
 											fontWeight: "700",
 											textTransform: "capitalize",
 											backgroundColor: "#C4C4C4",
-											paddingVertical: 5,
+											paddingVertical: 7,
 											borderTopLeftRadius: 6,
-											paddingHorizontal: 32,
+											paddingHorizontal: 36,
 										}}
 										color="white"
 									>

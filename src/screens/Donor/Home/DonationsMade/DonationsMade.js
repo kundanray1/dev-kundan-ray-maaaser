@@ -19,7 +19,9 @@ import {
   DateWiseDonationDetailCard,
   Text,
   Button,
-  ErrorMessage
+  ErrorMessage,
+  FloatingButton
+
 } from "../../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
@@ -28,6 +30,9 @@ import TransactionsMedium from "./../../Transactions/TransactionsMedium";
 import TransactionsType from "./../../Transactions/TransactionsType";
 import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
+import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
+      
+      
 import searchStyles  from "../../../../utility/globalStyles.js";
 
 const WIDTH = Dimensions.get("window").width;
@@ -300,6 +305,13 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
       toDate:new Date(toDate).getTime(),
       search:text
       })
+    }else{
+      donationsMadeSearch({
+      accountId:loginData.user.account.accountid,
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      search:""
+      })
     }
   }
   return (
@@ -364,6 +376,10 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
           />
         </Block>
       )}
+       <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
       {ConfirmationMessage()}
     </SafeAreaView>
   );

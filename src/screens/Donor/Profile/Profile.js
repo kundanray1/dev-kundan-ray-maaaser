@@ -9,13 +9,14 @@ import {
   ActivityIndicator
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
-import { Block, Text } from "../../../components/Index.js";
+import { Block, Text,FloatingButton } from "../../../components/Index.js";
 import {  MaterialIcons } from "@expo/vector-icons";
 import API from "../../../api/API.js";
 import ViewProfileIconComponent from "../../../assets/icons/viewProfileIconComponent.js";
 import ChangePasswordIconComponent from "../../../assets/icons/changePasswordIconComponent.js";
 import ArrowRightIconComponent from "../../../assets/icons/arrowRightIconComponent.js";
 import ProfileIconComponent from "../../../assets/icons/profileIconComponent.js";
+import DonateIconComponent from "../../../assets/icons/DonateIconComponent.js";
 import NumberFormat from "react-number-format";
 
 const HEIGHT = Dimensions.get("window").height;
@@ -23,20 +24,20 @@ const WIDTH = Dimensions.get("window").width;
 
 const Profile = ({ navigation, loginData,data,balanceData,route }) => {
   return (
-    <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
+    <SafeAreaView style={{ flex: 1}}>
       {data.isLoading ? (
               <ActivityIndicator size="large" color={theme.colors.primary2} />
             ) : (
             <>
       <Block
         style={{
-          flex: 0.35,
+          flex: 0.4,
           alignItems: "center",
         }}
       >
         <ImageBackground
           style={{
-            height: "55%",
+            height: "65%",
             width: "100%",
             flex: 1,
             backgroundColor: "#FBFBFB",
@@ -49,7 +50,8 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
         >
           <Block
             style={{
-              flex: 0.6,
+              flex: 0.8,
+              justifyContent:"flex-end",
               paddingHorizontal: 16,
             }}
           >
@@ -114,7 +116,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
             flex: 0,
             zIndex: 1,
             position: "absolute",
-            marginTop: HEIGHT / 20,
+            marginTop: HEIGHT / 12,
           }}
         >
           {data.profile.profilepic !== "" ? (
@@ -217,6 +219,10 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
       </Block>
       </>
       )}
+       <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
     </SafeAreaView>
   );
 };

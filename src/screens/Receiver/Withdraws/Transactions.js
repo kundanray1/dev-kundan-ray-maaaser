@@ -131,8 +131,8 @@ const Transactions = ({
           >
             <ReceiptIconComponent
               style={{ marginRight: 10 }}
-              height={15}
-              width={15}
+              height={20}
+              width={20}
             />
           </TouchableOpacity>
           <TouchableOpacity

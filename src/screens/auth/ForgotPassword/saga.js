@@ -23,7 +23,6 @@ export function* forgotPassword({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-
 		if (res.success) {
 			yield put(forgotPasswordSuccess(res));
 			showMessage({

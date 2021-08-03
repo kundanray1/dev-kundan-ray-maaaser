@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   TouchableOpacity,
   Dimensions,
@@ -25,22 +25,20 @@ import BeneficiersList from "./BeneficiersList";
 
 const WIDTH = Dimensions.get("window").width;
 
-const StartACampaign = ({ data, navigation, loginData,imageUploadClear, receiversData }) => {
-  const [beneficierId, setBeneficierId] = useState(
-    loginData.user.account.accounttype == 3
-      ? loginData.user.account.accountid
-      : ""
-  );
+const StartACampaign = ({
+  data,
+  navigation,
+  loginData,
+  imageUploadClear,
+  startACampaignThirdDescriptionClear,
+  receiversData,
+}) => {
+  const targetAmountRef=useRef()
+  const [beneficierId, setBeneficierId] = useState("");
   const [beneficierIdError, setBeneficierIdError] = useState(false);
-  const [beneficierName, setBeneficierName] = useState(
-    loginData.user.account.accounttype == 3
-      ? loginData.user.account.fullname
-      :  ""
-  );
+  const [beneficierName, setBeneficierName] = useState("");
   const [titleFocus, setTitleFocus] = useState();
-  const [raisingMoneyType, setRaisingMoneyType] = useState(
-    loginData.user.account.accounttype == 3 ? "Myself" : ""
-  );
+  const [raisingMoneyType, setRaisingMoneyType] = useState("");
   const [raisingMoneyTypeError, setRaisingMoneyTypeError] = useState(false);
   const [categoryType, setCategoryType] = useState("");
   const [categoryTypeError, setCategoryTypeError] = useState(false);
@@ -55,24 +53,24 @@ const StartACampaign = ({ data, navigation, loginData,imageUploadClear, receiver
       setCountryCodeError(true);
     } else if (raisingMoneyType == "") {
       setRaisingMoneyTypeError(true);
+    } else if (categoryType == "") {
+      setCategoryTypeError(true);
     } else if (beneficierId == "") {
-      if(raisingMoneyType == "Myself"){
-      setBeneficierId(loginData.user.account.accountid);
-      setBeneficierIdError(false);
-       navigation.navigate("Start a campaign second", {
-        title: values.title,
-        raisingMoneyType: raisingMoneyType,
-        categoryType: categoryType,
-        countryCode: countryCode,
-        allowSubCampaigns: allowSubCampaigns,
-        targetAmount: values.targetAmount,
-        beneficiaryAccountId:beneficierId,
-      });
-      }else{
-      setBeneficierIdError(true);
+      if (raisingMoneyType == "Myself") {
+        setBeneficierId(loginData.user.account.accountid);
+        setBeneficierIdError(false);
+        navigation.navigate("Start a campaign second", {
+          title: values.title,
+          raisingMoneyType: raisingMoneyType,
+          categoryType: categoryType,
+          countryCode: countryCode,
+          allowSubCampaigns: allowSubCampaigns,
+          targetAmount: values.targetAmount,
+          beneficiaryAccountId: beneficierId,
+        });
+      } else {
+        setBeneficierIdError(true);
       }
-    } else if (raisingMoneyType == "") {
-      setRaisingMoneyTypeError(true);
     } else {
       navigation.navigate("Start a campaign second", {
         title: values.title,
@@ -81,14 +79,15 @@ const StartACampaign = ({ data, navigation, loginData,imageUploadClear, receiver
         countryCode: countryCode,
         allowSubCampaigns: allowSubCampaigns,
         targetAmount: values.targetAmount,
-        beneficiaryAccountId:beneficierId,
+        beneficiaryAccountId: beneficierId,
       });
     }
   };
 
-useEffect(()=>{
-  imageUploadClear()
-},[])
+  useEffect(() => {
+    imageUploadClear();
+    startACampaignThirdDescriptionClear();
+  }, []);
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
@@ -137,7 +136,11 @@ useEffect(()=>{
                 Enter your goal
               </Text>
               <Block style={{ flex: 0, paddingBottom: 10 }}>
-                <Block style={styles.amountSection}>
+                <TouchableOpacity
+          onPress={() => targetAmountRef.current.focus()}
+          style={styles.amountSection}
+          activeOpacity={1}
+        >
                   <Text
                     center
                     style={{
@@ -149,6 +152,7 @@ useEffect(()=>{
                     $
                   </Text>
                   <TextInput
+                  ref={targetAmountRef}
                     style={styles.input}
                     onChangeText={handleChange("targetAmount")}
                     onBlur={() => {
@@ -160,7 +164,7 @@ useEffect(()=>{
                     placeholderTextColor="#0DB952"
                     keyboardType="numeric"
                   />
-                </Block>
+                </TouchableOpacity>
               </Block>
               <ErrorMessage
                 error={errors.targetAmount}
@@ -171,10 +175,9 @@ useEffect(()=>{
                 setCountryName={setCountryName}
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}
-                setCountryCodeError={setCountryCodeError}
               />
               <ErrorMessage
-                error={"Country code is a required field"}
+                error={"Country is a required field"}
                 visible={countryCodeError}
               />
               <Input
@@ -197,27 +200,17 @@ useEffect(()=>{
               />
               <ErrorMessage error={errors.title} visible={touched.title} />
 
-              {loginData.user.account.accounttype == 3 ? (
-                <RaisingMoneyType
-                  raisingMoneyType={raisingMoneyType}
-                  setRaisingMoneyType={setRaisingMoneyType}
-                  setRaisingMoneyTypeError={setRaisingMoneyTypeError}
-                  disabled={true}
-                />
-              ) : (
-                <RaisingMoneyType
-                  raisingMoneyType={raisingMoneyType}
-                  setRaisingMoneyType={setRaisingMoneyType}
-                  setRaisingMoneyTypeError={setRaisingMoneyTypeError}
-                  disabled={false}
-                />
-              )}
+              <RaisingMoneyType
+                raisingMoneyType={raisingMoneyType}
+                setRaisingMoneyType={setRaisingMoneyType}
+                setRaisingMoneyTypeError={setRaisingMoneyTypeError}
+                disabled={false}
+              />
               <ErrorMessage
                 error={"Raising money type is a required field"}
                 visible={raisingMoneyTypeError}
               />
-              {loginData.user.account.accounttype == 3 ||
-              raisingMoneyType == "Myself" ? (
+              {raisingMoneyType == "Myself" ? (
                 <BeneficiersList
                   beneficierName={loginData.user.account.fullname}
                   setBeneficierId={setBeneficierId}

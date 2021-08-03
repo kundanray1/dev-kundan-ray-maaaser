@@ -5,8 +5,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
-import { Block, Text,CustomActivityIndicator } from "../../../components/Index.js";
+import { Block, Text,CustomActivityIndicator,FloatingButton } from "../../../components/Index.js";
 import {Individual,Organization} from "./Dummy.js";
+import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import API from "../../../api/API.js";
 
 const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,data}) => {
@@ -19,6 +20,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
       }
     }
   },[data.logout])
+
 
   const RenderOptions = ({ image, label,navigate }) => (
     <TouchableOpacity activeOpacity={0.8} style={{ marginVertical: 10 }} onPress={()=>{
@@ -45,7 +47,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1}}> 
       <Block style={{ flex: 0, marginTop: 10, paddingHorizontal: 16 }}>
        {data.isLoading ? (
                     <CustomActivityIndicator
@@ -67,6 +69,13 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
           )}
         />
       </Block>
+  {loginData.user.account.accounttype==2 &&
+
+      <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
+    }
     </SafeAreaView>
   );
 };

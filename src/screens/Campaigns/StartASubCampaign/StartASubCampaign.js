@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   TextInput,
+  TouchableOpacity
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -32,6 +33,7 @@ const StartASubCampaign = ({
   campaignId,
   route,
 }) => {
+  const targetAmountRef = useRef();
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
@@ -45,7 +47,7 @@ const StartASubCampaign = ({
     const subCampaignData = new CampaignProto.SubCampaign();
     subCampaignData.setTargetamount(amount * 100);
     subCampaignData.setSubcampaignstatus(1);
-   
+
     if (route.params != undefined) {
       subCampaignData.setSubcampaignid(
         route.params.campaignDetailData.subcampaignid
@@ -77,8 +79,8 @@ const StartASubCampaign = ({
         animationType="fade"
         statusBarTranslucent={true}
         onRequestClose={() => {
-          setConfirmationSuccessfulVisible(false)
-          navigation.goBack()
+          setConfirmationSuccessfulVisible(false);
+          navigation.goBack();
         }}
       >
         <View style={styles.container}>
@@ -98,10 +100,12 @@ const StartASubCampaign = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() =>{ 
-                    setConfirmationSuccessfulVisible(false)
-                    navigation.goBack()
-              }}>
+              <Button
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(false);
+                  navigation.goBack();
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   View Sub Campaigns
                 </Text>
@@ -166,7 +170,11 @@ const StartASubCampaign = ({
           Enter your goal
         </Text>
 
-        <View style={styles.amountSection}>
+        <TouchableOpacity
+          onPress={() => targetAmountRef.current.focus()}
+          style={styles.amountSection}
+          activeOpacity={1}
+        >
           <Text
             center
             style={{
@@ -179,6 +187,7 @@ const StartASubCampaign = ({
             $
           </Text>
           <TextInput
+            ref={targetAmountRef}
             style={styles.input}
             value={amount}
             onChangeText={(value) => setAmount(value)}
@@ -187,7 +196,7 @@ const StartASubCampaign = ({
             placeholderTextColor="#0DB952"
             keyboardType="numeric"
           />
-        </View>
+        </TouchableOpacity>
       </Block>
       <Block
         style={{
@@ -200,7 +209,10 @@ const StartASubCampaign = ({
           width: "100%",
         }}
       >
-        <Button onPress={() => onSubmitStartASubCampaign()} disabled={amount==""?true:false}>
+        <Button
+          onPress={() => onSubmitStartASubCampaign()}
+          disabled={amount == "" ? true : false}
+        >
           {route.params !== undefined ? (
             <Text button style={{ fontSize: 18 }}>
               Update

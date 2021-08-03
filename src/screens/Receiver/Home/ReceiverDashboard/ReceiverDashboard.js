@@ -191,14 +191,14 @@ const DonorReceiver = ({
                       !
                     </Text>
                     <Button
-                      style={{ height: 30, width: 80, marginTop: 4 }}
+                      style={{ height: 30, width: 110, marginTop: 4 }}
                       onPress={() => navigation.navigate("Linked Accounts")}
                     >
                       <Text
                         color={theme.colors.white}
                         style={{ fontSize: 14, fontWeight: "700" }}
                       >
-                        Load Fund
+                        Withdraw Fund
                       </Text>
                     </Button>
                   </Block>

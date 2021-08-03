@@ -1315,7 +1315,8 @@ proto.brilltech.maaser.entities.Transaction.toObject = function(includeInstance,
     bank: (f = msg.getBank()) && proto.brilltech.maaser.entities.Bank.toObject(includeInstance, f),
     card: (f = msg.getCard()) && proto.brilltech.maaser.entities.Card.toObject(includeInstance, f),
     campaign: (f = msg.getCampaign()) && campaign_pb.Campaign.toObject(includeInstance, f),
-    subcampaign: (f = msg.getSubcampaign()) && campaign_pb.SubCampaign.toObject(includeInstance, f)
+    subcampaign: (f = msg.getSubcampaign()) && campaign_pb.SubCampaign.toObject(includeInstance, f),
+    donoraddress: jspb.Message.getFieldWithDefault(msg, 23, "")
   };
 
   if (includeInstance) {
@@ -1444,6 +1445,10 @@ proto.brilltech.maaser.entities.Transaction.deserializeBinaryFromReader = functi
       var value = new campaign_pb.SubCampaign;
       reader.readMessage(value,campaign_pb.SubCampaign.deserializeBinaryFromReader);
       msg.setSubcampaign(value);
+      break;
+    case 23:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setDonoraddress(value);
       break;
     default:
       reader.skipField();
@@ -1631,6 +1636,13 @@ proto.brilltech.maaser.entities.Transaction.serializeBinaryToWriter = function(m
       22,
       f,
       campaign_pb.SubCampaign.serializeBinaryToWriter
+    );
+  }
+  f = message.getDonoraddress();
+  if (f.length > 0) {
+    writer.writeString(
+      23,
+      f
     );
   }
 };
@@ -2039,6 +2051,21 @@ proto.brilltech.maaser.entities.Transaction.prototype.clearSubcampaign = functio
  */
 proto.brilltech.maaser.entities.Transaction.prototype.hasSubcampaign = function() {
   return jspb.Message.getField(this, 22) != null;
+};
+
+
+/**
+ * optional string donorAddress = 23;
+ * @return {string}
+ */
+proto.brilltech.maaser.entities.Transaction.prototype.getDonoraddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 23, ""));
+};
+
+
+/** @param {string} value */
+proto.brilltech.maaser.entities.Transaction.prototype.setDonoraddress = function(value) {
+  jspb.Message.setProto3StringField(this, 23, value);
 };
 
 

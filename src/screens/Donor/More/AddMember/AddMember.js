@@ -28,16 +28,16 @@ const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
     accountData.setEmail(values.email);
     accountData.setPhone("");
     accountData.setPassword("Joshan@1234");
-    accountData.setCountrycode("NP");
+    accountData.setCountrycode("NPL");
     accountData.setAccounttype(MaaserProto.AccountType.EMPLOYEE_ACCOUNT);
     employeeData.setAccount(accountData)
     addMember(employeeData);
-    console.log(employeeData)
   };
 
    useEffect(() => {
     if(data.addMember!=null){
     if (data.addMember.success) {
+      console.log("Joshan")
       addMemberClear();
       navigation.navigate("Members");
     }  
@@ -92,7 +92,7 @@ const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
               <ErrorMessage error={errors.name} visible={touched.name} />
 
               <Input
-                label="Email"
+                label="Email / Phone"
                 focus={emailFocus}
                 onChangeText={handleChange("email")}
                 onBlur={() => {
@@ -110,6 +110,7 @@ const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
                 }}
               />
               <ErrorMessage error={errors.email} visible={touched.email} />
+           
             {/* <CountryCode
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}

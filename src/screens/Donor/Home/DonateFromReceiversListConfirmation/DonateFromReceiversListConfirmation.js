@@ -227,7 +227,7 @@ const DonateFromReceiversListConfirmation = ({
         >
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Donate Now")}
+            onPress={() => navigation.navigate(route.params.routeName=="Home"?"Home":"Receivers")}
             style={{
               flex: 0,
               borderTopWidth: 2,
@@ -237,7 +237,7 @@ const DonateFromReceiversListConfirmation = ({
           >
             <Text
               center
-              color={theme.colors.red}
+              color={theme.colors.solidGray}
               style={{ fontSize: 18, fontWeight: "700" }}
             >
               Cancel

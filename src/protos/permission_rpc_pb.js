@@ -82,7 +82,8 @@ proto.brilltech.maaser.rpc.PermissionBaseRequest.toObject = function(includeInst
     debug: (f = msg.getDebug()) && treeleaf_pb.Debug.toObject(includeInstance, f),
     permission: (f = msg.getPermission()) && permission_pb.Permission.toObject(includeInstance, f),
     permissionsList: jspb.Message.toObjectList(msg.getPermissionsList(),
-    permission_pb.Permission.toObject, includeInstance)
+    permission_pb.Permission.toObject, includeInstance),
+    permissionassignreq: (f = msg.getPermissionassignreq()) && permission_pb.PermissionAssignReq.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -170,6 +171,11 @@ proto.brilltech.maaser.rpc.PermissionBaseRequest.deserializeBinaryFromReader = f
       var value = new permission_pb.Permission;
       reader.readMessage(value,permission_pb.Permission.deserializeBinaryFromReader);
       msg.addPermissions(value);
+      break;
+    case 13:
+      var value = new permission_pb.PermissionAssignReq;
+      reader.readMessage(value,permission_pb.PermissionAssignReq.deserializeBinaryFromReader);
+      msg.setPermissionassignreq(value);
       break;
     default:
       reader.skipField();
@@ -286,6 +292,14 @@ proto.brilltech.maaser.rpc.PermissionBaseRequest.serializeBinaryToWriter = funct
       12,
       f,
       permission_pb.Permission.serializeBinaryToWriter
+    );
+  }
+  f = message.getPermissionassignreq();
+  if (f != null) {
+    writer.writeMessage(
+      13,
+      f,
+      permission_pb.PermissionAssignReq.serializeBinaryToWriter
     );
   }
 };
@@ -547,6 +561,36 @@ proto.brilltech.maaser.rpc.PermissionBaseRequest.prototype.addPermissions = func
 
 proto.brilltech.maaser.rpc.PermissionBaseRequest.prototype.clearPermissionsList = function() {
   this.setPermissionsList([]);
+};
+
+
+/**
+ * optional brilltech.maaser.entities.PermissionAssignReq permissionAssignReq = 13;
+ * @return {?proto.brilltech.maaser.entities.PermissionAssignReq}
+ */
+proto.brilltech.maaser.rpc.PermissionBaseRequest.prototype.getPermissionassignreq = function() {
+  return /** @type{?proto.brilltech.maaser.entities.PermissionAssignReq} */ (
+    jspb.Message.getWrapperField(this, permission_pb.PermissionAssignReq, 13));
+};
+
+
+/** @param {?proto.brilltech.maaser.entities.PermissionAssignReq|undefined} value */
+proto.brilltech.maaser.rpc.PermissionBaseRequest.prototype.setPermissionassignreq = function(value) {
+  jspb.Message.setWrapperField(this, 13, value);
+};
+
+
+proto.brilltech.maaser.rpc.PermissionBaseRequest.prototype.clearPermissionassignreq = function() {
+  this.setPermissionassignreq(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.brilltech.maaser.rpc.PermissionBaseRequest.prototype.hasPermissionassignreq = function() {
+  return jspb.Message.getField(this, 13) != null;
 };
 
 

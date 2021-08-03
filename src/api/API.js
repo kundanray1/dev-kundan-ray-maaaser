@@ -17,7 +17,7 @@ export class API {
         LocalDb.getSessions().then((response) => {
             if (response !== null) {
                 API.token = response.loginresponse.token;
-                API.user = response.loginresponse.loginaccount.client;
+                // API.user = response.loginresponse.loginaccount.client;
             }
         }).catch(err => {
             console.log("Error while getting session.", err);

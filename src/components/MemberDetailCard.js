@@ -13,7 +13,7 @@ export default DonationsDetail = ({ profilePic, name, email, ...props }) => {
 			style={{
 				paddingTop: 5,
 				paddingBottom: 10,
-				borderBottomWidth: 1.5,
+				borderBottomWidth: 0.8,
 				borderColor: theme.colors.gray2,
 			}}
 		>

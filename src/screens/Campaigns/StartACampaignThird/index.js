@@ -3,11 +3,10 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import StartACampaignThird from "./StartACampaignThird";
-import { startACampaignThirdStart,startACampaignThirdClear } from "./actions";
+import { startACampaignThirdStart,startACampaignThirdClear,startACampaignThirdDescriptionStart,
+startACampaignThirdDescriptionClear } from "./actions";
 import { imageUploadClear} from "./../../auth/LetsGetStartedDonor/actions";
 import { campaignId} from "./../actions";
-
-
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.startACampaignThird,
@@ -20,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
 		startACampaignThirdClear: () => dispatch(startACampaignThirdClear()),
 		imageUploadClear: (values) => dispatch(imageUploadClear(values)),
 		campaignId: (values) => dispatch(campaignId(values)),
+		startACampaignThirdDescriptionStart: (values) => dispatch(startACampaignThirdDescriptionStart(values)),
+		startACampaignThirdDescriptionClear: () => dispatch(startACampaignThirdDescriptionClear()),
+
 	}
 }
 

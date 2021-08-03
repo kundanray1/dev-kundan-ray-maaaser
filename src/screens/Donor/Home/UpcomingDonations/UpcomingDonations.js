@@ -19,7 +19,8 @@ import {
   DateWiseDonationDetailCard,
   Text,
   Button,
-  ErrorMessage
+  ErrorMessage,
+  FloatingButton
 } from "../../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
@@ -29,6 +30,8 @@ import TransactionsType from "./../../Transactions/TransactionsType";
 import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 import searchStyles  from "../../../../utility/globalStyles.js";
+import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
+
 const WIDTH = Dimensions.get("window").width;
 
 const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcomingDonationsSearch }) => {
@@ -154,6 +157,8 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
       setUpcomingDonationsData(sortedData);
     }
   }, [data.upcomingDonationsSearch]);
+
+
 
   const ConfirmationMessage = () => (
     <SafeAreaView>
@@ -298,6 +303,12 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
       toDate:new Date(toDate).getTime(),
       search:text
       })
+    }else{
+       upcomingDonationsSearch({
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      search:""
+      })
     }
   }
   return (
@@ -362,6 +373,11 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
           />
         </Block>
       )}
+      
+       <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
       {ConfirmationMessage()}
     </SafeAreaView>
   );

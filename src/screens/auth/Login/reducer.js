@@ -3,22 +3,22 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGIN_CLEAR,
-} from './actions';
-import API from './../../../api/API'
+  LOGIN_EMPLOYEE_SUCCESS,
+} from "./actions";
+import API from "./../../../api/API";
 
 const initialState = {
   isLoading: false,
   isLoggedIn: false,
   user: null,
+  employee: null,
   error: null,
 };
 
-
-
-export const loginReducer=(state = initialState, { type, payload }) => {
+export const loginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case LOGIN_START:
-    return {
+      return {
         ...state,
         isLoading: true,
         isLoggedIn: false,
@@ -39,9 +39,14 @@ export const loginReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
+    case LOGIN_EMPLOYEE_SUCCESS:
+      return {
+        ...state,
+        employee: payload,
+      };
     case LOGIN_CLEAR:
       return initialState;
-   
+
     default:
       return state;
   }

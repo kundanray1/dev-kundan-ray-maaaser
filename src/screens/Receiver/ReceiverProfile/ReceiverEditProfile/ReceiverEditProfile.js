@@ -373,12 +373,12 @@ useEffect(() => {
                                   label="Requesting..."
                                 />
                                 <Text button style={{ fontSize: 18 }}>
-                                  Update Profile
+                                  Update 
                                 </Text>
                               </>
                             ) : (
                               <Text button style={{ fontSize: 18 }}>
-                                Update Profile
+                                Update 
                               </Text>
                             )}
                           </Button>
@@ -389,7 +389,7 @@ useEffect(() => {
                             }}
                           >
                             <Text button style={{ fontSize: 18 }}>
-                              Update Profile
+                              Update 
                             </Text>
                           </Button>
                         )}

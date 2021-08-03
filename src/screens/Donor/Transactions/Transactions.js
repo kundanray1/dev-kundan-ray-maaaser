@@ -20,6 +20,7 @@ import {
   Text,
   Button,
   ErrorMessage,
+  FloatingButton
 } from "../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -31,6 +32,7 @@ import TransactionsSearchIconComponent from "../../../assets/icons/transactionsS
 import ReceiptIconComponent from "../../../assets/icons/ReceiptIconComponent.js";
 import PdfIconComponent from "../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../assets/icons/ExcelIconComponent.js";
+import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import * as Linking from "expo-linking";
 
 const WIDTH = Dimensions.get("window").width;
@@ -139,8 +141,8 @@ const Transactions = ({
           >
             <ReceiptIconComponent
               style={{ marginRight: 10 }}
-              height={15}
-              width={15}
+              height={20}
+              width={20}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -515,6 +517,29 @@ const Transactions = ({
         type: transactionsTypeId,
         search: text,
       });
+    }else{
+       search({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: "",
+      });
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: "",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: "",
+      });
     }
   }
   return (
@@ -583,6 +608,10 @@ const Transactions = ({
       )}
       {ConfirmationMessage()}
       {DownloadModal()}
+      <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
     </SafeAreaView>
   );
 };

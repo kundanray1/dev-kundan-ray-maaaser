@@ -13,13 +13,14 @@ import {
   TextInput
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
-import { Block, Empty, CampaignCard,Text,ErrorMessage } from "../../../components/Index.js";
+import { Block, Empty, CampaignCard,Text,ErrorMessage,FloatingButton } from "../../../components/Index.js";
 import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 const WIDTH = Dimensions.get("window").width;
 import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
 import CountryCode from "./CountryCode";
+import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import searchStyles  from "../../../utility/globalStyles.js";
 
 const AllCampaigns = ({
@@ -335,6 +336,14 @@ function searchFilterFunction(text) {
           />
         </Block>
       )}
+       {loginData.user.account.accounttype==2 &&
+
+      <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
+    }
+       
       {ConfirmationMessage()}
     </SafeAreaView>
   );

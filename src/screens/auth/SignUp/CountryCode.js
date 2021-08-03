@@ -122,7 +122,7 @@ export default CountryCode = ({
           <TouchableWithoutFeedback>
 
           <View
-            style={[styles.modal, { width: WIDTH - 40, height: 235,marginTop:"100%" }]}
+            style={[styles.modal, { width: WIDTH - 40, height: 235,marginTop:"95%" }]}
           >
             <Block style={styles.searchContainer}>
               <Block style={styles.vwSearch}>

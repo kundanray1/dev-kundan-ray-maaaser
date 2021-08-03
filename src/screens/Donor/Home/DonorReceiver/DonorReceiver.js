@@ -329,7 +329,7 @@ const DonorReceiver = ({
               }}
             >
               <FlatList
-                data={allCampaignsData.allCampaigns.campaignsList.slice(0.6)}
+                data={allCampaignsData.allCampaigns.campaignsList}
                 refreshControl={
                   <RefreshControl
                     colors={[theme.colors.primary2]}
@@ -354,8 +354,7 @@ const DonorReceiver = ({
                   />
                 )}
                 renderItem={(post) =>
-                  post.item.campaignstarter.account.accountid !==
-                    loginData.user.account.accountid && (
+                  (post.item.campaignstarter.account.accountid !==loginData.user.account.accountid && post.item.campaignstatus == 1) && (
                     <NeedHelpFirstCard
                       image={post.item.thumbnailurl}
                       label={post.item.title}

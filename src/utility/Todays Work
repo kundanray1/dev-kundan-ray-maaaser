@@ -197,17 +197,9 @@ implement excel documents from API in transactions
 Change the condition of rendering dependent on others after successful donation from receivers list, and check others also
 
 
-
-
 Sub Camppaign qr code and campaign qr code campare UI
 
-
-
 countryCode-signup/all campaign search/startacampaign/startacampaignupdate
-
-
-
-
 
 pdf ra excel ko filter
 country code ko apha 3 code
@@ -227,7 +219,9 @@ solved
 6
 7
 8
+9-unsolved
 10
+11-unsolved
 12-permissions
 13
 14
@@ -241,7 +235,13 @@ solved
 22
 
 TODAY
-29-unsolved
+23
+24
+25
+26
+27-unsolved
+28-unsolved
+29-solved
 30-unsolved
 31
 32
@@ -262,5 +262,107 @@ unsolved
 2
 9
 11
+
 donations received(receiver profile) filter/search bar like upcoming donation
-real time update of donations received in receiver dashboard and donations received details
+
+
+
+
+if(Campaign Status==1)
+?
+if CampaignStarter==CampaignBeneficiary
+
+?
+CampaignBeneficiary==loginData.user.account.accounid
+?
+<Block/>
+:
+<Donate now>
+:
+<Donate now>
+:
+
+
+
+(Campaign Status==1) ?
+if CampaignStarter==CampaignBeneficiary ?
+CampaignBeneficiary==loginData.user.account.accounid ?
+<Block/>
+:
+Donate Now
+:
+<:
+Donate Now/>
+
+:
+<Block/>
+
+
+
+
+start date
+day/month/time/
+
+
+
+start time
+end date
+
+
+{
+   "authresponse":"undefined",
+   "debug":"undefined",
+   "error":false,
+   "errorcode":0,
+   "loginresponse":"Object"{
+      "loginaccount":"Object"{
+         "accounttype":0,
+         "client":"undefined",
+         "employee":"Object"{
+            "account":"Object"{
+               "accountid":"32797283029f4f37bcc53cf4f37d10f8",
+               "accountstatus":2,
+               "accounttype":4,
+               "clientdetail":"undefined",
+               "countrycode":"NP",
+               "createdat":1627899281697,
+               "email":"Emplo@gmail.com",
+               "fullname":"Hello",
+               "isdeleted":false,
+               "isemailverified":false,
+               "isfirstlogin":false,
+               "iskycverified":false,
+               "isphoneverified":false,
+               "password":"",
+               "phone":"",
+               "updatedat":0
+            },
+            "accountid":"",
+            "addressesList":"Array"[
+               
+            ],
+            "contactsList":"Array"[
+               
+            ],
+            "employeeid":"2a1dd96631e14e4f80b0ccd28d053165",
+            "gender":0,
+            "profilepic":"",
+            "refid":"e6644fb3d6af4a20ab5be4c3130c2f7a"
+         },
+         "password":"",
+         "user":"undefined"
+      },
+      "token":"MzI3OTcyODMwMjlmNGYzN2JjYzUzY2Y0ZjM3ZDEwZjguMDdmMzAzZmQ0NDhmNGU5NmFmZDhjNjEyZmMyOWM4NmE=.acfbca0cc7def73009c712d379fa96fa4c0bcbefa54cee9801f3c195acb06a9ab2a6138cef985543373196a389a5438bd532e0913029772275422dfbbf7a9063"
+   },
+   "msg":"",
+   "session":"undefined",
+   "sessionsList":"Array"[
+      
+   ],
+   "success":false,
+   "timestamp":0
+}
+
+
+
+Add donate now icon in every screens

@@ -33,17 +33,22 @@ const StartACampaignThird = ({
   letsGetStartedDonorData,
   route,
   campaignId,
+  startACampaignThirdDescriptionStart,
+  startACampaignThirdDescriptionClear,
 }) => {
   const [
     confirmationMessageVisible,
     setConfirmationSuccessfulVisible,
   ] = useState(false);
-  const [
-    campaignDetailId,
-    setCampaignDetailId,
-  ] = useState("");
-  
-  const onSubmitStartACampaignThird = (values) => {
+  const [campaignDetailId, setCampaignDetailId] = useState("");
+  const [campaignDescription, setCampaignDescription] = useState(data.startACampaignThirdDescription!==null?data.startACampaignThirdDescription:"");
+  const [campaignDescriptionError, setCampaignDescriptionError] = useState(false);
+
+  const onSubmitStartACampaignThird = () => {
+    if(campaignDescription=="" || campaignDescription.length<1){
+      setCampaignDescriptionError(true)
+    }else{
+    setCampaignDescriptionError(false)
     const campaignData = new CampaignProto.Campaign();
     campaignData.setTargetamount(route.params.targetAmount * 100);
     campaignData.setCountrycode(route.params.countryCode);
@@ -53,20 +58,23 @@ const StartACampaignThird = ({
     );
     campaignData.setBeneficiaryaccountid(route.params.beneficiaryAccountId);
     campaignData.setCategory(route.params.categoryType);
-    campaignData.setDescription(values.description);
+    campaignData.setDescription(campaignDescription);
     campaignData.setThumbnailurl(letsGetStartedDonorData.image);
     campaignData.setAllowsubcampaign(route.params.allowSubCampaigns);
     campaignData.setCampaignstatus(1);
     startACampaignThirdStart(campaignData);
+    }
+
   };
 
   useEffect(() => {
     if (data.startACampaignThird !== null) {
       if (data.startACampaignThird.success) {
-        setCampaignDetailId(data.startACampaignThird.campaign.campaignid)
+        setCampaignDetailId(data.startACampaignThird.campaign.campaignid);
         setConfirmationSuccessfulVisible(!confirmationMessageVisible);
         startACampaignThirdClear();
         imageUploadClear();
+        startACampaignThirdDescriptionClear();
       }
     }
   }, [data.startACampaignThird]);
@@ -77,25 +85,27 @@ const StartACampaignThird = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>{
-                setConfirmationSuccessfulVisible(false)
-                navigation.navigate("Campaigns") 
-              }}
+        onRequestClose={() => {
+          setConfirmationSuccessfulVisible(false);
+          navigation.navigate("Campaigns");
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
             <Text center style={{ fontSize: 18, fontWeight: "700" }}>
-              Campaign Started Successfully!
+              Campaign started successfully!
             </Text>
             <View style={{ paddingVertical: 25, alignItems: "center" }}>
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() =>{
-                setConfirmationSuccessfulVisible(false)
-                campaignId(campaignDetailId)
-                navigation.navigate("Campaign Details");
-              }}>
+              <Button
+                onPress={() => {
+                  setConfirmationSuccessfulVisible(false);
+                  campaignId(campaignDetailId);
+                  navigation.navigate("Campaign Details");
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   View Campaign
                 </Text>
@@ -123,90 +133,52 @@ const StartACampaignThird = ({
           <StartACampaignSecondIconComponent />
         </Block>
 
-        <Formik
-          initialValues={{
-            description: "",
-          }}
-          onSubmit={(values) => {
-            onSubmitStartACampaignThird(values);
-          }}
-          validationSchema={StartACampaignThirdValidationSchema}
-        >
-          {({
-            handleChange,
-            touched,
-            setFieldTouched,
-            handleSubmit,
-            values,
-            errors,
-          }) => (
-            <Block>
-              <Text
-                center
-                style={{
-                  fontSize: 20,
-                  paddingVertical: 20,
-                  fontWeight: "700",
-                  color: "#5F6062",
-                }}
-              >
-                Describe why are you are fundraising
+        <Block>
+          <Text
+            center
+            style={{
+              fontSize: 20,
+              paddingVertical: 20,
+              fontWeight: "700",
+              color: "#5F6062",
+            }}
+          >
+            Describe why are you are fundraising
+          </Text>
+          <TextInput
+            placeholder="Explain about the campaign."
+            keyboardType="default"
+            multiline
+            numberOfLines={10}
+            style={styles.input}
+            onChangeText={(text)=>{
+              startACampaignThirdDescriptionStart(text);
+              setCampaignDescription(text)
+            }}
+            value={campaignDescription}
+          />
+          <ErrorMessage
+            visible={campaignDescriptionError}
+            error={"Description is a required field"}
+          />
+          <Block
+            style={{
+              paddingVertical: 30,
+              borderBottomWidth: 1,
+              borderColor: theme.colors.gray2,
+            }}
+          >
+            <Button onPress={onSubmitStartACampaignThird}>
+              <Text button style={{ fontSize: 18 }}>
+                Proceed
               </Text>
-              <TextInput
-                placeholder="Explain about the campaign."
-                keyboardType="default"
-                multiline
-                numberOfLines={10}
-                style={styles.input}
-                onChangeText={handleChange("description")}
-                onBlur={() => {
-                  setFieldTouched("description");
-                }}
-                value={values.description}
-              />
-              <ErrorMessage
-                error={errors.description}
-                visible={touched.description}
-              />
-               <Block style={{ paddingVertical: 30,borderBottomWidth:1,borderColor:theme.colors.gray2 }}>
-              {!errors.description ? (
-                <Button
-                  onPress={handleSubmit}
-                >
-                  {data.isLoading ? (
-                    <>
-                      <CustomActivityIndicator
-                        label="Requesting..."
-                        isLoading={data.isLoading}
-                      />
-                      <Text button style={{ fontSize: 18 }}>
-                        Proceed
-                      </Text>
-                    </>
-                  ) : (
-                    <Text button style={{ fontSize: 18 }}>
-                      Proceed
-                    </Text>
-                  )}
-                </Button>
-              ) : (
-                <Button
-                >
-                  <Text button style={{ fontSize: 18 }}>
-                    Proceed
-                  </Text>
-                </Button>
-              )}
-            </Block>
-
-            </Block>
-          )}
-        </Formik>
+            </Button>
+          </Block>
+        </Block>
       </Block>
-
       <TouchableOpacity
         activeOpacity={0.8}
-        style={{ paddingVertical: 24}}
+        style={{ paddingVertical: 24 }}
         onPress={() => navigation.navigate("Start a campaign second")}
       >
         <Text

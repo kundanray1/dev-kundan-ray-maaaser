@@ -14,6 +14,7 @@ var global = Function('return this')();
 var treeleaf_pb = require('./treeleaf_pb.js');
 var maaser_pb = require('./maaser_pb.js');
 var account_pb = require('./account_pb.js');
+var permission_pb = require('./permission_pb.js');
 goog.exportSymbol('proto.brilltech.maaser.entities.AuthResponse', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Authorization', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Jwt', null, global);
@@ -33,12 +34,19 @@ goog.exportSymbol('proto.brilltech.maaser.entities.Session', null, global);
  * @constructor
  */
 proto.brilltech.maaser.entities.Session = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.brilltech.maaser.entities.Session.repeatedFields_, null);
 };
 goog.inherits(proto.brilltech.maaser.entities.Session, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   proto.brilltech.maaser.entities.Session.displayName = 'proto.brilltech.maaser.entities.Session';
 }
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.brilltech.maaser.entities.Session.repeatedFields_ = [12];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -78,7 +86,9 @@ proto.brilltech.maaser.entities.Session.toObject = function(includeInstance, msg
     loginid: jspb.Message.getFieldWithDefault(msg, 8, ""),
     user: (f = msg.getUser()) && account_pb.User.toObject(includeInstance, f),
     client: (f = msg.getClient()) && account_pb.Client.toObject(includeInstance, f),
-    employee: (f = msg.getEmployee()) && account_pb.Employee.toObject(includeInstance, f)
+    employee: (f = msg.getEmployee()) && account_pb.Employee.toObject(includeInstance, f),
+    permissionsList: jspb.Message.toObjectList(msg.getPermissionsList(),
+    permission_pb.Permission.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -162,6 +172,11 @@ proto.brilltech.maaser.entities.Session.deserializeBinaryFromReader = function(m
       var value = new account_pb.Employee;
       reader.readMessage(value,account_pb.Employee.deserializeBinaryFromReader);
       msg.setEmployee(value);
+      break;
+    case 12:
+      var value = new permission_pb.Permission;
+      reader.readMessage(value,permission_pb.Permission.deserializeBinaryFromReader);
+      msg.addPermissions(value);
       break;
     default:
       reader.skipField();
@@ -271,6 +286,14 @@ proto.brilltech.maaser.entities.Session.serializeBinaryToWriter = function(messa
       11,
       f,
       account_pb.Employee.serializeBinaryToWriter
+    );
+  }
+  f = message.getPermissionsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      12,
+      f,
+      permission_pb.Permission.serializeBinaryToWriter
     );
   }
 };
@@ -500,6 +523,37 @@ proto.brilltech.maaser.entities.Session.prototype.clearEmployee = function() {
  */
 proto.brilltech.maaser.entities.Session.prototype.hasEmployee = function() {
   return jspb.Message.getField(this, 11) != null;
+};
+
+
+/**
+ * repeated Permission permissions = 12;
+ * @return {!Array<!proto.brilltech.maaser.entities.Permission>}
+ */
+proto.brilltech.maaser.entities.Session.prototype.getPermissionsList = function() {
+  return /** @type{!Array<!proto.brilltech.maaser.entities.Permission>} */ (
+    jspb.Message.getRepeatedWrapperField(this, permission_pb.Permission, 12));
+};
+
+
+/** @param {!Array<!proto.brilltech.maaser.entities.Permission>} value */
+proto.brilltech.maaser.entities.Session.prototype.setPermissionsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 12, value);
+};
+
+
+/**
+ * @param {!proto.brilltech.maaser.entities.Permission=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.brilltech.maaser.entities.Permission}
+ */
+proto.brilltech.maaser.entities.Session.prototype.addPermissions = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 12, opt_value, proto.brilltech.maaser.entities.Permission, opt_index);
+};
+
+
+proto.brilltech.maaser.entities.Session.prototype.clearPermissionsList = function() {
+  this.setPermissionsList([]);
 };
 
 

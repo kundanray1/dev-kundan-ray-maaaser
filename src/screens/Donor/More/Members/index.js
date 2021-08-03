@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import Members from "./Members";
-import { membersStart } from "./actions";
+import { membersStart,permissionsAssignStart } from "./actions";
 
 const mapStateToProps = createStructuredSelector({
 	data: (state) => state.members,
@@ -13,6 +13,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => {
 	return {
 		members: (values) => dispatch(membersStart(values)),
+		permissionsAssign: (values) => dispatch(permissionsAssignStart(values)),
 	};
 };
 

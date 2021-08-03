@@ -99,20 +99,19 @@ const LinkScheduleDonation = ({
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
     const scheduleDetailProto = new PaymentProto.ScheduleDetail();
     if (scheduleType == "One Time") {
-      const startDateConvert=new Date(startDate).getTime()
-      const startTimeConvert=new Date(startTime).getTime()
+      const startDateConvert = new Date(startDate).getTime();
+      const startTimeConvert = new Date(startTime).getTime();
 
-      scheduleDetailProto.setStartdate(startDateConvert+startTimeConvert);
-      scheduleDetailProto.setEnddate(startDateConvert+startTimeConvert);
+      scheduleDetailProto.setStartdate(startDateConvert + startTimeConvert);
+      scheduleDetailProto.setEnddate(startDateConvert + startTimeConvert);
     } else {
       scheduleDetailProto.setStartdate(new Date(startDate).getTime());
       scheduleDetailProto.setEnddate(new Date(endDate).getTime());
-      
     }
     // scheduleDetailProto.setStarttime(startTime.getTime());
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
-      console.log("startDate",new Date(startDate).getTime());
-      console.log("endDate",new Date(startDate).getTime());
+    console.log("startDate", new Date(startDate).getTime());
+    console.log("endDate", new Date(startDate).getTime());
     if (route.params != undefined) {
       scheduleTransactionProto.setScheduletransactionid(
         route.params.scheduleDonationData.scheduletransactionid
@@ -345,49 +344,52 @@ const LinkScheduleDonation = ({
                 visible={startTimeError}
               />
 
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-                  End Date
-                </Text>
-                <TouchableOpacity
-                  style={styles.customPicker}
-                  activeOpacity={0.8}
-                  onPress={() => setShowEndDate(true)}
-                  disabled={scheduleType == "One Time" ? true : false}
-                >
-                  <Block>
-                    <Text
-                      bold
-                      style={{ fontSize: 16, color: theme.colors.solidGray }}
-                    >
-                      {(scheduleType == "One Time" && startDate!="2021-07-03T15:21:15.513Z")
-                        ? moment(startDate).format("DD/MM/YYYY")
-                        : ""}
-                       {endDate == "2021-07-03T15:21:15.513Z"
-                        ? ""
-                        : moment(endDate).format("DD/MM/YYYY")}
-                    </Text>
-                  </Block>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
+              {scheduleType !== "One Time" && (
+                <Block style={{ paddingVertical: 8 }}>
+                  <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
+                    End Date
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.customPicker}
+                    activeOpacity={0.8}
+                    onPress={() => setShowEndDate(true)}
+                    disabled={scheduleType == "One Time" ? true : false}
+                  >
+                    <Block>
+                      <Text
+                        bold
+                        style={{ fontSize: 16, color: theme.colors.solidGray }}
+                      >
+                        {scheduleType == "One Time" &&
+                        startDate != "2021-07-03T15:21:15.513Z"
+                          ? moment(startDate).format("DD/MM/YYYY")
+                          : ""}
+                        {endDate == "2021-07-03T15:21:15.513Z"
+                          ? ""
+                          : moment(endDate).format("DD/MM/YYYY")}
+                      </Text>
+                    </Block>
+                    <Block style={{ alignItems: "flex-end" }}>
+                      <MaterialCommunityIcons
+                        name="calendar-month"
+                        size={20}
+                        color={theme.colors.primary2}
+                      />
+                    </Block>
+                  </TouchableOpacity>
+                  {showEndDate && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={new Date()}
+                      mode="date"
+                      minimumDate={new Date()}
+                      is24Hour={true}
+                      display="default"
+                      onChange={onChangeEndDate}
                     />
-                  </Block>
-                </TouchableOpacity>
-                {showEndDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    mode="date"
-                    minimumDate={new Date()}
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChangeEndDate}
-                  />
-                )}
-              </Block>
+                  )}
+                </Block>
+              )}
               <ErrorMessage
                 error={"End date is a required field"}
                 visible={endDateError}

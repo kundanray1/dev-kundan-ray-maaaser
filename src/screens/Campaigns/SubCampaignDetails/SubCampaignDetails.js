@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
-  Share
+  Share,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
@@ -23,12 +23,19 @@ import BeneficiaryIconComponent from "./../../../assets/icons/BeneficiaryIconCom
 import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
 import getCountryISO2 from "country-iso-3-to-2";
-import country  from "../../../constants/country.json";
+import country from "../../../constants/country.json";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,subCampaignId,subCampaignDonateNowConfirmationData }) => {
+const SubCampaignDetails = ({
+  data,
+  navigation,
+  loginData,
+  subCampaignDetails,
+  subCampaignId,
+  subCampaignDonateNowConfirmationData,
+}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [viewMore, setViewMore] = useState(false);
   const onRefresh = React.useCallback(() => {
@@ -38,12 +45,14 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
   });
   useEffect(() => {
     subCampaignDetails(subCampaignId);
-  }, [subCampaignId,subCampaignDonateNowConfirmationData.subCampaignDonateNowConfirmation,]);
-   const onShare = async () => {
+  }, [
+    subCampaignId,
+    subCampaignDonateNowConfirmationData.subCampaignDonateNowConfirmation,
+  ]);
+  const onShare = async () => {
     try {
       const result = await Share.share({
-        message:
-          `https://maaser-api.brilltech.com/sub/campaign/${subCampaignId}`,
+        message: `https://maaser-api.brilltech.com/sub/campaign/${subCampaignId}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -82,7 +91,10 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   alignItems: "flex-end",
                   overflow: "hidden",
                 }}
-                source={{ uri: data.subCampaignDetails.subcampaign.campaign.thumbnailurl }}
+                source={{
+                  uri:
+                    data.subCampaignDetails.subcampaign.campaign.thumbnailurl,
+                }}
               >
                 <Block
                   row
@@ -107,48 +119,68 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                 paddingHorizontal: 16,
               }}
             >
-            <Block row style={{flex:0}}>
-            <Block style={{flex:2}}>
-              <Text
-                  color="#3B414B"
-                      style={{
-                        fontSize: 18,
-                        fontWeight: "700",
-                        textTransform: "capitalize",
-                       width:WIDTH-180
-                      }}
-                      numberOfLines={1}
-                    >
-                {data.subCampaignDetails.subcampaign.campaign.title}
-              </Text>
+              <Block row style={{ flex: 0 }}>
+                <Block style={{ flex: 2 }}>
+                  <Text
+                    color="#3B414B"
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "700",
+                      textTransform: "capitalize",
+                      width: WIDTH - 180,
+                    }}
+                    numberOfLines={1}
+                  >
+                    {data.subCampaignDetails.subcampaign.campaign.title}
+                  </Text>
+                </Block>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Sub Campaign QR Code", {
+                      title: data.subCampaignDetails.subcampaign.campaign.title,
+                      subcampaignstarter:
+                        data.subCampaignDetails.subcampaign.subcampaignstarter
+                          .account.fullname,
+                      subcampaignid: subCampaignId,
+                    })
+                  }
+                  activeOpacity={0.8}
+                  style={{ flex: 1.5, alignItems: "flex-end" }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      marginTop: 4,
+                      fontWeight: "700",
+                    }}
+                    color={theme.colors.primary2}
+                  >
+                    Generate QR Code
+                  </Text>
+                </TouchableOpacity>
               </Block>
-              <TouchableOpacity onPress={()=>navigation.navigate("Sub Campaign QR Code",
-                {title:data.subCampaignDetails.subcampaign.campaign.title,subcampaignstarter:data.subCampaignDetails.subcampaign.subcampaignstarter.account.fullname,subcampaignid:subCampaignId})} activeOpacity={0.8} style={{flex:1.5,alignItems:"flex-end"}}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginTop:4,
-                  fontWeight: "700",
-                }}
-                color={theme.colors.primary2}
-              >
-                Generate QR Code
-              </Text>
-              </TouchableOpacity>
-            </Block>
-            <Block row style={{flex:0,marginTop:6}}>
-              <PinLocationIconComponent/>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "700",
-                  marginLeft:8
-                }}
-                color={theme.colors.solidGray}
-              >
-                {country.find(item => item.code == getCountryISO2(data.subCampaignDetails.subcampaign.campaign.countrycode)).name}
-              </Text>
-            </Block>
+              <Block row style={{ flex: 0, marginTop: 6 }}>
+                <PinLocationIconComponent />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "700",
+                    marginLeft: 8,
+                  }}
+                  color={theme.colors.solidGray}
+                >
+                  {
+                    country.find(
+                      (item) =>
+                        item.code ==
+                        getCountryISO2(
+                          data.subCampaignDetails.subcampaign.campaign
+                            .countrycode
+                        )
+                    ).name
+                  }
+                </Text>
+              </Block>
               <PercentageBar
                 height={6}
                 backgroundColor={"grey"}
@@ -160,7 +192,9 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
               />
               <Block row style={{ flex: 0 }}>
                 <NumberFormat
-                  value={data.subCampaignDetails.subcampaign.collectedamount / 100}
+                  value={
+                    data.subCampaignDetails.subcampaign.collectedamount / 100
+                  }
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={"$"}
@@ -187,10 +221,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   decimalScale={2}
                   fixedDecimalScale={true}
                   renderText={(formattedValue) => (
-                    <Text
-                      color="#5F6062"
-                      style={{ fontSize: 13}}
-                    >
+                    <Text color="#5F6062" style={{ fontSize: 13 }}>
                       {" "}
                       raised of {formattedValue}
                     </Text>
@@ -216,15 +247,15 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
               >
                 <Block>
                   <Block row center style={{ flex: 0 }}>
-                    {data.subCampaignDetails.subcampaign.subcampaignstarter.profilepic ==
-                    "" ? (
+                    {data.subCampaignDetails.subcampaign.subcampaignstarter
+                      .profilepic == "" ? (
                       <UserIconComponent height={30} width={30} />
                     ) : (
                       <Image
                         source={{
                           uri:
-                            data.subCampaignDetails.subcampaign.subcampaignstarter
-                              .profilepic,
+                            data.subCampaignDetails.subcampaign
+                              .subcampaignstarter.profilepic,
                         }}
                         style={{ height: 30, width: 30, borderRadius: 30 }}
                       />
@@ -236,7 +267,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                         fontWeight: "700",
                         textTransform: "capitalize",
                         marginLeft: 10,
-                         color: "#5F6062"
+                        color: "#5F6062",
                       }}
                     >
                       {data.subCampaignDetails.subcampaign.subcampaignstarter.account.fullname.substring(
@@ -264,15 +295,15 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                   <Block row center style={{ flex: 0, overflow: "hidden" }}>
                     <BeneficiaryIconComponent style={{ marginRight: 8 }} />
 
-                    {data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary
-                      .profilepic == "" ? (
+                    {data.subCampaignDetails.subcampaign.campaign
+                      .campaignbeneficiary.profilepic == "" ? (
                       <UserIconComponent height={30} width={30} />
                     ) : (
                       <Image
                         source={{
                           uri:
-                            data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary
-                              .profilepic,
+                            data.subCampaignDetails.subcampaign.campaign
+                              .campaignbeneficiary.profilepic,
                         }}
                         style={{ height: 30, width: 30, borderRadius: 30 }}
                       />
@@ -321,11 +352,15 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             >
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TargetAmountIconComponent height={HEIGHT/20}
-                width={WIDTH/10} />
+                  <TargetAmountIconComponent
+                    height={HEIGHT / 20}
+                    width={WIDTH / 10}
+                  />
                   <Block column>
                     <NumberFormat
-                      value={data.subCampaignDetails.subcampaign.targetamount / 100}
+                      value={
+                        data.subCampaignDetails.subcampaign.targetamount / 100
+                      }
                       displayType={"text"}
                       thousandSeparator={true}
                       prefix={"$"}
@@ -358,8 +393,7 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
 
               <Block>
                 <Block row style={{ flex: 0, overflow: "hidden" }}>
-                  <TagsIconComponent height={HEIGHT/20}
-                width={WIDTH/10} />
+                  <TagsIconComponent height={HEIGHT / 20} width={WIDTH / 10} />
                   <Block column>
                     <Text
                       color="#5F6062"
@@ -399,8 +433,10 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
               >
                 <Block>
                   <Block row style={{ flex: 0, overflow: "hidden" }}>
-                    <TimeRemainingIconComponent height={HEIGHT/20}
-                width={WIDTH/10} />
+                    <TimeRemainingIconComponent
+                      height={HEIGHT / 20}
+                      width={WIDTH / 10}
+                    />
                     <Block column>
                       <Text
                         color="#5F6062"
@@ -411,9 +447,9 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                           marginLeft: 10,
                         }}
                       >
-                        {moment(data.subCampaignDetails.subcampaign.campaign.createdat).format(
-                          "DD MMM, YYYY"
-                        )}
+                        {moment(
+                          data.subCampaignDetails.subcampaign.campaign.createdat
+                        ).format("DD MMM, YYYY")}
                       </Text>
                       <Text
                         style={{
@@ -438,14 +474,17 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
             >
               <Text
                 style={{ fontSize: 16, color: "#5F6062" }}
-                numberOfLines={viewMore?100:2}
+                numberOfLines={viewMore ? 100 : 2}
               >
-                {data.subCampaignDetails.subcampaign.campaign.description.replace( /(<([^>]+)>)/ig, '')}
+                {data.subCampaignDetails.subcampaign.campaign.description.replace(
+                  /(<([^>]+)>)/gi,
+                  ""
+                )}
               </Text>
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={{ flex: 0, alignItems: "flex-end" }}
-               onPress={()=>setViewMore(!viewMore)}
+                onPress={() => setViewMore(!viewMore)}
               >
                 <Text
                   style={{
@@ -454,32 +493,74 @@ const SubCampaignDetails = ({ data,navigation, loginData, subCampaignDetails,sub
                     fontWeight: "700",
                   }}
                 >
-                  {viewMore?"View less":"View More"}
+                  {viewMore ? "View less" : "View More"}
                 </Text>
               </TouchableOpacity>
             </Block>
           </ScrollView>
 
-          {data.subCampaignDetails.subcampaign.subcampaignstarter.account.accountid !==
-            loginData.user.account.accountid && (
-            <Block
-              style={{
-                paddingHorizontal: 18,
-                backgroundColor: "white",
-                justifyContent: "flex-end",
-                bottom: 0,
-                paddingVertical: 10,
-                position: "absolute",
-                width: "100%",
-              }}
-            >
-              <Button onPress={()=>navigation.navigate("Sub Campaign Donate Now",{refId: data.subCampaignDetails.subcampaign.subcampaignid,receiverName:data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary.account.fullname})}>
-                <Text button style={{ fontSize: 18 }}>
-                  Donate Now
-                </Text>
-              </Button>
-            </Block>
-          )}
+          {data.subCampaignDetails.subcampaign.subcampaignstatus == 1 ? 
+            data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary.account.accountid == data.subCampaignDetails.subcampaign.subcampaignstarter.account.accountid ?
+              data.subCampaignDetails.subcampaign.campaign.campaignbeneficiary.account.accountid==loginData.user.account.accountid ? 
+              <Block style={{flex:0}}/>
+              :
+              <Block
+                style={{
+                  paddingHorizontal: 18,
+                  backgroundColor: "white",
+                  justifyContent: "flex-end",
+                  bottom: 0,
+                  paddingVertical: 10,
+                  position: "absolute",
+                  width: "100%",
+                }}
+              >
+                <Button
+                  onPress={() =>
+                    navigation.navigate("Sub Campaign Donate Now", {
+                      refId: data.subCampaignDetails.subcampaign.subcampaignid,
+                      receiverName:
+                        data.subCampaignDetails.subcampaign.campaign
+                          .campaignbeneficiary.account.fullname,
+                    })
+                  }
+                >
+                  <Text button style={{ fontSize: 18 }}>
+                    Donate Now
+                  </Text>
+                </Button>
+              </Block>
+             : 
+              <Block
+                style={{
+                  paddingHorizontal: 18,
+                  backgroundColor: "white",
+                  justifyContent: "flex-end",
+                  bottom: 0,
+                  paddingVertical: 10,
+                  position: "absolute",
+                  width: "100%",
+                }}
+              >
+                <Button
+                  onPress={() =>
+                    navigation.navigate("Sub Campaign Donate Now", {
+                      refId: data.subCampaignDetails.subcampaign.subcampaignid,
+                      receiverName:
+                        data.subCampaignDetails.subcampaign.campaign
+                          .campaignbeneficiary.account.fullname,
+                    })
+                  }
+                >
+                  <Text button style={{ fontSize: 18 }}>
+                    Donate Now
+                  </Text>
+                </Button>
+              </Block>
+            
+           : 
+            <Block style={{ flex: 0 }} />
+          }
         </>
       )}
     </SafeAreaView>

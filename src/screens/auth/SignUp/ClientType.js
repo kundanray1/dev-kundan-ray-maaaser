@@ -42,7 +42,7 @@ export default ClientType = ({ clientType,setClientType,setClientTypeError }) =>
   	<SafeAreaView style={{ paddingVertical: 6 }}>
           
       <Text bold style={{ fontSize: 16 }}>
-       Select account type
+     Choose Account Type
       </Text>
       <TouchableOpacity
         style={styles.customPicker}
@@ -74,7 +74,7 @@ export default ClientType = ({ clientType,setClientType,setClientTypeError }) =>
           }
         >
           <TouchableWithoutFeedback>
-          <View style={[styles.modal, { width: WIDTH - 40, height: 90,marginTop:"62%" }]}>
+          <View style={[styles.modal, { width: WIDTH - 40, height: 90,marginTop:"55%" }]}>
             {renderOptions}
           </View>
           </TouchableWithoutFeedback>

@@ -34,13 +34,13 @@ const CampaignDonateNowConfirmation = ({
     setCampaignDonateNowCampaignVisible,
   ] = useState(false);
   const {
-      refId,
-      receiverName,
-      amount,
-      remarks,
-      transactionMedium,
-      transactionType,
-      transactionStatus,
+    refId,
+    receiverName,
+    amount,
+    remarks,
+    transactionMedium,
+    transactionType,
+    transactionStatus,
   } = route.params;
   //set all the required proto for updating and submitting
   const onSubmitDonateFund = () => {
@@ -71,12 +71,10 @@ const CampaignDonateNowConfirmation = ({
         transparent={true}
         animationType="fade"
         statusBarTranslucent={true}
-        onRequestClose={() =>{
-
-          setCampaignDonateNowCampaignVisible(false)
-           navigation.navigate("Campaign Details")
-        }
-        }
+        onRequestClose={() => {
+          setCampaignDonateNowCampaignVisible(false);
+          navigation.navigate("Campaign Details");
+        }}
       >
         <View style={styles.container}>
           <View style={[styles.modal, { width: WIDTH - 45 }]}>
@@ -87,11 +85,12 @@ const CampaignDonateNowConfirmation = ({
               <TickIconComponent />
             </View>
             <View style={{ paddingHorizontal: 30 }}>
-              <Button onPress={() => {
-
-          setCampaignDonateNowCampaignVisible(false)
-           navigation.navigate("Campaign Details")
-        }}>
+              <Button
+                onPress={() => {
+                  setCampaignDonateNowCampaignVisible(false);
+                  navigation.navigate("Campaign Details");
+                }}
+              >
                 <Text button style={{ fontSize: 18 }}>
                   OK
                 </Text>
@@ -117,7 +116,7 @@ const CampaignDonateNowConfirmation = ({
           },
           shadowOpacity: 0.23,
           shadowRadius: 2.62,
-          borderRadius:1.5,
+          borderRadius: 1.5,
           elevation: 1.5,
         }}
       >
@@ -145,7 +144,7 @@ const CampaignDonateNowConfirmation = ({
               </Text>
             </Block>
           </Block>
-          
+
           <Block row style={{ flex: 0, paddingVertical: 8 }}>
             <Block>
               <Text
@@ -218,7 +217,7 @@ const CampaignDonateNowConfirmation = ({
                   isLoading={data.isLoading}
                 />
                 <Text button style={{ fontSize: 18 }}>
-                 Donate
+                  Donate
                 </Text>
               </>
             ) : (

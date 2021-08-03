@@ -1,7 +1,53 @@
- style={styles.input}
-          onChangeText={(value)=>setDescription(value)}
-          value={description}
-          placeholder="Explain about the campaign."
-          keyboardType="default"
-          multiline
-          numberOfLines={10}
+{
+   "authresponse":"undefined",
+   "debug":"undefined",
+   "error":false,
+   "errorcode":0,
+   "loginresponse":"Object"{
+      "loginaccount":"Object"{
+         "accounttype":0,
+         "client":"Object"{
+            "account":"Object"{
+               "accountid":"2e1ff5052b914b08aaf1d439f8acbf3c",
+               "accountstatus":2,
+               "accounttype":2,
+               "clientdetail":"undefined",
+               "countrycode":"AND",
+               "createdat":1622642890827,
+               "email":"jp@gmail.com",
+               "fullname":"Joshan Pradhan",
+               "isdeleted":false,
+               "isemailverified":false,
+               "isfirstlogin":true,
+               "iskycverified":false,
+               "isphoneverified":false,
+               "password":"",
+               "phone":"",
+               "updatedat":1627822145756
+            },
+            "accountid":"",
+            "addressesList":"Array"[
+               
+            ],
+            "bio":"",
+            "clientid":"dfb812bb12a247ec8bd7033fe18f170e",
+            "clienttype":1,
+            "contactsList":"Array"[
+               
+            ],
+            "profilepic":"https://storage.googleapis.com/maaser_resources/c48c4215839642c1b248a134b8ca483e.jpg"
+         },
+         "employee":"undefined",
+         "password":"",
+         "user":"undefined"
+      },
+      "token":"MmUxZmY1MDUyYjkxNGIwOGFhZjFkNDM5ZjhhY2JmM2MuZjRjNjA2NTRkNDliNDk2ZmJmZTVkYWI4ODNiOWRkMDg=.6cfd641bc59654ef57af12e3dca736d6ef74cbc3ffec49bed050aa85689c3ff7a08e3791b5495793236344a7370d413fe8de35054a076b7204b344141361faee"
+   },
+   "msg":"",
+   "session":"undefined",
+   "sessionsList":"Array"[
+      
+   ],
+   "success":false,
+   "timestamp":0
+}

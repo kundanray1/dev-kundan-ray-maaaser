@@ -88,12 +88,12 @@ setClientTypeError
   }, [data]);
 
   return (
-    <KeyboardAwareScrollView  resetScrollToCoords={{ x: 0, y: 0 }} contentContainerStyle={{flex:1,justifyContent:"center",alignItems:"center"}}>
+    <KeyboardAwareScrollView  resetScrollToCoords={{ x: 0, y: 0 }} contentContainerStyle={{flex:0,marginTop:"15%",justifyContent:"center",alignItems:"center"}}>
         <Image
         source={require("../../../assets/icons/logo.png")}
         style={{ height: 90, width: 90 }}
       />
-        <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
+        <Text style={{ paddingVertical: 16, fontSize: 18, fontWeight: "700" }}>
           Create your maaser account
         </Text>
         <Formik
@@ -213,7 +213,7 @@ setClientTypeError
                 error={errors.confirmPassword}
                 visible={touched.confirmPassword}
               />
-              <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
+              <Block style={{ flex: 0, paddingVertical: 16}}>
                 {
                 !errors.emailOrPhone ||
                 !errors.confirmPassword ||

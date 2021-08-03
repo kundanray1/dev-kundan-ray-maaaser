@@ -238,7 +238,7 @@ const ManualDonateConfirmation = ({
           >
             <Text
               center
-              color={theme.colors.red}
+              color={theme.colors.solidGray}
               style={{ fontSize: 18, fontWeight: "700" }}
             >
               Cancel

@@ -341,12 +341,12 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                                   label="Requesting..."
                                 />
                                 <Text button style={{ fontSize: 18 }}>
-                                  Update Profile
+                                  Update 
                                 </Text>
                               </>
                             ) : (
                               <Text button style={{ fontSize: 18 }}>
-                                Update Profile
+                                Update 
                               </Text>
                             )}
                           </Button>
@@ -357,7 +357,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                             }}
                           >
                             <Text button style={{ fontSize: 18 }}>
-                              Update Profile
+                              Update 
                             </Text>
                           </Button>
                         )}
