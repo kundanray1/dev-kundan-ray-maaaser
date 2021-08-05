@@ -1,53 +1,418 @@
-{
-   "authresponse":"undefined",
-   "debug":"undefined",
-   "error":false,
-   "errorcode":0,
-   "loginresponse":"Object"{
-      "loginaccount":"Object"{
-         "accounttype":0,
-         "client":"Object"{
-            "account":"Object"{
-               "accountid":"2e1ff5052b914b08aaf1d439f8acbf3c",
-               "accountstatus":2,
-               "accounttype":2,
-               "clientdetail":"undefined",
-               "countrycode":"AND",
-               "createdat":1622642890827,
-               "email":"jp@gmail.com",
-               "fullname":"Joshan Pradhan",
-               "isdeleted":false,
-               "isemailverified":false,
-               "isfirstlogin":true,
-               "iskycverified":false,
-               "isphoneverified":false,
-               "password":"",
-               "phone":"",
-               "updatedat":1627822145756
-            },
-            "accountid":"",
-            "addressesList":"Array"[
-               
-            ],
-            "bio":"",
-            "clientid":"dfb812bb12a247ec8bd7033fe18f170e",
-            "clienttype":1,
-            "contactsList":"Array"[
-               
-            ],
-            "profilepic":"https://storage.googleapis.com/maaser_resources/c48c4215839642c1b248a134b8ca483e.jpg"
-         },
-         "employee":"undefined",
-         "password":"",
-         "user":"undefined"
-      },
-      "token":"MmUxZmY1MDUyYjkxNGIwOGFhZjFkNDM5ZjhhY2JmM2MuZjRjNjA2NTRkNDliNDk2ZmJmZTVkYWI4ODNiOWRkMDg=.6cfd641bc59654ef57af12e3dca736d6ef74cbc3ffec49bed050aa85689c3ff7a08e3791b5495793236344a7370d413fe8de35054a076b7204b344141361faee"
-   },
-   "msg":"",
-   "session":"undefined",
-   "sessionsList":"Array"[
+import React, { useState, useEffect } from "react";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  SafeAreaView,
+  RefreshControl,
+  SectionList,
+  Modal,
+  View,
+  Dimensions,
+  TextInput,
+  TouchableWithoutFeedback
+} from "react-native";
+import * as theme from "../../../../constants/theme.js";
+import {
+  Block,
+  Empty,
+  DateWiseDonationDetailCard,
+  Text,
+  Button,
+  ErrorMessage,
+  FloatingButton
+} from "../../../../components/Index.js";
+import moment from "moment";
+import { MaterialCommunityIcons,Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import TransactionsMedium from "./../../Transactions/TransactionsMedium";
+import TransactionsType from "./../../Transactions/TransactionsType";
+import API from "../../../../api/API.js";
+import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
+import searchStyles  from "../../../../utility/globalStyles.js";
+import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
+import { Modalize } from 'react-native-modalize';
+<Modalize ref={modalizeRef}><Text>Joshan</Text></Modalize>
+const WIDTH = Dimensions.get("window").width;
+
+const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcomingDonationsSearch }) => {
+  const [search, setSearch] = useState();
+  const [upcomingDonationsData, setUpcomingDonationsData] = useState();
+  const [
+    confirmationMessageVisible,
+    setConfirmationSuccessfulVisible,
+  ] = useState(false);
+  const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
+  const [showFromDate, setShowFromDate] = useState(false);
+  const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
+  const [showToDate, setShowToDate] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [dateError, setDateError] = useState(false);
+
+  const onChangeFromDate = (event, selectedDate) => {
+    const currentDate = selectedDate || fromDate;
+    setShowFromDate(Platform.OS === "ios");
+    setFromDate(currentDate);
+    setShowFromDate(false);
+  };
+  const onChangeToDate = (event, selectedDate) => {
+    const currentDate = selectedDate || toDate;
+    setShowToDate(Platform.OS === "ios");
+    setToDate(currentDate);
+    setShowToDate(false);
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    upcomingDonations();
+    setRefreshing(false);
+  });
+
+  const onPressReset = () => {
+  setFromDate("2021-05-03T15:21:15.513Z");
+  setToDate("2021-09-03T15:21:15.513Z");
+  setDateError(false)
+  };
+  
+  const onPressSubmitApply = () => {
+    if((new Date(fromDate).getTime())>(new Date(toDate).getTime())){
+    setDateError(true)
+    }else{
+    setConfirmationSuccessfulVisible(false)
+    setDateError(false)
+    upcomingDonationsSearch({
+      search:"",
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      search:search==undefined?"":""
+    })
+     onPressReset();
+    }
+  };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+       <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setConfirmationSuccessfulVisible(true)}
+              style={{ alignItems: "flex-end",marginRight:16,justifyContent:"center" }}
+                >
+                   <TransactionsSearchIconComponent height={25} width={20}/>
+                </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
+
+  const renderItems = ({ item }) => {
+    return (
+      item.clientList[1]!=undefined?
+      <Block style={{ paddingHorizontal: 18 }}>
+        <DateWiseDonationDetailCard
+          profilePic={item.clientList[1].profilepic}
+          name={item.clientList[1].account.fullname}
+          amount={item.amount}
+          date={item.upcomingtxndate}
+          textColor={theme.colors.black}
+        />
+      </Block>
+      :
+      <Block style={{flex:0}}/>
+    );
+  };
+
+  const renderHeader = ({ section }) => {
+    return (
+      <Block
+        style={{
+          backgroundcolor: theme.colors.gray2,
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+        }}
+      >
+        <Text
+          color={theme.colors.gray}
+          style={{ fontSize: 16, fontWeight: "700" }}
+        >
+          {section.title}
+        </Text>
+      </Block>
+    );
+  };
+
+  useEffect(() => {
+    if (data.upcomingDonationsSearch == null) {
+      upcomingDonations();
+    } else {
+      const sortedData = Object.values(
+        data.upcomingDonationsSearch.reduce((acc, item) => {
+          if (!acc[moment(item.upcomingtxndate).format("DD MMM ,YYYY")])
+            acc[moment(item.upcomingtxndate).format("DD MMM, YYYY")] = {
+              title: moment(item.upcomingtxndate).format("DD MMM, YYYY"),
+              data: [],
+            };
+          acc[moment(item.upcomingtxndate).format("DD MMM, YYYY")].data.push(item);
+          return acc;
+        }, {})
+      );
+      setUpcomingDonationsData(sortedData);
+    }
+  }, [data.upcomingDonationsSearch]);
+
+
+
+  useEffect(() => {
+      upcomingDonations();
+  }, []);
+
+
+
+  const ConfirmationMessage = () => (
+    <SafeAreaView>
+      <Modal
+        visible={confirmationMessageVisible}
+        transparent={true}
+        animationType="slide"
+        statusBarTranslucent={true}
+        onRequestClose={() =>
+          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
+        }
+      >
+      <TouchableOpacity 
+            style={styles.container} 
+            activeOpacity={1} 
+            onPressOut={()=>setConfirmationSuccessfulVisible(!confirmationMessageVisible)}
+          >
+         <TouchableWithoutFeedback>
+          <View
+            style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
+          >
+          <Block style={{flex:0,alignItems:"center",paddingVertical:10}}>
+          <Block style={{flex:0,backgroundColor:"#E2E2E2",width:WIDTH-280,borderRadius:10,paddingVertical:2}}/>
+            </Block>
+              <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={{flexDirection:"row", justifyContent: "flex-end", paddingBottom: 8 }}
+                  onPress={onPressReset}
+                >
+              <Text bold style={{ fontSize: 14, fontWeight: "700" }} color={theme.colors.red}>
+                  Reset
+                </Text>
+                </TouchableOpacity>
+
+            <Block row style={{ flex: 0 }}>
+              <Block style={{ paddingVertical: 8 }}>
+                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                  From
+                </Text>
+                <TouchableOpacity
+                  style={[styles.customPicker,{width:"95%"}]}
+                  activeOpacity={0.8}
+                  onPress={() => setShowFromDate(true)}
+                >
+                  <Text
+                    bold
+                    style={{
+                      fontSize: 16,
+                      color:"#999999",
+                    }}
+                  >
+                   {
+                      fromDate=="2021-05-03T15:21:15.513Z"?"":
+                       moment(fromDate).format("DD/MM/YYYY")
+                    }
+                  </Text>
+                  <Block style={{ alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="calendar-month"
+                      size={20}
+                      color={theme.colors.primary2}
+                    />
+                  </Block>
+                </TouchableOpacity>
+                {showFromDate && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    maximumDate={new Date()}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    textColor="red"
+                    onChange={onChangeFromDate}
+                  />
+                )}
+              </Block>
+
+              <Block style={{ paddingVertical: 8 }}>
+                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                  To
+                </Text>
+                <TouchableOpacity
+                  style={[styles.customPicker,{left:"10%"}]}
+                  activeOpacity={0.8}
+                  onPress={() => setShowToDate(true)}
+                >
+                  <Text
+                    bold
+                    style={{
+                      fontSize: 16,
+                      color:"#999999",
+
+                    }}
+                  >
+                   {
+                      toDate=="2021-09-03T15:21:15.513Z"?"":
+                       moment(toDate).format("DD/MM/YYYY")
+                    }
+                  </Text>
+                  <Block style={{ alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="calendar-month"
+                      size={20}
+                      color={theme.colors.primary2}
+                    />
+                  </Block>
+                </TouchableOpacity>
+                {showToDate && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    maximumDate={new Date()}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    textColor="red"
+                    onChange={onChangeToDate}
+                  />
+                )}
+              </Block>
+            </Block>
+             <ErrorMessage
+                error={"Please enter a valid date"}
+                visible={dateError}
+              />
+            <Button onPress={onPressSubmitApply}>
+              <Text button style={{ fontSize: 18 }}>
+                Apply
+              </Text>
+            </Button>
+          </View>
+         </TouchableWithoutFeedback>
+          </TouchableOpacity>
+      </Modal>
+    </SafeAreaView>
+  );
+  function searchFilterFunction(text) {
+    if(text){
+     upcomingDonationsSearch({
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      search:text
+      })
+    }else{
+       upcomingDonationsSearch({
+      fromDate:new Date(fromDate).getTime(),
+      toDate:new Date(toDate).getTime(),
+      search:""
+      })
+    }
+  }
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+     <Block style={{ flex: 0, paddingHorizontal: 16 }}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
+            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
+          </Block>
+
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={theme.colors.solidGray}
+            style={searchStyles.boxTextInput}
+            onChangeText={(text) => searchFilterFunction(text)}
+            value={search}
+          />
+
+          {search ? (
+            <TouchableOpacity
+              onPress={() => searchFilterFunction()}
+              style={searchStyles.vwClear}
+            >
+              <Ionicons name="close-circle-sharp" color="black" size={18} />
+            </TouchableOpacity>
+          ) : (
+            <Block style={searchStyles.vwClear} />
+          )}
+        </Block>
+      </Block>
+      {data.isLoading ? (
+        <Block center middle>
+          <ActivityIndicator size="large" color={theme.colors.primary2} />
+        </Block>
+      ) : (
+        <Block style={{ flex: 0, marginTop: 6 }}>
+          <SectionList
+            sections={upcomingDonationsData}
+            keyExtractor={(item, index) => item + index}
+            renderItem={renderItems}
+            renderSectionHeader={renderHeader}
+            ListEmptyComponent={() => (
+              <Empty iconName="transactions" title="No donations data." />
+            )}
+            refreshControl={
+                    <RefreshControl
+                      colors={[theme.colors.primary2]}
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
+            ListFooterComponent={() => (
+              <Block
+                middle
+                center
+                style={{ marginBottom: 120, flex: 0 }}
+              />
+            )}
+            ListFooterComponentStyle={{
+              paddingVertical: 20,
+            }}
+          />
+        </Block>
+      )}
       
-   ],
-   "success":false,
-   "timestamp":0
-}
+       <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
+      {ConfirmationMessage()}
+    </SafeAreaView>
+  );
+};
+
+export default UpcomingDonations;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modal: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    paddingVertical: 10,
+  },
+  customPicker: {
+    height: 28,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderColor:"#E7E7E7",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    paddingVertical: 6,
+  },
+});
