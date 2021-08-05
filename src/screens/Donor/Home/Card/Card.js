@@ -200,7 +200,7 @@ const Card = ({
     linkNewCardData.setCardnumber(cardData.cardnumber);
     linkNewCardData.setCardholdername(cardData.cardholdername);
     linkNewCardData.setCvc(cardData.cvc);
-    linkNewCardData.setExpirydate(new Date().getTime());
+    linkNewCardData.setExpirydate(new Date(1732924800000).getTime());
     cardUpdateStatusStart(linkNewCardData);
   };
 
@@ -256,7 +256,7 @@ const Card = ({
                 />
               }
               ListEmptyComponent={() => (
-                <Empty iconName="cards" title="You don't have any data." />
+                <Empty iconName="cards" title="No card data." />
               )}
               ListFooterComponent={() => (
                 <Block

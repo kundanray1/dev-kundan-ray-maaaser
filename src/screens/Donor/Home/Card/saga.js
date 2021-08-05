@@ -46,7 +46,6 @@ export function* cardUpdateStatus({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("cardUpdateStatus",res);
 		if (res.success) {
 			yield put(cardUpdateStatusSuccess(res));
 			showMessage({

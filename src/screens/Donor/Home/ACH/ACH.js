@@ -259,7 +259,7 @@ const ACH = ({
                   />
                 }
                 ListEmptyComponent={() => (
-                  <Empty iconName="accounts" title="You don't have any data." />
+                  <Empty iconName="accounts" title="No accounts data." />
                 )}
                 ListFooterComponent={() => (
                   <Block
