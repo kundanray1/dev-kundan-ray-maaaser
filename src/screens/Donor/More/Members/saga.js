@@ -22,6 +22,7 @@ export function* members({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("members",res);
 		if (res.success) {
 			yield put(membersSuccess(res));
 		} else {
@@ -51,7 +52,6 @@ export function* permissionsAssign({ payload }) {
 		const res = permissionBase.PermissionBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("permissionsAssign",res);
 		if (res.success) {
 			yield put(permissionsAssignSuccess(res));
 			showMessage({

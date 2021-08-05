@@ -17,8 +17,9 @@ export function* addMember({ payload }) {
       body: serializedData,
     });
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
+    console.log("addMember",res);
     if (res.success) {
-      yield put(addMemberSuccess(res.msg));
+      yield put(addMemberSuccess(res));
       showMessage({
         message: "New member added successfully",
         type: "success",

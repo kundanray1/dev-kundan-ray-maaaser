@@ -1,7 +1,6 @@
-import React, { useState,useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	StyleSheet,
-	Text,
 	TouchableOpacity,
 	View,
 	Image,
@@ -11,6 +10,7 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
+import { Text } from "../../../../components/Index.js";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 const WIDTH = Dimensions.get("window").width;
 
@@ -256,11 +256,10 @@ const PERMISSIONS = [
 	},
 ];
 
-const Permissions = ({ setSelectedData,selectedData }) => {
-	const [
-		permissionsModalVisible,
-		setPermissionsModalVisible,
-	] = useState(false);
+const Permissions = ({ setSelectedData, selectedData }) => {
+	const [permissionsModalVisible, setPermissionsModalVisible] = useState(
+		false
+	);
 	const [data, setData] = useState(PERMISSIONS);
 	const [isChecked, setIsChecked] = useState(true);
 	const [selectAll, setSelectAll] = useState(
@@ -275,19 +274,19 @@ const Permissions = ({ setSelectedData,selectedData }) => {
 		setSelectedData(data);
 		setData(temp);
 	};
-	const checkOne =(newValue, index) => {
+	const checkOne = (newValue, index) => {
 		let temp = data.map((item, i) => {
 			return index === i ? { ...item, checked: newValue } : item;
 		});
 		setData(temp);
 		setSelectedData(data);
 		setIsChecked(!isChecked);
-	}
+	};
 
 	const onFinish = useCallback((data) => {
 		setSelectedData(data);
 	});
-	 
+
 	return (
 		<View style={[styles.checkContainer]}>
 			<Text bold style={{ fontSize: 14, fontWeight: "700" }}>
@@ -297,17 +296,63 @@ const Permissions = ({ setSelectedData,selectedData }) => {
 				style={styles.customPicker}
 				activeOpacity={0.8}
 				onPress={() =>
-					setPermissionsModalVisible(
-						!permissionsModalVisible
-					)
+					setPermissionsModalVisible(!permissionsModalVisible)
 				}
 			>
-				<Block>
-					<Text bold style={{ fontSize: 16, color: "#999999" }}>
-						{selectedData.length} permissions
-					</Text>
+				<Block row style={{ flexWrap: "wrap" }}>
+					{selectedData
+						.filter((item) => {
+							return item.checked == true;
+						})
+						.slice(0, 2)
+						.map((item, index) => (
+							<Block
+								style={{
+									flex: 0,
+									backgroundColor: "#DCF5FF",
+									borderRadius: 5,
+									marginRight: 6,
+									marginBottom: 4,
+									paddingVertical: 4,
+									paddingHorizontal: 12,
+								}}
+							>
+								<Text
+									style={{ fontSize: 12, fontWeight: "700" }}
+									color="#0BB3F3"
+								>
+									{item.permission}
+								</Text>
+							</Block>
+						))}
+					{selectedData
+						.filter((item) => {
+							return item.checked == true;
+						}).length > 2 && 
+						<Block
+							style={{
+								flex: 0,
+								backgroundColor: "#DCF5FF",
+								borderRadius: 5,
+								marginRight: 6,
+								marginBottom: 4,
+								paddingVertical: 4,
+								paddingHorizontal: 12,
+							}}
+						>
+							<Text
+								style={{ fontSize: 12, fontWeight: "700" }}
+								color="#0BB3F3"
+							>
+								+
+								{selectedData.filter((item) => {
+									return item.checked == true;
+								}).length - 2}
+							</Text>
+						</Block>
+					}
 				</Block>
-				<Block style={{ alignItems: "flex-end" }}>
+				<Block style={{flex:0.1, alignItems: "flex-end" }}>
 					<AntDesign
 						name="caretdown"
 						size={16}
@@ -441,7 +486,7 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.white,
 		borderRadius: 3,
 		padding: 10,
-		height:"20%"
+		height: "20%",
 	},
 	option: {
 		alignItems: "flex-start",

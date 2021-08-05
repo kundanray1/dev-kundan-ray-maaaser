@@ -19,7 +19,7 @@ import {
   Empty,
   FloatingButton,
   MemberDetailCard,
-  ErrorMessage
+  ErrorMessage,
 } from "../../../../components/Index.js";
 import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
@@ -33,7 +33,9 @@ const Members = ({
   data,
   loginData,
   members,
+  addMemberData,
   permissionsAssign,
+  permissionsAssignClear,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [assignError, setAssignError] = useState(false);
@@ -49,33 +51,38 @@ const Members = ({
     setRefreshing(false);
   });
 
-  useEffect(() => {
-    if (data.members == null) {
+
+ useEffect(() => {
+    if (data.permissionsAssign != null) {
+      if (data.permissionsAssign.success) {
+        permissionsAssignClear();
+      }
+    }else{
       members(loginData.user.account.accountid);
     }
-  }, [data.members]);
+  }, [data.permissionsAssign,addMemberData.addMember]);
 
   const onSubmitApply = () => {
     if (selectedData.length > 0) {
       var filterResult = selectedData.filter((item) => {
         return item.checked == true;
       });
-        const permissionProto = new PermissionProto.PermissionAssignReq();
-        const permissionsList = [];
-        filterResult.map(function (assign) {
-          const permissionAssign = new PermissionProto.PermissionAssign();
-          permissionAssign.setPermissionid(assign.permissionId);
-          permissionsList.push(permissionAssign);
-        });
-        // assign
-        permissionProto.setPermissionassignsList(permissionsList);
-        permissionProto.setAccountid(accountData.account.accountid);
-        permissionsAssign(permissionProto);
-        setConfirmationSuccessfulVisible(false);
-        setAssignError(false)
-        setSelectedData([])
-    }else{
-      setAssignError(true)
+      const permissionProto = new PermissionProto.PermissionAssignReq();
+      const permissionsList = [];
+      filterResult.map(function (assign) {
+        const permissionAssign = new PermissionProto.PermissionAssign();
+        permissionAssign.setPermissionid(assign.permissionId);
+        permissionsList.push(permissionAssign);
+      });
+      // assign
+      permissionProto.setPermissionassignsList(permissionsList);
+      permissionProto.setAccountid(accountData.account.accountid);
+      permissionsAssign(permissionProto);
+      setConfirmationSuccessfulVisible(false);
+      setAssignError(false);
+      setSelectedData([]);
+    } else {
+      setAssignError(true);
     }
   };
 
@@ -114,7 +121,10 @@ const Members = ({
                 setSelectedData={setSelectedData}
                 selectedData={selectedData}
               />
-              <ErrorMessage error={"Please assign a permission value"} visible={assignError} />
+              <ErrorMessage
+                error={"Please assign a permission value"}
+                visible={assignError}
+              />
               <Button style={{ marginTop: 8 }} onPress={onSubmitApply}>
                 <Text button style={{ fontSize: 18 }}>
                   Assign
@@ -194,6 +204,7 @@ const Members = ({
                   >
                     <MemberDetailCard
                       profilePic={post.item.profilepic}
+                      permissionsList={post.item.permissionsList}
                       name={post.item.account.fullname}
                       email={post.item.account.email}
                       onPress={() => {
