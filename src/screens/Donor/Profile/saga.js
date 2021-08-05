@@ -17,7 +17,6 @@ export function* profile({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("profile",res);
 		if (res.success) {
 			if(res.loginaccount.employee!==undefined){
 			yield put(profileSuccess(res.loginaccount.employee));

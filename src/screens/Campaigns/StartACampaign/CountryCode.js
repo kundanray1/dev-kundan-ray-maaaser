@@ -23,7 +23,7 @@ import getCountryISO3 from "country-iso-2-to-3";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 export default CountryCode = ({
-  countryName,countryCode,setCountryCode,setCountryName
+  countryName,countryCode,setCountryCode,setCountryName,setCountryCodeError
 }) => {
   const [search, setSearch] = useState();
   const [country2Code, setCountry2Code] = useState("");
@@ -52,6 +52,7 @@ export default CountryCode = ({
       setCountryCodeModalVisible(false);
       setCountryName(name)
       setCountry2Code(code)
+      setCountryCodeError(false)
     },
     [setCountryCode]
   );

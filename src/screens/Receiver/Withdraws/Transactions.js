@@ -504,6 +504,29 @@ const Transactions = ({
       type: transactionsTypeId,
      search: text,
     });
+    }else{
+       search({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: "",
+      });
+    generateTransactionsPDFReceiptStart({
+      fromDate: new Date(fromDate).getTime(),
+      toDate: new Date(toDate).getTime(),
+      medium: transactionsMediumId,
+      type: transactionsTypeId,
+      search: "",
+    });
+    generateTransactionsExcelReceiptStart({
+      fromDate: new Date(fromDate).getTime(),
+      toDate: new Date(toDate).getTime(),
+      medium: transactionsMediumId,
+      type: transactionsTypeId,
+     search: "",
+    });
     }
   }
   return (

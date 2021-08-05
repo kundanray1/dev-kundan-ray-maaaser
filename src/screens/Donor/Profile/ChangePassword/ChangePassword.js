@@ -17,11 +17,11 @@ import API from "./../../../../api/API";
 export default ChangePassword = ({
 	navigation,
 	data,
+	loginData,
 	changePassword,
 	changePasswordClear,
 	route,
 }) => {
-	const {clientType}=route.params
 	const [currentPasswordFocus, setCurrentPasswordFocus] = useState(false);
 	const [passwordFocus, setPasswordFocus] = useState(false);
 	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
@@ -33,31 +33,41 @@ export default ChangePassword = ({
 		changePassword(changePasswordData);
 	};
 
+	
 	useEffect(() => {
 		if (data.changePassword !== null) {
 			if (data.changePassword.success) {
-				changePasswordClear()
-				if(clientType=="receiver"){
-				navigation.navigate("Receiver Profile");
+				changePasswordClear();
+				if (route.params !== undefined) {
+					const { clientType } = route.params;
+					if (clientType == "receiver") {
+					navigation.navigate("Receiver Profile");
+				} else {
+					const { clientType } = route.params;
+					navigation.navigate("Profile");
+				}
 				}else{
-				navigation.navigate("Profile");
+					if(loginData.user.account.accounttype==2){
+					navigation.navigate("DonorMainTab");
+					}else{
+					navigation.navigate("ReceiverMainTab");
+					}
 				}
 			}
 		}
 	}, [data.changePassword]);
 
 	return (
-		 <KeyboardAwareScrollView
-      style={{ marginVertical: 10 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <Block style={{ paddingHorizontal: 16 }}>
-
+		<KeyboardAwareScrollView
+			style={{ marginVertical: 10 }}
+			showsVerticalScrollIndicator={false}
+		>
+			<Block style={{ paddingHorizontal: 16 }}>
 				<Formik
 					initialValues={{
-						currentPassword:"",
-						password:"",
-						confirmPassword:"",
+						currentPassword: "",
+						password: "",
+						confirmPassword: "",
 					}}
 					onSubmit={(values) => {
 						onSubmitChangePassword(values);
@@ -73,8 +83,7 @@ export default ChangePassword = ({
 						errors,
 					}) => (
 						<>
-						<Input
-								
+							<Input
 								password
 								label="Current Password"
 								focus={currentPasswordFocus}
@@ -91,7 +100,8 @@ export default ChangePassword = ({
 								style={{
 									borderBottomColor: currentPasswordFocus
 										? theme.colors.primary2
-										: touched.currentPassword && errors.currentPassword
+										: touched.currentPassword &&
+										  errors.currentPassword
 										? theme.colors.red
 										: theme.colors.solidGray,
 								}}
@@ -101,7 +111,6 @@ export default ChangePassword = ({
 								visible={touched.currentPassword}
 							/>
 							<Input
-								
 								password
 								label="New Password"
 								focus={passwordFocus}
@@ -128,7 +137,6 @@ export default ChangePassword = ({
 								visible={touched.password}
 							/>
 							<Input
-								
 								password
 								label="Confirm Password"
 								focus={confirmPasswordFocus}
@@ -153,40 +161,45 @@ export default ChangePassword = ({
 								error={errors.confirmPassword}
 								visible={touched.confirmPassword}
 							/>
-							<Block style={{ flex: 0, paddingTop:22 }}>
-							{!errors.currentPassword || !errors.password || !errors.confirmPassword ? (
-								<Button
-									onPress={handleSubmit}
-								>
-									{data.isLoading ? (
-										<>
-										<CustomActivityIndicator
-											isLoading={data.isLoading}
-											label="Requesting..."
-										/>
-											<Text button style={{ fontSize: 18 }}>
-											Change 
-										</Text>
-										</>
-									) : (
+							<Block style={{ flex: 0, paddingTop: 22 }}>
+								{!errors.currentPassword ||
+								!errors.password ||
+								!errors.confirmPassword ? (
+									<Button onPress={handleSubmit}>
+										{data.isLoading ? (
+											<>
+												<CustomActivityIndicator
+													isLoading={data.isLoading}
+													label="Requesting..."
+												/>
+												<Text
+													button
+													style={{ fontSize: 18 }}
+												>
+													Change
+												</Text>
+											</>
+										) : (
+											<Text
+												button
+												style={{ fontSize: 18 }}
+											>
+												Change
+											</Text>
+										)}
+									</Button>
+								) : (
+									<Button>
 										<Text button style={{ fontSize: 18 }}>
-											Change 
+											Change
 										</Text>
-									)}
-								</Button>
-							) : (
-								<Button
-								>
-									<Text button style={{ fontSize: 18 }}>
-										Change 
-									</Text>
-								</Button>
-							)}
-								</Block>
+									</Button>
+								)}
+							</Block>
 						</>
 					)}
 				</Formik>
-		</Block>
+			</Block>
 		</KeyboardAwareScrollView>
 	);
 };

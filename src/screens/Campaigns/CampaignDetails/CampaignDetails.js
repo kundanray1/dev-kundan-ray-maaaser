@@ -28,6 +28,7 @@ import CampaignEditIconComponent from "./../../../assets/icons/campaignEditIconC
 import getCountryISO2 from "country-iso-3-to-2";
 import country from "../../../constants/country.json";
 import RenderHtml from "react-native-render-html";
+import { Video, AVPlaybackStatus } from "expo-av";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -98,9 +99,9 @@ const CampaignDetails = ({
               />
             }
           >
-            {data.campaignDetails.campaign.thumbnailurl.includes(
-              c[c.length - 1]
-            ) ? (
+            {data.campaignDetails.campaign.thumbnailurl.match(
+              /\.(jpeg|jpg|gif|png|raw|gif)$/
+            ) != null ? (
               <Block style={{ flex: 0 }}>
                 <ImageBackground
                   style={{
@@ -144,48 +145,20 @@ const CampaignDetails = ({
                 </ImageBackground>
               </Block>
             ) : (
-              <Block style={{ flex: 0 }}>
-                <ImageBackground
-                  style={{
-                    height: HEIGHT / 4,
-                    width: "100%",
-                    alignItems: "flex-end",
-                    overflow: "hidden",
-                  }}
-                  source={{ uri: data.campaignDetails.campaign.thumbnailurl }}
-                >
-                  <Block
-                    row
-                    style={{
-                      flex: 0,
-                      paddingVertical: 4,
-                    }}
-                  >
-                    {route.params != undefined && (
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() =>
-                          navigation.navigate(
-                            "Start a campaign second update",
-                            {
-                              campaignDetails: data.campaignDetails,
-                            }
-                          )
-                        }
-                      >
-                        <CampaignEditIconComponent
-                          style={{ marginTop: 10, marginRight: 10 }}
-                        />
-                      </TouchableOpacity>
-                    )}
-                    <TouchableOpacity activeOpacity={0.8} onPress={onShare}>
-                      <ShareCampaignIconComponent
-                        style={{ marginTop: 10, marginRight: 10 }}
-                      />
-                    </TouchableOpacity>
-                  </Block>
-                </ImageBackground>
-              </Block>
+              <Video
+                style={{
+                  height: HEIGHT / 4,
+                  width: "100%",
+                  alignItems: "flex-end",
+                  overflow: "hidden",
+                }}
+                source={{
+                  uri: data.campaignDetails.campaign.thumbnailurl,
+                }}
+                useNativeControls
+                resizeMode="contain"
+                isLooping
+              />
             )}
 
             <Block
@@ -731,31 +704,31 @@ const CampaignDetails = ({
               )
             ) : (
               <Block
-                  style={{
-                    paddingHorizontal: 18,
-                    backgroundColor: "white",
-                    justifyContent: "flex-end",
-                    bottom: 0,
-                    paddingVertical: 10,
-                    position: "absolute",
-                    width: "100%",
-                  }}
+                style={{
+                  paddingHorizontal: 18,
+                  backgroundColor: "white",
+                  justifyContent: "flex-end",
+                  bottom: 0,
+                  paddingVertical: 10,
+                  position: "absolute",
+                  width: "100%",
+                }}
+              >
+                <Button
+                  onPress={() =>
+                    navigation.navigate("Campaign Donate Now", {
+                      refId: data.campaignDetails.campaign.campaignid,
+                      receiverName:
+                        data.campaignDetails.campaign.campaignbeneficiary
+                          .account.fullname,
+                    })
+                  }
                 >
-                  <Button
-                    onPress={() =>
-                      navigation.navigate("Campaign Donate Now", {
-                        refId: data.campaignDetails.campaign.campaignid,
-                        receiverName:
-                          data.campaignDetails.campaign.campaignbeneficiary
-                            .account.fullname,
-                      })
-                    }
-                  >
-                    <Text button style={{ fontSize: 18 }}>
-                      Donate Now
-                    </Text>
-                  </Button>
-                </Block>
+                  <Text button style={{ fontSize: 18 }}>
+                    Donate Now
+                  </Text>
+                </Button>
+              </Block>
             )
           ) : (
             <Block style={{ flex: 0 }} />

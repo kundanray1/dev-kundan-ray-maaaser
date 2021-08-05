@@ -161,6 +161,9 @@ const DonationsMade = ({ navigation, data,loginData, donationsMade,donationsMade
     }
   }, [data.donationsMadeSearch]);
 
+useEffect(() => {
+        donationsMade(loginData.user.account.accountid);
+  }, []);
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal

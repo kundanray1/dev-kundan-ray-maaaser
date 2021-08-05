@@ -175,6 +175,7 @@ const StartACampaign = ({
                 setCountryName={setCountryName}
                 countryCode={countryCode}
                 setCountryCode={setCountryCode}
+                setCountryCodeError={setCountryCodeError}
               />
               <ErrorMessage
                 error={"Country is a required field"}

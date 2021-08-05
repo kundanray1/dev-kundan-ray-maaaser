@@ -115,7 +115,7 @@ const DonationReceived = ({
           profilePic={item.clientList[1].profilepic}
           name={item.clientList[1].account.fullname}
           amount={item.amount}
-          date={item.upcomingtxndate}
+          date={item.createdat}
           textColor={theme.colors.black}
         />
       </Block>

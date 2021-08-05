@@ -160,6 +160,12 @@ const UpcomingDonations = ({ navigation, data,loginData, upcomingDonations,upcom
 
 
 
+  useEffect(() => {
+      upcomingDonations();
+  }, []);
+
+
+
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal

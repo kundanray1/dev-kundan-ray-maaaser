@@ -58,7 +58,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
                   <Block style={{flex:0}}/>
           )}
         <FlatList
-          data={ loginData.user.clienttype == 1?Individual:Organization}
+          data={ loginData.employee==null?loginData.user.clienttype == 1?Individual:Organization:Individual}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => {
             return item.id.toString();

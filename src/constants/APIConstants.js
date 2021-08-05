@@ -27,6 +27,7 @@ const APIEndPoints = {
     GET_EMPLOYEE_LIST : MainAPI + '/employee/client',
     EMPLOYEE : MainAPI + '/employee',
     IMAGE:MainAPI + '/upload/image',
+    VIDEO:MainAPI + '/upload/video',
     PROFILE:MainAPI + '/account/profile',
 
     //CAMPAIGN

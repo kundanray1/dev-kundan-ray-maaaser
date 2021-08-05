@@ -23,6 +23,7 @@ import API from "./../../../../api/API";
 const LinkScheduleDonation = ({
   navigation,
   data,
+  loginData,
   linkScheduleDonation,
   linkScheduleDonationClear,
   updateLinkScheduleDonation,
@@ -98,20 +99,19 @@ const LinkScheduleDonation = ({
         : PaymentProto.ScheduleType.NTH_DAY;
     const scheduleTransactionProto = new PaymentProto.ScheduleTransaction();
     const scheduleDetailProto = new PaymentProto.ScheduleDetail();
+    const getStartDate = moment(startDate).format("MM/DD/YYYY");
+    const getStartTime = moment(startTime).format("H:mm:ss");
     if (scheduleType == "One Time") {
-      const startDateConvert = new Date(startDate).getTime();
-      const startTimeConvert = new Date(startTime).getTime();
-
-      scheduleDetailProto.setStartdate(startDateConvert + startTimeConvert);
-      scheduleDetailProto.setEnddate(startDateConvert + startTimeConvert);
+      scheduleDetailProto.setStartdate(
+        Date.parse(getStartDate+" "+getStartTime)
+      );
+      scheduleDetailProto.setEnddate(Date.parse(getStartDate+" "+getStartTime));
     } else {
-      scheduleDetailProto.setStartdate(new Date(startDate).getTime());
+      scheduleDetailProto.setStartdate(Date.parse(getStartDate+" "+getStartTime));
       scheduleDetailProto.setEnddate(new Date(endDate).getTime());
     }
-    // scheduleDetailProto.setStarttime(startTime.getTime());
+
     scheduleDetailProto.setScheduletype(scheduleTypeProto);
-    console.log("startDate", new Date(startDate).getTime());
-    console.log("endDate", new Date(startDate).getTime());
     if (route.params != undefined) {
       scheduleTransactionProto.setScheduletransactionid(
         route.params.scheduleDonationData.scheduletransactionid
@@ -132,7 +132,7 @@ const LinkScheduleDonation = ({
     scheduleTransactionProto.setTransactionmedium(
       PaymentProto.TransactionMedium.INTERNAL_MEDIUM
     );
-    scheduleTransactionProto.setDonoraccountid(API.user().account.accountid);
+    scheduleTransactionProto.setDonoraccountid(loginData.user.account.accountid);
     scheduleTransactionProto.setReceiveraccountid(receiverId);
     scheduleTransactionProto.setRemark(values.remarks);
 

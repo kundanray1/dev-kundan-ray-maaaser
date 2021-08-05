@@ -261,6 +261,13 @@ const ScheduleDonation = ({
         toDate: new Date(toDate).getTime(),
         search: text,
       });
+    }else{
+      scheduleDonationSearch({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        search: "",
+      });
     }
   }
   return (

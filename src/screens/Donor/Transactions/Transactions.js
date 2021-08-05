@@ -20,7 +20,7 @@ import {
   Text,
   Button,
   ErrorMessage,
-  FloatingButton
+  FloatingButton,
 } from "../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -330,6 +330,12 @@ const Transactions = ({
       setTransactionsData(sortedData);
     }
   }, [data.transactions]);
+
+  useEffect(() => {
+    setTransactionssearch()
+    transactions(loginData.user.account.accountid);
+  }, []);
+
   const ConfirmationMessage = () => (
     <SafeAreaView>
       <Modal
@@ -517,8 +523,8 @@ const Transactions = ({
         type: transactionsTypeId,
         search: text,
       });
-    }else{
-       search({
+    } else {
+      search({
         accountId: loginData.user.account.accountid,
         fromDate: new Date(fromDate).getTime(),
         toDate: new Date(toDate).getTime(),

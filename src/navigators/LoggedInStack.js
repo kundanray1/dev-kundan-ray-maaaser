@@ -82,8 +82,6 @@ import API from "./../api/API";
 
 //withdrawnsDetails
 import WithdrawnDetails from "../screens/Receiver/Withdraws/WithdrawnDetails/index";
-import ForgotPassword from "../screens/auth/ForgotPassword/index";
-import Verification from "../screens/auth/Verification/index";
 import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
 
 //navigator for logged in users
@@ -92,7 +90,7 @@ const LoggedInStack = ({ data }) => {
   let routeName;
   if (data.employee !== null) {
     if (data.employee.account.isfirstlogin == false) {
-      routeName = "Forgot Password";
+      routeName = "Change Password";
     }
   } else {
     if (data.user.account.isfirstlogin == false) {
@@ -110,21 +108,6 @@ const LoggedInStack = ({ data }) => {
 
   return (
     <AuthStack.Navigator initialRouteName={routeName}>
-      <AuthStack.Screen
-        name="Forgot Password"
-        options={{ headerShown: true }}
-        component={ForgotPassword}
-      />
-      <AuthStack.Screen
-        name="Verification"
-        options={{ headerShown: true }}
-        component={Verification}
-      />
-      <AuthStack.Screen
-        name="Create New Password"
-        options={{ headerShown: true }}
-        component={CreateNewPassword}
-      />
       <AuthStack.Screen
         name="DonorMainTab"
         options={{ headerShown: false }}

@@ -49,25 +49,39 @@ export function* letsGetStartedDonor({ payload }) {
 
 export function* imageUpload({ payload }) {
   const formdata = new FormData();
-  formdata.append("image", {
-    name: "image",
-    type: "image/jpeg",
-    uri: payload,
-  });
+  const endPoints = (payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null) ? APIEndpoints.VIDEO :APIEndpoints.IMAGE
+  if (payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null) {
+    formdata.append("video", {
+      name: "video",
+      type: "video/mp4",
+      uri: payload,
+    });
+  } else {
+    formdata.append("image", {
+      name: "image",
+      type: "image/jpeg",
+      uri: payload,
+    });
+  }
+
   try {
-    const res = yield call(request, APIEndpoints.IMAGE, {
+    const res = yield call(request, endPoints, {
       method: "POST",
       headers: API.authHeadersForMultipartFormData(),
       body: formdata,
     });
     if (res.success) {
+      if(payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null){
+      yield put(imageUploadSuccess(res.fileUrls[0]));
+      }else{
       yield put(imageUploadSuccess(res.fileUrl));
+      }
     } else {
       yield put(imageUploadFail(res.msg));
-       showMessage({
-      message: "Failed to upload image on server. Try again!",
-      type: "danger",
-    });
+      showMessage({
+        message: "Failed to upload image on server. Try again!",
+        type: "danger",
+      });
     }
   } catch (e) {
     yield put(imageUploadFail(e));

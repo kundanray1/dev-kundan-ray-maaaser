@@ -52,10 +52,11 @@ export default CampaignCard = ({
 	const countryName = country.find(
 		(item) => item.code == getCountryISO2(countryCode)
 	);
-	const a = "https://i.imgur.com/qMUWuXV.jpg"; //your url
-	const b = ["jpeg", "jpg", "png", "gif", "raw"]; //format img
-	const c = a.split("."); // ["https://i", "imgur", "com/qMUWuXV", "jpg"]
-
+// const a = "https://i.imgur.com/qMUWuXV.jpg"; //your url
+// const b = ["jpeg", "jpg", "png", "gif", "raw"]; //format img
+// const c = a.split("."); // ["https://i", "imgur", "com/qMUWuXV", "jpg"]
+// // console.log(c.includes(b))
+// console.log(a.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null);
 	const handleOpenConfirm = () => {
 		if (mycampaign == "subcampaign") {
 			const updateData = new CampaignProto.SubCampaign();
@@ -322,55 +323,73 @@ export default CampaignCard = ({
 				}}
 				{...props}
 			>
-					<Block style={{ flex: 0 }}>
-						<ImageBackground
-							style={{
-								height: HEIGHT / 3.5,
-								width: "100%",
-								borderRadius: 6,
-							}}
-							source={{ uri: image }}
-						>
-							{mycampaign == "mycampaign" ||
-							mycampaign == "subcampaign" ? (
-								<Block
-									row
-									style={{flex:0, justifyContent: "flex-end"}}
-								>
-									{campaignstatus !== 2 && (
-										<TouchableOpacity
-											activeOpacity={0.8}
-											onPress={() => handleEdit()}
-										>
-											<CampaignsEditIconComponent
-												style={{
-													marginRight: 10,
-													marginTop: 10,
-												}}
-											/>
-										</TouchableOpacity>
-									)}
-									{campaignstatus !== 2 && (
-										<TouchableOpacity
-											activeOpacity={0.8}
-											onPress={() =>
-												setEditModalVisible(true)
-											}
-										>
-											<HorizontalDotsIconComponent
-												style={{
-													marginRight: 10,
-													marginTop: 10,
-												}}
-											/>
-										</TouchableOpacity>
-									)}
-								</Block>
-							) : (
-								<Block style={{ flex: 0 }} />
-							)}
-						</ImageBackground>
-					</Block>
+			{
+				image.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null ?
+				<Block style={{ flex: 0 }}>
+					<ImageBackground
+						style={{
+							height: HEIGHT / 3.5,
+							width: "100%",
+							borderRadius: 6,
+						}}
+						source={{ uri: image }}
+					>
+						{mycampaign == "mycampaign" ||
+						mycampaign == "subcampaign" ? (
+							<Block
+								row
+								style={{ flex: 0, justifyContent: "flex-end" }}
+							>
+								{campaignstatus !== 2 && (
+									<TouchableOpacity
+										activeOpacity={0.8}
+										onPress={() => handleEdit()}
+									>
+										<CampaignsEditIconComponent
+											style={{
+												marginRight: 10,
+												marginTop: 10,
+											}}
+										/>
+									</TouchableOpacity>
+								)}
+								{campaignstatus !== 2 && (
+									<TouchableOpacity
+										activeOpacity={0.8}
+										onPress={() =>
+											setEditModalVisible(true)
+										}
+									>
+										<HorizontalDotsIconComponent
+											style={{
+												marginRight: 10,
+												marginTop: 10,
+											}}
+										/>
+									</TouchableOpacity>
+								)}
+							</Block>
+						) : (
+							<Block style={{ flex: 0 }} />
+						)}
+					</ImageBackground>
+				</Block>
+:
+				<Video
+					style={{
+						height: HEIGHT / 3.5,
+						width: "100%",
+						borderRadius: 6,
+					}}
+					source={{
+						uri: image,
+					}}
+					useNativeControls
+					resizeMode="contain"
+					isLooping
+				/>
+			}
+
 
 				<Block
 					style={{

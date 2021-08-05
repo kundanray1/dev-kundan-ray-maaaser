@@ -21,7 +21,6 @@ export function* campaignDetails({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("campaignDetails",res);
 		if (res.success) {
 			yield put(campaignDetailsSuccess(res));
 		} else {

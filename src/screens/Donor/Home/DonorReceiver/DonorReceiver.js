@@ -80,7 +80,7 @@ const DonorReceiver = ({
   });
 
   useEffect(() => {
-    profile(loginData.user.account.accountid);
+    profile(loginData.employee==null?loginData.user.account.accountid:loginData.employee.account.accountid);
     upcomingDonations(loginData.user.account.accountid);
     balance(loginData.user.account.accountid);
     donationsMade(loginData.user.account.accountid);
