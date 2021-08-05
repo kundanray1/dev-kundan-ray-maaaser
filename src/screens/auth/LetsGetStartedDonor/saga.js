@@ -49,7 +49,10 @@ export function* letsGetStartedDonor({ payload }) {
 
 export function* imageUpload({ payload }) {
   const formdata = new FormData();
-  const endPoints = (payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null) ? APIEndpoints.VIDEO :APIEndpoints.IMAGE
+  const endPoints =
+    payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null
+      ? APIEndpoints.VIDEO
+      : APIEndpoints.IMAGE;
   if (payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null) {
     formdata.append("video", {
       name: "video",
@@ -71,10 +74,10 @@ export function* imageUpload({ payload }) {
       body: formdata,
     });
     if (res.success) {
-      if(payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null){
-      yield put(imageUploadSuccess(res.fileUrls[0]));
-      }else{
-      yield put(imageUploadSuccess(res.fileUrl));
+      if (payload.match(/\.(mp4|mov|avi|mkv|wmv)$/) != null) {
+        yield put(imageUploadSuccess(res.fileUrls[0]));
+      } else {
+        yield put(imageUploadSuccess(res.fileUrl));
       }
     } else {
       yield put(imageUploadFail(res.msg));

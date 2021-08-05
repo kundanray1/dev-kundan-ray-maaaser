@@ -31,13 +31,13 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
             <>
       <Block
         style={{
-          flex: 0.4,
+          flex: 0.35,
           alignItems: "center",
         }}
       >
         <ImageBackground
           style={{
-            height: "65%",
+            height: "55%",
             width: "100%",
             flex: 1,
             backgroundColor: "#FBFBFB",
@@ -50,8 +50,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
         >
           <Block
             style={{
-              flex: 0.8,
-              justifyContent:"flex-end",
+              flex: 0.6,
               paddingHorizontal: 16,
             }}
           >
@@ -116,7 +115,7 @@ const Profile = ({ navigation, loginData,data,balanceData,route }) => {
             flex: 0,
             zIndex: 1,
             position: "absolute",
-            marginTop: HEIGHT / 12,
+            marginTop: HEIGHT / 20,
           }}
         >
           {data.profile.profilepic !== "" ? (

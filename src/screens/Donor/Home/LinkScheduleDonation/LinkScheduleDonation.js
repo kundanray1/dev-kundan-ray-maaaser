@@ -72,7 +72,7 @@ const LinkScheduleDonation = ({
   const [startDateError, setStartDateError] = useState(false);
   const [showStartDate, setShowStartDate] = useState(false);
 
-  const [startTime, setStartTime] = useState("12:00 AM");
+  const [startTime, setStartTime] = useState("12:00:00 AM");
   const [startTimeError, setStartTimeError] = useState(false);
   const [showStartTime, setShowStartTime] = useState(false);
 
@@ -142,7 +142,7 @@ const LinkScheduleDonation = ({
       setScheduleTypeError(true);
     } else if (startDate == "2021-07-03T15:21:15.513Z") {
       setStartDateError(true);
-    } else if (startTime == "12:00 AM") {
+    } else if (startTime == "12:00:00 AM") {
       setStartTimeError(true);
     } else if (endDateError == "2021-07-03T15:21:15.513Z") {
       setEndDateError(true);
@@ -158,6 +158,7 @@ const LinkScheduleDonation = ({
     setStartDate(currentDate);
     setShowStartDate(false);
     setStartDateError(false);
+    setShowStartTime(true)
   };
   const onChangeEndDate = (event, selectedDate) => {
     const currentDate = selectedDate || endDate;
@@ -274,7 +275,9 @@ const LinkScheduleDonation = ({
                     >
                       {startDate == "2021-07-03T15:21:15.513Z"
                         ? ""
-                        : moment(startDate).format("DD/MM/YYYY")}
+                        : moment(startDate).format("DD/MM/YYYY,")} {startTime == "12:00:00 AM"
+                        ? ""
+                        : moment(startTime).format("hh:mm A")}
                     </Text>
                   </Block>
                   <Block style={{ alignItems: "flex-end" }}>
@@ -301,6 +304,7 @@ const LinkScheduleDonation = ({
                 error={"Start date is a required field"}
                 visible={startDateError}
               />
+{/*
               <Block style={{ paddingVertical: 8 }}>
                 <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
                   Start Time
@@ -339,6 +343,18 @@ const LinkScheduleDonation = ({
                   />
                 )}
               </Block>
+              */}
+
+               {showStartTime && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    mode="time"
+                    is24Hour={false}
+                    display="default"
+                    onChange={onChangeStartTime}
+                  />
+                )}
               <ErrorMessage
                 error={"Start time is a required field"}
                 visible={startTimeError}

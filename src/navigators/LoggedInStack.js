@@ -253,7 +253,6 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true }}
         component={ChangePassword}
       />
-
       <AuthStack.Screen
         name="Donation Received"
         options={{ headerShown: true }}

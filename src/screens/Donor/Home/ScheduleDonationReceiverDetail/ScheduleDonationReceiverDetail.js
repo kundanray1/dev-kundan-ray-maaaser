@@ -135,7 +135,7 @@ const ScheduleDonationReceiverDetail = ({
         </Text>
         <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
           {moment(
-            scheduleDonationReceiverDetail.scheduledetail.startDate
+            scheduleDonationReceiverDetail.scheduledetail.startdate
           ).format("DD MMM, YYYY")}
         </Text>
       </Block>
@@ -149,8 +149,8 @@ const ScheduleDonationReceiverDetail = ({
         </Text>
         <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
           {moment(
-            scheduleDonationReceiverDetail.scheduledetail.startDate
-          ).format("HH:MM A")}
+            scheduleDonationReceiverDetail.scheduledetail.startdate
+          ).format("hh:mm A")}
         </Text>
       </Block>
       <Block style={{ flex: 0, paddingVertical: 8 }}>
@@ -162,9 +162,7 @@ const ScheduleDonationReceiverDetail = ({
           End Date
         </Text>
         <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-        {scheduleTypeString = "ONE TIME"?moment(scheduleDonationReceiverDetail.scheduledetail.startDate).format(
-            "DD MMM, YYYY"
-          ):moment(scheduleDonationReceiverDetail.scheduledetail.enddate).format(
+        {moment(scheduleDonationReceiverDetail.scheduledetail.enddate).format(
             "DD MMM, YYYY"
           )}
         </Text>

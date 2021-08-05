@@ -34,6 +34,16 @@ export default CreateNewPassword = ({
 		createNewPassword(createNewPasswordData);
 	};
 
+		const onSubmitCreateNewPasswordForEmployee = (values) => {
+		const createNewPasswordData = new AccountProto.PasswordReset();
+		createNewPasswordData.setAccountid(
+			forgotPasswordData.forgotPassword.refid
+		);
+		createNewPasswordData.setNewpassword(values.password);
+		createNewPasswordData.setCode(verificationData.code.array[4]);
+		createNewPassword(createNewPasswordData);
+	};
+
 	useEffect(() => {
 		if (data.createNewPassword !== null) {
 			if (data.createNewPassword.success) {

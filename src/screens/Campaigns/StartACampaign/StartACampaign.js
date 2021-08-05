@@ -142,7 +142,6 @@ const StartACampaign = ({
           activeOpacity={1}
         >
                   <Text
-                    center
                     style={{
                       fontSize: 20,
                       fontWeight: "700",
@@ -159,8 +158,6 @@ const StartACampaign = ({
                       setFieldTouched("targetAmount");
                     }}
                     value={values.targetAmount}
-                    textAlign={"center"}
-                    placeholder="0"
                     placeholderTextColor="#0DB952"
                     keyboardType="numeric"
                   />
@@ -219,10 +216,12 @@ const StartACampaign = ({
                   setBeneficierName={setBeneficierName}
                   receiversData={receiversData}
                   navigation={navigation}
+                  loginData={loginData}
                   disabled={true}
                 />
               ) : (
                 <BeneficiersList
+                  loginData={loginData}
                   beneficierName={beneficierName}
                   setBeneficierId={setBeneficierId}
                   setBeneficierIdError={setBeneficierIdError}
@@ -323,10 +322,9 @@ export default StartACampaign;
 const styles = StyleSheet.create({
   amountSection: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#E9F9FF",
-    paddingHorizontal: 4,
+    paddingHorizontal: 10,
   },
   input: {
     paddingTop: 10,
@@ -334,6 +332,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 0,
     fontWeight: "700",
+    marginLeft:10,
     fontSize: 22,
     color: "#0DB952",
     backgroundColor: "#E9F9FF",

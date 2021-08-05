@@ -19,7 +19,7 @@ import { receiversStart } from "./../../Donor/Home/Receivers/actions";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,setBeneficierName, receiversData,setBeneficierIdError,disabled }) => {
+export default BeneficiersList = ({navigation, beneficierName,loginData, setBeneficierId,setBeneficierName, receiversData,setBeneficierIdError,disabled }) => {
   const [beneficier, setBeneficier] = useState();
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(receiversData.receivers.clientsList);
@@ -28,6 +28,8 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
     false
   );
   const dispatch = useDispatch();
+
+  console.log("loginData",loginData);
 
   function searchFilterFunction(text) {
     if (text) {
@@ -146,7 +148,8 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
               keyExtractor={(item) => {
                 return item.clientid.toString();
               }}
-              renderItem={(receiversData) => (
+              renderItem={(receiversData) => 
+                (loginData.user.account.accountid !== receiversData.item.account.accountid) &&
                 <Block style={{ flex: 0, paddingHorizontal: 10 }}>
                   <RenderBeneficiersListOptions
                     name={receiversData.item.account.fullname}
@@ -154,7 +157,7 @@ export default BeneficiersList = ({navigation, beneficierName, setBeneficierId,s
                     id={receiversData.item.account.accountid}
                   />
                 </Block>
-              )}
+              }
             />
             <TouchableOpacity activeOpacity={0.8} onPress={()=>{
 							setBeneficiersListModalVisible(false)

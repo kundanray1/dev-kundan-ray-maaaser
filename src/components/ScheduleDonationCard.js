@@ -11,7 +11,7 @@ import NumberFormat from "react-number-format";
 export default ScheduleDonationCard = ({
 	receiverName,
 	amount,
-	createdDate,
+	startDate,
 	scheduleType,
 	scheduleTransactionStatus,
 	profilePic,
@@ -114,7 +114,7 @@ export default ScheduleDonationCard = ({
 						style={{ fontSize: 14 }}
 						color={theme.colors.solidGray}
 					>
-						{moment(createdDate).format("DD MMM, YYYY")}
+						{moment(startDate).format("DD MMM, YYYY")}
 					</Text>
 
 					<Block

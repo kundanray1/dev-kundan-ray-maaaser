@@ -65,7 +65,6 @@ export default MainTab = () => {
 				style: {
 					paddingBottom:5,
 					height:50,
-					
 				},
 				labelStyle: {
 					fontSize: 10,

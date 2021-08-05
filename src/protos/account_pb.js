@@ -15,6 +15,7 @@ var treeleaf_pb = require('./treeleaf_pb.js');
 var maaser_pb = require('./maaser_pb.js');
 var address_pb = require('./address_pb.js');
 var contact_pb = require('./contact_pb.js');
+var permission_pb = require('./permission_pb.js');
 goog.exportSymbol('proto.brilltech.maaser.entities.Account', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.AccountVerification', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.Client', null, global);
@@ -1410,7 +1411,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.brilltech.maaser.entities.Employee.repeatedFields_ = [5,6];
+proto.brilltech.maaser.entities.Employee.repeatedFields_ = [5,6,9];
 
 
 
@@ -1450,7 +1451,9 @@ proto.brilltech.maaser.entities.Employee.toObject = function(includeInstance, ms
     contactsList: jspb.Message.toObjectList(msg.getContactsList(),
     contact_pb.Contact.toObject, includeInstance),
     account: (f = msg.getAccount()) && proto.brilltech.maaser.entities.Account.toObject(includeInstance, f),
-    accountid: jspb.Message.getFieldWithDefault(msg, 8, "")
+    accountid: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    permissionsList: jspb.Message.toObjectList(msg.getPermissionsList(),
+    permission_pb.Permission.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -1521,6 +1524,11 @@ proto.brilltech.maaser.entities.Employee.deserializeBinaryFromReader = function(
     case 8:
       var value = /** @type {string} */ (reader.readString());
       msg.setAccountid(value);
+      break;
+    case 9:
+      var value = new permission_pb.Permission;
+      reader.readMessage(value,permission_pb.Permission.deserializeBinaryFromReader);
+      msg.addPermissions(value);
       break;
     default:
       reader.skipField();
@@ -1608,6 +1616,14 @@ proto.brilltech.maaser.entities.Employee.serializeBinaryToWriter = function(mess
     writer.writeString(
       8,
       f
+    );
+  }
+  f = message.getPermissionsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      9,
+      f,
+      permission_pb.Permission.serializeBinaryToWriter
     );
   }
 };
@@ -1777,6 +1793,37 @@ proto.brilltech.maaser.entities.Employee.prototype.getAccountid = function() {
 /** @param {string} value */
 proto.brilltech.maaser.entities.Employee.prototype.setAccountid = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * repeated Permission permissions = 9;
+ * @return {!Array<!proto.brilltech.maaser.entities.Permission>}
+ */
+proto.brilltech.maaser.entities.Employee.prototype.getPermissionsList = function() {
+  return /** @type{!Array<!proto.brilltech.maaser.entities.Permission>} */ (
+    jspb.Message.getRepeatedWrapperField(this, permission_pb.Permission, 9));
+};
+
+
+/** @param {!Array<!proto.brilltech.maaser.entities.Permission>} value */
+proto.brilltech.maaser.entities.Employee.prototype.setPermissionsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 9, value);
+};
+
+
+/**
+ * @param {!proto.brilltech.maaser.entities.Permission=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.brilltech.maaser.entities.Permission}
+ */
+proto.brilltech.maaser.entities.Employee.prototype.addPermissions = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 9, opt_value, proto.brilltech.maaser.entities.Permission, opt_index);
+};
+
+
+proto.brilltech.maaser.entities.Employee.prototype.clearPermissionsList = function() {
+  this.setPermissionsList([]);
 };
 
 

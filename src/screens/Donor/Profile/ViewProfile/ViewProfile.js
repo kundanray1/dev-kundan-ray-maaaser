@@ -65,7 +65,8 @@ const ViewProfile = ({ navigation,data,profileData }) => {
                     style={{ fontSize: 16, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
-                                       {profileData.profile.clienttype == 1 ? "Full Name" : "Company Name"}
+                              
+                              {profileData.profile.account.accounttype==4? "Employee Name":profileData.profile.clienttype == 1 ? "Full Name" : "Company Name"}
 
                   </Text>
                   <Block row style={{ flex: 0 }}>
@@ -109,7 +110,7 @@ const ViewProfile = ({ navigation,data,profileData }) => {
                     Account Type
                   </Text>
                   <Text color={theme.colors.solidGray} style={{ fontSize: 15 }}>
-                    {profileData.profile.clienttype == 1 ? "Individual" : "Organization"}
+                              {profileData.profile.account.accounttype==4? "Employee Account":profileData.profile.clienttype == 1 ?  "Individual" : "Organization"}
                   </Text>
                 </Block>
 

@@ -190,7 +190,6 @@ const StartACampaignUpdate = ({
                   <Block style={{ flex: 0, paddingBottom: 10 }}>
                     <Block style={styles.amountSection}>
                       <Text
-                        center
                         style={{
                           fontSize: 20,
                           fontWeight: "700",
@@ -201,10 +200,8 @@ const StartACampaignUpdate = ({
                       </Text>
                       <TextInput
                         style={styles.input}
-                        textAlign={"center"}
                         value={targetAmount}
                         onChangeText={(value) => setTargetAmount(value)}
-                        placeholder="0"
                         placeholderTextColor="#0DB952"
                         keyboardType="numeric"
                       />
@@ -325,16 +322,16 @@ export default StartACampaignUpdate;
 const styles = StyleSheet.create({
   amountSection: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#E9F9FF",
-    paddingHorizontal: 4,
+    paddingHorizontal: 10,
   },
   input: {
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
     paddingLeft: 0,
+    marginLeft:10,
     fontWeight: "700",
     fontSize: 22,
     color: "#0DB952",

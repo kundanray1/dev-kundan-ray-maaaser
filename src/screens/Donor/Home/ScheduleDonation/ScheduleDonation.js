@@ -363,8 +363,7 @@ const ScheduleDonation = ({
                   paddingVertical: 20,
                 }}
                 renderItem={(post) =>
-                  post.item.scheduletransactionstatus == 2 ||
-                  post.item.scheduletransactionstatus == 3 ? (
+                 
                     <Pressable
                       style={{
                         paddingHorizontal: 16,
@@ -387,35 +386,6 @@ const ScheduleDonation = ({
                         }
                       />
                     </Pressable>
-                  ) : (
-                    <Pressable
-                      style={{
-                        paddingHorizontal: 16,
-                        marginVertical: 4,
-                      }}
-                      onLongPress={() => {
-                        bs.current.snapTo(0);
-                        setScheduleDonationData(post.item);
-                      }}
-                      delayLongPress={500}
-                    >
-                      <ScheduleDonationCard
-                        receiverName={post.item.clientList[1].account.fullname}
-                        profilePic={post.item.clientList[1].profilepic}
-                        amount={post.item.amount}
-                        createdDate={post.item.createdat}
-                        scheduleType={post.item.scheduledetail.scheduletype}
-                        scheduleTransactionStatus={
-                          post.item.scheduletransactionstatus
-                        }
-                        onPress={() =>
-                          navigation.navigate("Details", {
-                            scheduleDonationReceiverDetail: post.item,
-                          })
-                        }
-                      />
-                    </Pressable>
-                  )
                 }
               />
             </>

@@ -176,7 +176,6 @@ const StartASubCampaign = ({
           activeOpacity={1}
         >
           <Text
-            center
             style={{
               fontSize: 22,
               fontWeight: "700",
@@ -191,8 +190,6 @@ const StartASubCampaign = ({
             style={styles.input}
             value={amount}
             onChangeText={(value) => setAmount(value)}
-            textAlign={"center"}
-            placeholder="0"
             placeholderTextColor="#0DB952"
             keyboardType="numeric"
           />
@@ -252,15 +249,15 @@ const styles = StyleSheet.create({
   },
   amountSection: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#E9F9FF",
-    paddingHorizontal: 4,
+    paddingHorizontal: 10,
   },
   input: {
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
+    marginLeft: 10,
     paddingLeft: 0,
     fontWeight: "700",
     fontSize: 22,

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StatusBar,
   SafeAreaView,
@@ -29,7 +29,18 @@ import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfile,data,profileData,editProfileClear,imageUpload,imageUploadClear }) => {
+const EditProfile = ({
+  navigation,
+  loginData,
+  letsGetStartedDonorData,
+  editProfile,
+  data,
+  profileData,
+  editProfileClear,
+  imageUpload,
+  imageUploadClear,
+  editEmployeeProfile
+}) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
@@ -47,7 +58,6 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
       imageUpload(result.uri);
@@ -55,42 +65,78 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
   };
 
   const onSubmitSaveAndContinue = (values) => {
-    const clientData = new AccountProto.Client();
-    const accountData = new AccountProto.Account();
-    const addressData = new AddressProto.Address();
-    const AddressList = [];
+    if (loginData.employee !== null) {
+      const clientData = new AccountProto.Employee();
+      const accountData = new AccountProto.Account();
+      const addressData = new AddressProto.Address();
+      const AddressList = [];
 
-    accountData.setAccountid(loginData.user.account.accountid);
-    accountData.setEmail(loginData.user.account.email);
-    accountData.setFullname(values.fullName);
-    accountData.setCountrycode(loginData.user.account.countrycode);
-    accountData.setAccounttype(loginData.user.account.accounttype);
+      accountData.setAccountid(loginData.employee.account.accountid);
+      accountData.setEmail(loginData.employee.account.email);
+      accountData.setFullname(values.fullName);
+      accountData.setCountrycode(loginData.employee.account.countrycode);
+      accountData.setAccounttype(loginData.employee.account.accounttype);
 
-    addressData.setStreet1(values.street1);
-    addressData.setStreet2(values.street2);
-    addressData.setState(values.state);
-    addressData.setCity(values.city);
-    addressData.setZip(values.zipCode);
-    addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
-    AddressList.push(addressData);
+      addressData.setStreet1(values.street1);
+      addressData.setStreet2(values.street2);
+      addressData.setState(values.state);
+      addressData.setCity(values.city);
+      addressData.setZip(values.zipCode);
+      addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
+      AddressList.push(addressData);
+      clientData.setEmployeeid(loginData.employee.employeeid);
+      clientData.setProfilepic(
+        letsGetStartedDonorData.image == null
+          ? profileData.profile.profilepic
+          : letsGetStartedDonorData.image
+      );
+      clientData.setAccount(accountData);
+      clientData.setAddressesList(AddressList);
+      editEmployeeProfile(clientData);
+    } else {
+      const clientData = new AccountProto.Client();
+      const accountData = new AccountProto.Account();
+      const addressData = new AddressProto.Address();
+      const AddressList = [];
 
-    clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(letsGetStartedDonorData.image==null?profileData.profile.profilepic:letsGetStartedDonorData.image);
-    clientData.setBio(values.bio);
-    clientData.setClienttype(loginData.user.clienttype);
-    clientData.setAccount(accountData);
-    clientData.setAddressesList(AddressList);
-    editProfile(clientData);
-  };
- useEffect(() => {
-    if(data.editProfile!==null){
-       if(data.editProfile.success){
-        editProfileClear()
-        imageUploadClear()
-        navigation.navigate("Profile")
-       }
+      accountData.setAccountid(loginData.user.account.accountid);
+      accountData.setEmail(loginData.user.account.email);
+      accountData.setFullname(values.fullName);
+      accountData.setCountrycode(loginData.user.account.countrycode);
+      accountData.setAccounttype(loginData.user.account.accounttype);
+
+      addressData.setStreet1(values.street1);
+      addressData.setStreet2(values.street2);
+      addressData.setState(values.state);
+      addressData.setCity(values.city);
+      addressData.setZip(values.zipCode);
+      addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
+      AddressList.push(addressData);
+
+      clientData.setClientid(loginData.user.clientid);
+      clientData.setProfilepic(
+        letsGetStartedDonorData.image == null
+          ? profileData.profile.profilepic
+          : letsGetStartedDonorData.image
+      );
+      clientData.setBio(values.bio);
+      clientData.setClienttype(1);
+      clientData.setAccount(accountData);
+      clientData.setAddressesList(AddressList);
+      editProfile(clientData);
     }
-  }, [data.editProfile]); 
+  };
+
+  useEffect(() => {
+    if (data.editProfile !== null) {
+      if (data.editProfile.success) {
+        editProfileClear();
+        imageUploadClear();
+        navigation.navigate("Profile");
+      }
+    }
+  }, [data.editProfile]);
+
   return (
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
@@ -121,7 +167,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
             >
               <Block
                 style={{
-                  flex:0,
+                  flex: 0,
                   borderRadius: 4,
                   elevation: 4,
                   paddingTop: HEIGHT / 14,
@@ -133,12 +179,37 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
               >
                 <Formik
                   initialValues={{
-                    fullName:  profileData.profile.account.fullname!==undefined? profileData.profile.account.fullname:"",
-                    street1: profileData.profile.addressesList[0].street1!==undefined? profileData.profile.addressesList[0].street1:"",
-                    street2: profileData.profile.addressesList[0].street2!==undefined? profileData.profile.addressesList[0].street2:"",
-                    state: profileData.profile.addressesList[0].state!==undefined? profileData.profile.addressesList[0].state:"",
-                    city: profileData.profile.addressesList[0].city!==undefined? profileData.profile.addressesList[0].city:"",
-                    zipCode:  profileData.profile.addressesList[0].zip!==undefined? profileData.profile.addressesList[0].zip.toString():""
+                    fullName:
+                      profileData.profile.account.fullname !== undefined
+                        ? profileData.profile.account.fullname
+                        : "",
+                    street1:
+                      profileData.profile.addressesList.length > 0
+                        ? profileData.profile.addressesList[0].street1
+                        : "",
+                    street2:
+                      profileData.profile.addressesList.length > 0
+                        ? profileData.profile.addressesList[0].street2
+                        : "",
+                    state:
+                      profileData.profile.addressesList.length > 0
+                        ? profileData.profile.addressesList[0].state
+                        : "",
+                    city:
+                      profileData.profile.addressesList.length > 0
+                        ? profileData.profile.addressesList[0].city
+                        : "",
+                    zipCode:
+                      profileData.profile.addressesList.length > 0
+                        ? profileData.profile.addressesList[0].zip.toString()
+                        : "",
+
+                    // fullName:  profileData.profile.account.fullname!==undefined? profileData.profile.account.fullname:"",
+                    // street1: profileData.profile.addressesList[0].street1!==undefined? profileData.profile.addressesList[0].street1:"",
+                    // street2: profileData.profile.addressesList[0].street2!==undefined? profileData.profile.addressesList[0].street2:"",
+                    // state: profileData.profile.addressesList[0].state!==undefined? profileData.profile.addressesList[0].state:"",
+                    // city: profileData.profile.addressesList[0].city!==undefined? profileData.profile.addressesList[0].city:"",
+                    // zipCode:  profileData.profile.addressesList[0].zip!==undefined? profileData.profile.addressesList[0].zip.toString():""
                   }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);
@@ -160,7 +231,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                             ? "Full Name"
                             : "Company Name"
                         }
-                         placeholder={
+                        placeholder={
                           loginData.user.clienttype == 1
                             ? "Full Name"
                             : "Company Name"
@@ -194,7 +265,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                             street1Focus ||
                             street2Focus ||
                             stateFocus ||
-                            cityFocus 
+                            cityFocus
                               ? theme.colors.primary2
                               : theme.colors.black
                           }
@@ -250,7 +321,6 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                           visible={touched.street2}
                         />
 
-                       
                         <Input
                           placeholder="State"
                           style={{ marginBottom: 5 }}
@@ -334,19 +404,20 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                         !errors.city ||
                         !errors.zipCode ? (
                           <Button onPress={handleSubmit}>
-                            {data.isLoading || letsGetStartedDonorData.isLoading ? (
+                            {data.isLoading ||
+                            letsGetStartedDonorData.isLoading ? (
                               <>
                                 <CustomActivityIndicator
                                   isLoading={data.isLoading}
                                   label="Requesting..."
                                 />
                                 <Text button style={{ fontSize: 18 }}>
-                                  Update 
+                                  Update
                                 </Text>
                               </>
                             ) : (
                               <Text button style={{ fontSize: 18 }}>
-                                Update 
+                                Update
                               </Text>
                             )}
                           </Button>
@@ -357,7 +428,7 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                             }}
                           >
                             <Text button style={{ fontSize: 18 }}>
-                              Update 
+                              Update
                             </Text>
                           </Button>
                         )}
@@ -371,7 +442,12 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
 
           <TouchableOpacity
             onPress={pickImage}
-            style={{ flex:0,zIndex: 1, position: "absolute", marginTop: HEIGHT / 22 }}
+            style={{
+              flex: 0,
+              zIndex: 1,
+              position: "absolute",
+              marginTop: HEIGHT / 22,
+            }}
           >
             {image ? (
               <Image
@@ -383,7 +459,10 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                 }}
               />
             ) : (
-                <ProfileIconComponent height={ HEIGHT * 0.105} width={WIDTH * 0.2}/>
+              <ProfileIconComponent
+                height={HEIGHT * 0.105}
+                width={WIDTH * 0.2}
+              />
             )}
 
             <Block
@@ -395,12 +474,14 @@ const EditProfile = ({ navigation, loginData,letsGetStartedDonorData, editProfil
                 marginTop: HEIGHT * 0.064,
               }}
             >
-                <CameraIconComponent height={ HEIGHT * 0.034} width={WIDTH * 0.12}/>
+              <CameraIconComponent
+                height={HEIGHT * 0.034}
+                width={WIDTH * 0.12}
+              />
             </Block>
           </TouchableOpacity>
         </Block>
-         <Block style={{flex:0.2,  backgroundColor: "#FBFBFB"}}>
-        </Block>
+        <Block style={{ flex: 0.2, backgroundColor: "#FBFBFB" }}></Block>
       </SafeAreaView>
     </KeyboardAwareScrollView>
   );

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 import EditProfile from "./EditProfile";
-import { editProfileStart,editProfileClear } from "./actions";
+import { editProfileStart,editProfileClear,editEmployeeProfileStart } from "./actions";
 import { imageUploadStart,imageUploadClear } from "./../../../auth/LetsGetStartedDonor/actions";
 
 
@@ -16,6 +16,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => {
 	return {
 		editProfile: (values) => dispatch(editProfileStart(values)),
+		editEmployeeProfile: (values) => dispatch(editEmployeeProfileStart(values)),
 		editProfileClear: () => dispatch(editProfileClear()),
 		imageUpload: (values) => dispatch(imageUploadStart(values)),
 		imageUploadClear: (values) => dispatch(imageUploadClear(values)),

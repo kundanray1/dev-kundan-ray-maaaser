@@ -27,6 +27,7 @@ export function* linkNewAccount({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("linkNewAccount",res)
 		if (res.success) {
 			yield put(linkNewAccountSuccess(res));
 			showMessage({

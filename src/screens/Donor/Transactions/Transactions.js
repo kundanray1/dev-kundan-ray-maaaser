@@ -318,12 +318,12 @@ const Transactions = ({
     } else {
       const sortedData = Object.values(
         data.transactions.reduce((acc, item) => {
-          if (!acc[moment(item.createdat).format("Do MMM YYYY")])
-            acc[moment(item.createdat).format("Do MMM YYYY")] = {
-              title: moment(item.createdat).format("Do MMM YYYY"),
+          if (!acc[moment(item.createdat).format("DD MMM, YYYY")])
+            acc[moment(item.createdat).format("DD MMM, YYYY")] = {
+              title: moment(item.createdat).format("DD MMM, YYYY"),
               data: [],
             };
-          acc[moment(item.createdat).format("Do MMM YYYY")].data.push(item);
+          acc[moment(item.createdat).format("DD MMM, YYYY")].data.push(item);
           return acc;
         }, {})
       );
@@ -332,7 +332,6 @@ const Transactions = ({
   }, [data.transactions]);
 
   useEffect(() => {
-    setTransactionssearch()
     transactions(loginData.user.account.accountid);
   }, []);
 

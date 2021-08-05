@@ -149,12 +149,12 @@ const DonationReceived = ({
     } else {
       const sortedData = Object.values(
         data.donationReceivedSearch.reduce((acc, item) => {
-          if (!acc[moment(item.upcomingtxndate).format("Do MMM YYYY")])
-            acc[moment(item.upcomingtxndate).format("Do MMM YYYY")] = {
-              title: moment(item.upcomingtxndate).format("Do MMM YYYY"),
+          if (!acc[moment(item.createdat).format("DD MMM, YYYY")])
+            acc[moment(item.createdat).format("DD MMM, YYYY")] = {
+              title: moment(item.createdat).format("DD MMM, YYYY"),
               data: [],
             };
-          acc[moment(item.upcomingtxndate).format("Do MMM YYYY")].data.push(
+          acc[moment(item.createdat).format("DD MMM, YYYY")].data.push(
             item
           );
           return acc;
