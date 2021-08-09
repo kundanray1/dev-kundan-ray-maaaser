@@ -31,6 +31,8 @@ import TransactionsSearchIconComponent from "../../../../assets/icons/transactio
 import searchStyles from "../../../../utility/globalStyles.js";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
 import { Modalize } from "react-native-modalize";
+import { Portal } from 'react-native-portalize';
+
 const WIDTH = Dimensions.get("window").width;
 
 const UpcomingDonations = ({
@@ -250,6 +252,7 @@ const UpcomingDonations = ({
           />
         </Block>
       )}
+      <Portal>
       <Modalize
         ref={modalizeRef}
         snapPoint={200}
@@ -382,7 +385,7 @@ const UpcomingDonations = ({
           </Button>
         </View>
       </Modalize>
-
+      </Portal>
       <FloatingButton
         onPress={() => navigation.navigate("Donate")}
         iconComponent={<DonateIconComponent />}

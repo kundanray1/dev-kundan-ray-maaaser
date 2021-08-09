@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -24,6 +24,9 @@ import DownloadIconComponent from "../../../../assets/icons/DownloadIconComponen
 import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
 import * as Linking from "expo-linking";
+import { Modalize } from "react-native-modalize";
+import { Portal } from "react-native-portalize";
+
 const WIDTH = Dimensions.get("window").width;
 
 const LoadFundDetails = ({
@@ -50,9 +53,7 @@ const LoadFundDetails = ({
       headerRight: () => (
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {
-            setConfirmationSuccessfulVisible(true);
-          }}
+          onPress={onOpen}
           style={{
             alignItems: "flex-end",
             marginRight: 16,
@@ -66,109 +67,19 @@ const LoadFundDetails = ({
   }, [navigation]);
 
   const downloadPDF = () => {
-    setConfirmationSuccessfulVisible(false);
+    modalizeRef.current?.close();
     Linking.openURL(data.generateLoadFundReceipt.msg);
   };
-  
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
-      >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() =>
-            setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-          }
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-            >
-              <Block
-                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-                <Text
-                  center
-                  style={{
-                    fontWeight: "700",
-                    fontSize: 14,
-                    paddingVertical: 4,
-                  }}
-                >
-                  Export to
-                </Text>
-              </Block>
-              <Block
-                style={{ flex: 0, flexDirection: "row", paddingBottom: 16 }}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column", marginRight: 30 }}
-                  onPress={() => downloadPDF()}
-                >
-                  <PdfIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    PDF
-                  </Text>
-                </TouchableOpacity>
-               {/* <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column" }}
-                  onPress={() => downloadEXCEL()}
-                >
-                  <ExcelIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    Excel
-                  </Text>
-                </TouchableOpacity>*/}
-              </Block>
-              <Block
-                center
-                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ paddingVertical: 12 }}
-                  onPress={() => setConfirmationSuccessfulVisible(false)}
-                >
-                  <Text
-                    center
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 14,
-                      color: theme.colors.primary2,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-            </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
+
+  const modalizeRef = useRef();
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
-      {data.isLoading || data.generateLoadFundReceiptLoading? (
+      {data.isLoading || data.generateLoadFundReceiptLoading ? (
         <ActivityIndicator
           size="large"
           color={theme.colors.primary2}
@@ -315,7 +226,7 @@ const LoadFundDetails = ({
             >
               Status
             </Text>
-            
+
             <Text
               center
               style={{
@@ -346,19 +257,66 @@ const LoadFundDetails = ({
                   : theme.colors.schedulingText
               }
             >
-              { data.loadFundDetails.transaction.transactionstatus == 1
-                  ? "APPROVED"
-                  : data.loadFundDetails.transaction.transactionstatus == 2
-                  ? "SUBMITTED"
-                  : data.loadFundDetails.transaction.transactionstatus == 3
-                  ? "POSTED"
-                  : data.loadFundDetails.transaction.transactionstatus == 4
-                  ? "CANCELLED":"NOT AVAILABLE"}
+              {data.loadFundDetails.transaction.transactionstatus == 1
+                ? "APPROVED"
+                : data.loadFundDetails.transaction.transactionstatus == 2
+                ? "SUBMITTED"
+                : data.loadFundDetails.transaction.transactionstatus == 3
+                ? "POSTED"
+                : data.loadFundDetails.transaction.transactionstatus == 4
+                ? "CANCELLED"
+                : "NOT AVAILABLE"}
             </Text>
           </Block>
         </>
       )}
-      {ConfirmationMessage()}
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          snapPoint={160}
+          modalHeight={160}
+          withHandle={false}
+        >
+          <View style={{ width: "100%", paddingHorizontal: 18 }}>
+            <Block style={{ flex: 0, alignItems: "center", paddingTop: 10 }}>
+              <Block
+                style={{
+                  flex: 0,
+                  backgroundColor: "#E2E2E2",
+                  width: WIDTH - 280,
+                  borderRadius: 10,
+                  paddingVertical: 2,
+                }}
+              />
+              <Text
+                center
+                style={{
+                  fontWeight: "700",
+                  fontSize: 14,
+                  paddingVertical: 4,
+                }}
+              >
+                Export to
+              </Text>
+            </Block>
+            <Block style={{ flex: 0, flexDirection: "row" }}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flexDirection: "column", marginRight: 30 }}
+                onPress={() => {
+                  modalizeRef.current?.close();
+                  downloadPDF();
+                }}
+              >
+                <PdfIconComponent />
+                <Text center style={{ fontWeight: "400", fontSize: 14 }}>
+                  PDF
+                </Text>
+              </TouchableOpacity>
+            </Block>
+          </View>
+        </Modalize>
+      </Portal>
     </SafeAreaView>
   );
 };

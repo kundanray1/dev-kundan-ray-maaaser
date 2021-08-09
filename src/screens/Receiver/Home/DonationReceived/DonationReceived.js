@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -27,6 +27,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 import searchStyles from "../../../../utility/globalStyles.js";
+import { Modalize } from "react-native-modalize";
+import { Portal } from 'react-native-portalize';
+
 const WIDTH = Dimensions.get("window").width;
 
 const DonationReceived = ({
@@ -87,6 +90,7 @@ const DonationReceived = ({
         search: search == undefined ? "" : "",
       });
       onPressReset();
+      modalizeRef.current?.close();
     }
   };
 
@@ -95,7 +99,7 @@ const DonationReceived = ({
       headerRight: () => (
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => setConfirmationSuccessfulVisible(true)}
+          onPress={onOpen}
           style={{
             alignItems: "flex-end",
             marginRight: 16,
@@ -164,27 +168,97 @@ const DonationReceived = ({
     }
   }, [data.donationReceivedSearch]);
 
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
+  useEffect(() => {
+      donationReceived(loginData.user.account.accountid);
+  }, []);
+  const modalizeRef = useRef();
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+  function searchFilterFunction(text) {
+    if (text) {
+      donationReceivedSearch({
+        accountid:loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        search: text,
+      });
+    } else {
+      donationReceivedSearch({
+        accountid:loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        search: "",
+      });
+    }
+  }
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Block style={{ flex: 0, paddingHorizontal: 16 }}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
+            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
+          </Block>
+
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={theme.colors.solidGray}
+            style={searchStyles.boxTextInput}
+            onChangeText={(text) => searchFilterFunction(text)}
+            value={search}
+          />
+
+          {search ? (
+            <TouchableOpacity
+              onPress={() => searchFilterFunction()}
+              style={searchStyles.vwClear}
+            >
+              <Ionicons name="close-circle-sharp" color="black" size={18} />
+            </TouchableOpacity>
+          ) : (
+            <Block style={searchStyles.vwClear} />
+          )}
+        </Block>
+      </Block>
+      {data.isLoading ? (
+        <Block center middle>
+          <ActivityIndicator size="large" color={theme.colors.primary2} />
+        </Block>
+      ) : (
+        <Block style={{ flex: 0, marginTop: 6 }}>
+          <SectionList
+            sections={donationReceivedData}
+            keyExtractor={(item, index) => item + index}
+            renderItem={renderItems}
+            renderSectionHeader={renderHeader}
+            ListEmptyComponent={() => (
+              <Empty iconName="transactions" title="No donations data." />
+            )}
+            refreshControl={
+              <RefreshControl
+                colors={[theme.colors.primary2]}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+            ListFooterComponent={() => (
+              <Block middle center style={{ marginBottom: 120, flex: 0 }} />
+            )}
+            ListFooterComponentStyle={{
+              paddingVertical: 20,
+            }}
+          />
+        </Block>
+      )}
+      <Portal>
+      <Modalize
+        ref={modalizeRef}
+        snapPoint={200}
+        modalHeight={200}
+        withHandle={false}
       >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() =>
-            setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-          }
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
+       <View
+              style={{ width: "100%", paddingHorizontal: 18 }}
             >
               <Block
                 style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
@@ -312,87 +386,8 @@ const DonationReceived = ({
                 </Text>
               </Button>
             </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
-  function searchFilterFunction(text) {
-    if (text) {
-      donationReceivedSearch({
-        accountid:loginData.user.account.accountid,
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        search: text,
-      });
-    } else {
-      donationReceivedSearch({
-        accountid:loginData.user.account.accountid,
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        search: "",
-      });
-    }
-  }
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Block style={{ flex: 0, paddingHorizontal: 16 }}>
-        <Block style={searchStyles.boxSearchContainer}>
-          <Block style={searchStyles.boxVwSearch}>
-            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
-          </Block>
-
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={theme.colors.solidGray}
-            style={searchStyles.boxTextInput}
-            onChangeText={(text) => searchFilterFunction(text)}
-            value={search}
-          />
-
-          {search ? (
-            <TouchableOpacity
-              onPress={() => searchFilterFunction()}
-              style={searchStyles.vwClear}
-            >
-              <Ionicons name="close-circle-sharp" color="black" size={18} />
-            </TouchableOpacity>
-          ) : (
-            <Block style={searchStyles.vwClear} />
-          )}
-        </Block>
-      </Block>
-      {data.isLoading ? (
-        <Block center middle>
-          <ActivityIndicator size="large" color={theme.colors.primary2} />
-        </Block>
-      ) : (
-        <Block style={{ flex: 0, marginTop: 6 }}>
-          <SectionList
-            sections={donationReceivedData}
-            keyExtractor={(item, index) => item + index}
-            renderItem={renderItems}
-            renderSectionHeader={renderHeader}
-            ListEmptyComponent={() => (
-              <Empty iconName="transactions" title="No donations data." />
-            )}
-            refreshControl={
-              <RefreshControl
-                colors={[theme.colors.primary2]}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-            ListFooterComponent={() => (
-              <Block middle center style={{ marginBottom: 120, flex: 0 }} />
-            )}
-            ListFooterComponentStyle={{
-              paddingVertical: 20,
-            }}
-          />
-        </Block>
-      )}
-      {ConfirmationMessage()}
+      </Modalize>
+      </Portal>
     </SafeAreaView>
   );
 };

@@ -24,7 +24,7 @@ import InactiveHomeIconComponent from "./../../assets/icons/InactiveHomeIconComp
 import InactiveProfileIconComponent from "./../../assets/icons/InactiveProfileIconComponent.js"
 import InactiveMoreIconComponent from "./../../assets/icons/InactiveMoreIconComponent.js";
 import InactiveTransactionsIconComponent from "./../../assets/icons/InactiveTransactionsIconComponent.js";
-
+import { Host } from 'react-native-portalize';
 
 const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
@@ -56,6 +56,7 @@ const screenOptions = ({ route }) => ({
 //main tab screen for logged in users
 export default MainTab = () => {
 	return (
+		 <Host>
 		<Tab.Navigator
 			initialRouteName="HomeStack"
 			screenOptions={screenOptions}
@@ -77,6 +78,7 @@ export default MainTab = () => {
 			<Tab.Screen name="Profile" component={ProfileStack} />
 			<Tab.Screen name="More" component={MoreStack} />
 		</Tab.Navigator>
+		</Host>
 	);
 };
 

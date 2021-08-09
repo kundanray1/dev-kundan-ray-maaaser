@@ -3,6 +3,10 @@ import {
   RECEIVER_EDIT_PROFILE_START,
   RECEIVER_EDIT_PROFILE_SUCCESS,
   RECEIVER_EDIT_PROFILE_CLEAR,
+  RECEIVER_EDIT_EMPLOYEE_PROFILE_START,
+RECEIVER_EDIT_EMPLOYEE_PROFILE_SUCCESS,
+RECEIVER_EDIT_EMPLOYEE_PROFILE_FAIL,
+RECEIVER_EDIT_EMPLOYEE_PROFILE_CLEAR
 } from './actions';
 
 const initialState = {
@@ -15,6 +19,26 @@ const initialState = {
 export const receiverEditProfileReducer=(state = initialState, { type, payload }) => {
   switch (type) {
     case RECEIVER_EDIT_PROFILE_START:
+    return {
+        ...state,
+        isLoading: true,
+      };
+    case RECEIVER_EDIT_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        receiverEditProfile: payload,
+      };
+    case RECEIVER_EDIT_PROFILE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+      case RECEIVER_EDIT_PROFILE_CLEAR:
+      return initialState;
+
+        case RECEIVER_EDIT_PROFILE_START:
     return {
         ...state,
         isLoading: true,

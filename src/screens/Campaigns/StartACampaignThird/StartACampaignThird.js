@@ -103,7 +103,8 @@ const StartACampaignThird = ({
                 onPress={() => {
                   setConfirmationSuccessfulVisible(false);
                   campaignId(campaignDetailId);
-                  navigation.navigate("Campaign Details");
+                  navigation.navigate("Campaigns");
+                  // navigation.navigate("Campaign Details");
                 }}
               >
                 <Text button style={{ fontSize: 18 }}>
@@ -189,6 +190,12 @@ const StartACampaignThird = ({
           Go Back
         </Text>
       </TouchableOpacity>
+     {data.isLoading && (
+        <CustomActivityIndicator
+          isLoading={data.isLoading}
+          label="Requesting..."
+        />
+      )}
       {ConfirmationMessage()}
     </KeyboardAwareScrollView>
   );

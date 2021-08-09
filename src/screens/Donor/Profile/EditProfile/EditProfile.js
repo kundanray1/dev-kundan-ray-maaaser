@@ -6,6 +6,10 @@ import {
   Image,
   ImageBackground,
   Dimensions,
+  Modal,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as theme from "../../../../constants/theme.js";
@@ -25,9 +29,112 @@ import AddressProto from "./../../../../protos/address_pb";
 import { ProfileValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
 import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js";
-
+import { Camera } from "expo-camera";
+import * as Permissions from "expo-permissions";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
+
+const CameraModule = (props) => {
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={true}
+      onRequestClose={() => {
+        props.setModalVisible();
+      }}
+    >
+      <Camera
+        style={{ flex: 1 }}
+        ratio="16:9"
+        type={type}
+        ref={(ref) => {
+          setCameraRef(ref);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "transparent",
+            justifyContent: "flex-end",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "black",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              style={{ marginLeft: 12,paddingHorizontal:10 }}
+              onPress={() => {
+                props.setModalVisible();
+              }}
+            >
+              <Text style={{fontSize:16,fontWeight:"700",color:"white"}}> Close</Text>
+            </Button>
+
+            <TouchableOpacity
+              onPress={async () => {
+                if (cameraRef) {
+                  let photo = await cameraRef.takePictureAsync();
+                  props.setImage(photo);
+                  props.setModalVisible();
+                }
+              }}
+            >
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderRadius: 50,
+                  borderColor: "white",
+                  height: 50,
+                  width: 50,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 16,
+                  marginTop: 16,
+                }}
+              >
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderRadius: 50,
+                    borderColor: "white",
+                    height: 40,
+                    width: 40,
+                    backgroundColor: "white",
+                  }}
+                ></View>
+              </View>
+            </TouchableOpacity>
+
+            <Button
+              style={{ marginRight: 12,paddingHorizontal:10 }}
+             
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            >
+              <Text  style={{fontSize:16,fontWeight:"700",color:"white"}}>
+                {type === Camera.Constants.Type.back ? "Front" : "Back "}
+              </Text>
+            </Button>
+          </View>
+        </View>
+      </Camera>
+    </Modal>
+  );
+};
 
 const EditProfile = ({
   navigation,
@@ -39,7 +146,7 @@ const EditProfile = ({
   editProfileClear,
   imageUpload,
   imageUploadClear,
-  editEmployeeProfile
+  editEmployeeProfile,
 }) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
@@ -50,8 +157,14 @@ const EditProfile = ({
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
   const [image, setImage] = useState(profileData.profile.profilepic);
+  const [showPictureOptions, setShowPictureOptions] = useState(false);
+
   //select image function
+  const [camera, setShowCamera] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+
   const pickImage = async () => {
+    setShowPictureOptions(false);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -63,6 +176,44 @@ const EditProfile = ({
       imageUpload(result.uri);
     }
   };
+
+  const selectOptions = () => (
+    <Modal
+      visible={showPictureOptions}
+      transparent={true}
+      animationType="fade"
+      statusBarTranslucent={true}
+      onRequestClose={() => setShowPictureOptions(!showPictureOptions)}
+    >
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
+        onPressOut={() => setShowPictureOptions(!showPictureOptions)}
+      >
+        <TouchableWithoutFeedback>
+          <View style={[styles.modal, { width: WIDTH - 30 }]}>
+            <TouchableOpacity
+              onPress={() => {
+                setShowPictureOptions(false);
+                setShowCamera(true);
+              }}
+            >
+              <Text bold style={{ paddingVertical: 6, fontSize: 16 }}>
+                Camera
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={pickImage}
+            >
+              <Text bold style={{ paddingVertical: 6, fontSize: 16 }}>
+                Pick from phone
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </TouchableOpacity>
+    </Modal>
+  );
 
   const onSubmitSaveAndContinue = (values) => {
     if (loginData.employee !== null) {
@@ -128,6 +279,12 @@ const EditProfile = ({
   };
 
   useEffect(() => {
+      editProfileClear();
+      imageUploadClear();
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
     if (data.editProfile !== null) {
       if (data.editProfile.success) {
         editProfileClear();
@@ -137,6 +294,12 @@ const EditProfile = ({
     }
   }, [data.editProfile]);
 
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
   return (
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
@@ -441,7 +604,7 @@ const EditProfile = ({
           </ImageBackground>
 
           <TouchableOpacity
-            onPress={pickImage}
+            onPress={() => setShowPictureOptions(true)}
             style={{
               flex: 0,
               zIndex: 1,
@@ -481,10 +644,40 @@ const EditProfile = ({
             </Block>
           </TouchableOpacity>
         </Block>
-        <Block style={{ flex: 0.2, backgroundColor: "#FBFBFB" }}></Block>
+        {camera && (
+          <CameraModule
+            showModal={camera}
+            setModalVisible={() => setShowCamera(false)}
+            setImage={(result) => {
+              setImage(result.uri);
+              imageUpload(result.uri);
+            }}
+          />
+        )}
       </SafeAreaView>
+      <CustomActivityIndicator
+        isLoading={letsGetStartedDonorData.isLoading}
+        label="Requesting..."
+      />
+      {selectOptions()}
     </KeyboardAwareScrollView>
   );
 };
 
 export default EditProfile;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modal: {
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    paddingVertical: 10,
+    paddingHorizontal:20,
+    borderRadius: 4,
+  },
+});

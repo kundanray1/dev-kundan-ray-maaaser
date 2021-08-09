@@ -77,7 +77,6 @@ export function* generateTransactionsPDFReceipt({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("generateTransactionsPDFReceipt",res);
 		if (res.success) {
 			yield put(generateTransactionsPDFReceiptSuccess(res));
 		} else {
@@ -104,6 +103,7 @@ export function* generateTransactionsExcelReceipt({ payload }) {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
+		console.log("generateTransactionsPDFReceipt");
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();

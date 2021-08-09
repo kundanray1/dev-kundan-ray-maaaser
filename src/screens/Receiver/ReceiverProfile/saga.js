@@ -18,7 +18,12 @@ export function* receiverProfile({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
+
+			if(res.loginaccount.employee!==undefined){
+			yield put(receiverProfileSuccess(res.loginaccount.employee));
+			}else{
 			yield put(receiverProfileSuccess(res.loginaccount.client));
+			}
 		} else {
 			yield put(receiverProfileFail(res.msg));
 			showMessage({

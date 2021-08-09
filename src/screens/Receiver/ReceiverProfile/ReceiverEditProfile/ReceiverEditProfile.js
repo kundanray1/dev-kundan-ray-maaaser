@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StatusBar,
   SafeAreaView,
@@ -6,6 +6,10 @@ import {
   Image,
   ImageBackground,
   Dimensions,
+  Modal,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as theme from "../../../../constants/theme.js";
@@ -22,75 +26,280 @@ import { Formik } from "formik";
 import AccountProto from "./../../../../protos/account_pb";
 import MaaserProto from "./../../../../protos/maaser_pb";
 import AddressProto from "./../../../../protos/address_pb";
+import { ProfileValidationSchema } from "./../../../../utility/ValidationSchema.js";
 import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
 import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js";
-import { LetsGetStartedReceiverValidationSchema } from "./../../../../utility/ValidationSchema.js";
-
+import { Camera } from "expo-camera";
+import * as Permissions from "expo-permissions";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const ReceiverEditProfile = ({ navigation, loginData, data,receiverProfileData,receiverEditProfile,receiverEditProfileClear,imageUpload,letsGetStartedDonorData }) => {
+const CameraModule = (props) => {
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={true}
+      onRequestClose={() => {
+        props.setModalVisible();
+      }}
+    >
+      <Camera
+        style={{ flex: 1 }}
+        ratio="16:9"
+        type={type}
+        ref={(ref) => {
+          setCameraRef(ref);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "transparent",
+            justifyContent: "flex-end",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "black",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              style={{ marginLeft: 12,paddingHorizontal:10 }}
+              onPress={() => {
+                props.setModalVisible();
+              }}
+            >
+              <Text style={{fontSize:16,fontWeight:"700",color:"white"}}> Close</Text>
+            </Button>
+
+            <TouchableOpacity
+              onPress={async () => {
+                if (cameraRef) {
+                  let photo = await cameraRef.takePictureAsync();
+                  props.setImage(photo);
+                  props.setModalVisible();
+                }
+              }}
+            >
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderRadius: 50,
+                  borderColor: "white",
+                  height: 50,
+                  width: 50,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 16,
+                  marginTop: 16,
+                }}
+              >
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderRadius: 50,
+                    borderColor: "white",
+                    height: 40,
+                    width: 40,
+                    backgroundColor: "white",
+                  }}
+                ></View>
+              </View>
+            </TouchableOpacity>
+
+            <Button
+              style={{ marginRight: 12,paddingHorizontal:10 }}
+             
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            >
+              <Text  style={{fontSize:16,fontWeight:"700",color:"white"}}>
+                {type === Camera.Constants.Type.back ? "Front" : "Back "}
+              </Text>
+            </Button>
+          </View>
+        </View>
+      </Camera>
+    </Modal>
+  );
+};
+
+const ReceiverProfileData = ({
+  navigation,
+  loginData,
+  letsGetStartedDonorData,
+  receiverEditProfile,
+  data,
+  receiverProfileData,
+  receiverEditProfileClear,
+  imageUpload,
+  imageUploadClear,
+  receiverEditEmployeeProfile,
+}) => {
   const [fullNameOrCompanyNameFocus, setFullNameOrCompanyNameFocus] = useState(
     false
   );
-  const [bioFocus, setBioFocus] = useState(false);
   const [street1Focus, setStreet1Focus] = useState(false);
   const [street2Focus, setStreet2Focus] = useState(false);
   const [stateFocus, setStateFocus] = useState(false);
   const [cityFocus, setCityFocus] = useState(false);
   const [zipCodeFocus, setZipCodeFocus] = useState(false);
   const [image, setImage] = useState(receiverProfileData.receiverProfile.profilepic);
+  const [showPictureOptions, setShowPictureOptions] = useState(false);
+
   //select image function
+  const [camera, setShowCamera] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+
   const pickImage = async () => {
+    setShowPictureOptions(false);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
-       imageUpload(result.uri);
+      imageUpload(result.uri);
     }
   };
-useEffect(() => {
-    if(data.receiverEditProfile!==null){
-       if(data.receiverEditProfile.success){
-        receiverEditProfileClear()
-        navigation.navigate("Receiver View Profile")
-       }
-    }
-  }, [data.receiverEditProfile]); 
+
+  const selectOptions = () => (
+    <Modal
+      visible={showPictureOptions}
+      transparent={true}
+      animationType="fade"
+      statusBarTranslucent={true}
+      onRequestClose={() => setShowPictureOptions(!showPictureOptions)}
+    >
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
+        onPressOut={() => setShowPictureOptions(!showPictureOptions)}
+      >
+        <TouchableWithoutFeedback>
+          <View style={[styles.modal, { width: WIDTH - 30 }]}>
+            <TouchableOpacity
+              onPress={() => {
+                setShowPictureOptions(false);
+                setShowCamera(true);
+              }}
+            >
+              <Text bold style={{ paddingVertical: 6, fontSize: 16 }}>
+                Camera
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={pickImage}
+            >
+              <Text bold style={{ paddingVertical: 6, fontSize: 16 }}>
+                Pick from phone
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </TouchableOpacity>
+    </Modal>
+  );
+
   const onSubmitSaveAndContinue = (values) => {
-    const clientData = new AccountProto.Client();
-    const accountData = new AccountProto.Account();
-    const addressData = new AddressProto.Address();
-    const AddressList = [];
+    if (loginData.employee !== null) {
+      const clientData = new AccountProto.Employee();
+      const accountData = new AccountProto.Account();
+      const addressData = new AddressProto.Address();
+      const AddressList = [];
 
-    accountData.setAccountid(loginData.user.account.accountid);
-    accountData.setEmail(loginData.user.account.email);
-    accountData.setFullname(values.fullName);
-    accountData.setCountrycode(loginData.user.account.countrycode);
-    accountData.setAccounttype(loginData.user.account.accounttype);
+      accountData.setAccountid(loginData.employee.account.accountid);
+      accountData.setEmail(loginData.employee.account.email);
+      accountData.setFullname(values.fullName);
+      accountData.setCountrycode(loginData.employee.account.countrycode);
+      accountData.setAccounttype(loginData.employee.account.accounttype);
 
-    addressData.setStreet1(values.street1);
-    addressData.setStreet2(values.street2);
-    addressData.setState(values.state);
-    addressData.setCity(values.city);
-    addressData.setZip(values.zipCode);
-    addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
-    AddressList.push(addressData);
+      addressData.setStreet1(values.street1);
+      addressData.setStreet2(values.street2);
+      addressData.setState(values.state);
+      addressData.setCity(values.city);
+      addressData.setZip(values.zipCode);
+      addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
+      AddressList.push(addressData);
+      clientData.setEmployeeid(loginData.employee.employeeid);
+      clientData.setProfilepic(
+        letsGetStartedDonorData.image == null
+          ? receiverProfileData.receiverProfile.profilepic
+          : letsGetStartedDonorData.image
+      );
+      clientData.setAccount(accountData);
+      clientData.setAddressesList(AddressList);
+      receiverEditEmployeeProfile(clientData);
+    } else {
+      const clientData = new AccountProto.Client();
+      const accountData = new AccountProto.Account();
+      const addressData = new AddressProto.Address();
+      const AddressList = [];
 
-    clientData.setClientid(loginData.user.clientid);
-    clientData.setProfilepic(letsGetStartedDonorData.image==null?receiverProfileData.receiverProfile.profilepic:letsGetStartedDonorData.image);
-    clientData.setBio(values.bio);
-    clientData.setClienttype(loginData.user.clienttype);
-    clientData.setAccount(accountData);
-    clientData.setAddressesList(AddressList);
-    receiverEditProfile(clientData);
+      accountData.setAccountid(loginData.user.account.accountid);
+      accountData.setEmail(loginData.user.account.email);
+      accountData.setFullname(values.fullName);
+      accountData.setCountrycode(loginData.user.account.countrycode);
+      accountData.setAccounttype(loginData.user.account.accounttype);
+
+      addressData.setStreet1(values.street1);
+      addressData.setStreet2(values.street2);
+      addressData.setState(values.state);
+      addressData.setCity(values.city);
+      addressData.setZip(values.zipCode);
+      addressData.setAddresstype(MaaserProto.AddressType.HOME_ADDRESS);
+      AddressList.push(addressData);
+
+      clientData.setClientid(loginData.user.clientid);
+      clientData.setProfilepic(
+        letsGetStartedDonorData.image == null
+          ? receiverProfileData.receiverProfile.profilepic
+          : letsGetStartedDonorData.image
+      );
+      clientData.setBio(values.bio);
+      clientData.setClienttype(1);
+      clientData.setAccount(accountData);
+      clientData.setAddressesList(AddressList);
+      receiverEditProfile(clientData);
+    }
   };
 
+  useEffect(() => {
+      receiverEditProfileClear();
+      imageUploadClear();
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+    if (data.receiverEditProfile !== null) {
+      if (data.receiverEditProfile.success) {
+        receiverEditProfileClear();
+        imageUploadClear();
+        navigation.navigate("Receiver View Profile");
+      }
+    }
+  }, [data.receiverEditProfile]);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
   return (
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
@@ -102,10 +311,10 @@ useEffect(() => {
         >
           <ImageBackground
             style={{
-              height: "20%",
+              height: "24%",
               width: "100%",
               flex: 1,
-              backgroundColor: "#FBFBFB"
+              backgroundColor: "#FBFBFB",
             }}
             imageStyle={{
               borderBottomLeftRadius: 50,
@@ -121,7 +330,7 @@ useEffect(() => {
             >
               <Block
                 style={{
-                  flex:0,
+                  flex: 0,
                   borderRadius: 4,
                   elevation: 4,
                   paddingTop: HEIGHT / 14,
@@ -133,18 +342,42 @@ useEffect(() => {
               >
                 <Formik
                   initialValues={{
-                    fullName:  receiverProfileData.receiverProfile.account.fullname!==undefined? receiverProfileData.receiverProfile.account.fullname:"",
-                    street1: receiverProfileData.receiverProfile.addressesList[0].street1!==undefined? receiverProfileData.receiverProfile.addressesList[0].street1:"",
-                    street2: receiverProfileData.receiverProfile.addressesList[0].street2!==undefined? receiverProfileData.receiverProfile.addressesList[0].street2:"",
-                    state: receiverProfileData.receiverProfile.addressesList[0].state!==undefined? receiverProfileData.receiverProfile.addressesList[0].state:"",
-                    city: receiverProfileData.receiverProfile.addressesList[0].city!==undefined? receiverProfileData.receiverProfile.addressesList[0].city:"",
-                    zipCode:  receiverProfileData.receiverProfile.addressesList[0].zip!==undefined? receiverProfileData.receiverProfile.addressesList[0].zip.toString():"",
-                    bio:  receiverProfileData.receiverProfile.bio!==undefined? receiverProfileData.receiverProfile.bio:""
+                    fullName:
+                      receiverProfileData.receiverProfile.account.fullname !== undefined
+                        ? receiverProfileData.receiverProfile.account.fullname
+                        : "",
+                    street1:
+                      receiverProfileData.receiverProfile.addressesList.length > 0
+                        ? receiverProfileData.receiverProfile.addressesList[0].street1
+                        : "",
+                    street2:
+                      receiverProfileData.receiverProfile.addressesList.length > 0
+                        ? receiverProfileData.receiverProfile.addressesList[0].street2
+                        : "",
+                    state:
+                      receiverProfileData.receiverProfile.addressesList.length > 0
+                        ? receiverProfileData.receiverProfile.addressesList[0].state
+                        : "",
+                    city:
+                      receiverProfileData.receiverProfile.addressesList.length > 0
+                        ? receiverProfileData.receiverProfile.addressesList[0].city
+                        : "",
+                    zipCode:
+                      receiverProfileData.receiverProfile.addressesList.length > 0
+                        ? receiverProfileData.receiverProfile.addressesList[0].zip.toString()
+                        : "",
+
+                    // fullName:  receiverProfileData.receiverProfile.account.fullname!==undefined? receiverProfileData.receiverProfile.account.fullname:"",
+                    // street1: receiverProfileData.receiverProfile.addressesList[0].street1!==undefined? receiverProfileData.receiverProfile.addressesList[0].street1:"",
+                    // street2: receiverProfileData.receiverProfile.addressesList[0].street2!==undefined? receiverProfileData.receiverProfile.addressesList[0].street2:"",
+                    // state: receiverProfileData.receiverProfile.addressesList[0].state!==undefined? receiverProfileData.receiverProfile.addressesList[0].state:"",
+                    // city: receiverProfileData.receiverProfile.addressesList[0].city!==undefined? receiverProfileData.receiverProfile.addressesList[0].city:"",
+                    // zipCode:  receiverProfileData.receiverProfile.addressesList[0].zip!==undefined? receiverProfileData.receiverProfile.addressesList[0].zip.toString():""
                   }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);
                   }}
-                  validationSchema={LetsGetStartedReceiverValidationSchema}
+                  validationSchema={ProfileValidationSchema}
                 >
                   {({
                     handleChange,
@@ -161,7 +394,7 @@ useEffect(() => {
                             ? "Full Name"
                             : "Company Name"
                         }
-                         placeholder={
+                        placeholder={
                           loginData.user.clienttype == 1
                             ? "Full Name"
                             : "Company Name"
@@ -187,36 +420,6 @@ useEffect(() => {
                         error={errors.fullName}
                         visible={touched.fullName}
                       />
-
-                       <Input
-                  label="Bio"
-                  focus={bioFocus}
-                  onChangeText={handleChange("bio")}
-                  onBlur={() => {
-                    setFieldTouched("bio");
-                    setBioFocus(false);
-                  }}
-                  multiline
-                  numberOfLines={3}
-                  onFocus={() => setBioFocus(true)}
-                  value={values.bio}
-                  style={{
-                    borderColor: bioFocus
-                      ? theme.colors.primary2
-                      : touched.bio && errors.bio
-                      ? theme.colors.red
-                      : theme.colors.solidGray,
-                    height: 70,
-                    borderRadius: 2,
-                    borderWidth: 1,
-                    marginTop: 4,
-                    paddingHorizontal:8,
-                    textAlignVertical:"top",
-                  }}
-                />
-                <ErrorMessage error={errors.bio} visible={touched.bio} />
-
-
                       <Block style={{ flex: 0, marginTop: 16 }}>
                         <Text
                           bold
@@ -225,7 +428,7 @@ useEffect(() => {
                             street1Focus ||
                             street2Focus ||
                             stateFocus ||
-                            cityFocus 
+                            cityFocus
                               ? theme.colors.primary2
                               : theme.colors.black
                           }
@@ -281,7 +484,6 @@ useEffect(() => {
                           visible={touched.street2}
                         />
 
-                       
                         <Input
                           placeholder="State"
                           style={{ marginBottom: 5 }}
@@ -359,26 +561,26 @@ useEffect(() => {
 
                       <Block style={{ marginVertical: HEIGHT / 50 }}>
                         {!errors.fullName ||
-                        !errors.bio ||  
                         !errors.street1 ||
                         !errors.street2 ||
                         !errors.state ||
                         !errors.city ||
                         !errors.zipCode ? (
                           <Button onPress={handleSubmit}>
-                            {data.isLoading || letsGetStartedDonorData.isLoading? (
+                            {data.isLoading ||
+                            letsGetStartedDonorData.isLoading ? (
                               <>
                                 <CustomActivityIndicator
                                   isLoading={data.isLoading}
                                   label="Requesting..."
                                 />
                                 <Text button style={{ fontSize: 18 }}>
-                                  Update 
+                                  Update
                                 </Text>
                               </>
                             ) : (
                               <Text button style={{ fontSize: 18 }}>
-                                Update 
+                                Update
                               </Text>
                             )}
                           </Button>
@@ -389,7 +591,7 @@ useEffect(() => {
                             }}
                           >
                             <Text button style={{ fontSize: 18 }}>
-                              Update 
+                              Update
                             </Text>
                           </Button>
                         )}
@@ -402,48 +604,80 @@ useEffect(() => {
           </ImageBackground>
 
           <TouchableOpacity
-              onPress={pickImage}
+            onPress={() => setShowPictureOptions(true)}
+            style={{
+              flex: 0,
+              zIndex: 1,
+              position: "absolute",
+              marginTop: HEIGHT / 22,
+            }}
+          >
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  height: HEIGHT * 0.105,
+                  width: WIDTH * 0.2,
+                  borderRadius: 100,
+                }}
+              />
+            ) : (
+              <ProfileIconComponent
+                height={HEIGHT * 0.105}
+                width={WIDTH * 0.2}
+              />
+            )}
+
+            <Block
               style={{
-                zIndex: 1,
+                padding: 2,
+                borderRadius: 10,
                 position: "absolute",
-                marginTop: HEIGHT / 22,
+                marginLeft: WIDTH * 0.126,
+                marginTop: HEIGHT * 0.064,
               }}
             >
-              {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={{
-                    height: HEIGHT * 0.105,
-                    width: WIDTH * 0.2,
-                    borderRadius: 100,
-                  }}
-                />
-              ) : (
-                <ProfileIconComponent
-                  height={HEIGHT * 0.105}
-                  width={WIDTH * 0.2}
-                />
-              )}
-
-              <Block
-                style={{
-                  padding: 2,
-                  borderRadius: 10,
-                  position: "absolute",
-                  marginLeft: WIDTH * 0.126,
-                  marginTop: HEIGHT * 0.064,
-                }}
-              >
-                <CameraIconComponent
-                  height={HEIGHT * 0.034}
-                  width={WIDTH * 0.12}
-                />
-              </Block>
-            </TouchableOpacity>
+              <CameraIconComponent
+                height={HEIGHT * 0.034}
+                width={WIDTH * 0.12}
+              />
+            </Block>
+          </TouchableOpacity>
         </Block>
+        {camera && (
+          <CameraModule
+            showModal={camera}
+            setModalVisible={() => setShowCamera(false)}
+            setImage={(result) => {
+              setImage(result.uri);
+              imageUpload(result.uri);
+            }}
+          />
+        )}
       </SafeAreaView>
+      <CustomActivityIndicator
+        isLoading={letsGetStartedDonorData.isLoading}
+        label="Requesting..."
+      />
+      {selectOptions()}
     </KeyboardAwareScrollView>
   );
 };
 
-export default ReceiverEditProfile;
+export default ReceiverProfileData;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modal: {
+    borderColor: theme.colors.gray,
+    backgroundColor: theme.colors.white,
+    paddingVertical: 10,
+    paddingHorizontal:20,
+    borderRadius: 4,
+  },
+});

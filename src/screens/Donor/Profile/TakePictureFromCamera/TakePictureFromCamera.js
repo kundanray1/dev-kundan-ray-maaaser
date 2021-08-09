@@ -1,129 +1,157 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { Modal,  TouchableOpacity, View, Image } from "react-native";
 import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
-import {
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
-
-const TakePictureFromCamera = ({ navigation }) => {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-
-  useEffect(() => {
-    getPermissionAsync();
-  }, []);
-
-  const getPermissionAsync = async () => {
-    // Camera roll Permission
-    if (Platform.OS === "ios") {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-    // Camera Permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    setHasPermission({ hasPermission: status === "granted" });
-  };
-
-  const handleCameraType = () => {
-    const { cameraType } = this.state;
-
-    setCameraType({
-      cameraType:
-        cameraType === Camera.Constants.Type.back
-          ? Camera.Constants.Type.front
-          : Camera.Constants.Type.back,
-    });
-  };
-
-  const takePicture = async () => {
-    if (camera) {
-      let photo = await this.camera.takePictureAsync();
-    }
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
-  };
-
-  if (hasPermission === null) {
-    return <View />;
-  } else if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  } else {
-    return (
-      <View style={{ flex: 1 }}>
-        <Camera
-          style={{ flex: 1 }}
-          type={this.state.cameraType}
-          ref={(ref) => {
-            this.camera = ref;
+import { Text, Button } from "../../../../components/Index.js";
+const CameraModule = (props) => {
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={true}
+      onRequestClose={() => {
+        props.setModalVisible();
+      }}
+    >
+      <Camera
+        style={{ flex: 1 }}
+        ratio="16:9"
+        type={type}
+        ref={(ref) => {
+          setCameraRef(ref);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "transparent",
+            justifyContent: "flex-end",
           }}
         >
           <View
             style={{
-              flex: 1,
+              backgroundColor: "black",
               flexDirection: "row",
+              alignItems: "center",
               justifyContent: "space-between",
-              margin: 30,
             }}
           >
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "center",
-                backgroundColor: "transparent",
+            <Button
+              style={{ marginLeft: 12 }}
+              onPress={() => {
+                props.setModalVisible();
               }}
-              onPress={() => this.pickImage()}
             >
-              <Ionicons
-                name="ios-photos"
-                style={{ color: "#fff", fontSize: 40 }}
-              />
-            </TouchableOpacity>
+              <Text> Close</Text>
+            </Button>
+
             <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "center",
-                backgroundColor: "transparent",
+              onPress={async () => {
+                if (cameraRef) {
+                  let photo = await cameraRef.takePictureAsync();
+                  props.setImage(photo);
+                  props.setModalVisible();
+                }
               }}
-              onPress={() => this.takePicture()}
             >
-              <FontAwesome
-                name="camera"
-                style={{ color: "#fff", fontSize: 40 }}
-              />
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderRadius: 50,
+                  borderColor: "white",
+                  height: 50,
+                  width: 50,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 16,
+                  marginTop: 16,
+                }}
+              >
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderRadius: 50,
+                    borderColor: "white",
+                    height: 40,
+                    width: 40,
+                    backgroundColor: "white",
+                  }}
+                ></View>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "center",
-                backgroundColor: "transparent",
+
+            <Button
+              style={{ marginRight: 12 }}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
               }}
-              onPress={() => this.handleCameraType()}
             >
-              <MaterialCommunityIcons
-                name="camera-switch"
-                style={{ color: "#fff", fontSize: 40 }}
-              />
-            </TouchableOpacity>
+              <Text>
+                {" "}
+                {type === Camera.Constants.Type.back ? "Front" : "Back "}
+              </Text>
+            </Button>
           </View>
-        </Camera>
-      </View>
-    );
-  }
+        </View>
+      </Camera>
+    </Modal>
+  );
 };
-export default TakePictureFromCamera;
+
+export default function ImagePickerExample() {
+  const [image, setImage] = useState(null);
+  const [camera, setShowCamera] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          backgroundColor: "#eeee",
+          width: 120,
+          height: 120,
+          borderRadius: 100,
+          marginBottom: 8,
+        }}
+      >
+        <Image
+          source={{ uri: image }}
+          style={{ width: 120, height: 120, borderRadius: 100 }}
+        />
+      </View>
+      <Button
+        style={{ width: "30%", marginTop: 16 }}
+        onPress={() => {
+          setShowCamera(true);
+        }}
+      >
+        <Text> Camera</Text>
+      </Button>
+
+      {camera && (
+        <CameraModule
+          showModal={camera}
+          setModalVisible={() => setShowCamera(false)}
+          setImage={(result) => setImage(result.uri)}
+        />
+      )}
+    </View>
+  );
+}

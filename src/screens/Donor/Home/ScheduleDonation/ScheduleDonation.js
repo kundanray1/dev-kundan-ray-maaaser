@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -28,6 +28,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import searchStyles from "../../../../utility/globalStyles.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 import moment from "moment";
+import { Modalize } from "react-native-modalize";
+import { Portal } from 'react-native-portalize';
+
 const WIDTH = Dimensions.get("window").width;
 const ScheduleDonation = ({
   navigation,
@@ -97,6 +100,7 @@ const ScheduleDonation = ({
         search: transactionssearch == undefined ? "" : "",
       });
       onPressReset();
+      modalizeRef.current?.close();
     }
   };
 
@@ -253,6 +257,12 @@ const ScheduleDonation = ({
       </Modal>
     </SafeAreaView>
   );
+ const modalizeRef = useRef();
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+  
   function searchFilterFunction(text) {
     if (text) {
       scheduleDonationSearch({
@@ -312,9 +322,7 @@ const ScheduleDonation = ({
           </Block>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {
-              setConfirmationSuccessfulVisible(true);
-            }}
+            onPress={onOpen}
             style={{
               alignItems: "center",
               marginTop: 8,
@@ -392,11 +400,144 @@ const ScheduleDonation = ({
           )}
         </Block>
       </SafeAreaView>
+      <Portal>
+      <Modalize
+        ref={modalizeRef}
+        snapPoint={200}
+        modalHeight={200}
+        withHandle={false}
+      >
+        <View style={{ width: "100%", paddingHorizontal: 18 }}>
+          <Block style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}>
+            <Block
+              style={{
+                flex: 0,
+                backgroundColor: "#E2E2E2",
+                width: WIDTH - 280,
+                borderRadius: 10,
+                paddingVertical: 2,
+              }}
+            />
+          </Block>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingBottom: 8,
+            }}
+            onPress={onPressReset}
+          >
+            <Text
+              bold
+              style={{ fontSize: 14, fontWeight: "700" }}
+              color={theme.colors.red}
+            >
+              Reset
+            </Text>
+          </TouchableOpacity>
+
+          <Block row style={{ flex: 0 }}>
+            <Block style={{ paddingVertical: 8 }}>
+              <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                From
+              </Text>
+              <TouchableOpacity
+                style={[styles.customPicker, { width: "95%" }]}
+                activeOpacity={0.8}
+                onPress={() => setShowFromDate(true)}
+              >
+                <Text
+                  bold
+                  style={{
+                    fontSize: 16,
+                    color: "#999999",
+                  }}
+                >
+                  {fromDate == "2021-05-03T15:21:15.513Z"
+                    ? ""
+                    : moment(fromDate).format("DD/MM/YYYY")}
+                </Text>
+                <Block style={{ alignItems: "flex-end" }}>
+                  <MaterialCommunityIcons
+                    name="calendar-month"
+                    size={20}
+                    color={theme.colors.primary2}
+                  />
+                </Block>
+              </TouchableOpacity>
+              {showFromDate && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={new Date()}
+                  maximumDate={new Date()}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  textColor="red"
+                  onChange={onChangeFromDate}
+                />
+              )}
+            </Block>
+
+            <Block style={{ paddingVertical: 8 }}>
+              <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                To
+              </Text>
+              <TouchableOpacity
+                style={[styles.customPicker, { left: "10%" }]}
+                activeOpacity={0.8}
+                onPress={() => setShowToDate(true)}
+              >
+                <Text
+                  bold
+                  style={{
+                    fontSize: 16,
+                    color: "#999999",
+                  }}
+                >
+                  {toDate == "2021-09-03T15:21:15.513Z"
+                    ? ""
+                    : moment(toDate).format("DD/MM/YYYY")}
+                </Text>
+                <Block style={{ alignItems: "flex-end" }}>
+                  <MaterialCommunityIcons
+                    name="calendar-month"
+                    size={20}
+                    color={theme.colors.primary2}
+                  />
+                </Block>
+              </TouchableOpacity>
+              {showToDate && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={new Date()}
+                  maximumDate={new Date()}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  textColor="red"
+                  onChange={onChangeToDate}
+                />
+              )}
+            </Block>
+          </Block>
+          <ErrorMessage
+            error={"Please enter a valid date"}
+            visible={dateError}
+          />
+          <Button onPress={onPressSubmitApply}>
+            <Text button style={{ fontSize: 18 }}>
+              Apply
+            </Text>
+          </Button>
+        </View>
+      </Modalize>
+      </Portal>
       <FloatingButton
         iconComponent={<AddIconComponent />}
         onPress={() => navigation.navigate("Link Schedule Donation")}
       />
-      {ConfirmationMessage()}
     </>
   );
 };

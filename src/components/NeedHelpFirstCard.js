@@ -10,6 +10,8 @@ import Block from "./Block.js";
 import Text from "./Text.js";
 import PercentageBar from "./PercentageBar.js";
 import NumberFormat from "react-number-format";
+import { Video, AVPlaybackStatus } from "expo-av";
+
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -19,6 +21,9 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 	return (
 		<SafeAreaView style={{ flex: 1 ,marginRight:16}}>
 		<TouchableOpacity activeOpacity={0.8} {...props}>
+				{
+					image.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null ?
+
 				<Block style={{ flex: 0 }}>
 					<ImageBackground
 						style={{
@@ -26,7 +31,6 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 							width: WIDTH-150,
 							justifyContent: "flex-end",
 							overflow: "hidden",
-							// borderRadius:6
 						}}
 						source={{
 							uri: image
@@ -34,6 +38,23 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 					>
 					</ImageBackground>
 				</Block>
+
+				:
+				<Video
+					style={{
+							height: HEIGHT / 6,
+							width: WIDTH-150,
+							justifyContent: "flex-end",
+							overflow: "hidden",
+					}}
+					source={{
+						uri: image,
+					}}
+					useNativeControls
+					resizeMode="contain"
+					isLooping
+				/>
+			}
 				<Block
 					style={{
 						flex: 0,

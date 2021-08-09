@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -19,6 +19,8 @@ import {
   TransactionDetailCard,
   Text,
   Button,
+  ErrorMessage,
+  FloatingButton,
 } from "../../../components/Index.js";
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -30,7 +32,10 @@ import TransactionsSearchIconComponent from "../../../assets/icons/transactionsS
 import ReceiptIconComponent from "../../../assets/icons/ReceiptIconComponent.js";
 import PdfIconComponent from "../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../assets/icons/ExcelIconComponent.js";
+import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import * as Linking from "expo-linking";
+import { Modalize } from "react-native-modalize";
+import { Portal } from 'react-native-portalize';
 
 const WIDTH = Dimensions.get("window").width;
 import searchStyles from "../../../utility/globalStyles.js";
@@ -59,6 +64,7 @@ const Transactions = ({
   const [transactionsMediumId, setTransactionsMediumId] = useState("");
   const [transactionsType, setTransactionsType] = useState();
   const [transactionsTypeId, setTransactionsTypeId] = useState("");
+  const [dateError, setDateError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const onChangeFromDate = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
@@ -85,33 +91,28 @@ const Transactions = ({
     setTransactionsMediumId("");
     setTransactionsType();
     setTransactionsTypeId("");
+    setDateError(false);
   };
 
   const onPressSubmitApply = () => {
-    setConfirmationSuccessfulVisible(false);
-    search({
-      accountId: loginData.user.account.accountid,
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: transactionssearch == undefined ? "" : "",
-    });
-    generateTransactionsPDFReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: transactionssearch == undefined ? "" : "",
-    });
-    generateTransactionsExcelReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: transactionssearch == undefined ? "" : "",
-    });
-    onPressReset();
+    if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
+      setDateError(true);
+    } else {
+      setDateError(false);
+      setConfirmationSuccessfulVisible(false);
+      search({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: transactionssearch == undefined ? "" : "",
+      });
+      generateTransactionsPDFReceiptStart();
+      generateTransactionsExcelReceiptStart();
+      onPressReset();
+      modalizeRef.current?.close();
+    }
   };
 
   React.useLayoutEffect(() => {
@@ -120,9 +121,7 @@ const Transactions = ({
         <Block row style={{ flex: 0 }}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {
-               setDownloadModalVisible(true);
-            }}
+            onPress={onOpen}
             style={{
               alignItems: "flex-end",
               marginRight: 16,
@@ -137,9 +136,7 @@ const Transactions = ({
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {
-              setConfirmationSuccessfulVisible(true);
-            }}
+            onPress={onOpen2}
             style={{
               alignItems: "flex-end",
               marginRight: 16,
@@ -166,99 +163,6 @@ const Transactions = ({
       Linking.openURL(data.generateTransactionsExcelReceipt.msg);
     }
   };
-
-  const DownloadModal = () => (
-    <SafeAreaView>
-      <Modal
-        visible={downloadModalVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() => setDownloadModalVisible(!downloadModalVisible)}
-      >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() => setDownloadModalVisible(!downloadModalVisible)}
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-            >
-              <Block
-                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-                <Text
-                  center
-                  style={{
-                    fontWeight: "700",
-                    fontSize: 14,
-                    paddingVertical: 4,
-                  }}
-                >
-                  Export to
-                </Text>
-              </Block>
-              <Block
-                style={{ flex: 0, flexDirection: "row", paddingBottom: 16 }}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column", marginRight: 30 }}
-                  onPress={() => downloadPDF()}
-                >
-                  <PdfIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    PDF
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column" }}
-                  onPress={() => downloadEXCEL()}
-                >
-                  <ExcelIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    Excel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-              <Block
-                center
-                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ paddingVertical: 12 }}
-                  onPress={() => setConfirmationSuccessfulVisible(false)}
-                >
-                  <Text
-                    center
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 14,
-                      color: theme.colors.primary2,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-            </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
 
   const renderItems = ({ item }) => {
     return (
@@ -308,7 +212,7 @@ const Transactions = ({
     } else {
       const sortedData = Object.values(
         data.transactions.reduce((acc, item) => {
-          if (!acc[moment(item.createdat).format("DD MMM YYYY")])
+          if (!acc[moment(item.createdat).format("DD MMM, YYYY")])
             acc[moment(item.createdat).format("DD MMM, YYYY")] = {
               title: moment(item.createdat).format("DD MMM, YYYY"),
               data: [],
@@ -320,27 +224,121 @@ const Transactions = ({
       setTransactionsData(sortedData);
     }
   }, [data.transactions]);
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
+
+  useEffect(() => {
+    transactions(loginData.user.account.accountid);
+  }, []);
+
+const modalizeRef = useRef();
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+
+  const modalizeRef2 = useRef();
+
+  const onOpen2 = () => {
+    modalizeRef2.current?.open();
+  };
+  function searchFilterFunction(text) {
+    if (text) {
+      search({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: text,
+      });
+      generateTransactionsPDFReceiptStart();
+      generateTransactionsExcelReceiptStart();
+    } else {
+      search({
+        accountId: loginData.user.account.accountid,
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: "",
+      });
+      generateTransactionsPDFReceiptStart();
+      generateTransactionsExcelReceiptStart();
+    }
+  }
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Block style={{ flex: 0, paddingHorizontal: 16 }}>
+        <Block style={searchStyles.boxSearchContainer}>
+          <Block style={searchStyles.boxVwSearch}>
+            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
+          </Block>
+
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={theme.colors.solidGray}
+            style={searchStyles.boxTextInput}
+            onChangeText={(text) => searchFilterFunction(text)}
+            value={transactionssearch}
+          />
+
+          {transactionssearch ? (
+            <TouchableOpacity
+              onPress={() => searchFilterFunction()}
+              style={searchStyles.vwClear}
+            >
+              <Ionicons name="close-circle-sharp" color="black" size={18} />
+            </TouchableOpacity>
+          ) : (
+            <Block style={searchStyles.vwClear} />
+          )}
+        </Block>
+      </Block>
+      {data.isLoading ||
+      data.generateTransactionsPDFReceiptLoading ||
+      data.generateTransactionsExcelReceiptLoading ? (
+        <Block center middle>
+          <ActivityIndicator size="large" color={theme.colors.primary2} />
+        </Block>
+      ) : (
+        <Block style={{ flex: 0 }}>
+          <SectionList
+            sections={transactionsData}
+            keyExtractor={(item, index) => item + index}
+            renderItem={renderItems}
+            renderSectionHeader={renderHeader}
+            ListEmptyComponent={() => (
+              <Empty iconName="transactions" title="You don't have any data." />
+            )}
+            refreshControl={
+              <RefreshControl
+                colors={[theme.colors.primary2]}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+            ListFooterComponent={() => (
+              <Block
+                middle
+                center
+                style={{ marginBottom: 120, flex: 0 }}
+              ></Block>
+            )}
+            ListFooterComponentStyle={{
+              paddingVertical: 20,
+            }}
+          />
+        </Block>
+      )}
+    
+      <Portal>
+       <Modalize
+        ref={modalizeRef2}
+        snapPoint={330}
+        modalHeight={330}
+        withHandle={false}
       >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() =>
-            setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-          }
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
+       <View
+              style={{ width: "100%", paddingHorizontal: 18 }}
             >
               <Block
                 style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
@@ -458,7 +456,10 @@ const Transactions = ({
                   )}
                 </Block>
               </Block>
-
+              <ErrorMessage
+                error={"Please enter a valid date"}
+                visible={dateError}
+              />
               <TransactionsMedium
                 transactionsMedium={transactionsMedium}
                 setTransactionsMedium={setTransactionsMedium}
@@ -475,125 +476,94 @@ const Transactions = ({
                 </Text>
               </Button>
             </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
-  function searchFilterFunction(text) {
-    if (text) {
-      search({
-        accountId: loginData.user.account.accountid,
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        medium: transactionsMediumId,
-        type: transactionsTypeId,
-        search: text,
-      });
-    generateTransactionsPDFReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: text,
-    });
-    generateTransactionsExcelReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-     search: text,
-    });
-    }else{
-       search({
-        accountId: loginData.user.account.accountid,
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        medium: transactionsMediumId,
-        type: transactionsTypeId,
-        search: "",
-      });
-    generateTransactionsPDFReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-      search: "",
-    });
-    generateTransactionsExcelReceiptStart({
-      fromDate: new Date(fromDate).getTime(),
-      toDate: new Date(toDate).getTime(),
-      medium: transactionsMediumId,
-      type: transactionsTypeId,
-     search: "",
-    });
-    }
-  }
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Block style={{ flex: 0, paddingHorizontal: 16 }}>
-        <Block style={searchStyles.boxSearchContainer}>
-          <Block style={searchStyles.boxVwSearch}>
-            <Ionicons name="search" color={theme.colors.solidGray} size={18} />
-          </Block>
+      </Modalize>
+      </Portal>
 
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor={theme.colors.solidGray}
-            style={searchStyles.boxTextInput}
-            onChangeText={(text) => searchFilterFunction(text)}
-            value={transactionssearch}
-          />
-
-          {transactionssearch ? (
-            <TouchableOpacity
-              onPress={() => searchFilterFunction()}
-              style={searchStyles.vwClear}
+      <Portal>
+       <Modalize
+        ref={modalizeRef}
+        snapPoint={160}
+        modalHeight={160}
+        withHandle={false}
+      >
+       <View
+              style={{width: "100%", paddingHorizontal: 18 }}
             >
-              <Ionicons name="close-circle-sharp" color="black" size={18} />
-            </TouchableOpacity>
-          ) : (
-            <Block style={searchStyles.vwClear} />
-          )}
-        </Block>
-      </Block>
-      {data.isLoading || data.generateTransactionsPDFReceiptLoading ||
-data.generateTransactionsExcelReceiptLoading ? (
-        <Block center middle>
-          <ActivityIndicator size="large" color={theme.colors.primary2} />
-        </Block>
-      ) : (
-        <Block style={{ flex: 0 }}>
-          <SectionList
-            sections={transactionsData}
-            keyExtractor={(item, index) => item + index}
-            renderItem={renderItems}
-            renderSectionHeader={renderHeader}
-            ListEmptyComponent={() => (
-              <Empty iconName="transactions" title="You don't have any data." />
-            )}
-            refreshControl={
-              <RefreshControl
-                colors={[theme.colors.primary2]}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-            ListFooterComponent={() => (
               <Block
-                middle
+                style={{ flex: 0, alignItems: "center", paddingTop:10}}
+              >
+                <Block
+                  style={{
+                    flex: 0,
+                    backgroundColor: "#E2E2E2",
+                    width: WIDTH - 280,
+                    borderRadius: 10,
+                    paddingVertical: 2,
+                  }}
+                />
+                <Text
+                  center
+                  style={{
+                    fontWeight: "700",
+                    fontSize: 14,
+                    paddingVertical: 4,
+                  }}
+                >
+                  Export to
+                </Text>
+              </Block>
+              <Block
+                style={{ flex: 0, flexDirection: "row"}}
+              >
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={{ flexDirection: "column", marginRight: 30 }}
+                  onPress={() => downloadPDF()}
+                >
+                  <PdfIconComponent />
+                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
+                    PDF
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={{ flexDirection: "column" }}
+                  onPress={() => downloadEXCEL()}
+                >
+                  <ExcelIconComponent />
+                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
+                    Excel
+                  </Text>
+                </TouchableOpacity>
+              </Block>
+             {/*<Block
                 center
-                style={{ marginBottom: 120, flex: 0 }}
-              ></Block>
-            )}
-            ListFooterComponentStyle={{
-              paddingVertical: 20,
-            }}
-          />
-        </Block>
-      )}
-      {ConfirmationMessage()}
-      {DownloadModal()}
+                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
+              >
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={{ paddingVertical: 12 }}
+                  onPress={() => setConfirmationSuccessfulVisible(false)}
+                >
+                  <Text
+                    center
+                    style={{
+                      fontWeight: "700",
+                      fontSize: 14,
+                      color: theme.colors.primary2,
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+              </Block>*/}
+            </View>
+      </Modalize>
+      </Portal>
+      <FloatingButton
+        onPress={() => navigation.navigate("Donate")}
+        iconComponent={<DonateIconComponent />}
+      />
     </SafeAreaView>
   );
 };
