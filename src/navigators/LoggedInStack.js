@@ -83,7 +83,6 @@ import API from "./../api/API";
 //withdrawnsDetails
 import WithdrawnDetails from "../screens/Receiver/Withdraws/WithdrawnDetails/index";
 import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
-import TakePictureFromCamera from "../screens/Donor/Profile/TakePictureFromCamera/TakePictureFromCamera";
 
 
 import { Host } from 'react-native-portalize';
@@ -412,11 +411,7 @@ const LoggedInStack = ({ data }) => {
         options={{ headerShown: true, title: "Confirmation" }}
         component={DonateFromReceiversListConfirmation}
       />
-      <AuthStack.Screen
-        name="TakePictureFromCamera"
-        options={{ headerShown: false, title: "TakePictureFromCamera" }}
-        component={TakePictureFromCamera}
-      />
+    
     </AuthStack.Navigator>
     </Host>
   );
