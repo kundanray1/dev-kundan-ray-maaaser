@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
-  TouchableOpacity,
-  Modal,
-  TouchableWithoutFeedback,
-  View,
   StyleSheet,
   Dimensions,
   ActivityIndicator,
@@ -13,30 +9,15 @@ import * as theme from "../../../../constants/theme.js";
 import {
   Block,
   Text,
-  CustomActivityIndicator,
-  Button,
-  OutlinedButton,
 } from "../../../../components/Index.js";
 import moment from "moment";
-import PaymentProto from "./../../../../protos/payment_pb";
 import NumberFormat from "react-number-format";
-import DownloadIconComponent from "../../../../assets/icons/DownloadIconComponent.js";
-import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
-import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
-const WIDTH = Dimensions.get("window").width;
 
 const WithdrawnDetails = ({
   route,
   data,
-  navigation,
   withdrawnDetailsStart,
-  withdrawnDetailsClear,
-  generateWithdrawnExcelReceipt,
 }) => {
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
   useEffect(() => {
     withdrawnDetailsStart(details.transactionid);
   }, []);

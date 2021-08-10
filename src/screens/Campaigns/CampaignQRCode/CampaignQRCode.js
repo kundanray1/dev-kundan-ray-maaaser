@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import {
   Image,
-  TouchableOpacity,
   Dimensions,
-  SafeAreaView,
-  Modal,
-  View,
-  FlatList,
   Share,
 } from "react-native";
 import {
@@ -15,13 +10,11 @@ import {
   Block,
   Text,
 } from "./../../../components/Index.js";
-import ProfileQRcodeIcon from "./../../../assets/icons/profileQRCodeIconComponent";
 import TopLeftBorderIconComponent from "./../../../assets/icons/TopLeftBorderIconComponent";
 import TopRightBorderIconComponent from "./../../../assets/icons/TopRightBorderIconComponent";
 import BottomLeftBorderIconComponent from "./../../../assets/icons/BottomLeftBorderIconComponent";
 import BottomRightBorderIconComponent from "./../../../assets/icons/BottomRightBorderIconComponent";
 import * as theme from "./../../../constants/theme.js";
-import { shareIcon } from "./Dummy";
 import SvgQRCode from "react-native-qrcode-svg";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
@@ -30,7 +23,6 @@ import { showMessage } from "react-native-flash-message";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 export default CampaignQRCode = ({
-  navigation,
   campaignDetailsdata,
   campaignId,
   route

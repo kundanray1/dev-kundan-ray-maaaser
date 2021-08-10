@@ -25,6 +25,10 @@ export function* addBeneficiary({ payload }) {
       });
     } else {
       yield put(addBeneficiarySuccess(res));
+      showMessage({
+        message: "Beneficiary added successfully",
+        type: "success",
+      });
     }
   } catch (e) {
     yield put(addBeneficiaryFail(e));

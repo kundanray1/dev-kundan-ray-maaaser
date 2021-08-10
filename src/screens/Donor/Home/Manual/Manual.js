@@ -12,7 +12,6 @@ import {
 } from "./../../../../components/Index.js";
 import ReceiversList from "./ReceiversList";
 import PaymentProto from "./../../../../protos/payment_pb";
-import API from "./../../../../api/API";
 
 const Manual = ({ navigation, data, loginData, manual }) => {
   const [receiverId, setReceiverId] = useState("");

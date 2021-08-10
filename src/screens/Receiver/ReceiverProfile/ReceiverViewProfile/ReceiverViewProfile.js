@@ -9,7 +9,6 @@ import {
 import * as theme from "../../../../constants/theme.js";
 import { Block, Text, FloatingButton } from "../../../../components/Index.js";
 import {  MaterialIcons } from "@expo/vector-icons";
-import API from "../../../../api/API.js";
 import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
 import EditIconComponent from "../../../../assets/icons/editIconComponent.js";
 
@@ -64,7 +63,7 @@ const ReceiverViewProfile = ({ navigation,receiverProfileData }) => {
                     style={{ fontSize: 16, fontWeight: "700" }}
                     color={theme.colors.solidGray}
                   >
-                                       {receiverProfileData.receiverProfile.clienttype == 1 ? "Full Name" : "Company Name"}
+                {receiverProfileData.receiverProfile.clienttype == 1 ? "Full Name" : "Company Name"}
 
                   </Text>
                   <Block row style={{ flex: 0 }}>

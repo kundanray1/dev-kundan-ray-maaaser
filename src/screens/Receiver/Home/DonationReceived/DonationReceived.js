@@ -6,17 +6,15 @@ import {
   SafeAreaView,
   RefreshControl,
   SectionList,
-  Modal,
   View,
   Dimensions,
   TextInput,
-  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
   Block,
   Empty,
-  DateWiseDonationDetailCard,
+  DonationReceivedDetailCard,
   Text,
   Button,
   ErrorMessage,
@@ -24,7 +22,6 @@ import {
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 import searchStyles from "../../../../utility/globalStyles.js";
 import { Modalize } from "react-native-modalize";
@@ -41,10 +38,6 @@ const DonationReceived = ({
 }) => {
   const [search, setSearch] = useState();
   const [donationReceivedData, setDonationReceivedData] = useState();
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
@@ -80,7 +73,6 @@ const DonationReceived = ({
     if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
       setDateError(true);
     } else {
-      setConfirmationSuccessfulVisible(false);
       setDateError(false);
       donationReceivedSearch({
         accountid:loginData.user.account.accountid,
@@ -115,12 +107,13 @@ const DonationReceived = ({
   const renderItems = ({ item }) => {
     return item.clientList[1] != undefined ? (
       <Block style={{ paddingHorizontal: 18 }}>
-        <DateWiseDonationDetailCard
-          profilePic={item.clientList[1].profilepic}
-          name={item.clientList[1].account.fullname}
+        <DonationReceivedDetailCard
+          profilePic={item.clientList[0].profilepic}
+          fullname={item.clientList[0].account.fullname}
           amount={item.amount}
           date={item.createdat}
           textColor={theme.colors.black}
+          data={item}
         />
       </Block>
     ) : (

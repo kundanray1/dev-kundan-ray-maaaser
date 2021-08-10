@@ -15,13 +15,6 @@ export default ScanQR = ({ navigation }) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    // navigation.navigate("Campaign Donate Now", {
-    //                 refId: data.campaignDetails.campaign.campaignid,
-    //                 receiverName:
-    //                   data.campaignDetails.campaign.campaignbeneficiary.account
-    //                     .fullname,
-    //               })
-
     navigation.navigate("Donate Via Scan",{receiverId:data})
   };
 

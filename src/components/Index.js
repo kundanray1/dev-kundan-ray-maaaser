@@ -21,6 +21,8 @@ import Text from "./Text.js";
 import MemberDetailCard from "./MemberDetailCard.js";
 import TransactionDetailCard from "./TransactionDetailCard.js";
 import DateWiseDonationDetailCard from "./DateWiseDonationDetailCard.js";
+import DonationReceivedDetailCard from "./DonationReceivedDetailCard.js";
+import ReceiverTransactionDetailCard from "./ReceiverTransactionDetailCard.js";
 import DonorsDetail from "./DonorsDetail.js";
 import CampaignCard from "./CampaignCard.js";
 import CampaignCommentCard from "./CampaignCommentCard.js";
@@ -54,6 +56,8 @@ export {
   TransactionDetailCard,
   DonorsDetail,
   DateWiseDonationDetailCard,
+  DonationReceivedDetailCard,
+  ReceiverTransactionDetailCard,
   CampaignCard,
   CampaignCommentCard,
   CampaignDonorCard,

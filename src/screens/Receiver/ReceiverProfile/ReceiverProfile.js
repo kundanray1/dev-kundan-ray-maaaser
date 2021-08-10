@@ -11,7 +11,6 @@ import {
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
 import {  MaterialIcons } from "@expo/vector-icons";
-import API from "../../../api/API.js";
 import ViewProfileIconComponent from "../../../assets/icons/viewProfileIconComponent.js";
 import ChangePasswordIconComponent from "../../../assets/icons/changePasswordIconComponent.js";
 import ArrowRightIconComponent from "../../../assets/icons/arrowRightIconComponent.js";

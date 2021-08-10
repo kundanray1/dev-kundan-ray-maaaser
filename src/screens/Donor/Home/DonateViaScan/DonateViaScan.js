@@ -12,7 +12,6 @@ import {
 } from "./../../../../components/Index.js";
 import {ActivityIndicator} from "react-native";
 import PaymentProto from "./../../../../protos/payment_pb";
-import API from "./../../../../api/API";
 
 const DonateViaScan = ({
   navigation,

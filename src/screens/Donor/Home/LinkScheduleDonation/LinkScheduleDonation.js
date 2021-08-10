@@ -18,7 +18,6 @@ import moment from "moment";
 import ReceiversList from "./ReceiversList";
 import ScheduleType from "./ScheduleType";
 import PaymentProto from "./../../../../protos/payment_pb";
-import API from "./../../../../api/API";
 
 const LinkScheduleDonation = ({
   navigation,
@@ -261,7 +260,7 @@ const LinkScheduleDonation = ({
               />
               <Block style={{ paddingVertical: 8 }}>
                 <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-                  Start Date
+                  Start Date and time
                 </Text>
                 <TouchableOpacity
                   style={styles.customPicker}
@@ -304,46 +303,6 @@ const LinkScheduleDonation = ({
                 error={"Start date is a required field"}
                 visible={startDateError}
               />
-{/*
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-                  Start Time
-                </Text>
-                <TouchableOpacity
-                  style={styles.customPicker}
-                  activeOpacity={0.8}
-                  onPress={() => setShowStartTime(true)}
-                >
-                  <Block>
-                    <Text
-                      bold
-                      style={{ fontSize: 16, color: theme.colors.solidGray }}
-                    >
-                      {startTime == "12:00 AM"
-                        ? ""
-                        : moment(startTime).format("hh:mm A")}
-                    </Text>
-                  </Block>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="clock"
-                      size={20}
-                      color={theme.colors.primary2}
-                    />
-                  </Block>
-                </TouchableOpacity>
-                {showStartTime && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    mode="time"
-                    is24Hour={false}
-                    display="default"
-                    onChange={onChangeStartTime}
-                  />
-                )}
-              </Block>
-              */}
 
                {showStartTime && (
                   <DateTimePicker

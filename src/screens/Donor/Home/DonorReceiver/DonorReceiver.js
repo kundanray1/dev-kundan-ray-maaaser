@@ -7,12 +7,8 @@ import {
   ImageBackground,
   ActivityIndicator,
   RefreshControl,
-  Modal,
-  View,
   ScrollView,
   Dimensions,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -21,23 +17,14 @@ import {
   Empty,
   DonationsDetail,
   Button,
-  ErrorMessage,
   FloatingButton,
   ReceiversDetail,
-  CustomActivityIndicator,
   NeedHelpFirstCard,
 } from "../../../../components/Index.js";
-import API from "./../../../../api/API";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
 import NumberFormat from "react-number-format";
-import { Formik } from "formik";
-import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
-import PaymentProto from "./../../../../protos/payment_pb";
-import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 const HEIGHT = Dimensions.get("window").height;
-const WIDTH = Dimensions.get("window").width;
 const DonorReceiver = ({
   navigation,
   data,
@@ -51,7 +38,6 @@ const DonorReceiver = ({
   upcomingDonations,
   donationsMade,
   receivers,
-  donorReceiverDonateConfirmation,
   donorReceiverDonateConfirmationClear,
   allCampaignsData,
   allCampaigns,
@@ -65,8 +51,6 @@ const DonorReceiver = ({
   donateFromReceiversListConfirmationData
 }) => {
   const [refreshing, setRefreshing] = useState(false);
-  const [amountFocus, setAmountFocus] = useState();
-  const [remarksFocus, setRemarksFocus] = useState();
  
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);

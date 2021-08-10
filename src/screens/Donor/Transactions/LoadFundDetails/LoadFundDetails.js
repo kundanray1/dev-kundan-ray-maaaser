@@ -1,9 +1,7 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useEffect,useRef } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
-  Modal,
-  TouchableWithoutFeedback,
   View,
   StyleSheet,
   Dimensions,
@@ -13,16 +11,11 @@ import * as theme from "../../../../constants/theme.js";
 import {
   Block,
   Text,
-  CustomActivityIndicator,
-  Button,
-  OutlinedButton,
 } from "../../../../components/Index.js";
 import moment from "moment";
-import PaymentProto from "./../../../../protos/payment_pb";
 import NumberFormat from "react-number-format";
 import DownloadIconComponent from "../../../../assets/icons/DownloadIconComponent.js";
 import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
-import ExcelIconComponent from "../../../../assets/icons/ExcelIconComponent.js";
 import * as Linking from "expo-linking";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
@@ -34,15 +27,9 @@ const LoadFundDetails = ({
   data,
   navigation,
   loadFundDetailsStart,
-  loadFundDetailsClear,
   generateLoadFundReceiptStart,
-  generateExcelReceiptStart,
 }) => {
   const { details } = route.params;
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
   useEffect(() => {
     loadFundDetailsStart(details.transactionid);
     generateLoadFundReceiptStart(details.transactionid);

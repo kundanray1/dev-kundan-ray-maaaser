@@ -19,10 +19,8 @@ import {
   DonorsDetail,
   NeedHelpFirstCard,
 } from "../../../../components/Index.js";
-import API from "./../../../../api/API";
 import NumberFormat from "react-number-format";
 import UserIconComponent from "./../../../../assets/icons/userIconComponent";
-import BellIconComponent from "./../../../../assets/icons/bellIconComponent";
 const HEIGHT = Dimensions.get("window").height;
 const DonorReceiver = ({
   navigation,
@@ -30,7 +28,6 @@ const DonorReceiver = ({
   loginData,
   donationReceivedData,
   donorsData,
-  receiverDashboard,
   balance,
   donationReceived,
   donors,

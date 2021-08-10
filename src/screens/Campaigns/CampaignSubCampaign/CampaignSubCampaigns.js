@@ -4,7 +4,6 @@ import {
   FlatList,
   SafeAreaView,
   RefreshControl,
-  Pressable,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -20,11 +19,9 @@ const CampaignSubCampaigns = ({
   campaignDetailsdata,
   campaignId,
   subCampaignId,
-  loginData,
   startASubCampaign
 }) => {
   const [refreshing, setRefreshing] = useState(false);
-  const [subCampaignData, setSubCampaignData] = useState();
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     campaignDetails(campaignId);
@@ -69,16 +66,11 @@ const CampaignSubCampaigns = ({
               )}
               renderItem={(post) =>
                 post.item.subcampaignstatus !== 3 && (
-                  <Pressable
+                  <Block
                     style={{
                       paddingHorizontal: 18,
                       marginVertical: 4,
                     }}
-                    onLongPress={() => {
-                      bs.current.snapTo(0);
-                      setSubCampaignData(post.item);
-                    }}
-                    delayLongPress={500}
                   >
                     <SubCampaignCard
                       profilePic={post.item.subcampaignstarter.profilepic}
@@ -91,7 +83,7 @@ const CampaignSubCampaigns = ({
                         navigation.navigate("Sub Campaign Details");
                       }}
                     />
-                  </Pressable>
+                  </Block>
                 )
               }
             />

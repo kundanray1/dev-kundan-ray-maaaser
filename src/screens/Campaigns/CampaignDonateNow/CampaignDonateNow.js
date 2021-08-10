@@ -8,10 +8,8 @@ import {
   Block,
   Text,
   ErrorMessage,
-  CustomActivityIndicator
 } from "./../../../components/Index.js";
 import PaymentProto from "./../../../protos/payment_pb";
-import API from "./../../../api/API";
 
 const CampaignDonateNow = ({ navigation, data, loginData,route }) => {
   const [amountFocus, setAmountFocus] = useState();

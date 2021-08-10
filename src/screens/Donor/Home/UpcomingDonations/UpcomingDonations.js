@@ -9,7 +9,6 @@ import {
   View,
   Dimensions,
   TextInput,
-  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -24,9 +23,6 @@ import {
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import TransactionsMedium from "./../../Transactions/TransactionsMedium";
-import TransactionsType from "./../../Transactions/TransactionsType";
-import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 import searchStyles from "../../../../utility/globalStyles.js";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
@@ -38,16 +34,11 @@ const WIDTH = Dimensions.get("window").width;
 const UpcomingDonations = ({
   navigation,
   data,
-  loginData,
   upcomingDonations,
   upcomingDonationsSearch,
 }) => {
   const [search, setSearch] = useState();
   const [upcomingDonationsData, setUpcomingDonationsData] = useState();
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
@@ -83,7 +74,6 @@ const UpcomingDonations = ({
     if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
       setDateError(true);
     } else {
-      setConfirmationSuccessfulVisible(false);
       setDateError(false);
       upcomingDonationsSearch({
         search: "",

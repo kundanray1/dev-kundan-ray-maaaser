@@ -11,7 +11,7 @@ import ManualDonationIconComponent from "./../assets/icons/ManualDonationIconCom
 import NumberFormat from "react-number-format";
 const WIDTH = Dimensions.get("window").width;
 
-export default TransactionDetailCard = ({
+export default ReceiverTransactionDetailCard = ({
 	profilePic,
 	data,
 	amount,
@@ -48,7 +48,7 @@ export default TransactionDetailCard = ({
 				<ManualDonationIconComponent />
 			);
 
-		fullname = data.clientList[1].account.fullname;
+		fullname = data.clientList[0].account.fullname;
 	} else if (transactionType == 3) {
 		transactionImage =
 			transactionMedium == 1 ? (
@@ -99,7 +99,7 @@ export default TransactionDetailCard = ({
 				) : (transactionType == 2 || transactionType == 4 || transactionType == 5) ? (
 					<>
 						<Text style={{ fontSize: 14, fontWeight: "700", width: WIDTH-200}} numberOfLines={1}>
-							Donated to {fullname}
+							Donated by {fullname}
 						</Text>
 
 						{campaignTitle != undefined && (

@@ -54,7 +54,7 @@ export function* search({ payload }) {
 		} else {
 			yield put(transactionsFail(res));
 			showMessage({
-				message: "Error from server or check your credentials!",
+			message: res.msg,
 				type: "success",
 			});
 		}
@@ -103,7 +103,6 @@ export function* generateTransactionsExcelReceipt({ payload }) {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
-		console.log("generateTransactionsPDFReceipt");
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();

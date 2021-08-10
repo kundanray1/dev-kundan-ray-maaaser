@@ -30,7 +30,6 @@ import { ProfileValidationSchema } from "./../../../../utility/ValidationSchema.
 import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
 import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js";
 import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
@@ -367,12 +366,6 @@ const EditProfile = ({
                         ? profileData.profile.addressesList[0].zip.toString()
                         : "",
 
-                    // fullName:  profileData.profile.account.fullname!==undefined? profileData.profile.account.fullname:"",
-                    // street1: profileData.profile.addressesList[0].street1!==undefined? profileData.profile.addressesList[0].street1:"",
-                    // street2: profileData.profile.addressesList[0].street2!==undefined? profileData.profile.addressesList[0].street2:"",
-                    // state: profileData.profile.addressesList[0].state!==undefined? profileData.profile.addressesList[0].state:"",
-                    // city: profileData.profile.addressesList[0].city!==undefined? profileData.profile.addressesList[0].city:"",
-                    // zipCode:  profileData.profile.addressesList[0].zip!==undefined? profileData.profile.addressesList[0].zip.toString():""
                   }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);

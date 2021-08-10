@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -16,7 +16,7 @@ import * as theme from "../../../constants/theme.js";
 import {
   Block,
   Empty,
-  TransactionDetailCard,
+  ReceiverTransactionDetailCard,
   Text,
   Button,
   ErrorMessage,
@@ -35,7 +35,8 @@ import ExcelIconComponent from "../../../assets/icons/ExcelIconComponent.js";
 import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import * as Linking from "expo-linking";
 import { Modalize } from "react-native-modalize";
-import { Portal } from 'react-native-portalize';
+import { Portal } from "react-native-portalize";
+import { useFocusEffect } from "@react-navigation/native";
 
 const WIDTH = Dimensions.get("window").width;
 import searchStyles from "../../../utility/globalStyles.js";
@@ -51,11 +52,6 @@ const Transactions = ({
 }) => {
   const [transactionssearch, setTransactionssearch] = useState();
   const [transactionsData, setTransactionsData] = useState();
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
-  const [downloadModalVisible, setDownloadModalVisible] = useState(false);
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
@@ -81,6 +77,20 @@ const Transactions = ({
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     transactions(loginData.user.account.accountid);
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
     setRefreshing(false);
   });
 
@@ -95,11 +105,11 @@ const Transactions = ({
   };
 
   const onPressSubmitApply = () => {
+    modalizeRef2.current?.close();
     if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
       setDateError(true);
     } else {
       setDateError(false);
-      setConfirmationSuccessfulVisible(false);
       search({
         accountId: loginData.user.account.accountid,
         fromDate: new Date(fromDate).getTime(),
@@ -108,8 +118,20 @@ const Transactions = ({
         type: transactionsTypeId,
         search: transactionssearch == undefined ? "" : "",
       });
-      generateTransactionsPDFReceiptStart();
-      generateTransactionsExcelReceiptStart();
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
       onPressReset();
       modalizeRef.current?.close();
     }
@@ -150,15 +172,33 @@ const Transactions = ({
     });
   }, [navigation]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      transactions(loginData.user.account.accountid);
+        generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+    }, [])
+  );
+
   const downloadPDF = () => {
-    setDownloadModalVisible(false);
     if (data.generateTransactionsPDFReceipt != null) {
       Linking.openURL(data.generateTransactionsPDFReceipt.msg);
     }
   };
 
   const downloadEXCEL = () => {
-    setDownloadModalVisible(false);
     if (data.generateTransactionsExcelReceipt != null) {
       Linking.openURL(data.generateTransactionsExcelReceipt.msg);
     }
@@ -167,7 +207,7 @@ const Transactions = ({
   const renderItems = ({ item }) => {
     return (
       <Block style={{ paddingHorizontal: 18 }}>
-        <TransactionDetailCard
+         <ReceiverTransactionDetailCard
           data={item}
           amount={item.amount}
           date={item.createdat}
@@ -209,6 +249,20 @@ const Transactions = ({
   useEffect(() => {
     if (data.transactions == null) {
       transactions(loginData.user.account.accountid);
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
     } else {
       const sortedData = Object.values(
         data.transactions.reduce((acc, item) => {
@@ -225,11 +279,7 @@ const Transactions = ({
     }
   }, [data.transactions]);
 
-  useEffect(() => {
-    transactions(loginData.user.account.accountid);
-  }, []);
-
-const modalizeRef = useRef();
+  const modalizeRef = useRef();
 
   const onOpen = () => {
     modalizeRef.current?.open();
@@ -250,8 +300,20 @@ const modalizeRef = useRef();
         type: transactionsTypeId,
         search: text,
       });
-      generateTransactionsPDFReceiptStart();
-      generateTransactionsExcelReceiptStart();
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: text,
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: text,
+      });
     } else {
       search({
         accountId: loginData.user.account.accountid,
@@ -259,10 +321,22 @@ const modalizeRef = useRef();
         toDate: new Date(toDate).getTime(),
         medium: transactionsMediumId,
         type: transactionsTypeId,
-        search: "",
+        search: " ",
       });
-      generateTransactionsPDFReceiptStart();
-      generateTransactionsExcelReceiptStart();
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
     }
   }
   return (
@@ -329,236 +403,213 @@ const modalizeRef = useRef();
           />
         </Block>
       )}
-    
+
       <Portal>
-       <Modalize
-        ref={modalizeRef2}
-        snapPoint={330}
-        modalHeight={330}
-        withHandle={false}
-      >
-       <View
-              style={{ width: "100%", paddingHorizontal: 18 }}
+        <Modalize
+          ref={modalizeRef2}
+          snapPoint={330}
+          modalHeight={330}
+          withHandle={false}
+        >
+          <View style={{ width: "100%", paddingHorizontal: 18 }}>
+            <Block
+              style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
             >
               <Block
-                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-              </Block>
-              <TouchableOpacity
-                activeOpacity={0.8}
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-end",
-                  paddingBottom: 8,
+                  flex: 0,
+                  backgroundColor: "#E2E2E2",
+                  width: WIDTH - 280,
+                  borderRadius: 10,
+                  paddingVertical: 2,
                 }}
-                onPress={onPressReset}
+              />
+            </Block>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                paddingBottom: 8,
+              }}
+              onPress={onPressReset}
+            >
+              <Text
+                bold
+                style={{ fontSize: 14, fontWeight: "700" }}
+                color={theme.colors.red}
               >
-                <Text
-                  bold
-                  style={{ fontSize: 14, fontWeight: "700" }}
-                  color={theme.colors.red}
+                Reset
+              </Text>
+            </TouchableOpacity>
+
+            <Block row style={{ flex: 0 }}>
+              <Block style={{ paddingVertical: 8 }}>
+                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                  From
+                </Text>
+                <TouchableOpacity
+                  style={[styles.customPicker, { width: "95%" }]}
+                  activeOpacity={0.8}
+                  onPress={() => setShowFromDate(true)}
                 >
-                  Reset
-                </Text>
-              </TouchableOpacity>
-
-              <Block row style={{ flex: 0 }}>
-                <Block style={{ paddingVertical: 8 }}>
-                  <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                    From
-                  </Text>
-                  <TouchableOpacity
-                    style={[styles.customPicker, { width: "95%" }]}
-                    activeOpacity={0.8}
-                    onPress={() => setShowFromDate(true)}
+                  <Text
+                    bold
+                    style={{
+                      fontSize: 16,
+                      color: "#999999",
+                    }}
                   >
-                    <Text
-                      bold
-                      style={{
-                        fontSize: 16,
-                        color: "#999999",
-                      }}
-                    >
-                      {fromDate == "2021-05-03T15:21:15.513Z"
-                        ? ""
-                        : moment(fromDate).format("DD/MM/YYYY")}
-                    </Text>
-                    <Block style={{ alignItems: "flex-end" }}>
-                      <MaterialCommunityIcons
-                        name="calendar-month"
-                        size={20}
-                        color={theme.colors.primary2}
-                      />
-                    </Block>
-                  </TouchableOpacity>
-                  {showFromDate && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={new Date()}
-                      maximumDate={new Date()}
-                      mode="date"
-                      is24Hour={true}
-                      display="default"
-                      textColor="red"
-                      onChange={onChangeFromDate}
-                    />
-                  )}
-                </Block>
-
-                <Block style={{ paddingVertical: 8 }}>
-                  <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                    To
+                    {fromDate == "2021-05-03T15:21:15.513Z"
+                      ? ""
+                      : moment(fromDate).format("DD/MM/YYYY")}
                   </Text>
-                  <TouchableOpacity
-                    style={[styles.customPicker, { left: "10%" }]}
-                    activeOpacity={0.8}
-                    onPress={() => setShowToDate(true)}
-                  >
-                    <Text
-                      bold
-                      style={{
-                        fontSize: 16,
-                        color: "#999999",
-                      }}
-                    >
-                      {toDate == "2021-09-03T15:21:15.513Z"
-                        ? ""
-                        : moment(toDate).format("DD/MM/YYYY")}
-                    </Text>
-                    <Block style={{ alignItems: "flex-end" }}>
-                      <MaterialCommunityIcons
-                        name="calendar-month"
-                        size={20}
-                        color={theme.colors.primary2}
-                      />
-                    </Block>
-                  </TouchableOpacity>
-                  {showToDate && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      maximumDate={new Date()}
-                      value={new Date()}
-                      mode="date"
-                      is24Hour={true}
-                      display="default"
-                      textColor="red"
-                      onChange={onChangeToDate}
+                  <Block style={{ alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="calendar-month"
+                      size={20}
+                      color={theme.colors.primary2}
                     />
-                  )}
-                </Block>
+                  </Block>
+                </TouchableOpacity>
+                {showFromDate && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    maximumDate={new Date()}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    textColor="red"
+                    onChange={onChangeFromDate}
+                  />
+                )}
               </Block>
-              <ErrorMessage
-                error={"Please enter a valid date"}
-                visible={dateError}
-              />
-              <TransactionsMedium
-                transactionsMedium={transactionsMedium}
-                setTransactionsMedium={setTransactionsMedium}
-                setTransactionsMediumId={setTransactionsMediumId}
-              />
-              <TransactionsType
-                transactionsType={transactionsType}
-                setTransactionsType={setTransactionsType}
-                setTransactionsTypeId={setTransactionsTypeId}
-              />
-              <Button onPress={onPressSubmitApply}>
-                <Text button style={{ fontSize: 18 }}>
-                  Apply
+
+              <Block style={{ paddingVertical: 8 }}>
+                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
+                  To
                 </Text>
-              </Button>
-            </View>
-      </Modalize>
+                <TouchableOpacity
+                  style={[styles.customPicker, { left: "10%" }]}
+                  activeOpacity={0.8}
+                  onPress={() => setShowToDate(true)}
+                >
+                  <Text
+                    bold
+                    style={{
+                      fontSize: 16,
+                      color: "#999999",
+                    }}
+                  >
+                    {toDate == "2021-09-03T15:21:15.513Z"
+                      ? ""
+                      : moment(toDate).format("DD/MM/YYYY")}
+                  </Text>
+                  <Block style={{ alignItems: "flex-end" }}>
+                    <MaterialCommunityIcons
+                      name="calendar-month"
+                      size={20}
+                      color={theme.colors.primary2}
+                    />
+                  </Block>
+                </TouchableOpacity>
+                {showToDate && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    maximumDate={new Date()}
+                    value={new Date()}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    textColor="red"
+                    onChange={onChangeToDate}
+                  />
+                )}
+              </Block>
+            </Block>
+            <ErrorMessage
+              error={"Please enter a valid date"}
+              visible={dateError}
+            />
+            <TransactionsMedium
+              transactionsMedium={transactionsMedium}
+              setTransactionsMedium={setTransactionsMedium}
+              setTransactionsMediumId={setTransactionsMediumId}
+            />
+            <TransactionsType
+              transactionsType={transactionsType}
+              setTransactionsType={setTransactionsType}
+              setTransactionsTypeId={setTransactionsTypeId}
+            />
+            <Button onPress={onPressSubmitApply}>
+              <Text button style={{ fontSize: 18 }}>
+                Apply
+              </Text>
+            </Button>
+          </View>
+        </Modalize>
       </Portal>
 
       <Portal>
-       <Modalize
-        ref={modalizeRef}
-        snapPoint={160}
-        modalHeight={160}
-        withHandle={false}
-      >
-       <View
-              style={{width: "100%", paddingHorizontal: 18 }}
-            >
+        <Modalize
+          ref={modalizeRef}
+          snapPoint={160}
+          modalHeight={160}
+          withHandle={false}
+        >
+          <View style={{ width: "100%", paddingHorizontal: 18 }}>
+            <Block style={{ flex: 0, alignItems: "center", paddingTop: 10 }}>
               <Block
-                style={{ flex: 0, alignItems: "center", paddingTop:10}}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-                <Text
-                  center
-                  style={{
-                    fontWeight: "700",
-                    fontSize: 14,
-                    paddingVertical: 4,
-                  }}
-                >
-                  Export to
-                </Text>
-              </Block>
-              <Block
-                style={{ flex: 0, flexDirection: "row"}}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column", marginRight: 30 }}
-                  onPress={() => downloadPDF()}
-                >
-                  <PdfIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    PDF
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ flexDirection: "column" }}
-                  onPress={() => downloadEXCEL()}
-                >
-                  <ExcelIconComponent />
-                  <Text center style={{ fontWeight: "400", fontSize: 14 }}>
-                    Excel
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-             {/*<Block
+                style={{
+                  flex: 0,
+                  backgroundColor: "#E2E2E2",
+                  width: WIDTH - 280,
+                  borderRadius: 10,
+                  paddingVertical: 2,
+                }}
+              />
+              <Text
                 center
-                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
+                style={{
+                  fontWeight: "700",
+                  fontSize: 14,
+                  paddingVertical: 4,
+                }}
               >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{ paddingVertical: 12 }}
-                  onPress={() => setConfirmationSuccessfulVisible(false)}
-                >
-                  <Text
-                    center
-                    style={{
-                      fontWeight: "700",
-                      fontSize: 14,
-                      color: theme.colors.primary2,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Block>*/}
-            </View>
-      </Modalize>
+                Export to
+              </Text>
+            </Block>
+            <Block style={{ flex: 0, flexDirection: "row" }}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flexDirection: "column", marginRight: 30 }}
+                onPress={() => {
+                  modalizeRef.current?.close();
+                  downloadPDF();
+                }}
+              >
+                <PdfIconComponent />
+                <Text center style={{ fontWeight: "400", fontSize: 14 }}>
+                  PDF
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{ flexDirection: "column" }}
+                onPress={() => {
+                  modalizeRef.current?.close();
+                  downloadEXCEL();
+                }}
+              >
+                <ExcelIconComponent />
+                <Text center style={{ fontWeight: "400", fontSize: 14 }}>
+                  Excel
+                </Text>
+              </TouchableOpacity>
+            </Block>
+          </View>
+        </Modalize>
       </Portal>
       <FloatingButton
         onPress={() => navigation.navigate("Donate")}

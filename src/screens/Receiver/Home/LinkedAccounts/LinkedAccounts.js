@@ -20,7 +20,6 @@ import {
   FloatingButton,
   LinkedAccountsAndLinkedCard,
 } from "../../../../components/Index.js";
-import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import BlueBankIconComponent from "./../../../../assets/icons/blueBankIconComponent";
 import { MaterialCommunityIcons } from "@expo/vector-icons";

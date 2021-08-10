@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TouchableOpacity,
   Dimensions,
@@ -31,9 +31,11 @@ const StartACampaign = ({
   loginData,
   imageUploadClear,
   startACampaignThirdDescriptionClear,
-  receiversData,
+  addBeneficiaryData,
+  beneficiaryListStart,
 }) => {
-  const targetAmountRef=useRef()
+  console.log("data",data);
+  const targetAmountRef = useRef();
   const [beneficierId, setBeneficierId] = useState("");
   const [beneficierIdError, setBeneficierIdError] = useState(false);
   const [beneficierName, setBeneficierName] = useState("");
@@ -85,14 +87,26 @@ const StartACampaign = ({
   };
 
   useEffect(() => {
+    beneficiaryListStart()
     imageUploadClear();
     startACampaignThirdDescriptionClear();
   }, []);
+
+ useEffect(() => {
+    beneficiaryListStart()
+  }, [addBeneficiaryData.addBeneficiary]);
+
   return (
     <KeyboardAwareScrollView
       style={{ marginVertical: 10 }}
       showsVerticalScrollIndicator={false}
     >
+     {data.isLoading ?
+        <CustomActivityIndicator
+          isLoading={data.isLoading}
+          label="Requesting..."
+        />
+        :
       <Block style={{ paddingHorizontal: 16 }}>
         <Block
           center
@@ -137,10 +151,10 @@ const StartACampaign = ({
               </Text>
               <Block style={{ flex: 0, paddingBottom: 10 }}>
                 <TouchableOpacity
-          onPress={() => targetAmountRef.current.focus()}
-          style={styles.amountSection}
-          activeOpacity={1}
-        >
+                  onPress={() => targetAmountRef.current.focus()}
+                  style={styles.amountSection}
+                  activeOpacity={1}
+                >
                   <Text
                     style={{
                       fontSize: 20,
@@ -151,7 +165,7 @@ const StartACampaign = ({
                     $
                   </Text>
                   <TextInput
-                  ref={targetAmountRef}
+                    ref={targetAmountRef}
                     style={styles.input}
                     onChangeText={handleChange("targetAmount")}
                     onBlur={() => {
@@ -214,7 +228,7 @@ const StartACampaign = ({
                   setBeneficierId={setBeneficierId}
                   setBeneficierIdError={false}
                   setBeneficierName={setBeneficierName}
-                  receiversData={receiversData}
+                  receiversData={data}
                   navigation={navigation}
                   loginData={loginData}
                   disabled={true}
@@ -226,7 +240,7 @@ const StartACampaign = ({
                   setBeneficierId={setBeneficierId}
                   setBeneficierIdError={setBeneficierIdError}
                   setBeneficierName={setBeneficierName}
-                  receiversData={receiversData}
+                  receiversData={data}
                   navigation={navigation}
                   disabled={false}
                 />
@@ -313,6 +327,7 @@ const StartACampaign = ({
           )}
         </Formik>
       </Block>
+       }
     </KeyboardAwareScrollView>
   );
 };
@@ -332,7 +347,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 0,
     fontWeight: "700",
-    marginLeft:10,
+    marginLeft: 10,
     fontSize: 22,
     color: "#0DB952",
     backgroundColor: "#E9F9FF",

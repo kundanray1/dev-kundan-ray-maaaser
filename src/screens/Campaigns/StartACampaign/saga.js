@@ -1,12 +1,15 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
-	START_A_CAMPAIGN_START,
+	START_A_CAMPAIGN_START,BENEFICIARY_LIST_START
 } from "./actions";
 import {
 	startACampaignSuccess,
-	startACampaignFail
+	startACampaignFail,
+	beneficiaryListSuccess,
+beneficiaryListFail
 } from "./actions";
 import base from "./../../../protos/payment_rpc_pb";
+import accountBase from "./../../../protos/account_rpc_pb";
 import APIEndpoints from "./../../../constants/APIConstants";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
@@ -41,6 +44,35 @@ export function* startACampaign({ payload }) {
 		});
 	}
 }
+
+export function* beneficiaryList({ payload }) {
+	try {
+		const response = yield call(requestProto, APIEndpoints.RECEIVERSCLIENT, {
+			method: "GET",
+			headers: API.authProtoHeader(),
+		});
+		const res = accountBase.AccountBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		console.log("beneficiaryList")
+		if (res.success) {
+			yield put(beneficiaryListSuccess(res));
+		} else {
+			yield put(beneficiaryListFail(res));
+			showMessage({
+				message: "Error from server or check your credentials!",
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(beneficiaryListFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
 export default function* startACampaignSaga() {
 	yield takeLatest(START_A_CAMPAIGN_START, startACampaign);
+	yield takeLatest(BENEFICIARY_LIST_START, beneficiaryList);
 }

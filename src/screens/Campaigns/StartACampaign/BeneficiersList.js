@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "./../../../constants/theme.js";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -19,23 +19,38 @@ import { receiversStart } from "./../../Donor/Home/Receivers/actions";
 
 const WIDTH = Dimensions.get("window").width;
 
-export default BeneficiersList = ({navigation, beneficierName,loginData, setBeneficierId,setBeneficierName, receiversData,setBeneficierIdError,disabled }) => {
+export default BeneficiersList = ({
+  navigation,
+  beneficierName,
+  loginData,
+  setBeneficierId,
+  setBeneficierName,
+  receiversData,
+  setBeneficierIdError,
+  disabled,
+}) => {
   const [beneficier, setBeneficier] = useState();
   const [search, setSearch] = useState();
-  const [filteredDataSource, setFilteredDataSource] = useState(receiversData.receivers.clientsList);
-  const [masterDataSource, setMasterDataSource] = useState(receiversData.receivers.clientsList);
-  const [beneficiersListModalVisible, setBeneficiersListModalVisible] = useState(
-    false
+  const [filteredDataSource, setFilteredDataSource] = useState(
+    receiversData.beneficiaryList.clientsList
   );
-  const dispatch = useDispatch();
+  const [masterDataSource, setMasterDataSource] = useState(
+    receiversData.beneficiaryList.clientsList
+  );
+  const [
+    beneficiersListModalVisible,
+    setBeneficiersListModalVisible,
+  ] = useState(false);
 
-  console.log("loginData",loginData);
+  const dispatch = useDispatch();
 
   function searchFilterFunction(text) {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
         console.log(item);
-        const itemData = item.account.fullname ? item.account.fullname.toUpperCase() : "".toUpperCase();
+        const itemData = item.account.fullname
+          ? item.account.fullname.toUpperCase()
+          : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -49,23 +64,15 @@ export default BeneficiersList = ({navigation, beneficierName,loginData, setBene
 
   const onBeneficierIdItem = useCallback(
     (name, id) => {
-      setBeneficierName(name)
+      setBeneficierName(name);
       setBeneficierId(id);
       setBeneficiersListModalVisible(false);
       setBeneficierIdError(false);
     },
     [setBeneficierId]
   );
-  useEffect(() => {
-    if (receiversData.receivers == null) {
-      dispatch(receiversStart());
-    } else {
-      setFilteredDataSource(receiversData.receivers.clientsList);
-      setMasterDataSource(receiversData.receivers.clientsList);
-    }
-  }, [receiversData.receivers]);
 
-  const RenderBeneficiersListOptions = ({ name,email, id }) => (
+  const RenderBeneficiersListOptions = ({ name, email, id }) => (
     <TouchableOpacity
       onPress={() => onBeneficierIdItem(name, id)}
       style={{ marginVertical: 2 }}
@@ -83,7 +90,9 @@ export default BeneficiersList = ({navigation, beneficierName,loginData, setBene
       </Text>
       <TouchableOpacity
         style={styles.customPicker}
-        onPress={() => setBeneficiersListModalVisible(!beneficiersListModalVisible)}
+        onPress={() =>
+          setBeneficiersListModalVisible(!beneficiersListModalVisible)
+        }
         disabled={disabled}
       >
         <Block>
@@ -116,78 +125,96 @@ export default BeneficiersList = ({navigation, beneficierName,loginData, setBene
           }
         >
           <TouchableWithoutFeedback>
-          <View style={[styles.modal, { width: WIDTH - 30, height: 200,marginTop:"120%" }]}>
-            <Block style={styles.searchContainer}>
-              <Block style={styles.vwSearch}>
-                <Ionicons name="search" color="#676767" size={18} />
+            <View
+              style={[
+                styles.modal,
+                { width: WIDTH - 30, height: 200, marginTop: "120%" },
+              ]}
+            >
+              <Block style={styles.searchContainer}>
+                <Block style={styles.vwSearch}>
+                  <Ionicons name="search" color="#676767" size={18} />
+                </Block>
+
+                <TextInput
+                  placeholder="Search"
+                  placeholderTextColor="#999999"
+                  style={styles.textInput}
+                  onChangeText={(text) => searchFilterFunction(text)}
+                  value={search}
+                />
+
+                {search ? (
+                  <TouchableOpacity
+                    onPress={() => searchFilterFunction()}
+                    style={styles.vwClear}
+                  >
+                    <Ionicons
+                      name="close-circle-sharp"
+                      color="black"
+                      size={18}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <Block style={styles.vwClear} />
+                )}
               </Block>
 
-              <TextInput
-                placeholder="Search"
-                placeholderTextColor="#999999"
-                style={styles.textInput}
-                onChangeText={(text) => searchFilterFunction(text)}
-                value={search}
+              <FlatList
+                data={filteredDataSource}
+                showsVerticalScrollIndicator={true}
+                keyExtractor={(item) => {
+                  return item.clientid.toString();
+                }}
+                renderItem={(receiversData) =>
+                  loginData.user.account.accountid !==
+                    receiversData.item.account.accountid && (
+                    <Block style={{ flex: 0, paddingHorizontal: 10 }}>
+                      <RenderBeneficiersListOptions
+                        name={receiversData.item.account.fullname}
+                        email={receiversData.item.account.email}
+                        id={receiversData.item.account.accountid}
+                      />
+                    </Block>
+                  )
+                }
               />
-
-              {search ? (
-                <TouchableOpacity
-                  onPress={() => searchFilterFunction()}
-                  style={styles.vwClear}
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  setBeneficiersListModalVisible(false);
+                  navigation.navigate("Add Beneficiary");
+                }}
+                style={{
+                  flex: 0,
+                  paddingVertical: 8,
+                  borderTopWidth: 1,
+                  borderColor: theme.colors.gray2,
+                }}
+              >
+                <Text
+                  bold
+                  style={{
+                    fontSize: 18,
+                    paddingHorizontal: 10,
+                    color: theme.colors.primary2,
+                  }}
                 >
-                  <Ionicons name="close-circle-sharp" color="black" size={18} />
-                </TouchableOpacity>
-              ) : (
-                <Block style={styles.vwClear} />
-              )}
-            </Block>
-
-            <FlatList
-              data={filteredDataSource}
-              showsVerticalScrollIndicator={true}
-              keyExtractor={(item) => {
-                return item.clientid.toString();
-              }}
-              renderItem={(receiversData) => 
-                (loginData.user.account.accountid !== receiversData.item.account.accountid) &&
-                <Block style={{ flex: 0, paddingHorizontal: 10 }}>
-                  <RenderBeneficiersListOptions
-                    name={receiversData.item.account.fullname}
-                    email={receiversData.item.account.email}
-                    id={receiversData.item.account.accountid}
-                  />
-                </Block>
-              }
-            />
-            <TouchableOpacity activeOpacity={0.8} onPress={()=>{
-							setBeneficiersListModalVisible(false)
-							navigation.navigate("Add Beneficiary")
-						}} style={{ flex: 0, paddingVertical: 8,borderTopWidth:1,borderColor:theme.colors.gray2 }}>
-							<Text
-								bold
-								style={{
-									fontSize: 18,
-									paddingHorizontal: 10,
-									color: theme.colors.primary2,
-								}}
-							>
-								+ Add beneficiary
-							</Text>
-		</TouchableOpacity>
-          </View>
-       </TouchableWithoutFeedback>
+                  + Add beneficiary
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  alignItems:"center"
-
+    alignItems: "center",
   },
   modal: {
     borderRadius: 4,
@@ -200,7 +227,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     borderRadius: 3,
     paddingTop: 2,
-
   },
   option: {
     alignItems: "flex-start",
@@ -213,8 +239,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.solidGray,
     alignItems: "center",
     borderBottomWidth: 1,
-    paddingVertical:6,
-    
+    paddingVertical: 6,
   },
   vwClear: {
     flex: 0.2,
@@ -242,8 +267,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     flex: 0,
-    borderColor:theme.colors.gray2,
-    paddingHorizontal:10,
+    borderColor: theme.colors.gray2,
+    paddingHorizontal: 10,
     borderRadius: 2,
   },
 });

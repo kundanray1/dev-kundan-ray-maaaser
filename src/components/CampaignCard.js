@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
 	SafeAreaView,
 	Modal,
@@ -31,6 +31,9 @@ import { subCampaignId } from "./../screens/Campaigns/CampaignSubCampaign/action
 import getCountryISO2 from "country-iso-3-to-2";
 import country from "../constants/country.json";
 import { Video, AVPlaybackStatus } from "expo-av";
+import { Modalize } from "react-native-modalize";
+import { Portal } from "react-native-portalize";
+
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
@@ -52,11 +55,17 @@ export default CampaignCard = ({
 	const countryName = country.find(
 		(item) => item.code == getCountryISO2(countryCode)
 	);
-// const a = "https://i.imgur.com/qMUWuXV.jpg"; //your url
-// const b = ["jpeg", "jpg", "png", "gif", "raw"]; //format img
-// const c = a.split("."); // ["https://i", "imgur", "com/qMUWuXV", "jpg"]
-// // console.log(c.includes(b))
-// console.log(a.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null);
+	const modalizeRef = useRef();
+
+	const onOpen = () => {
+		modalizeRef.current?.open();
+	};
+
+	// const a = "https://i.imgur.com/qMUWuXV.jpg"; //your url
+	// const b = ["jpeg", "jpg", "png", "gif", "raw"]; //format img
+	// const c = a.split("."); // ["https://i", "imgur", "com/qMUWuXV", "jpg"]
+	// // console.log(c.includes(b))
+	// console.log(a.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null);
 	const handleOpenConfirm = () => {
 		if (mycampaign == "subcampaign") {
 			const updateData = new CampaignProto.SubCampaign();
@@ -113,143 +122,6 @@ export default CampaignCard = ({
 			});
 		}
 	};
-	const ConfirmationMessage = () => (
-		<SafeAreaView>
-			<Modal
-				visible={editModalVisible}
-				transparent={true}
-				animationType="slide"
-				statusBarTranslucent={true}
-				onRequestClose={() => setEditModalVisible(!editModalVisible)}
-			>
-				<TouchableOpacity
-					style={styles.container}
-					activeOpacity={1}
-					onPressOut={() => setEditModalVisible(!editModalVisible)}
-				>
-					<TouchableWithoutFeedback>
-						<View
-							style={[
-								styles.modal,
-								{ width: "100%", paddingHorizontal: 18 },
-							]}
-						>
-							<Block
-								style={{
-									flex: 0,
-									alignItems: "center",
-									paddingVertical: 10,
-								}}
-							>
-								<Block
-									style={{
-										flex: 0,
-										backgroundColor: "#E2E2E2",
-										width: WIDTH - 280,
-										borderRadius: 10,
-										paddingVertical: 2,
-									}}
-								/>
-							</Block>
-							<Block
-								style={{
-									flex: 0,
-									flexDirection: "column",
-									paddingBottom: 16,
-								}}
-							>
-								{/*1 open---Close/Disable
-							2 close---Don't show options
-							3 Disable---Close/Open*/}
-								{campaignstatus == 3 ? (
-									<TouchableOpacity
-										activeOpacity={0.8}
-										onPress={() => {
-											OpenWarning();
-											setEditModalVisible(false);
-										}}
-										style={{ paddingVertical: 6 }}
-									>
-										<Text
-											style={{
-												fontWeight: "700",
-												fontSize: 16,
-												paddingVertical: 4,
-											}}
-										>
-											Open
-										</Text>
-									</TouchableOpacity>
-								) : (
-									<TouchableOpacity
-										activeOpacity={0.8}
-										onPress={() => {
-											DisableWarning();
-											setEditModalVisible(false);
-										}}
-										style={{ paddingVertical: 6 }}
-									>
-										<Text
-											style={{
-												fontWeight: "700",
-												fontSize: 16,
-												paddingVertical: 4,
-											}}
-										>
-											Disable
-										</Text>
-									</TouchableOpacity>
-								)}
-								<TouchableOpacity
-									activeOpacity={0.8}
-									onPress={() => {
-										CloseWarning();
-										setEditModalVisible(false);
-									}}
-									style={{ paddingVertical: 6 }}
-								>
-									<Text
-										style={{
-											fontWeight: "700",
-											fontSize: 16,
-										}}
-									>
-										Close
-									</Text>
-								</TouchableOpacity>
-							</Block>
-
-							<Block
-								center
-								style={{
-									flex: 0,
-									borderTopWidth: 1,
-									borderColor: "#F0EDF1",
-								}}
-							>
-								<TouchableOpacity
-									activeOpacity={0.8}
-									style={{ paddingVertical: 12 }}
-									onPress={() => setEditModalVisible(false)}
-								>
-									<Text
-										center
-										style={{
-											fontWeight: "700",
-											fontSize: 14,
-											color: theme.colors.primary2,
-										}}
-									>
-										Cancel
-									</Text>
-								</TouchableOpacity>
-							</Block>
-						</View>
-					</TouchableWithoutFeedback>
-				</TouchableOpacity>
-			</Modal>
-		</SafeAreaView>
-	);
 
 	const OpenWarning = () => {
 		Alert.alert(
@@ -323,73 +195,72 @@ export default CampaignCard = ({
 				}}
 				{...props}
 			>
-			{
-				image.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null ?
-				<Block style={{ flex: 0 }}>
-					<ImageBackground
+				{image.match(/\.(jpeg|jpg|gif|png|raw|gif)$/) != null ? (
+					<Block style={{ flex: 0 }}>
+						<ImageBackground
+							style={{
+								height: HEIGHT / 3.5,
+								width: "100%",
+								borderRadius: 6,
+							}}
+							source={{ uri: image }}
+						>
+							{mycampaign == "mycampaign" ||
+							mycampaign == "subcampaign" ? (
+								<Block
+									row
+									style={{
+										flex: 0,
+										justifyContent: "flex-end",
+									}}
+								>
+									{campaignstatus !== 2 && (
+										<TouchableOpacity
+											activeOpacity={0.8}
+											onPress={() => handleEdit()}
+										>
+											<CampaignsEditIconComponent
+												style={{
+													marginRight: 10,
+													marginTop: 10,
+												}}
+											/>
+										</TouchableOpacity>
+									)}
+									{campaignstatus !== 2 && (
+										<TouchableOpacity
+											activeOpacity={0.8}
+											onPress={onOpen}
+										>
+											<HorizontalDotsIconComponent
+												style={{
+													marginRight: 10,
+													marginTop: 10,
+												}}
+											/>
+										</TouchableOpacity>
+									)}
+								</Block>
+							) : (
+								<Block style={{ flex: 0 }} />
+							)}
+						</ImageBackground>
+					</Block>
+				) : (
+					<Video
 						style={{
 							height: HEIGHT / 3.5,
 							width: "100%",
 							borderRadius: 6,
 						}}
-						source={{ uri: image }}
-					>
-						{mycampaign == "mycampaign" ||
-						mycampaign == "subcampaign" ? (
-							<Block
-								row
-								style={{ flex: 0, justifyContent: "flex-end" }}
-							>
-								{campaignstatus !== 2 && (
-									<TouchableOpacity
-										activeOpacity={0.8}
-										onPress={() => handleEdit()}
-									>
-										<CampaignsEditIconComponent
-											style={{
-												marginRight: 10,
-												marginTop: 10,
-											}}
-										/>
-									</TouchableOpacity>
-								)}
-								{campaignstatus !== 2 && (
-									<TouchableOpacity
-										activeOpacity={0.8}
-										onPress={() =>
-											setEditModalVisible(true)
-										}
-									>
-										<HorizontalDotsIconComponent
-											style={{
-												marginRight: 10,
-												marginTop: 10,
-											}}
-										/>
-									</TouchableOpacity>
-								)}
-							</Block>
-						) : (
-							<Block style={{ flex: 0 }} />
-						)}
-					</ImageBackground>
-				</Block>
-:
-				<Video
-					style={{
-						height: HEIGHT / 3.5,
-						width: "100%",
-						borderRadius: 6,
-					}}
-					source={{
-						uri: image,
-					}}
-					useNativeControls
-					resizeMode="contain"
-					isLooping
-				/>
-			}
-
+						source={{
+							uri: image,
+						}}
+						useNativeControls
+						resizeMode="contain"
+						isLooping
+					/>
+				)}
 
 				<Block
 					style={{
@@ -570,7 +441,102 @@ export default CampaignCard = ({
 					</Block>
 				</Block>
 			</TouchableOpacity>
-			{ConfirmationMessage()}
+			<Portal>
+				<Modalize
+					ref={modalizeRef}
+					snapPoint={120}
+					modalHeight={120}
+					withHandle={false}
+				>
+					<View style={{ width: "100%", paddingHorizontal: 18 }}>
+						<Block
+							style={{
+								flex: 0,
+								alignItems: "center",
+								paddingVertical: 10,
+							}}
+						>
+							<Block
+								style={{
+									flex: 0,
+									backgroundColor: "#E2E2E2",
+									width: WIDTH - 280,
+									borderRadius: 10,
+									paddingVertical: 2,
+								}}
+							/>
+						</Block>
+						<Block
+							style={{
+								flex: 0,
+								flexDirection: "column",
+								paddingBottom: 16,
+							}}
+						>
+							{/*1 open---Close/Disable
+							2 close---Don't show options
+							3 Disable---Close/Open*/}
+							{campaignstatus == 3 ? (
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										OpenWarning();
+										setEditModalVisible(false);
+									}}
+									style={{ paddingVertical: 6 }}
+								>
+									<Text
+										style={{
+											fontWeight: "700",
+											fontSize: 16,
+											paddingVertical: 4,
+										}}
+									>
+										Open
+									</Text>
+								</TouchableOpacity>
+							) : (
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										DisableWarning();
+										setEditModalVisible(false);
+									}}
+									style={{ paddingVertical: 6 }}
+								>
+									<Text
+										style={{
+											fontWeight: "700",
+											fontSize: 16,
+											paddingVertical: 4,
+										}}
+									>
+										Disable
+									</Text>
+								</TouchableOpacity>
+							)}
+							<TouchableOpacity
+								activeOpacity={0.8}
+								onPress={() => {
+									CloseWarning();
+									setEditModalVisible(false);
+								}}
+								style={{ paddingVertical: 6 }}
+							>
+								<Text
+									style={{
+										fontWeight: "700",
+										fontSize: 16,
+									}}
+								>
+									Close
+								</Text>
+							</TouchableOpacity>
+						</Block>
+
+					</View>
+				</Modalize>
+			</Portal>
 		</Block>
 	);
 };

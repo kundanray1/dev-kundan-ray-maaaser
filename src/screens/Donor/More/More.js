@@ -8,7 +8,6 @@ import * as theme from "../../../constants/theme.js";
 import { Block, Text,CustomActivityIndicator,FloatingButton } from "../../../components/Index.js";
 import {Individual,Organization} from "./Dummy.js";
 import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
-import API from "../../../api/API.js";
 
 const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,data}) => {
   useEffect(()=>{

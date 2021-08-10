@@ -54,8 +54,6 @@ const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
           initialValues={{
             name:route.params!=undefined ? route.params.accountData.account.fullname: "",
             email:route.params!=undefined ? route.params.accountData.account.email: "",
-            // phoneNumber:route.params!=undefined ? route.params.accountData.account.phone:"+9779817922102",
-            // password:route.params!=undefined ? route.params.accountData.account.password:"Joshan@1234"
           }}
           onSubmit={(values) => {
             onSubmitAddMember(values);
@@ -110,56 +108,6 @@ const AddMember = ({ navigation, data, addMember,addMemberClear,route }) => {
                 }}
               />
               <ErrorMessage error={errors.email} visible={touched.email} />
-           
-            {/* <CountryCode
-                countryCode={countryCode}
-                setCountryCode={setCountryCode}
-              />*/}
-
-{/*              <Input
-                phone
-                label="Phone Number"
-                focus={phoneNumberFocus}
-                onChangeText={handleChange("phoneNumber")}
-                onBlur={() => {
-                  setFieldTouched("phoneNumber");
-                  setPhoneNumberFocus(false);
-                }}
-                onFocus={() => setPhoneNumberFocus(true)}
-                value={values.phoneNumber}
-                style={{
-                  borderBottomColor: phoneNumberFocus
-                    ? theme.colors.primary2
-                    : touched.phoneNumber && errors.phoneNumber
-                    ? theme.colors.red
-                    : theme.colors.solidGray,
-                }}
-              />
-              <ErrorMessage error={errors.phoneNumber} visible={touched.phoneNumber} />
-
-            <Input
-              password
-              label="Password"
-              focus={passwordFocus}
-              onChangeText={handleChange("password")}
-              onBlur={() => {
-                setFieldTouched("password");
-                setPasswordFocus(false);
-              }}
-              onFocus={() => {
-                setPasswordFocus(true);
-              }}
-              value={values.password}
-              style={{
-                borderBottomColor: passwordFocus
-                  ? theme.colors.primary2
-                  : touched.password && errors.password
-                  ? theme.colors.red
-                  : theme.colors.solidGray,
-              }}
-            />
-            <ErrorMessage error={errors.password} visible={touched.password} />
-*/}
               <Block style={{ flex: 0, marginTop: 20 }}>
                 {!errors.name || !errors.email ? (
                   <Button onPress={handleSubmit}>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
   Block,

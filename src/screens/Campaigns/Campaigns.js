@@ -4,7 +4,6 @@ import {
   FlatList,
   SafeAreaView,
   RefreshControl,
-  Pressable,
   Dimensions
 } from "react-native";
 import * as theme from "../../constants/theme.js";
@@ -17,10 +16,8 @@ import {
 import AddIconComponent from "./../../assets/icons/addIconComponent";
 
 const HEIGHT=Dimensions.get("window").height
-const WIDTH=Dimensions.get("window").width
 const Campaigns = ({ navigation, data, loginData, campaigns, campaignId,startACampaignThirdUpdateData,startACampaignThirdData }) => {
   const [refreshing, setRefreshing] = useState(false);
-  const [campaignData, setCampaignData] = useState();
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     campaigns(loginData.user.account.accountid);

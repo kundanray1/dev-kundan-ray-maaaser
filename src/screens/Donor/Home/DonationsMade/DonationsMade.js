@@ -6,11 +6,9 @@ import {
   SafeAreaView,
   RefreshControl,
   SectionList,
-  Modal,
   View,
   Dimensions,
   TextInput,
-  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -25,9 +23,6 @@ import {
 import moment from "moment";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import TransactionsMedium from "./../../Transactions/TransactionsMedium";
-import TransactionsType from "./../../Transactions/TransactionsType";
-import API from "../../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../../assets/icons/transactionsSearchIconComponent.js";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
 import { Modalize } from "react-native-modalize";
@@ -86,7 +81,6 @@ const DonationsMade = ({
       setConfirmationSuccessfulVisible(false);
       setDateError(false);
       donationsMadeSearch({
-        search: "",
         accountId: loginData.user.account.accountid,
         fromDate: new Date(fromDate).getTime(),
         toDate: new Date(toDate).getTime(),

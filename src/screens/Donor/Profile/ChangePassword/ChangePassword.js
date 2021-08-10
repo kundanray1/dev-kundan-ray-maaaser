@@ -12,7 +12,6 @@ import {
 	CustomActivityIndicator,
 } from "../../../../components/Index.js";
 import AccountProto from "./../../../../protos/account_pb";
-import API from "./../../../../api/API";
 
 export default ChangePassword = ({
 	navigation,

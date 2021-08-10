@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, SafeAreaView } from "react-native";
 import {
   Block,
@@ -8,8 +8,6 @@ import {
 import Dummy from "./Dummy.js";
 
 const ScanQRCode = ({navigation}) => {
-  const [loading, setLoading] = useState(false);
-
   return (
     <SafeAreaView >
       <FlatList

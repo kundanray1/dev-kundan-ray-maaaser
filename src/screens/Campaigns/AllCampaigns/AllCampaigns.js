@@ -6,9 +6,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   StyleSheet,
-  Modal,
   View,
-  TouchableWithoutFeedback,
   Dimensions,
   TextInput
 } from "react-native";
@@ -33,10 +31,6 @@ const AllCampaigns = ({
   campaignId,
   allCampaignsSearch
 }) => {
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
   const [countryName, setCountryName] = useState("");
   const [search, setSearch] = useState();
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
@@ -78,7 +72,6 @@ const AllCampaigns = ({
     if((new Date(fromDate).getTime())>(new Date(toDate).getTime())){
     setDateError(true)
     }else{
-      setConfirmationSuccessfulVisible(false)
       setDateError(false)
       allCampaignsSearch({
       fromDate:new Date(fromDate).getTime(),
@@ -103,149 +96,7 @@ const AllCampaigns = ({
       ),
     });
   }, [navigation]);
-    const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() =>
-          setConfirmationSuccessfulVisible(!confirmationMessageVisible)
-        }
-      >
-      <TouchableOpacity 
-            style={styles.container} 
-            activeOpacity={1} 
-            onPressOut={()=>setConfirmationSuccessfulVisible(!confirmationMessageVisible)}
-          >
-         <TouchableWithoutFeedback>
-          <View
-            style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-          >
-          <Block style={{flex:0,alignItems:"center",paddingVertical:10}}>
-          <Block style={{flex:0,backgroundColor:"#E2E2E2",width:WIDTH-280,borderRadius:10,paddingVertical:2}}/>
-            </Block>
-              <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={{flexDirection:"row", justifyContent: "flex-end", paddingBottom: 8 }}
-                  onPress={onPressReset}
-                >
-              <Text bold style={{ fontSize: 14, fontWeight: "700" }} color={theme.colors.red}>
-                  Reset
-                </Text>
-                </TouchableOpacity>
-
-            <Block row style={{ flex: 0 }}>
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                  From
-                </Text>
-                <TouchableOpacity
-                  style={[styles.customPicker,{width:"95%"}]}
-                  activeOpacity={0.8}
-                  onPress={() => setShowFromDate(true)}
-                >
-                  <Text
-                    bold
-                    style={{
-                      fontSize: 16,
-                      color:"#999999",
-                    }}
-                  >
-                   {
-                      fromDate=="2021-05-03T15:21:15.513Z"?"":
-                       moment(fromDate).format("DD/MM/YYYY")
-                    }
-                  </Text>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
-                    />
-                  </Block>
-                </TouchableOpacity>
-                {showFromDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date()}
-                    maximumDate={new Date()}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    textColor="red"
-                    onChange={onChangeFromDate}
-                  />
-                )}
-              </Block>
-
-              <Block style={{ paddingVertical: 8 }}>
-                <Text bold style={{ fontSize: 14, fontWeight: "700" }}>
-                  To
-                </Text>
-                <TouchableOpacity
-                  style={[styles.customPicker,{left:"10%"}]}
-                  activeOpacity={0.8}
-                  onPress={() => setShowToDate(true)}
-                >
-                  <Text
-                    bold
-                    style={{
-                      fontSize: 16,
-                      color:"#999999",
-
-                    }}
-                  >
-                    {
-                      toDate=="2021-09-03T15:21:15.513Z"?"":
-                       moment(toDate).format("DD/MM/YYYY")
-                    }
-                  </Text>
-                  <Block style={{ alignItems: "flex-end" }}>
-                    <MaterialCommunityIcons
-                      name="calendar-month"
-                      size={20}
-                      color={theme.colors.primary2}
-                    />
-                  </Block>
-                </TouchableOpacity>
-                {showToDate && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    maximumDate={new Date()}
-                    value={new Date()}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    textColor="red"
-                    onChange={onChangeToDate}
-                  />
-                )}
-              </Block>
-            </Block>
-             <ErrorMessage
-                error={"Please enter a valid date"}
-                visible={dateError}
-              />
-               <CountryCode
-                countryCode={countryCode}
-                setCountryCode={setCountryCode}
-                countryName={countryName}
-                setCountryName={setCountryName}
-              />
-           
-            <Button onPress={onPressSubmitApply}>
-              <Text button style={{ fontSize: 18 }}>
-                Apply
-              </Text>
-            </Button>
-          </View>
-        </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
+  
 const modalizeRef = useRef();
 
   const onOpen = () => {
@@ -479,8 +330,6 @@ function searchFilterFunction(text) {
           </View>
       </Modalize>
       </Portal>
-       
-      {ConfirmationMessage()}
     </SafeAreaView>
   );
 };

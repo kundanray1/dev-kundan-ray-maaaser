@@ -22,7 +22,6 @@ import getCountryISO3 from "country-iso-2-to-3";
 import getCountryISO2 from "country-iso-3-to-2";
 
 
-const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 export default CountryCode = ({
   countryName,countryCode,setCountryCode,setCountryName
@@ -32,8 +31,6 @@ export default CountryCode = ({
   const [filteredDataSource, setFilteredDataSource] = useState(country);
   const [masterDataSource, setMasterDataSource] = useState(country);
   const [countryCodeModalVisible, setCountryCodeModalVisible] = useState(false);
-
-  const countryData = country.find(item => item.code == getCountryISO2(countryCode));
 
   function searchFilterFunction(text) {
     if (text) {

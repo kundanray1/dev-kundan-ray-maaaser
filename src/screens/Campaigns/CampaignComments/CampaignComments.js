@@ -21,19 +21,13 @@ import {
   CampaignCommentCard,
   Text,
   Button,
-  CustomActivityIndicator,
 } from "../../../components/Index.js";
-import API from "./../../../api/API";
-import { Formik } from "formik";
-import { ManualValidationSchema } from "./../../../utility/ValidationSchema.js";
 import CampaignProto from "./../../../protos/campaign_pb";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
 
 const CampaignComments = ({
-  navigation,
   data,
   loginData,
   campaignComments,

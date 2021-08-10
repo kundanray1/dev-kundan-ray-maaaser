@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   FlatList,
   RefreshControl,
@@ -7,9 +7,6 @@ import {
   Pressable,
   StyleSheet,
   View,
-  Modal,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   Dimensions,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
@@ -21,10 +18,11 @@ import {
   MemberDetailCard,
   ErrorMessage,
 } from "../../../../components/Index.js";
-import API from "./../../../../api/API";
 import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import Permissions from "./Permissions";
 import PermissionProto from "./../../../../protos/permission_pb";
+import { Modalize } from "react-native-modalize";
+import { Portal } from 'react-native-portalize';
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -41,10 +39,7 @@ const Members = ({
   const [assignError, setAssignError] = useState(false);
   const [accountData, setAccountData] = useState();
   const [selectedData, setSelectedData] = useState([]);
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
+  
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     members(loginData.user.account.accountid);
@@ -62,6 +57,12 @@ const Members = ({
     }
   }, [data.permissionsAssign,addMemberData.addMember]);
 
+  const modalizeRef = useRef();
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+  
   const onSubmitApply = () => {
     if (selectedData.length > 0) {
       var filterResult = selectedData.filter((item) => {
@@ -78,64 +79,12 @@ const Members = ({
       permissionProto.setPermissionassignsList(permissionsList);
       permissionProto.setAccountid(accountData.account.accountid);
       permissionsAssign(permissionProto);
-      setConfirmationSuccessfulVisible(false);
       setAssignError(false);
       setSelectedData([]);
     } else {
       setAssignError(true);
     }
   };
-
-  const ConfirmationMessage = () => (
-    <SafeAreaView>
-      <Modal
-        visible={confirmationMessageVisible}
-        transparent={true}
-        animationType="slide"
-        statusBarTranslucent={true}
-        onRequestClose={() => setConfirmationSuccessfulVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.container}
-          activeOpacity={1}
-          onPressOut={() => setConfirmationSuccessfulVisible(false)}
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[styles.modal, { width: "100%", paddingHorizontal: 18 }]}
-            >
-              <Block
-                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
-              >
-                <Block
-                  style={{
-                    flex: 0,
-                    backgroundColor: "#E2E2E2",
-                    width: WIDTH - 280,
-                    borderRadius: 10,
-                    paddingVertical: 2,
-                  }}
-                />
-              </Block>
-              <Permissions
-                setSelectedData={setSelectedData}
-                selectedData={selectedData}
-              />
-              <ErrorMessage
-                error={"Please assign a permission value"}
-                visible={assignError}
-              />
-              <Button style={{ marginTop: 8 }} onPress={onSubmitApply}>
-                <Text button style={{ fontSize: 18 }}>
-                  Assign
-                </Text>
-              </Button>
-            </View>
-          </TouchableWithoutFeedback>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
-  );
 
   return (
     <>
@@ -209,7 +158,7 @@ const Members = ({
                       email={post.item.account.email}
                       onPress={() => {
                         setAccountData(post.item);
-                        setConfirmationSuccessfulVisible(true);
+                        onOpen()
                       }}
                     />
                   </Pressable>
@@ -218,12 +167,50 @@ const Members = ({
             </>
           )}
         </Block>
+        <Portal>
+      <Modalize
+        ref={modalizeRef}
+        snapPoint={200}
+        modalHeight={200}
+        withHandle={false}
+      >
+      <View
+              style={{ width: "100%", paddingHorizontal: 18 }}
+            >
+              <Block
+                style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
+              >
+                <Block
+                  style={{
+                    flex: 0,
+                    backgroundColor: "#E2E2E2",
+                    width: WIDTH - 280,
+                    borderRadius: 10,
+                    paddingVertical: 2,
+                  }}
+                />
+              </Block>
+              <Permissions
+                setSelectedData={setSelectedData}
+                selectedData={selectedData}
+              />
+              <ErrorMessage
+                error={"Please assign a permission value"}
+                visible={assignError}
+              />
+              <Button style={{ marginTop: 8 }} onPress={onSubmitApply}>
+                <Text button style={{ fontSize: 18 }}>
+                  Assign
+                </Text>
+              </Button>
+            </View>
+      </Modalize>
+      </Portal>
       </SafeAreaView>
       <FloatingButton
         iconComponent={<AddIconComponent />}
         onPress={() => navigation.navigate("Add New Member")}
       />
-      {ConfirmationMessage()}
     </>
   );
 };

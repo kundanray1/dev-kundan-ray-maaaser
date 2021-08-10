@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
-  TouchableOpacity,
   StyleSheet,
   Modal,
   View,
@@ -17,7 +16,6 @@ import {
 } from "../../../components/Index.js";
 import CampaignProto from "./../../../protos/campaign_pb";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import StartACampaignSecondIconComponent from "./../../../assets/icons/StartACampaignSecondIconComponent";
 import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
 import { StartACampaignThirdValidationSchema } from "./../../../utility/ValidationSchema.js";
 import { Formik } from "formik";
@@ -29,7 +27,6 @@ const StartACampaignThirdUpdate = ({
   startACampaignThirdUpdateStart,
   startACampaignThirdUpdateClear,
   navigation,
-  letsGetStartedDonorData,
   route,
   imageUploadClear,
   loginData,

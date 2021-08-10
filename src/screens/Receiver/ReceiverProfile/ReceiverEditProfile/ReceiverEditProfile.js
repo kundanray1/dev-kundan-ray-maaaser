@@ -30,7 +30,6 @@ import { ProfileValidationSchema } from "./../../../../utility/ValidationSchema.
 import ProfileIconComponent from "../../../../assets/icons/profileIconComponent.js";
 import CameraIconComponent from "../../../../assets/icons/cameraIconComponent.js";
 import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
@@ -366,14 +365,7 @@ const ReceiverProfileData = ({
                       receiverProfileData.receiverProfile.addressesList.length > 0
                         ? receiverProfileData.receiverProfile.addressesList[0].zip.toString()
                         : "",
-
-                    // fullName:  receiverProfileData.receiverProfile.account.fullname!==undefined? receiverProfileData.receiverProfile.account.fullname:"",
-                    // street1: receiverProfileData.receiverProfile.addressesList[0].street1!==undefined? receiverProfileData.receiverProfile.addressesList[0].street1:"",
-                    // street2: receiverProfileData.receiverProfile.addressesList[0].street2!==undefined? receiverProfileData.receiverProfile.addressesList[0].street2:"",
-                    // state: receiverProfileData.receiverProfile.addressesList[0].state!==undefined? receiverProfileData.receiverProfile.addressesList[0].state:"",
-                    // city: receiverProfileData.receiverProfile.addressesList[0].city!==undefined? receiverProfileData.receiverProfile.addressesList[0].city:"",
-                    // zipCode:  receiverProfileData.receiverProfile.addressesList[0].zip!==undefined? receiverProfileData.receiverProfile.addressesList[0].zip.toString():""
-                  }}
+                     }}
                   onSubmit={(values) => {
                     onSubmitSaveAndContinue(values);
                   }}

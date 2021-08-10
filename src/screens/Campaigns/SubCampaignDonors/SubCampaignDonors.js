@@ -12,14 +12,10 @@ import {
   Empty,
   Text,
   CampaignDonorCard,
-  Button,
 } from "../../../components/Index.js";
-import API from "./../../../api/API";
-import { Dummy } from "./Dummy";
 
 const SubCampaignDonors = ({
   data,
-  loginData,
   subCampaignDonors,
   subCampaignId,
 }) => {

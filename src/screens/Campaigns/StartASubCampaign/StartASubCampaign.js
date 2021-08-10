@@ -12,10 +12,8 @@ import * as theme from "../../../constants/theme.js";
 import {
   Block,
   Text,
-  Empty,
   Button,
   CustomActivityIndicator,
-  ErrorMessage,
 } from "../../../components/Index.js";
 import TickIconComponent from "./../../../assets/icons/tickIconComponent.js";
 import NumberFormat from "react-number-format";

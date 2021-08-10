@@ -12,19 +12,16 @@ import {
 } from "./../../../components/Index.js";
 import AccountProto from "./../../../protos/account_pb";
 import MaaserProto from "./../../../protos/maaser_pb";
+import { useDispatch } from "react-redux";
 
-const AddBeneficiary = ({ navigation, data,addBeneficiary,addBeneficiaryClear }) => {
+const AddBeneficiary = ({ navigation, data,addBeneficiary,addBeneficiaryClear,receiversStart }) => {
   const [nameFocus, setNameFocus] = useState();
   const [emailFocus, setEmailFocus] = useState();
+  const dispatch = useDispatch();
  
   //set all the required proto for updating and submitting
   const onSubmitAddBeneficiary = (values) => {
   
-    // const CLIENT_TYPE =
-    //   clientType == "Individual"
-    //     ? AccountProto.ClientType.INDIVIDUAL_CLIENT
-    //     : AccountProto.ClientType.ORGANIZATION_CLIENT;
-
     const clientData = new AccountProto.Client();
     const accountData = new AccountProto.Account();
     accountData.setEmail(values.email);
@@ -40,8 +37,10 @@ const AddBeneficiary = ({ navigation, data,addBeneficiary,addBeneficiaryClear })
    useEffect(() => {
     if(data.addBeneficiary!=null){
     if (data.addBeneficiary.success) {
+      dispatch(receiversStart());
       addBeneficiaryClear();
-      navigation.navigate("Start a campaign");
+      navigation.goBack();
+      // navigation.navigate("Start a campaign");
     }  
     }
   }, [data.addBeneficiary]);

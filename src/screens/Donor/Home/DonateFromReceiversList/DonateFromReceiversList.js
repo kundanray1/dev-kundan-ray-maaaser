@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from "formik";
 import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
@@ -8,10 +8,8 @@ import {
   Block,
   Text,
   ErrorMessage,
-  CustomActivityIndicator,
 } from "./../../../../components/Index.js";
 import PaymentProto from "./../../../../protos/payment_pb";
-import API from "./../../../../api/API";
 
 const DonateFromReceiversList = ({
   navigation,

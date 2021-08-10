@@ -6,34 +6,22 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  Modal,
-  View,
   Dimensions,
-  TouchableWithoutFeedback,
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
   Block,
-  Text,
   Empty,
-  ErrorMessage,
   ReceiversDetail,
-  CustomActivityIndicator,
   FloatingButton
 } from "../../../../components/Index.js";
 import { Ionicons } from "@expo/vector-icons";
-import { Formik } from "formik";
-import { ManualValidationSchema } from "./../../../../utility/ValidationSchema.js";
-import PaymentProto from "./../../../../protos/payment_pb";
-import TickIconComponent from "./../../../../assets/icons/tickIconComponent.js";
 import DonateIconComponent from "./../../../../assets/icons/DonateIconComponent";
 import searchStyles from "../../../../utility/globalStyles.js";
 const WIDTH = Dimensions.get("window").width;
 
 const Receivers = ({ data, loginData, receivers, navigation }) => {
   const [search, setSearch] = useState();
-  const [amountFocus, setAmountFocus] = useState();
-  const [remarksFocus, setRemarksFocus] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState(
     data.receivers != null ? data.receivers.clientsList : null
   );

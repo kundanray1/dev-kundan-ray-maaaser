@@ -9,7 +9,6 @@ import {
   ScrollView,
   RefreshControl,
   Share,
-  BackHandler,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import { Block, Text } from "../../../components/Index.js";
@@ -28,7 +27,7 @@ import CampaignEditIconComponent from "./../../../assets/icons/campaignEditIconC
 import getCountryISO2 from "country-iso-3-to-2";
 import country from "../../../constants/country.json";
 import RenderHtml from "react-native-render-html";
-import { Video, AVPlaybackStatus } from "expo-av";
+import { Video } from "expo-av";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;

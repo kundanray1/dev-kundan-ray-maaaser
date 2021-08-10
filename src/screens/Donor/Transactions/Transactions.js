@@ -6,10 +6,8 @@ import {
   SafeAreaView,
   RefreshControl,
   SectionList,
-  Modal,
   View,
   Dimensions,
-  TouchableWithoutFeedback,
   TextInput,
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
@@ -27,7 +25,6 @@ import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import TransactionsMedium from "./TransactionsMedium";
 import TransactionsType from "./TransactionsType";
-import API from "../../../api/API.js";
 import TransactionsSearchIconComponent from "../../../assets/icons/transactionsSearchIconComponent.js";
 import ReceiptIconComponent from "../../../assets/icons/ReceiptIconComponent.js";
 import PdfIconComponent from "../../../assets/icons/PdfIconComponent.js";
@@ -36,6 +33,7 @@ import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import * as Linking from "expo-linking";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
+import { useFocusEffect } from "@react-navigation/native";
 
 const WIDTH = Dimensions.get("window").width;
 import searchStyles from "../../../utility/globalStyles.js";
@@ -51,11 +49,6 @@ const Transactions = ({
 }) => {
   const [transactionssearch, setTransactionssearch] = useState();
   const [transactionsData, setTransactionsData] = useState();
-  const [
-    confirmationMessageVisible,
-    setConfirmationSuccessfulVisible,
-  ] = useState(false);
-  const [downloadModalVisible, setDownloadModalVisible] = useState(false);
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
@@ -81,6 +74,20 @@ const Transactions = ({
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     transactions(loginData.user.account.accountid);
+      generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
     setRefreshing(false);
   });
 
@@ -95,12 +102,11 @@ const Transactions = ({
   };
 
   const onPressSubmitApply = () => {
-     modalizeRef2.current?.close();
+    modalizeRef2.current?.close();
     if (new Date(fromDate).getTime() > new Date(toDate).getTime()) {
       setDateError(true);
     } else {
       setDateError(false);
-      setConfirmationSuccessfulVisible(false);
       search({
         accountId: loginData.user.account.accountid,
         fromDate: new Date(fromDate).getTime(),
@@ -109,7 +115,7 @@ const Transactions = ({
         type: transactionsTypeId,
         search: transactionssearch == undefined ? "" : "",
       });
-       generateTransactionsPDFReceiptStart({
+      generateTransactionsPDFReceiptStart({
         fromDate: new Date(fromDate).getTime(),
         toDate: new Date(toDate).getTime(),
         medium: transactionsMediumId,
@@ -163,15 +169,33 @@ const Transactions = ({
     });
   }, [navigation]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      transactions(loginData.user.account.accountid);
+        generateTransactionsPDFReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+      generateTransactionsExcelReceiptStart({
+        fromDate: new Date(fromDate).getTime(),
+        toDate: new Date(toDate).getTime(),
+        medium: transactionsMediumId,
+        type: transactionsTypeId,
+        search: " ",
+      });
+    }, [])
+  );
+
   const downloadPDF = () => {
-    setDownloadModalVisible(false);
     if (data.generateTransactionsPDFReceipt != null) {
       Linking.openURL(data.generateTransactionsPDFReceipt.msg);
     }
   };
 
   const downloadEXCEL = () => {
-    setDownloadModalVisible(false);
     if (data.generateTransactionsExcelReceipt != null) {
       Linking.openURL(data.generateTransactionsExcelReceipt.msg);
     }
@@ -222,7 +246,7 @@ const Transactions = ({
   useEffect(() => {
     if (data.transactions == null) {
       transactions(loginData.user.account.accountid);
-        generateTransactionsPDFReceiptStart({
+      generateTransactionsPDFReceiptStart({
         fromDate: new Date(fromDate).getTime(),
         toDate: new Date(toDate).getTime(),
         medium: transactionsMediumId,
@@ -251,10 +275,6 @@ const Transactions = ({
       setTransactionsData(sortedData);
     }
   }, [data.transactions]);
-
-  useEffect(() => {
-    transactions(loginData.user.account.accountid);
-  }, []);
 
   const modalizeRef = useRef();
 
@@ -300,7 +320,7 @@ const Transactions = ({
         type: transactionsTypeId,
         search: " ",
       });
-       generateTransactionsPDFReceiptStart({
+      generateTransactionsPDFReceiptStart({
         fromDate: new Date(fromDate).getTime(),
         toDate: new Date(toDate).getTime(),
         medium: transactionsMediumId,
@@ -561,9 +581,9 @@ const Transactions = ({
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={{ flexDirection: "column", marginRight: 30 }}
-                onPress={() =>{
-                    modalizeRef.current?.close();
-                    downloadPDF()
+                onPress={() => {
+                  modalizeRef.current?.close();
+                  downloadPDF();
                 }}
               >
                 <PdfIconComponent />
@@ -576,7 +596,7 @@ const Transactions = ({
                 style={{ flexDirection: "column" }}
                 onPress={() => {
                   modalizeRef.current?.close();
-                  downloadEXCEL()
+                  downloadEXCEL();
                 }}
               >
                 <ExcelIconComponent />

@@ -12,10 +12,7 @@ import {
   Empty,
   Text,
   CampaignDonorCard,
-  Button,
 } from "../../../components/Index.js";
-import API from "./../../../api/API";
-import { Dummy } from "./Dummy";
 
 const CampaignDonors = ({ data, loginData, campaignDonors, campaignId,campaignDonateNowConfirmationData }) => {
   const [refreshing, setRefreshing] = useState(false);
