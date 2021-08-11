@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  Linking
 } from "react-native";
 import * as theme from "../../../../constants/theme.js";
 import {
@@ -16,7 +17,6 @@ import moment from "moment";
 import NumberFormat from "react-number-format";
 import DownloadIconComponent from "../../../../assets/icons/DownloadIconComponent.js";
 import PdfIconComponent from "../../../../assets/icons/PdfIconComponent.js";
-import * as Linking from "expo-linking";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 

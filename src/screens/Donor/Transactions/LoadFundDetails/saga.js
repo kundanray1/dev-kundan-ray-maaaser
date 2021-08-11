@@ -47,7 +47,6 @@ export function* generateLoadFundReceipt({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("generateLoadFundReceipt",res);
 		if (res.success) {
 			yield put(generateLoadFundReceiptSuccess(res));
 		} else {

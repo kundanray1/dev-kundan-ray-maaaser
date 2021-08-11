@@ -24,7 +24,6 @@ export function* campaignDonateNow({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("campaignDonateNow res",res)
 		if (res.success) {
 			yield put(campaignDonateNowSuccess(res));
 			showMessage({

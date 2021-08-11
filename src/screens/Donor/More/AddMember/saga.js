@@ -17,7 +17,6 @@ export function* addMember({ payload }) {
       body: serializedData,
     });
     const res = base.AccountBaseResponse.deserializeBinary(response).toObject();
-    console.log("addMember",res);
     if (res.success) {
       yield put(addMemberSuccess(res));
       showMessage({
@@ -33,7 +32,6 @@ export function* addMember({ payload }) {
     }
   } catch (e) {
     yield put(addMemberFail(e));
-    console.log("Error")
     showMessage({
       message: "Error from server or check your credentials!",
       type: "danger",

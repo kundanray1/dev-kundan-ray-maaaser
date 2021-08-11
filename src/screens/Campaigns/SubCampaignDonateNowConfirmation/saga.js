@@ -15,7 +15,6 @@ import API from "./../../../api/API";
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* subCampaignDonateNowConfirmation({ payload }) {
 	try {
-    console.log("subCampaignDonateNowConfirmation");
 		const serializedData = payload.serializeBinary();
 		const response = yield call(requestProto, APIEndpoints.TRANSACTION, {
 			method: "POST",

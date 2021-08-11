@@ -34,7 +34,7 @@ const StartACampaign = ({
   addBeneficiaryData,
   beneficiaryListStart,
 }) => {
-  console.log("data",data);
+  console.log("data", data);
   const targetAmountRef = useRef();
   const [beneficierId, setBeneficierId] = useState("");
   const [beneficierIdError, setBeneficierIdError] = useState(false);
@@ -87,13 +87,13 @@ const StartACampaign = ({
   };
 
   useEffect(() => {
-    beneficiaryListStart()
+    beneficiaryListStart();
     imageUploadClear();
     startACampaignThirdDescriptionClear();
   }, []);
 
- useEffect(() => {
-    beneficiaryListStart()
+  useEffect(() => {
+    beneficiaryListStart();
   }, [addBeneficiaryData.addBeneficiary]);
 
   return (
@@ -101,233 +101,237 @@ const StartACampaign = ({
       style={{ marginVertical: 10 }}
       showsVerticalScrollIndicator={false}
     >
-     {data.isLoading ?
+      {data.isLoading ? (
         <CustomActivityIndicator
           isLoading={data.isLoading}
           label="Requesting..."
         />
-        :
-      <Block style={{ paddingHorizontal: 16 }}>
-        <Block
-          center
-          style={{
-            borderBottomWidth: 1,
-            borderColor: theme.colors.gray2,
-            paddingVertical: 10,
-          }}
-        >
-          <StartACampaignOneIconComponent />
-        </Block>
+      ) : (
+        <Block style={{ paddingHorizontal: 16 }}>
+          <Block
+            center
+            style={{
+              borderBottomWidth: 1,
+              borderColor: theme.colors.gray2,
+              paddingVertical: 10,
+            }}
+          >
+            <StartACampaignOneIconComponent />
+          </Block>
 
-        <Formik
-          initialValues={{
-            title: "",
-            targetAmount: "",
-          }}
-          onSubmit={(values) => {
-            onSubmitStartACampaign(values);
-          }}
-          validationSchema={StartACampaignValidationSchema}
-        >
-          {({
-            handleChange,
-            touched,
-            setFieldTouched,
-            handleSubmit,
-            values,
-            errors,
-          }) => (
-            <Block>
-              <Text
-                center
-                style={{
-                  fontSize: 20,
-                  paddingVertical: 20,
-                  fontWeight: "700",
-                  color: "#5F6062",
-                }}
-              >
-                Enter your goal
-              </Text>
-              <Block style={{ flex: 0, paddingBottom: 10 }}>
-                <TouchableOpacity
-                  onPress={() => targetAmountRef.current.focus()}
-                  style={styles.amountSection}
-                  activeOpacity={1}
+          <Formik
+            initialValues={{
+              title: "",
+              targetAmount: "",
+            }}
+            onSubmit={(values) => {
+              onSubmitStartACampaign(values);
+            }}
+            validationSchema={StartACampaignValidationSchema}
+          >
+            {({
+              handleChange,
+              touched,
+              setFieldTouched,
+              handleSubmit,
+              values,
+              errors,
+            }) => (
+              <Block>
+                <Text
+                  center
+                  style={{
+                    fontSize: 20,
+                    paddingVertical: 20,
+                    fontWeight: "700",
+                    color: "#5F6062",
+                  }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "700",
-                      color: "#0DB952",
-                    }}
+                  Enter your goal
+                </Text>
+                <Block style={{ flex: 0, paddingBottom: 10 }}>
+                  <TouchableOpacity
+                    onPress={() => targetAmountRef.current.focus()}
+                    style={styles.amountSection}
+                    activeOpacity={1}
                   >
-                    $
-                  </Text>
-                  <TextInput
-                    ref={targetAmountRef}
-                    style={styles.input}
-                    onChangeText={handleChange("targetAmount")}
-                    onBlur={() => {
-                      setFieldTouched("targetAmount");
-                    }}
-                    value={values.targetAmount}
-                    placeholderTextColor="#0DB952"
-                    keyboardType="numeric"
-                  />
-                </TouchableOpacity>
-              </Block>
-              <ErrorMessage
-                error={errors.targetAmount}
-                visible={touched.targetAmount}
-              />
-              <CountryCode
-                countryName={countryName}
-                setCountryName={setCountryName}
-                countryCode={countryCode}
-                setCountryCode={setCountryCode}
-                setCountryCodeError={setCountryCodeError}
-              />
-              <ErrorMessage
-                error={"Country is a required field"}
-                visible={countryCodeError}
-              />
-              <Input
-                label="Campaign Title"
-                focus={titleFocus}
-                onChangeText={handleChange("title")}
-                onBlur={() => {
-                  setFieldTouched("title");
-                  setTitleFocus(false);
-                }}
-                onFocus={() => setTitleFocus(true)}
-                value={values.title}
-                style={{
-                  borderBottomColor: titleFocus
-                    ? theme.colors.primary2
-                    : touched.title && errors.title
-                    ? theme.colors.red
-                    : theme.colors.solidGray,
-                }}
-              />
-              <ErrorMessage error={errors.title} visible={touched.title} />
-
-              <RaisingMoneyType
-                raisingMoneyType={raisingMoneyType}
-                setRaisingMoneyType={setRaisingMoneyType}
-                setRaisingMoneyTypeError={setRaisingMoneyTypeError}
-                disabled={false}
-              />
-              <ErrorMessage
-                error={"Raising money type is a required field"}
-                visible={raisingMoneyTypeError}
-              />
-              {raisingMoneyType == "Myself" ? (
-                <BeneficiersList
-                  beneficierName={loginData.user.account.fullname}
-                  setBeneficierId={setBeneficierId}
-                  setBeneficierIdError={false}
-                  setBeneficierName={setBeneficierName}
-                  receiversData={data}
-                  navigation={navigation}
-                  loginData={loginData}
-                  disabled={true}
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "700",
+                        color: "#0DB952",
+                      }}
+                    >
+                      $
+                    </Text>
+                    <TextInput
+                      ref={targetAmountRef}
+                      style={styles.input}
+                      onChangeText={handleChange("targetAmount")}
+                      onBlur={() => {
+                        setFieldTouched("targetAmount");
+                      }}
+                      value={values.targetAmount}
+                      placeholderTextColor="#0DB952"
+                      keyboardType="numeric"
+                    />
+                  </TouchableOpacity>
+                </Block>
+                <ErrorMessage
+                  error={errors.targetAmount}
+                  visible={touched.targetAmount}
                 />
-              ) : (
-                <BeneficiersList
-                  loginData={loginData}
-                  beneficierName={beneficierName}
-                  setBeneficierId={setBeneficierId}
-                  setBeneficierIdError={setBeneficierIdError}
-                  setBeneficierName={setBeneficierName}
-                  receiversData={data}
-                  navigation={navigation}
+                <CountryCode
+                  countryName={countryName}
+                  setCountryName={setCountryName}
+                  countryCode={countryCode}
+                  setCountryCode={setCountryCode}
+                  setCountryCodeError={setCountryCodeError}
+                />
+                <ErrorMessage
+                  error={"Country is a required field"}
+                  visible={countryCodeError}
+                />
+                <Input
+                  label="Campaign Title"
+                  focus={titleFocus}
+                  onChangeText={handleChange("title")}
+                  onBlur={() => {
+                    setFieldTouched("title");
+                    setTitleFocus(false);
+                  }}
+                  onFocus={() => setTitleFocus(true)}
+                  value={values.title}
+                  style={{
+                    borderBottomColor: titleFocus
+                      ? theme.colors.primary2
+                      : touched.title && errors.title
+                      ? theme.colors.red
+                      : theme.colors.solidGray,
+                  }}
+                />
+                <ErrorMessage error={errors.title} visible={touched.title} />
+
+                <RaisingMoneyType
+                  raisingMoneyType={raisingMoneyType}
+                  setRaisingMoneyType={setRaisingMoneyType}
+                  setRaisingMoneyTypeError={setRaisingMoneyTypeError}
                   disabled={false}
                 />
-              )}
+                <ErrorMessage
+                  error={"Raising money type is a required field"}
+                  visible={raisingMoneyTypeError}
+                />
+                {raisingMoneyType == "Myself" ? (
+                  <BeneficiersList
+                    beneficierName={loginData.user.account.fullname}
+                    setBeneficierId={setBeneficierId}
+                    setBeneficierIdError={false}
+                    setBeneficierName={setBeneficierName}
+                    receiversData={data}
+                    navigation={navigation}
+                    loginData={loginData}
+                    disabled={true}
+                  />
+                ) : (
+                  <BeneficiersList
+                    loginData={loginData}
+                    beneficierName={beneficierName}
+                    setBeneficierId={setBeneficierId}
+                    setBeneficierIdError={setBeneficierIdError}
+                    setBeneficierName={setBeneficierName}
+                    receiversData={data}
+                    navigation={navigation}
+                    disabled={false}
+                  />
+                )}
 
-              <ErrorMessage
-                error={"Beneficier name is a required field"}
-                visible={beneficierIdError}
-              />
-              <CategoryType
-                categoryType={categoryType}
-                setCategoryType={setCategoryType}
-                setCategoryTypeError={setCategoryTypeError}
-              />
-              <ErrorMessage
-                error={"Category type is a required field"}
-                visible={categoryTypeError}
-              />
-              <Block style={{ flex: 0 }}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => setAllowSubCampaigns(!allowSubCampaigns)}
-                  style={{ flexDirection: "row" }}
-                >
-                  {allowSubCampaigns ? (
-                    <MaterialCommunityIcons
-                      name="checkbox-marked"
-                      size={22}
-                      color={theme.colors.primary2}
-                    />
-                  ) : (
-                    <MaterialCommunityIcons
-                      name="checkbox-blank-outline"
-                      size={22}
-                      color={theme.colors.solidGray}
-                    />
-                  )}
-                  <Text
-                    bold
-                    style={{ fontSize: 16, paddingHorizontal: 8, marginTop: 2 }}
-                    color={theme.colors.solidGray}
+                <ErrorMessage
+                  error={"Beneficier name is a required field"}
+                  visible={beneficierIdError}
+                />
+                <CategoryType
+                  categoryType={categoryType}
+                  setCategoryType={setCategoryType}
+                  setCategoryTypeError={setCategoryTypeError}
+                />
+                <ErrorMessage
+                  error={"Category type is a required field"}
+                  visible={categoryTypeError}
+                />
+                <Block style={{ flex: 0 }}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => setAllowSubCampaigns(!allowSubCampaigns)}
+                    style={{ flexDirection: "row" }}
                   >
-                    Allow sub-campaigns
-                  </Text>
-                </TouchableOpacity>
-              </Block>
-              {!errors.title || !errors.targetAmount ? (
-                <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                  onPress={handleSubmit}
-                >
-                  {data.isLoading ? (
-                    <>
-                      <CustomActivityIndicator
-                        label="Requesting..."
-                        isLoading={data.isLoading}
+                    {allowSubCampaigns ? (
+                      <MaterialCommunityIcons
+                        name="checkbox-marked"
+                        size={22}
+                        color={theme.colors.primary2}
                       />
+                    ) : (
+                      <MaterialCommunityIcons
+                        name="checkbox-blank-outline"
+                        size={22}
+                        color={theme.colors.solidGray}
+                      />
+                    )}
+                    <Text
+                      bold
+                      style={{
+                        fontSize: 16,
+                        paddingHorizontal: 8,
+                        marginTop: 2,
+                      }}
+                      color={theme.colors.solidGray}
+                    >
+                      Allow sub-campaigns
+                    </Text>
+                  </TouchableOpacity>
+                </Block>
+                {!errors.title || !errors.targetAmount ? (
+                  <Button
+                    style={{
+                      marginTop: 12,
+                      marginBottom: 12,
+                    }}
+                    onPress={handleSubmit}
+                  >
+                    {data.isLoading ? (
+                      <>
+                        <CustomActivityIndicator
+                          label="Requesting..."
+                          isLoading={data.isLoading}
+                        />
+                        <Text button style={{ fontSize: 18 }}>
+                          Proceed
+                        </Text>
+                      </>
+                    ) : (
                       <Text button style={{ fontSize: 18 }}>
                         Proceed
                       </Text>
-                    </>
-                  ) : (
+                    )}
+                  </Button>
+                ) : (
+                  <Button
+                    style={{
+                      marginTop: 12,
+                      marginBottom: 12,
+                    }}
+                  >
                     <Text button style={{ fontSize: 18 }}>
                       Proceed
                     </Text>
-                  )}
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    marginTop: 12,
-                    marginBottom: 12,
-                  }}
-                >
-                  <Text button style={{ fontSize: 18 }}>
-                    Proceed
-                  </Text>
-                </Button>
-              )}
-            </Block>
-          )}
-        </Formik>
-      </Block>
-       }
+                  </Button>
+                )}
+              </Block>
+            )}
+          </Formik>
+        </Block>
+      )}
     </KeyboardAwareScrollView>
   );
 };

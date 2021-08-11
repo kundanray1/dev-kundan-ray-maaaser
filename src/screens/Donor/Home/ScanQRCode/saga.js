@@ -9,7 +9,6 @@ import { showMessage } from "react-native-flash-message";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* scanQRCode({ payload }) {
-	console.log("payload==", payload);
 	try {
 		const serializedData = payload.serializeBinary();
 		const response = yield call(requestProto, APIEndpoints.LOGIN, {

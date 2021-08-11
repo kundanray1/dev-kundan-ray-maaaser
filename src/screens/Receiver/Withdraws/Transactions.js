@@ -11,6 +11,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   TextInput,
+  Linking
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -33,7 +34,6 @@ import ReceiptIconComponent from "../../../assets/icons/ReceiptIconComponent.js"
 import PdfIconComponent from "../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../assets/icons/ExcelIconComponent.js";
 import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
-import * as Linking from "expo-linking";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useFocusEffect } from "@react-navigation/native";
@@ -52,6 +52,11 @@ const Transactions = ({
 }) => {
   const [transactionssearch, setTransactionssearch] = useState();
   const [transactionsData, setTransactionsData] = useState();
+  const [
+    confirmationMessageVisible,
+    setConfirmationSuccessfulVisible,
+  ] = useState(false);
+  const [downloadModalVisible, setDownloadModalVisible] = useState(false);
   const [fromDate, setFromDate] = useState("2021-05-03T15:21:15.513Z");
   const [showFromDate, setShowFromDate] = useState(false);
   const [toDate, setToDate] = useState("2021-09-03T15:21:15.513Z");
@@ -77,20 +82,20 @@ const Transactions = ({
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     transactions(loginData.user.account.accountid);
-      generateTransactionsPDFReceiptStart({
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        medium: transactionsMediumId,
-        type: transactionsTypeId,
-        search: " ",
-      });
-      generateTransactionsExcelReceiptStart({
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        medium: transactionsMediumId,
-        type: transactionsTypeId,
-        search: " ",
-      });
+    generateTransactionsPDFReceiptStart({
+      fromDate: new Date(fromDate).getTime(),
+      toDate: new Date(toDate).getTime(),
+      medium: transactionsMediumId,
+      type: transactionsTypeId,
+      search: " ",
+    });
+    generateTransactionsExcelReceiptStart({
+      fromDate: new Date(fromDate).getTime(),
+      toDate: new Date(toDate).getTime(),
+      medium: transactionsMediumId,
+      type: transactionsTypeId,
+      search: " ",
+    });
     setRefreshing(false);
   });
 
@@ -110,6 +115,7 @@ const Transactions = ({
       setDateError(true);
     } else {
       setDateError(false);
+      setConfirmationSuccessfulVisible(false);
       search({
         accountId: loginData.user.account.accountid,
         fromDate: new Date(fromDate).getTime(),
@@ -175,7 +181,7 @@ const Transactions = ({
   useFocusEffect(
     React.useCallback(() => {
       transactions(loginData.user.account.accountid);
-        generateTransactionsPDFReceiptStart({
+      generateTransactionsPDFReceiptStart({
         fromDate: new Date(fromDate).getTime(),
         toDate: new Date(toDate).getTime(),
         medium: transactionsMediumId,
@@ -193,12 +199,14 @@ const Transactions = ({
   );
 
   const downloadPDF = () => {
+    setDownloadModalVisible(false);
     if (data.generateTransactionsPDFReceipt != null) {
       Linking.openURL(data.generateTransactionsPDFReceipt.msg);
     }
   };
 
   const downloadEXCEL = () => {
+    setDownloadModalVisible(false);
     if (data.generateTransactionsExcelReceipt != null) {
       Linking.openURL(data.generateTransactionsExcelReceipt.msg);
     }
@@ -207,7 +215,7 @@ const Transactions = ({
   const renderItems = ({ item }) => {
     return (
       <Block style={{ paddingHorizontal: 18 }}>
-         <ReceiverTransactionDetailCard
+        <ReceiverTransactionDetailCard
           data={item}
           amount={item.amount}
           date={item.createdat}
@@ -608,6 +616,27 @@ const Transactions = ({
                 </Text>
               </TouchableOpacity>
             </Block>
+            {/*<Block
+                center
+                style={{ flex: 0, borderTopWidth: 1, borderColor: "#F0EDF1" }}
+              >
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={{ paddingVertical: 12 }}
+                  onPress={() => setConfirmationSuccessfulVisible(false)}
+                >
+                  <Text
+                    center
+                    style={{
+                      fontWeight: "700",
+                      fontSize: 14,
+                      color: theme.colors.primary2,
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+              </Block>*/}
           </View>
         </Modalize>
       </Portal>

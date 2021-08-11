@@ -9,6 +9,7 @@ import {
   View,
   Dimensions,
   TextInput,
+  Linking
 } from "react-native";
 import * as theme from "../../../constants/theme.js";
 import {
@@ -30,7 +31,6 @@ import ReceiptIconComponent from "../../../assets/icons/ReceiptIconComponent.js"
 import PdfIconComponent from "../../../assets/icons/PdfIconComponent.js";
 import ExcelIconComponent from "../../../assets/icons/ExcelIconComponent.js";
 import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
-import * as Linking from "expo-linking";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useFocusEffect } from "@react-navigation/native";

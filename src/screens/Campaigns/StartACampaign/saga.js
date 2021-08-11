@@ -54,7 +54,6 @@ export function* beneficiaryList({ payload }) {
 		const res = accountBase.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("beneficiaryList")
 		if (res.success) {
 			yield put(beneficiaryListSuccess(res));
 		} else {

@@ -22,7 +22,6 @@ export function* members({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("members",res);
 		if (res.success) {
 			yield put(membersSuccess(res));
 		} else {
