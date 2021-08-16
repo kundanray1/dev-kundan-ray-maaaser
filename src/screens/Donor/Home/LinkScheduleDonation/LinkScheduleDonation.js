@@ -260,7 +260,7 @@ const LinkScheduleDonation = ({
               />
               <Block style={{ paddingVertical: 8 }}>
                 <Text bold style={{ fontSize: 16, fontWeight: "500" }}>
-                  Start Date and time
+                  Start Date And Time
                 </Text>
                 <TouchableOpacity
                   style={styles.customPicker}

@@ -298,7 +298,7 @@ const DonorReceiver = ({
               </Text>
               <Text
                 onPress={() => navigation.navigate("All Campaigns")}
-                style={{ fontSize: 15, fontWeight: "500" }}
+                style={{ fontSize: 16, fontWeight: "500" }}
                 color={theme.colors.solidGray}
               >
                 View All

@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FlatList,
   RefreshControl,
@@ -22,7 +22,7 @@ import AddIconComponent from "./../../../../assets/icons/addIconComponent";
 import Permissions from "./Permissions";
 import PermissionProto from "./../../../../protos/permission_pb";
 import { Modalize } from "react-native-modalize";
-import { Portal } from 'react-native-portalize';
+import { Portal } from "react-native-portalize";
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -34,35 +34,36 @@ const Members = ({
   addMemberData,
   permissionsAssign,
   permissionsAssignClear,
+  permissionsListStart,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [assignError, setAssignError] = useState(false);
   const [accountData, setAccountData] = useState();
   const [selectedData, setSelectedData] = useState([]);
-  
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     members(loginData.user.account.accountid);
     setRefreshing(false);
   });
 
-
- useEffect(() => {
+  useEffect(() => {
     if (data.permissionsAssign != null) {
       if (data.permissionsAssign.success) {
         permissionsAssignClear();
       }
-    }else{
+    } else {
       members(loginData.user.account.accountid);
+      permissionsListStart();
     }
-  }, [data.permissionsAssign,addMemberData.addMember]);
+  }, [data.permissionsAssign, addMemberData.addMember]);
 
   const modalizeRef = useRef();
 
   const onOpen = () => {
     modalizeRef.current?.open();
   };
-  
+
   const onSubmitApply = () => {
     if (selectedData.length > 0) {
       var filterResult = selectedData.filter((item) => {
@@ -72,7 +73,7 @@ const Members = ({
       const permissionsList = [];
       filterResult.map(function (assign) {
         const permissionAssign = new PermissionProto.PermissionAssign();
-        permissionAssign.setPermissionid(assign.permissionId);
+        permissionAssign.setPermissionid(assign.permissionid);
         permissionsList.push(permissionAssign);
       });
       // assign
@@ -81,6 +82,7 @@ const Members = ({
       permissionsAssign(permissionProto);
       setAssignError(false);
       setSelectedData([]);
+      modalizeRef.current?.close();
     } else {
       setAssignError(true);
     }
@@ -90,7 +92,7 @@ const Members = ({
     <>
       <SafeAreaView>
         <Block style={{ flex: 0 }}>
-          {data.isLoading ? (
+          {data.isLoading || data.isPermissionsListLoading ? (
             <ActivityIndicator size="large" color={theme.colors.primary2} />
           ) : (
             <>
@@ -102,11 +104,9 @@ const Members = ({
                 }}
               >
                 <Text
-                  style={{
-                    fontSize: 22,
-                    fontWeight: "700",
-                  }}
+                  style={{ fontSize: 18, fontWeight: "700", marginBottom: 12 }}
                 >
+                  {" "}
                   Added Members{" "}
                 </Text>
               </Block>
@@ -158,7 +158,7 @@ const Members = ({
                       email={post.item.account.email}
                       onPress={() => {
                         setAccountData(post.item);
-                        onOpen()
+                        onOpen();
                       }}
                     />
                   </Pressable>
@@ -168,15 +168,13 @@ const Members = ({
           )}
         </Block>
         <Portal>
-      <Modalize
-        ref={modalizeRef}
-        snapPoint={200}
-        modalHeight={200}
-        withHandle={false}
-      >
-      <View
-              style={{ width: "100%", paddingHorizontal: 18 }}
-            >
+          <Modalize
+            ref={modalizeRef}
+            snapPoint={180}
+            modalHeight={180}
+            withHandle={false}
+          >
+            <View style={{ width: "100%", paddingHorizontal: 18 }}>
               <Block
                 style={{ flex: 0, alignItems: "center", paddingVertical: 10 }}
               >
@@ -193,6 +191,7 @@ const Members = ({
               <Permissions
                 setSelectedData={setSelectedData}
                 selectedData={selectedData}
+                permissionsListData={data.permissionsList}
               />
               <ErrorMessage
                 error={"Please assign a permission value"}
@@ -204,8 +203,8 @@ const Members = ({
                 </Text>
               </Button>
             </View>
-      </Modalize>
-      </Portal>
+          </Modalize>
+        </Portal>
       </SafeAreaView>
       <FloatingButton
         iconComponent={<AddIconComponent />}

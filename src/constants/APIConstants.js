@@ -49,6 +49,7 @@ const APIEndPoints = {
 
 
     //PERMISSIONS
+    GET_PERMISSIONS:MainAPI + '/permissions',
     POST_PERMISSIONS:MainAPI + '/permission/assign',
 
     LOGOUT:MainAPI + '/logout'

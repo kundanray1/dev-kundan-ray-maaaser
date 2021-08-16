@@ -1,6 +1,17 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { MEMBERS_START,PERMISSIONS_ASSIGN_START } from "./actions";
-import { membersSuccess, membersFail,permissionsAssignSuccess, permissionsAssignFail } from "./actions";
+import {
+	MEMBERS_START,
+	PERMISSIONS_LIST_START,
+	PERMISSIONS_ASSIGN_START,
+} from "./actions";
+import {
+	membersSuccess,
+	membersFail,
+	permissionsListSuccess,
+	permissionsListFail,
+	permissionsAssignSuccess,
+	permissionsAssignFail,
+} from "./actions";
 import base from "./../../../../protos/account_rpc_pb";
 import permissionBase from "./../../../../protos/permission_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
@@ -40,21 +51,56 @@ export function* members({ payload }) {
 	}
 }
 
+export function* permissionsList({ payload }) {
+	try {
+		const response = yield call(
+			requestProto,
+			APIEndpoints.GET_PERMISSIONS,
+			{
+				method: "GET",
+				headers: API.authProtoHeader(),
+			}
+		);
+		const res = permissionBase.PermissionBaseResponse.deserializeBinary(
+			response
+		).toObject();
+		if (res.success) {
+			yield put(permissionsListSuccess(res.permissionsList));
+		} else {
+			yield put(permissionsListFail(res.msg));
+			showMessage({
+				message: res.msg,
+				type: "danger",
+			});
+		}
+	} catch (e) {
+		yield put(permissionsListFail(e));
+		showMessage({
+			message: "Error from server or check your credentials!",
+			type: "danger",
+		});
+	}
+}
+
 export function* permissionsAssign({ payload }) {
 	try {
 		const serializedData = payload.serializeBinary();
-		const response = yield call(requestProto, APIEndpoints.POST_PERMISSIONS, {
-			method: "POST",
-			headers: API.authProtoHeader(),
-			body: serializedData,
-		});
+		const response = yield call(
+			requestProto,
+			APIEndpoints.POST_PERMISSIONS,
+			{
+				method: "POST",
+				headers: API.authProtoHeader(),
+				body: serializedData,
+			}
+		);
 		const res = permissionBase.PermissionBaseResponse.deserializeBinary(
 			response
 		).toObject();
 		if (res.success) {
 			yield put(permissionsAssignSuccess(res));
 			showMessage({
-				message: "Permmissions assigned successfully",
+				message: "Permissions assigned successfully",
 				type: "success",
 			});
 		} else {
@@ -75,8 +121,5 @@ export function* permissionsAssign({ payload }) {
 export default function* membersSaga() {
 	yield takeLatest(MEMBERS_START, members);
 	yield takeLatest(PERMISSIONS_ASSIGN_START, permissionsAssign);
-
+	yield takeLatest(PERMISSIONS_LIST_START, permissionsList);
 }
-
-
-

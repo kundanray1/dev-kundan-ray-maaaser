@@ -172,13 +172,13 @@ const DonorReceiver = ({
                       flex: 3,
                     }}
                   >
-                    <Text
+                      <Text
                       style={{
-                        marginBottom: 6,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: "700",
                         textTransform: "capitalize",
                         color: theme.colors.solidGray,
+                        marginBottom:6
                       }}
                     >
                       Hi,{" "}
@@ -190,7 +190,7 @@ const DonorReceiver = ({
                       !
                     </Text>
                     <Button
-                      style={{ height: 30, width: 80, marginTop: 4 }}
+                      style={{ height: 26, width: 80}}
                       onPress={() => navigation.navigate("Linked Accounts")}
                     >
                       <Text
@@ -211,7 +211,7 @@ const DonorReceiver = ({
                     <Text
                       center
                       color={theme.colors.solidGray}
-                      style={{ fontSize: 16, fontWeight: "700" }}
+                      style={{ fontSize: 16,marginBottom:6 }}
                     >
                       Balance
                     </Text>
@@ -244,9 +244,9 @@ const DonorReceiver = ({
           {allCampaignsData.allCampaigns.campaignsList.length != 0 && (
             <Block style={{ paddingHorizontal: 20, paddingTop: 10 }}>
               <Block row style={{ flex: 0.2, justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 18, fontWeight: "700" }}>
-                  Need to help first
-                </Text>
+               <Text style={{ fontSize: 16, fontWeight: "700",textTransform:"capitalize" }}>
+                Need to help first
+              </Text>
                 <Text
                   onPress={() => navigation.navigate("All Campaigns")}
                   style={{ fontSize: 16, fontWeight: "500" }}
