@@ -16,10 +16,7 @@ export const RegisterValidationSchema = Yup.object().shape({
 });
 
 export const ForgotPasswordValidationSchema = Yup.object().shape({
-  emailPhone: Yup.string()
-    .required()
-    .email()
-    .label("Email / Phone"),
+  emailPhone: Yup.string().required().email().label("Email / Phone"),
 });
 
 export const CreateNewPasswordValidationSchema = Yup.object().shape({
@@ -58,7 +55,6 @@ export const ProfileValidationSchema = Yup.object().shape({
   zipCode: Yup.string().required().label("Zip Code"),
 });
 
-
 export const LetsGetStartedReceiverValidationSchema = Yup.object().shape({
   fullName: Yup.string().required().label("Name"),
   street1: Yup.string().required().label("Street 1"),
@@ -84,15 +80,8 @@ export const LinkNewCardValidationSchema = Yup.object().shape({
     .required()
     .label("CVC"),
   street1: Yup.string().required().label("Street address 1"),
-  // street2: Yup.string().required().label("Street address 2"),
   state: Yup.string().required().label("State"),
   city: Yup.string().required().label("City"),
-  // zipCode: Yup.number()
-  //   .positive()
-  //   .integer()
-  //   .typeError("Zip code should contain number only")
-  //   .required()
-  //   .label("Zip code"),
 });
 
 export const ManualValidationSchema = Yup.object().shape({
@@ -104,7 +93,6 @@ export const ManualValidationSchema = Yup.object().shape({
     .required()
     .label("Amount"),
   remarks: Yup.string().required().label("Remarks"),
-
 });
 export const LinkScheduleDonationValidationSchema = Yup.object().shape({
   amount: Yup.number()
@@ -115,7 +103,6 @@ export const LinkScheduleDonationValidationSchema = Yup.object().shape({
     .required()
     .label("Amount"),
   remarks: Yup.string().required().label("Remarks"),
-
 });
 export const LoadFundValidationSchema = Yup.object().shape({
   amount: Yup.number()
@@ -147,15 +134,7 @@ export const LinkNewAccountValidationSchema = Yup.object().shape({
 export const AddMemberValidationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
   email: Yup.string().email().required().label("Email"),
-  // phoneNumber: Yup.number()
-  //   .positive()
-  //   .integer()
-  //   .typeError("Phone number should contain number only")
-  //   .required()
-  //   .label("Phone Number"),
-  // password: Yup.string().required().min(6).max(50).label("Password"),
-
-});
+ });
 
 export const ACHLoadFundValidationSchema = Yup.object().shape({
   amount: Yup.number()
@@ -177,16 +156,22 @@ export const CardLoadFundValidationSchema = Yup.object().shape({
     .required()
     .label("Amount"),
   remarks: Yup.string().required().label("Remarks"),
-
 });
 export const ChangePasswordValidationSchema = Yup.object().shape({
-  currentPassword: Yup.string().required().min(6).max(50).label("Current Password"),
+  currentPassword: Yup.string()
+    .required()
+    .min(6)
+    .max(50)
+    .label("Current Password"),
   password: Yup.string().required().min(6).max(50).label("Password"),
   confirmPassword: Yup.string()
     .required()
     .min(6)
     .max(50)
-    .oneOf([Yup.ref("password"), null], "Both new password and confirm password must match")
+    .oneOf(
+      [Yup.ref("password"), null],
+      "Both new password and confirm password must match"
+    )
     .label("Confirm Password"),
 });
 

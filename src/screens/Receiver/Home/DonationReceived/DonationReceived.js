@@ -161,9 +161,6 @@ const DonationReceived = ({
     }
   }, [data.donationReceivedSearch]);
 
-  useEffect(() => {
-      donationReceived(loginData.user.account.accountid);
-  }, []);
   const modalizeRef = useRef();
   const onOpen = () => {
     modalizeRef.current?.open();

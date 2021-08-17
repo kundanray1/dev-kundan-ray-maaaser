@@ -36,7 +36,6 @@ import ExcelIconComponent from "../../../assets/icons/ExcelIconComponent.js";
 import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import { useFocusEffect } from "@react-navigation/native";
 
 const WIDTH = Dimensions.get("window").width;
 import searchStyles from "../../../utility/globalStyles.js";
@@ -177,26 +176,6 @@ const Transactions = ({
       ),
     });
   }, [navigation]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      transactions(loginData.user.account.accountid);
-      generateTransactionsPDFReceiptStart({
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        medium: transactionsMediumId,
-        type: transactionsTypeId,
-        search: " ",
-      });
-      generateTransactionsExcelReceiptStart({
-        fromDate: new Date(fromDate).getTime(),
-        toDate: new Date(toDate).getTime(),
-        medium: transactionsMediumId,
-        type: transactionsTypeId,
-        search: " ",
-      });
-    }, [])
-  );
 
   const downloadPDF = () => {
     setDownloadModalVisible(false);

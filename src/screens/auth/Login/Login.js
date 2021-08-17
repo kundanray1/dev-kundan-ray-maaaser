@@ -18,8 +18,6 @@ import LoginProto from "./../../../protos/auth_pb";
 const Login = ({ navigation, data, login }) => {
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const [asyncData, setAsyncData] = useState();
 
   //set all the required proto for updating and submitting
   const onSubmitLogin = (values) => {
@@ -27,30 +25,27 @@ const Login = ({ navigation, data, login }) => {
     loginData.setEmailphone(values.identifier);
     loginData.setPassword(values.password);
     login(loginData);
-    if (checked) {
-      AsyncStorage.setItem(
-        "LOGIN_DATA",
-        JSON.stringify({
-          emailPhone: values.identifier,
-          password: values.password,
-          rememberMe: checked,
-        })
-      );
-    }else{
-       AsyncStorage.removeItem("LOGIN_DATA");
-    }
+    AsyncStorage.setItem(
+      "LOGIN_DATA",
+      JSON.stringify({
+        emailPhone: values.identifier,
+        password: values.password,
+        rememberMe: true,
+      })
+    );
   };
   async function readData() {
     const response = await AsyncStorage.getItem("LOGIN_DATA");
     if (response !== null) {
-      setAsyncData(JSON.parse(response));
-      setChecked(JSON.parse(response).rememberMe);
+      const loginData = new LoginProto.LoginRequest();
+      loginData.setEmailphone(JSON.parse(response).emailPhone);
+      loginData.setPassword(JSON.parse(response).password);
+      login(loginData);
     }
   }
   useEffect(() => {
     readData();
   }, []);
-
 
   return (
     <Block center middle>
@@ -66,8 +61,8 @@ const Login = ({ navigation, data, login }) => {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          identifier: asyncData != undefined ? asyncData.emailPhone:"",
-          password: asyncData != undefined ? asyncData.password: "",
+          identifier:"",
+          password:"",
         }}
         onSubmit={(values) => {
           onSubmitLogin(values);
@@ -135,10 +130,10 @@ const Login = ({ navigation, data, login }) => {
               style={{
                 flex: 0,
                 paddingVertical: 10,
-                justifyContent: "space-between",
+                justifyContent: "flex-end",
               }}
             >
-              <Block style={{ flex: 0 }}>
+              {/*<Block style={{ flex: 0 }}>
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => setChecked(!checked)}
@@ -165,7 +160,7 @@ const Login = ({ navigation, data, login }) => {
                     Remember me
                   </Text>
                 </TouchableOpacity>
-              </Block>
+              </Block>*/}
               <TouchableOpacity
                 style={{
                   marginTop: 2,

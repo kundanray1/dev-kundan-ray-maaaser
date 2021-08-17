@@ -5,7 +5,6 @@ import OutlinedButton from "./OutlinedButton.js";
 import ReceiversDetail from "./ReceiversDetail.js";
 import Empty from "./Empty.js";
 import ErrorMessage from "./ErrorMessage.js";
-import EventCard from "./EventCard.js";
 import FloatingButton from "./FloatingButton.js";
 import FormInput from "./FormInput.js";
 import ClientTypePicker from "./ClientTypePicker.js";
@@ -39,7 +38,6 @@ export {
   ReceiversDetail,
   Empty,
   ErrorMessage,
-  EventCard,
   FloatingButton,
   FormInput,
   ClientTypePicker,

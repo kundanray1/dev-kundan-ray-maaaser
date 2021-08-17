@@ -14,9 +14,12 @@ export class API {
         this.setToken();
     }
     setToken() {
+
         LocalDb.getSessions().then((response) => {
             if (response !== null) {
+                console.log("response.loginresponse.token",response.loginresponse.token);
                 API.token = response.loginresponse.token;
+
                 // API.user = response.loginresponse.loginaccount.client;
             }
         }).catch(err => {

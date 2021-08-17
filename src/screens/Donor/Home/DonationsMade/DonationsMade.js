@@ -163,10 +163,6 @@ const DonationsMade = ({
     }
   }, [data.donationsMadeSearch]);
 
-  useEffect(() => {
-    donationsMade(loginData.user.account.accountid);
-  }, []);
-
   const modalizeRef = useRef();
 
   const onOpen = () => {

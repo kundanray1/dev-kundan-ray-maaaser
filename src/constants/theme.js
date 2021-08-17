@@ -1,9 +1,6 @@
 //defining all the necessary theme properties
 
-import {
-  Dimensions
-} from "react-native";
-
+import { Dimensions } from "react-native";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
@@ -12,7 +9,7 @@ const colors = {
   primary1: "#068DD3",
   primary2: "#0BB3F3",
   blue: "#2E5BFF",
-  solidGray:"#5F6062",
+  solidGray: "#5F6062",
   lightblue: "#488eff",
   maroon: "#8B0000",
   lightmaroon: "#9b111e",
@@ -33,20 +30,19 @@ const colors = {
   input: "#333333", // '#E0E7FF' 20%
   border: "#D6DDF6",
 
-schedulePendingBackground:"#D3FBF1",
-approvedBackground:"#D3FBF1",
-schedulingBackground:"#D3FBF1",
-closedBackground:"#FFD8D3",
-disabledBackground:"#B9C3CD",
-cancelledBackground:"#FFEECF",
+  schedulePendingBackground: "#D3FBF1",
+  approvedBackground: "#D3FBF1",
+  schedulingBackground: "#D3FBF1",
+  closedBackground: "#FFD8D3",
+  disabledBackground: "#B9C3CD",
+  cancelledBackground: "#FFEECF",
 
-
-schedulePendingText:"#2CB998",
-approvedText:"#2CB998",
-schedulingText:"#2CB998",
-closedText:"#DE4C3C",
-disabledText:"#676767",
-cancelledText:"#FBC766",
+  schedulePendingText: "#2CB998",
+  approvedText: "#2CB998",
+  schedulingText: "#2CB998",
+  closedText: "#DE4C3C",
+  disabledText: "#676767",
+  cancelledText: "#FBC766",
 
   card: "rgba(46,91,255,0.08)",
   shadow: "rgba(46,91,255,0.07)",
@@ -54,7 +50,7 @@ cancelledText:"#FBC766",
 
 const sizes = {
   font: 15,
-  inputFont:16,
+  inputFont: 16,
   h1: 48,
   h2: 34,
   h3: 28,

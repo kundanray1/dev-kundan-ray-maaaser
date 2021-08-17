@@ -160,9 +160,6 @@ const UpcomingDonations = ({
     }
   }, [data.upcomingDonationsSearch]);
 
-  useEffect(() => {
-    upcomingDonations();
-  }, []);
   const modalizeRef = useRef();
 
   const onOpen = () => {

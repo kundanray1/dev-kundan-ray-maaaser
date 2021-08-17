@@ -8,6 +8,7 @@ import * as theme from "../../../constants/theme.js";
 import { Block, Text,CustomActivityIndicator,FloatingButton } from "../../../components/Index.js";
 import {Individual,Organization} from "./Dummy.js";
 import DonateIconComponent from "./../../../assets/icons/DonateIconComponent";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,data}) => {
   useEffect(()=>{
@@ -16,6 +17,7 @@ const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,
         loginClear();
         logoutClear();
         userLoggedOut();
+        AsyncStorage.removeItem("LOGIN_DATA");
       }
     }
   },[data.logout])
