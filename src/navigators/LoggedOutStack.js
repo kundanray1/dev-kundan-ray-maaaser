@@ -14,7 +14,6 @@ const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {
   return (
       <AuthStack.Navigator initialRouteName="Login">
-
          <AuthStack.Screen
           name="Welcome"
           options={{ headerShown: false }}

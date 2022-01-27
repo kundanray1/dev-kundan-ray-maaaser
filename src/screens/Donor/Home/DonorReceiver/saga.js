@@ -1,7 +1,17 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
-import { DONOR_RECEIVER_START,BALANCE_START,DONOR_RECEIVER_DONATE_CONFIRMATION_START } from "./actions";
-import { donorReceiverSuccess, donorReceiverFail,balanceSuccess,balanceFail,donorReceiverDonateConfirmationSuccess,
-donorReceiverDonateConfirmationFail } from "./actions";
+import { call, put, takeLatest } from "redux-saga/effects";
+import {
+	DONOR_RECEIVER_START,
+	BALANCE_START,
+	DONOR_RECEIVER_DONATE_CONFIRMATION_START,
+} from "./actions";
+import {
+	donorReceiverSuccess,
+	donorReceiverFail,
+	balanceSuccess,
+	balanceFail,
+	donorReceiverDonateConfirmationSuccess,
+	donorReceiverDonateConfirmationFail,
+} from "./actions";
 import base from "./../../../../protos/payment_rpc_pb";
 import APIEndpoints from "./../../../../constants/APIConstants";
 import { requestProto } from "../../../../utility/request";
@@ -10,7 +20,7 @@ import API from "./../../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* donorReceiver({ payload }) {
-		try {
+	try {
 		const response = yield call(
 			requestProto,
 			`${APIEndpoints.BALANCE}/${payload}`,
@@ -40,7 +50,7 @@ export function* donorReceiver({ payload }) {
 	}
 }
 export function* balance({ payload }) {
-		try {
+	try {
 		const response = yield call(
 			requestProto,
 			`${APIEndpoints.BALANCE}/${payload}`,
@@ -53,11 +63,11 @@ export function* balance({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
-			if(res.balance==undefined){
-			yield put(balanceSuccess(0));
-		}else{
-			yield put(balanceSuccess(res.balance.balanceamount));
-		}
+			if (res.balance == undefined) {
+				yield put(balanceSuccess(0));
+			} else {
+				yield put(balanceSuccess(res.balance.balanceamount));
+			}
 		} else {
 			yield put(balanceFail(res));
 			showMessage({
@@ -106,6 +116,8 @@ export function* donorReceiverDonateConfirmation({ payload }) {
 export default function* donorReceiverSaga() {
 	yield takeLatest(DONOR_RECEIVER_START, donorReceiver);
 	yield takeLatest(BALANCE_START, balance);
-	yield takeLatest(DONOR_RECEIVER_DONATE_CONFIRMATION_START, donorReceiverDonateConfirmation);
+	yield takeLatest(
+		DONOR_RECEIVER_DONATE_CONFIRMATION_START,
+		donorReceiverDonateConfirmation
+	);
 }
-

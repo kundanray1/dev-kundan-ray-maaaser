@@ -15,7 +15,6 @@ const initialState = {
 export const verificationReducer=(state = initialState, { type, payload }) => {
   switch (type) {
     case VERIFICATION_START:
-
     return {
         ...state,
         code:payload,

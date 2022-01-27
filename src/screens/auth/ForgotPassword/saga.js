@@ -6,7 +6,6 @@ import APIEndpoints from "./../../../constants/APIConstants";
 import { ProtoHeaders } from "./../../../constants/APIHeader";
 import { requestProto } from "../../../utility/request";
 import { showMessage } from "react-native-flash-message";
-import LocalDB from "./../../../api/LocalStorage";
 import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data

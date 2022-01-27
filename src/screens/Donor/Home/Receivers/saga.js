@@ -17,6 +17,7 @@ export function* receivers({ payload }) {
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log("receivers",res)
 		if (res.success) {
 			yield put(receiversSuccess(res));
 		} else {

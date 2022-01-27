@@ -15,7 +15,8 @@ export default ScanQR = ({ navigation }) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    navigation.navigate("Donate Via Scan",{receiverId:data})
+     navigation.navigate("Donate Via Scan",{receiverId:data})
+
   };
 
   if (hasPermission === null) {

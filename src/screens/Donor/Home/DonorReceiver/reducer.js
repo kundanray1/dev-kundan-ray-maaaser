@@ -6,22 +6,25 @@ import {
   BALANCE_START,
   BALANCE_SUCCESS,
   DONOR_RECEIVER_DONATE_CONFIRMATION_START,
-DONOR_RECEIVER_DONATE_CONFIRMATION_SUCCESS,
-DONOR_RECEIVER_DONATE_CONFIRMATION_FAIL,
-DONOR_RECEIVER_DONATE_CONFIRMATION_CLEAR
-} from './actions';
+  DONOR_RECEIVER_DONATE_CONFIRMATION_SUCCESS,
+  DONOR_RECEIVER_DONATE_CONFIRMATION_FAIL,
+  DONOR_RECEIVER_DONATE_CONFIRMATION_CLEAR,
+} from "./actions";
 
 const initialState = {
   isLoading: true,
   donorReceiver: null,
-  balance:null,
-  donorReceiverDonateConfirmation:null,
+  balance: null,
+  donorReceiverDonateConfirmation: null,
   error: null,
 };
-export const donorReceiverReducer=(state = initialState, { type, payload }) => {
+export const donorReceiverReducer = (
+  state = initialState,
+  { type, payload }
+) => {
   switch (type) {
     case DONOR_RECEIVER_START:
-    return {
+      return {
         ...state,
         isLoading: true,
       };
@@ -37,9 +40,9 @@ export const donorReceiverReducer=(state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload,
       };
-   
+
     case BALANCE_START:
-    return {
+      return {
         ...state,
         isLoading: true,
       };
@@ -57,7 +60,7 @@ export const donorReceiverReducer=(state = initialState, { type, payload }) => {
       };
 
     case DONOR_RECEIVER_DONATE_CONFIRMATION_START:
-    return {
+      return {
         ...state,
         isLoading: true,
       };
@@ -72,13 +75,13 @@ export const donorReceiverReducer=(state = initialState, { type, payload }) => {
         ...state,
         isLoading: false,
         error: payload,
-      };  
+      };
     case DONOR_RECEIVER_DONATE_CONFIRMATION_CLEAR:
       return {
         ...state,
         donorReceiverDonateConfirmation: null,
-      };    
-   
+      };
+
     default:
       return state;
   }

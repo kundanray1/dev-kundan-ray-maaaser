@@ -8,7 +8,6 @@ import {
 const initialState = {
   isLoading: false,
   createNewPassword: null,
-  emailPhone:null,
   error: null,
 };
 
@@ -26,12 +25,6 @@ export const createNewPasswordReducer=(state = initialState, { type, payload }) 
         createNewPassword: payload,
       };
     case CREATE_NEW_PASSWORD_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        error: payload,
-      };
-      case CREATE_NEW_PASSWORD_FAIL:
       return {
         ...state,
         isLoading: false,

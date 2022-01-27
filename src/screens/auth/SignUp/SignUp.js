@@ -77,7 +77,6 @@ export default SignUp = ({
         signUp(clientData);
     }
   };
-setClientTypeError
   useEffect(() => {
     if (data.user !== null) {
       const loginData = new LoginProto.LoginRequest();

@@ -55,7 +55,7 @@ export function* search({ payload }) {
 			yield put(transactionsFail(res));
 			showMessage({
 			message: res.msg,
-				type: "success",
+				type: "danger",
 			});
 		}
 	} catch (e) {
