@@ -1,206 +1,218 @@
 import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  StyleSheet,
-  Image,
-  ActivityIndicator,
-  Keyboard,
-  TouchableOpacity,
-} from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { LoginValidationSchema } from "./../../../utility/ValidationSchema.js";
 import * as theme from "./../../../constants/theme.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Button,
   Block,
   Text,
   Input,
   ErrorMessage,
-  CheckBox,
+  CustomActivityIndicator,
 } from "./../../../components/Index.js";
-
+import LoginProto from "./../../../protos/auth_pb";
 const Login = ({ navigation, data, login }) => {
   const [identifierFocus, setIdentifierFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-  const [checked, setChecked] = useState(false);
+
+  //set all the required proto for updating and submitting
+  const onSubmitLogin = (values) => {
+    const loginData = new LoginProto.LoginRequest();
+    loginData.setEmailphone(values.identifier);
+    loginData.setPassword(values.password);
+    login(loginData);
+    AsyncStorage.setItem(
+      "LOGIN_DATA",
+      JSON.stringify({
+        emailPhone: values.identifier,
+        password: values.password,
+        rememberMe: true,
+      })
+    );
+  };
+  async function readData() {
+    const response = await AsyncStorage.getItem("LOGIN_DATA");
+    if (response !== null) {
+      const loginData = new LoginProto.LoginRequest();
+      loginData.setEmailphone(JSON.parse(response).emailPhone);
+      loginData.setPassword(JSON.parse(response).password);
+      login(loginData);
+    }
+  }
+  useEffect(() => {
+    readData();
+  }, []);
 
   return (
-    <KeyboardAwareScrollView
-      style={{ marginVertical: 10 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <Block center middle>
-        <Block style={{ marginTop: 20 }}>
-          <Image
-            source={require("../../../assets/icons/logo.png")}
-            style={{ height: 100, width: 100 }}
-          />
-          <Text h3 center style={{ marginTop: 6 }} color={theme.colors.black}>
-            Log In
-          </Text>
-        </Block>
-        <Block flex={2.5} center>
-          <Block center style={{ marginTop: 44 }}>
-            <Formik
-              initialValues={{
-                identifier: "mobile@gmail.com",
-                password: "Mobile@123",
-              }}
-              onSubmit={(values) => {
-                login(values);
-              }}
-              validationSchema={LoginValidationSchema}
-            >
-              {({
-                handleChange,
-                touched,
-                setFieldTouched,
-                handleSubmit,
-                values,
-                errors,
-              }) => (
-                <Block>
-                  <Input
-                    full
-                    label="Email address / Phone Number"
-                    style={{ marginBottom: 5 }}
-                    onChangeText={handleChange("identifier")}
-                    onBlur={() => {
-                      setFieldTouched("identifier");
-                      setIdentifierFocus(false);
-                    }}
-                    onFocus={() => setIdentifierFocus(true)}
-                    value={values.identifier}
-                    style={{
-                      borderBottomColor: identifierFocus
-                        ? theme.colors.primary2
-                        : touched.identifier && errors.identifier
-                        ? theme.colors.red
-                        : theme.colors.solidGray,
-                    }}
-                  />
-                  <ErrorMessage
-                    error={errors.identifier}
-                    visible={touched.identifier}
-                  />
-                  <Input
-                    full
-                    password
-                    label="Password"
-                    style={{ marginBottom: 5 }}
-                    onChangeText={handleChange("password")}
-                    onBlur={() => {
-                      setFieldTouched("password");
-                      setPasswordFocus(false);
-                    }}
-                    onFocus={() => {
-                      setPasswordFocus(true);
-                    }}
-                    value={values.password}
-                    style={{
-                      borderBottomColor: passwordFocus
-                        ? theme.colors.primary2
-                        : touched.password && errors.password
-                        ? theme.colors.red
-                        : theme.colors.solidGray,
-                    }}
-                  />
-                  <ErrorMessage
-                    error={errors.password}
-                    visible={touched.password}
-                  />
-
-                  <Block row style={{ marginTop: 10 }}>
-                    <Block row>
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => setChecked(!checked)}
-                      >
-                        {checked ? (
-                          <MaterialCommunityIcons
-                            name="checkbox-marked"
-                            size={24}
-                            color={theme.colors.primary2}
-                          />
-                        ) : (
-                          <MaterialCommunityIcons
-                            name="checkbox-blank-outline"
-                            size={24}
-                            color={theme.colors.black}
-                          />
-                        )}
-                      </TouchableOpacity>
-
-                      <Text bold style={{ paddingHorizontal: 8 }}>
-                        Remember Me
-                      </Text>
-                    </Block>
-                    <TouchableOpacity
-                      style={{
-                        alignItems: "flex-end",
-                      }}
-                      onPress={() => navigation.navigate("Forgot Password")}
-                    >
-                      <Text bold color={theme.colors.primary2}>
-                        Forgot Password?
-                      </Text>
-                    </TouchableOpacity>
-                  </Block>
-
-                  {!errors.identifier && !errors.password ? (
-                    <Button
-                      full
-                      style={{
-                        marginTop: 12,
-                        marginBottom: 12,
-                      }}
-                      onPress={handleSubmit}
-                    >
-                      {data.isLoading ? (
-                        <ActivityIndicator
-                          size="small"
-                          color={theme.colors.white}
-                        />
-                      ) : (
-                        <Text button style={{ fontSize: 18 }}>
-                          Log In
-                        </Text>
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      full
-                      style={{
-                        marginTop: 12,
-                        marginBottom: 12,
-                        backgroundColor: theme.colors.gray,
-                      }}
-                    >
-                      <Text button style={{ fontSize: 18 }}>
-                        Log In
-                      </Text>
-                    </Button>
-                  )}
-
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate("Register")}
-                  >
-                    <Text h4 color="black">
-                      Don't have an account?{" "}
-                      <Text h4 color={theme.colors.primary2}>
-                        Sign Up
-                      </Text>
-                    </Text>
-                  </TouchableOpacity>
-                </Block>
-              )}
-            </Formik>
-          </Block>
-        </Block>
+    <Block center middle>
+      <Block center style={{ flex: 0, marginBottom: 20 }}>
+        <Image
+          source={require("../../../assets/icons/logo.png")}
+          style={{ height: 100, width: 100 }}
+        />
+        <Text style={{ paddingVertical: 20, fontSize: 18, fontWeight: "700" }}>
+          Login to your account
+        </Text>
       </Block>
-    </KeyboardAwareScrollView>
+      <Formik
+        enableReinitialize={true}
+        initialValues={{
+          identifier:"",
+          password:"",
+        }}
+        onSubmit={(values) => {
+          onSubmitLogin(values);
+        }}
+        validationSchema={LoginValidationSchema}
+      >
+        {({
+          handleChange,
+          touched,
+          setFieldTouched,
+          handleSubmit,
+          values,
+          errors,
+        }) => (
+          <Block style={{ flex: 0 }}>
+            <Input
+              full
+              label="Email / Phone"
+              focus={identifierFocus}
+              onChangeText={handleChange("identifier")}
+              onBlur={() => {
+                setFieldTouched("identifier");
+                setIdentifierFocus(false);
+              }}
+              onFocus={() => setIdentifierFocus(true)}
+              value={values.identifier}
+              style={{
+                borderBottomColor: identifierFocus
+                  ? theme.colors.primary2
+                  : touched.identifier && errors.identifier
+                  ? theme.colors.red
+                  : theme.colors.solidGray,
+              }}
+            />
+            <ErrorMessage
+              error={errors.identifier}
+              visible={touched.identifier}
+            />
+            <Input
+              full
+              password
+              label="Password"
+              focus={passwordFocus}
+              onChangeText={handleChange("password")}
+              onBlur={() => {
+                setFieldTouched("password");
+                setPasswordFocus(false);
+              }}
+              onFocus={() => {
+                setPasswordFocus(true);
+              }}
+              value={values.password}
+              style={{
+                borderBottomColor: passwordFocus
+                  ? theme.colors.primary2
+                  : touched.password && errors.password
+                  ? theme.colors.red
+                  : theme.colors.solidGray,
+              }}
+            />
+            <ErrorMessage error={errors.password} visible={touched.password} />
+
+            <Block
+              row
+              style={{
+                flex: 0,
+                paddingVertical: 10,
+                justifyContent: "flex-end",
+              }}
+            >
+              {/*<Block style={{ flex: 0 }}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => setChecked(!checked)}
+                  style={{ flexDirection: "row" }}
+                >
+                  {checked ? (
+                    <MaterialCommunityIcons
+                      name="checkbox-marked"
+                      size={24}
+                      color={theme.colors.primary2}
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="checkbox-blank-outline"
+                      size={24}
+                      color={theme.colors.solidGray}
+                    />
+                  )}
+                  <Text
+                    bold
+                    style={{ paddingHorizontal: 8, marginTop: 2 }}
+                    color={theme.colors.solidGray}
+                  >
+                    Remember me
+                  </Text>
+                </TouchableOpacity>
+              </Block>*/}
+              <TouchableOpacity
+                style={{
+                  marginTop: 2,
+                }}
+                onPress={() => navigation.navigate("Forgot Password")}
+              >
+                <Text bold color={theme.colors.primary2}>
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+            </Block>
+            <Block style={{ flex: 0, paddingTop: 20, paddingBottom: 15 }}>
+              {!errors.identifier || !errors.password ? (
+                <Button full onPress={handleSubmit}>
+                  {data.isLoading ? (
+                    <>
+                      <CustomActivityIndicator
+                        isLoading={data.isLoading}
+                        label="Logging in..."
+                      />
+                      <Text button style={{ fontSize: 18 }}>
+                        Login
+                      </Text>
+                    </>
+                  ) : (
+                    <Text button style={{ fontSize: 18 }}>
+                      Login
+                    </Text>
+                  )}
+                </Button>
+              ) : (
+                <Button full>
+                  <Text button style={{ fontSize: 18 }}>
+                    Login
+                  </Text>
+                </Button>
+              )}
+            </Block>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+              <Text h4 color={theme.colors.solidGray}>
+                Don't have an account?{" "}
+                <Text h4 color={theme.colors.primary2}>
+                  Sign Up
+                </Text>
+              </Text>
+            </TouchableOpacity>
+          </Block>
+        )}
+      </Formik>
+    </Block>
   );
 };
 
-export default Login
+export default Login;

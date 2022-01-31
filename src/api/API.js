@@ -1,69 +1,86 @@
-import { APIHeaders, APIHeadersForMultipartFormData } from './../constants/APIHeader';
-import LocalDb from './LocalStorage';
+import {
+    APIHeaders,
+    APIHeadersForMultipartFormData,
+    ProtoHeaders,
+} from "./../constants/APIHeader";
+import LocalDb from "./LocalStorage";
 
- class API {
-  static token = null;
-
-  static user = null;
-
-  constructor() {
-    API.token = null;
-    API.user = null;
-    this.setToken();
-  }
-
-  setToken() {
-    const response = LocalDb.getSession();
-    if (response !== null) {
-      API.token = response.token;
-      API.user = response.user;
+export class API {
+    static token = null;
+    static user = null;
+    constructor() {
+        API.token = null;
+        API.user = null;
+        this.setToken();
     }
-  }
+    setToken() {
 
-  removeTokens() {
-    API.token = null;
-    API.user = null;
-  }
+        LocalDb.getSessions().then((response) => {
+            if (response !== null) {
+                API.token = response.loginresponse.token;
+                // API.user = response.loginresponse.loginaccount.client;
+            }
+        }).catch(err => {
+            console.log("Error while getting session.", err);
+        });
+    }
 
-  resetToken() {
-    this.removeTokens();
-    this.setToken();
-  }
+    removeTokens() {
+        LocalDb.removeSession((resolve,reject)=>{
+            if(resolve){
+                return resolve
+            }else{
+                return reject
+            }
+        })
+    }
 
-  processResponse(response, callback) {
-    response
-      .json()
-      .then(parsedResponse => {
-        if (parsedResponse.error) {
-          const error = {
-            error: true,
-            msg: parsedResponse.msg,
-            errorCode: parsedResponse.errorCode,
-          };
-          callback(null, error);
-        } else {
-          callback(parsedResponse, null);
-        }
-      })
-      .catch(() => {
-        callback(null, 'Exception on server');
-      });
-  }
+    resetToken() {
+        this.removeTokens();
+        this.setToken();
+    }
 
-  user() {
-    return API.user;
-  }
+    processResponse(response, callback) {
+        response
+            .json()
+            .then((parsedResponse) => {
+                if (parsedResponse.error) {
+                    const error = {
+                        error: true,
+                        msg: parsedResponse.msg,
+                        errorCode: parsedResponse.errorCode,
+                    };
+                    callback(null, error);
+                } else {
+                    callback(parsedResponse, null);
+                }
+            })
+            .catch(() => {
+                callback(null, "Exception on server");
+            });
+    }
 
-  headers() {
-    return { ...APIHeaders };
-  }
-
-  authHeaders() {
-    return { ...APIHeaders, Authorization: API.token };
-  }
-
-  authHeadersForMultipartFormData() {
-    return { ...APIHeadersForMultipartFormData, Authorization: API.token };
-  }
+    token() {
+        return API.token;
+    }
+    user() {
+        return API.user;
+    }
+    headers() {
+        return { ...APIHeaders };
+    }
+    protoHeaders() {
+        return { ...ProtoHeaders };
+    }
+    authHeaders() {
+        return { ...APIHeaders, Authorization: API.token };
+    }
+    authProtoHeader() {
+        return { ...ProtoHeaders, Authorization: API.token };
+    }
+    authHeadersForMultipartFormData() {
+        return { ...APIHeadersForMultipartFormData, Authorization: API.token };
+    }
 }
 
+export default new API();

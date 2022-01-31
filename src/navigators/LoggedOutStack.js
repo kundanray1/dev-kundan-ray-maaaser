@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from "react";
+import {StatusBar} from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
-import Welcome from "../screens/auth/Welcome";
+
+//auth
+import Welcome from "../screens/auth/Welcome/index";
 import Login from "../screens/auth/Login/index";
 import SignUp from "../screens/auth/SignUp/index";
-import ForgotPassword from "../screens/auth/ForgotPassword";
-import Verification from "../screens/auth/Verification";
-import CreateNewPassword from "../screens/auth/CreateNewPassword";
+import ForgotPassword from "../screens/auth/ForgotPassword/index";
+import Verification from "../screens/auth/Verification/index";
+import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
 
 const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {
   return (
-      <AuthStack.Navigator initialRouteName="Welcome">
-        <AuthStack.Screen
+      <AuthStack.Navigator initialRouteName="Login">
+         <AuthStack.Screen
           name="Welcome"
           options={{ headerShown: false }}
           component={Welcome}
         />
         <AuthStack.Screen
           name="Login"
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
           component={Login}
         />
         <AuthStack.Screen
-          name="SignUp"
-          options={{ headerShown: true }}
+          name="Sign Up"
+          options={{ headerShown: false }}
           component={SignUp}
         />
         <AuthStack.Screen

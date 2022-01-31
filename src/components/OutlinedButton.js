@@ -9,7 +9,8 @@ export default OutlinedButton = ({ style, full, opacity, children, ...props }) =
 
   return (
 
-    <LinearGradient colors={[theme.colors.primary1, theme.colors.primary2]} style={buttonStyles}>
+    <LinearGradient colors={[theme.colors.primary1, theme.colors.primary2]} start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 0 }} style={buttonStyles}>
        <TouchableOpacity
       activeOpacity={opacity || 0.8}
       style={styles.outlinedStyles}
@@ -24,9 +25,9 @@ export default OutlinedButton = ({ style, full, opacity, children, ...props }) =
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
-    height: 55,
-    padding:2,
+    borderRadius: 2,
+    height: 46,
+    padding:1.2,
   },
   outlinedStyles: {
     backgroundColor: theme.colors.white,

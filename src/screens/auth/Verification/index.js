@@ -2,20 +2,24 @@ import { memo } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
-import reducer from "./reducer";
-import saga from "./saga";
-import CreateNewPassword from "./CreateNewPassword";
-import { createNewPasswordStart } from "./actions";
+import Verification from "./Verification";
+import { verificationStart } from "./actions";
+import { forgotPasswordStart } from "./../ForgotPassword/actions";
+
 
 const mapStateToProps = createStructuredSelector({
-	data: (state) => state.CreateNewPassword,
+	data: (state) => state.verification,
+	forgotPasswordData: (state) => state.forgotPassword,
+
 });
 const mapDispatchToProps = (dispatch) => {
 	return {
-		createNewPassword: (values) => dispatch(createNewPasswordStart(values)),
+		verification: (values) => dispatch(verificationStart(values)),
+		forgotPassword: (values) => dispatch(forgotPasswordStart(values)),
 	};
 };
 
+
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo)(CreateNewPassword);
+export default compose(withConnect, memo)(Verification);
