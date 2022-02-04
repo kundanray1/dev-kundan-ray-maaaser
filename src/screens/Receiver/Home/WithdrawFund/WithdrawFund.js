@@ -12,7 +12,6 @@ import {
 } from "./../../../../components/Index.js";
 import PaymentProto from "./../../../../protos/payment_pb";
 import API from "./../../../../api/API";
-
 const WithdrawFund = ({
   navigation,
   data,
@@ -21,6 +20,7 @@ const WithdrawFund = ({
   const { accountData } = route.params;
   const [amountFocus, setAmountFocus] = useState();
   const [remarksFocus, setRemarksFocus] = useState();
+  const InputItem = [{label:'Account Holder Name',value: accountData.accountholdername, editable:false},{label:'Bank Name',value:accountData.bankname, editable:false},{label:'Routing Number',value:accountData.routingnumber, editable:false},{label:'Account Number',value:accountData.accountnumber, editable:false}]
 
   const onSubmitWithdrawFund = (values) => {
     navigation.navigate("Withdraw Fund Confirmation",{
@@ -63,7 +63,16 @@ const WithdrawFund = ({
             errors,
           }) => (
             <Block>
-              <Input
+              {
+                InputItem.map((data)=>{return(
+                  <Input
+                label={data.label}
+                value={data.value}
+                editable={data.editable}
+              />
+                )})
+              }
+              {/* <Input
                 label="Account Holder Name"
                 value={accountData.accountholdername}
                 editable={false}
@@ -85,7 +94,7 @@ const WithdrawFund = ({
                 label="Account Number"
                 value={accountData.accountnumber}
                 editable={false}
-              />
+              /> */}
 
               <Input
                 label="Amount"

@@ -22,7 +22,7 @@ import TimeRemainingIconComponent from "./../../../assets/icons/TimeRemainingIco
 import BeneficiaryIconComponent from "./../../../assets/icons/BeneficiaryIconComponent";
 import TagsIconComponent from "./../../../assets/icons/TagsIconComponent";
 import PinLocationIconComponent from "./../../../assets/icons/PinLocationIconComponent";
-import EditIconComponent from "./../../../assets/icons/EditIconComponent.js";
+import EditIconComponent from "./../../../assets/icons/editIconComponent";
 import CampaignEditIconComponent from "./../../../assets/icons/campaignEditIconComponent.js";
 import getCountryISO2 from "country-iso-3-to-2";
 import country from "../../../constants/country.json";

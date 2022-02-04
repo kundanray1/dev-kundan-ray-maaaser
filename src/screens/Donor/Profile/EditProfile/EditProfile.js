@@ -281,7 +281,7 @@ const EditProfile = ({
       editProfileClear();
       imageUploadClear();
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await Camera.getPermissionsAsync();
       setHasPermission(status === "granted");
     })();
     if (data.editProfile !== null) {
