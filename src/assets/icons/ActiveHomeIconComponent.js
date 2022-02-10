@@ -1,35 +1,34 @@
 import * as React from "react"
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg"
 
-function SvgComponent(props) {
-  return (
-    <Svg
-      width={20}
-      height={20}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <Path
-        d="M19.75 9.447a.954.954 0 00-.079-1.365L10.733.262A1.114 1.114 0 009.28.277L.31 8.499a.948.948 0 00-.043 1.363l.225.234c.373.388.976.435 1.346.103l.67-.6v8.788c0 .539.437.975.976.975H6.98a.975.975 0 00.975-.975v-6.148h4.46v6.148c-.008.538.377.975.916.975h3.705a.975.975 0 00.975-.976V9.723l.414.363c.228.2.707.04 1.07-.36l.253-.28z"
-        fill="url(#prefix__paint0_linear)"
-      />
-      <Defs>
-        <LinearGradient
-          id="prefix__paint0_linear"
-          x1={10}
-          y1={0}
-          x2={10}
-          y2={19.362}
-          gradientUnits="userSpaceOnUse"
-        >
-          <Stop stopColor="#0BB3F3" />
-          <Stop offset={1} stopColor="#037CC4" />
-        </LinearGradient>
-      </Defs>
-    </Svg>
-  )
-}
+const SvgComponent = (props) => (
+  <Svg
+    width={16}
+    height={16}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M8.423 0 16 7.353l-.846.9-1.203-1.16v8.273l-.596.634H9.781l-.596-.634V10.93H6.803v4.437L6.207 16H2.633l-.596-.634V7.102L.846 8.254 0 7.354 7.565 0h.858ZM3.229 5.95v8.782H5.61v-4.437l.596-.634h3.574l.596.634v4.437h2.382v-8.79L7.994 1.344 3.229 5.95Z"
+      fill="url(#a)"
+    />
+    <Defs>
+      <LinearGradient
+        id="a"
+        x1={8}
+        y1={0}
+        x2={8}
+        y2={16}
+        gradientUnits="userSpaceOnUse"
+      >
+        <Stop stopColor="#0BB3F3" />
+        <Stop offset={1} stopColor="#037CC4" />
+      </LinearGradient>
+    </Defs>
+  </Svg>
+)
 
 export default SvgComponent

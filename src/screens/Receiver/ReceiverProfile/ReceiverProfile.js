@@ -22,6 +22,7 @@ const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const ReceiverProfile = ({ navigation,data,balanceData }) => {
+  console.log(data);
   return (
     <SafeAreaView style={{ flex: 1, top: StatusBar.currentHeight }}>
      {data.isLoading ? (

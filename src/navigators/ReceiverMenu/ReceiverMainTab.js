@@ -10,6 +10,7 @@ import Withdraws from "../../screens/Receiver/Withdraws/index";
 import More from "../../screens/Donor/More/index";
 import Campaigns from "../../screens/Campaigns/index";
 import CampaignSubCampaignTabStack from "./../DonorMenu/CampaignSubCampaignTabStack";
+import Community from "../../screens/Receiver/Community/index";
 
 
 import CampaignBottomMenuIconComponent from "./../../assets/icons/campaignBottomMenuIconComponent.js";
@@ -19,12 +20,17 @@ import ActiveHomeIconComponent from "./../../assets/icons/ActiveHomeIconComponen
 import ActiveProfileIconComponent from "./../../assets/icons/ActiveProfileIconComponent.js";
 import ActiveMoreIconComponent from "./../../assets/icons/ActiveMoreIconComponent.js";
 import ActiveTransactionsIconComponent from "./../../assets/icons/ActiveTransactionsIconComponent.js";
+import ActiveCommunityIconComponent from "./../../assets/icons/ActiveCommunityIcon";
+
+
 
 import InactiveHomeIconComponent from "./../../assets/icons/InactiveHomeIconComponent.js";
 import InactiveProfileIconComponent from "./../../assets/icons/InactiveProfileIconComponent.js"
 import InactiveMoreIconComponent from "./../../assets/icons/InactiveMoreIconComponent.js";
+import InactiveCommunityIconComponent from "./../../assets/icons/InactiveCommunityIcon";
 import InactiveTransactionsIconComponent from "./../../assets/icons/InactiveTransactionsIconComponent.js";
 import { Host } from 'react-native-portalize';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -35,7 +41,7 @@ const screenOptions = ({ route }) => ({
 			return (
               focused?<ActiveHomeIconComponent/>:<InactiveHomeIconComponent/>
 			);
-		} else if (route.name === "Transactions") {
+		} else if (route.name === "Withdraws") {
 			return (
               focused?<ActiveTransactionsIconComponent/>:<InactiveTransactionsIconComponent/>
 			);
@@ -47,7 +53,12 @@ const screenOptions = ({ route }) => ({
 			return (
               focused?<ActiveProfileIconComponent/>:<InactiveProfileIconComponent/>
 			);
-		} else if (route.name === "More") {
+		} else if (route.name === "Community") {
+			return (
+              focused?<ActiveCommunityIconComponent/>:<InactiveCommunityIconComponent/>
+			);
+		}
+		else if (route.name === "More") {
 			return (
               focused?<ActiveMoreIconComponent/>:<InactiveMoreIconComponent/>
 			);
@@ -75,9 +86,11 @@ export default ReceiverMainTab = () => {
 			}}
 		>
 			<Tab.Screen name="Home" component={HomeStack} />
-			<Tab.Screen name="Transactions" component={TransactionsStack} />
+			<Tab.Screen name="Withdraws" component={TransactionsStack} />
 			<Tab.Screen name="Campaigns" component={CampaignsStack} />
 			<Tab.Screen name="Profile" component={ReceiverProfileStack} />
+			<Tab.Screen name="Community" component={CommunityStack} />
+
 			<Tab.Screen name="More" component={MoreStack} />
 		</Tab.Navigator>
 		</Host>
@@ -144,6 +157,20 @@ function ReceiverProfileStack() {
 		>
 			<ReceiverProfileRoute.Screen name="Profile" component={ReceiverProfile} />
 		</ReceiverProfileRoute.Navigator>
+	);
+}
+
+const CommunityRoute = createStackNavigator();
+function CommunityStack() {
+	return (
+		<CommunityRoute.Navigator
+			screenOptions={{
+				headerShown: false,
+			}}
+			initialRouteName="Community"
+		>
+			<CommunityRoute.Screen name="Community" component={Community} />
+		</CommunityRoute.Navigator>
 	);
 }
 

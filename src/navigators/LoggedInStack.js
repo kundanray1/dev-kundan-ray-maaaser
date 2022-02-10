@@ -86,6 +86,8 @@ import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
 
 
 import { Host } from 'react-native-portalize';
+import StartACommunity from "../screens/Receiver/Community/StartACommunity/StartACommunity";
+import CommunityDetails from "../screens/Receiver/Community/CommunityDetails";
 
 
 //navigator for logged in users
@@ -312,6 +314,16 @@ const LoggedInStack = ({ data }) => {
         name="Start a campaign"
         options={{ headerShown: true }}
         component={StartACampaign}
+      />
+      <AuthStack.Screen
+        name="New Community"
+        options={{ headerShown: true }}
+        component={StartACommunity}
+      />
+      <AuthStack.Screen
+        name="Community Details"
+        options={{ headerShown: true }}
+        component={CommunityDetails}
       />
       <AuthStack.Screen
         name="Add Beneficiary"
