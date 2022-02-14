@@ -18,6 +18,7 @@ import Wallpaper from "../../../assets/images/Wallpaper.png";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as ImagePicker from "expo-image-picker";
 import { CardText, CardTitle, Col, ColCard, Container, RowNoPadding, Seperator } from "../../../utility/styledComponents.js";
+import CommunityTab from "./CommunityTab.js";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -60,8 +61,8 @@ const CommunityDetails = ({
                         <Image source={Wallpaper} style={{ flex: 1, width: WIDTH, resizeMode: 'cover' }} />
                     </View>
                     <Container>
-                        <RowNoPadding style={{ marginVertical: 0 }}>
-                            <Image source={Wallpaper} style={{ width: 70, height: 70, position: 'absolute', bottom: 0 }} />
+                        <RowNoPadding style={{ marginBottom: 10 }}>
+                            <Image source={Wallpaper} style={{ width: 70, height: 70, position: 'absolute', bottom: 0 ,borderRadius:5}} />
                             <Col style={{ left: 80 }}>
                                 <CardTitle>
                                     Black Lives Matter
@@ -91,6 +92,12 @@ const CommunityDetails = ({
                                 Join Group
                             </Text>
                         </Button>
+                    </Container>
+                    <Container>
+<CommunityTab/>
+                    </Container>
+                    <Container>
+                        
                     </Container>
 
                 </>

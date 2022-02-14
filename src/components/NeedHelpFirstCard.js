@@ -28,7 +28,7 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 					<ImageBackground
 						style={{
 							height: HEIGHT / 6,
-							width: WIDTH-150,
+							width: '100%',
 							justifyContent: "flex-end",
 							overflow: "hidden",
 						}}

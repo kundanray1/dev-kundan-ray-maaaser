@@ -74,7 +74,8 @@ export const CardTitle = styled.Text`
  font-size:16px;
  color:${theme.colors.black};
  font-weight:600;
- margin-vertical:5px;
+ margin-vertical:2px;
+ font-family: "sans-serif";
 
 
 `;
@@ -82,7 +83,19 @@ export const CardText = styled.Text`
  font-size:14px;
  color:${theme.colors.gray};
  font-weight:400;
+ margin-vertical:1px;
+ font-family: "sans-serif-light";
+
+
+
+`;
+
+export const TextBlack = styled.Text`
+ font-size:14px;
+ color:${theme.colors.black};
+ font-weight:400;
  margin-vertical:5px;
+ font-family: "sans-serif";
 
 
 
@@ -99,6 +112,7 @@ export const TextClick = styled.Text`
  color:${theme.colors.primary2};
  font-weight:500;
  margin-vertical:5px;
+ font-family: "sans-serif";
 
 `;
 export const HeaderText = styled.Text`
@@ -106,6 +120,7 @@ export const HeaderText = styled.Text`
  color:${theme.colors.primary2};
  font-weight:500;
  margin-vertical:15px;
+ font-family: "sans-serif";
 
 `;
 
@@ -113,6 +128,7 @@ export const HeaderText = styled.Text`
 export const UserIconPlace = styled.Text`
 width: 40px;
 height: 40px;
+font-family: "sans-serif-light";
 
 border: 1px solid #FFFFFF;
 `;
