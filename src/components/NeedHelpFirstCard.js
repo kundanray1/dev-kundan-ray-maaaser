@@ -12,14 +12,13 @@ import PercentageBar from "./PercentageBar.js";
 import NumberFormat from "react-number-format";
 import { Video, AVPlaybackStatus } from "expo-av";
 
-
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }) => {
 	const percentage=(collectedAmount*100)/targetAmount;
 	return (
-		<SafeAreaView style={{ flex: 1 ,marginRight:16}}>
+		<SafeAreaView style={{ flex: 1 ,margin:5}}>
 		<TouchableOpacity activeOpacity={0.8} {...props}>
 				{
 					image.match(/\.(jpeg|jpg|gif|png|raw|gif)$/)!= null ?

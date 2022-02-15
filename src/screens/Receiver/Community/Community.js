@@ -68,10 +68,10 @@ const Community = ({ navigation, data, loginData, campaigns, campaignId, startAC
                   </HeaderText>
 
                   <RowNoPadding style={{ paddingRight: 0 }}>
-                    {details.map((item, id) => {
+                    {details.map((item, e) => {
                       return (
                      
-                          <ColCard style={{ width: "47%" }}>
+                          <ColCard style={{ width: "47%" }} key={e}>
                             <TouchableOpacity onPress={()=>navigation.navigate('Community Details')} style={{width:"100%"}}>
                             <CardTitle>
                               {item.type}

@@ -9,6 +9,10 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import Block from "../../../components/Block";
 import Ellipse from "../../../assets/images/Ellipse.png";
 import Text from "../../../components/Text";
+import LikeComponent from "../../../assets/icons/LikeComponent";
+import CommentComponent from "../../../assets/icons/CommentComponent";
+import ShareComponent from "../../../assets/icons/ShareComponent";
+
 import NeedHelpFirstCard from "../../../components/NeedHelpFirstCard";
 const items = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 3 }, { id: 3 }]
 
@@ -74,7 +78,7 @@ const CommunityTab = () => {
             {index === 1
                 && <>
                     {items.map((data, i) => {
-                        return (<RowNoPadding style={{ justifyContent: 'flex-start' }}>
+                        return (<RowNoPadding key={i} style={{ justifyContent: 'flex-start' }}>
                             <UserIconPlace>
                                 <Image source={Ellipse} style={{ borderRadius: 30 }} />
                             </UserIconPlace>
@@ -98,15 +102,7 @@ const CommunityTab = () => {
             {index === 2
                 &&
                 <>
-
-                    <RowCard style={{
-
-                        flexDirection: 'column',
-                        borderBottomWidth: 1,
-                        borderColor: theme.colors.gray2,
-
-                    }}>
-                        <View style={{paddingVertical:10,flexDirection:'row'}}>
+<View style={{paddingVertical:10,flexDirection:'row'}}>
                         <Image source={Ellipse} style={{ borderRadius: 30 }} />
                         <Block>
                             <CardTitle>
@@ -117,6 +113,17 @@ const CommunityTab = () => {
                             </Text>
                         </Block>
                         </View>
+                    <RowCard style={{
+                        paddingBottom:0,
+                        paddingTop:0,
+                        paddingLeft:0,
+                        paddingRight:0,
+                        flexDirection: 'column',
+                        borderBottomWidth: 1,
+                        borderColor: theme.colors.gray2,
+
+                    }}>
+                        
                         <NeedHelpFirstCard
                             image={"https://storage.googleapis.com/maaser_resources/4d69340daad24dffa4eca97152c9cf69.jpg"}
                             label={'Help hungry children'}
@@ -126,7 +133,12 @@ const CommunityTab = () => {
                                 console.log('post opened')
                             }}
                         />
+                        <View style={{flexDirection:'row',justifyContent:'space-between',borderTopWidth:0.5,padding:10,borderColor:theme.colors.gray2}}>
+                            <RowNoPadding style={{minWidth:"30%"}}><LikeComponent/><CommentComponent/><ShareComponent/></RowNoPadding>
+                            <RowNoPadding style={{minWidth:"40%",justifyContent:"space-between"}}><CardText>3 comment</CardText><CardText>5 shares</CardText></RowNoPadding>
+                        </View>
                     </RowCard>
+                    
                 </>
             }
         </View>
