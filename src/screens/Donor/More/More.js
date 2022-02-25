@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const More = ({navigation,logout,loginData,logoutClear,loginClear,userLoggedOut,data}) => {
   useEffect(()=>{
+    console.log(data,'data params')
     if(data.logout!==null){
       if(data.logout.success){
         loginClear();

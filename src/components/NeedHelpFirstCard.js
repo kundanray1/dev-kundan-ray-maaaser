@@ -15,7 +15,7 @@ import { Video, AVPlaybackStatus } from "expo-av";
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
-const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }) => {
+const NeedHelpFirstCard = ({ label,image,collectedAmount,description,targetAmount,...props }) => {
 	const percentage=(collectedAmount*100)/targetAmount;
 	return (
 		<SafeAreaView style={{ flex: 1 ,margin:5}}>
@@ -66,14 +66,27 @@ const NeedHelpFirstCard = ({ label,image,collectedAmount,targetAmount,...props }
 							fontSize: 15,
 							fontWeight: "700",
 							textTransform: "capitalize",
-							width: WIDTH-180
+							width: WIDTH-180,
+							paddingVertical:5,
 						}}
 						numberOfLines={1}
-						color="#3B414B"
+						color={theme.colors.primary2}
 					>
 						{label}
 					</Text>
+					<Text
+						style={{
+							fontSize: 13,
+							fontWeight: "400",
+							paddingVertical:5,
 
+						}}
+						
+						numberOfLines={2}
+						color={theme.colors.gray}
+					>
+						{description}
+					</Text>
 					<PercentageBar
 						height={4}
 						backgroundColor={"grey"}

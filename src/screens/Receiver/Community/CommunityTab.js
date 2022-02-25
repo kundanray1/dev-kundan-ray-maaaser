@@ -102,7 +102,7 @@ const CommunityTab = () => {
             {index === 2
                 &&
                 <>
-<View style={{paddingVertical:10,flexDirection:'row'}}>
+                    <View style={{ paddingVertical: 10, flexDirection: 'row' }}>
                         <Image source={Ellipse} style={{ borderRadius: 30 }} />
                         <Block>
                             <CardTitle>
@@ -112,18 +112,18 @@ const CommunityTab = () => {
                                 Donor
                             </Text>
                         </Block>
-                        </View>
+                    </View>
                     <RowCard style={{
-                        paddingBottom:0,
-                        paddingTop:0,
-                        paddingLeft:0,
-                        paddingRight:0,
+                        paddingBottom: 0,
+                        paddingTop: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
                         flexDirection: 'column',
                         borderBottomWidth: 1,
                         borderColor: theme.colors.gray2,
 
                     }}>
-                        
+
                         <NeedHelpFirstCard
                             image={"https://storage.googleapis.com/maaser_resources/4d69340daad24dffa4eca97152c9cf69.jpg"}
                             label={'Help hungry children'}
@@ -133,12 +133,12 @@ const CommunityTab = () => {
                                 console.log('post opened')
                             }}
                         />
-                        <View style={{flexDirection:'row',justifyContent:'space-between',borderTopWidth:0.5,padding:10,borderColor:theme.colors.gray2}}>
-                            <RowNoPadding style={{minWidth:"30%"}}><LikeComponent/><CommentComponent/><ShareComponent/></RowNoPadding>
-                            <RowNoPadding style={{minWidth:"40%",justifyContent:"space-between"}}><CardText>3 comment</CardText><CardText>5 shares</CardText></RowNoPadding>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 0.5, padding: 10, borderColor: theme.colors.gray2 }}>
+                            <RowNoPadding style={{ minWidth: "30%" }}><LikeComponent /><CommentComponent /><ShareComponent /></RowNoPadding>
+                            <RowNoPadding style={{ minWidth: "40%", justifyContent: "space-between" }}><CardText>3 comment</CardText><CardText>5 shares</CardText></RowNoPadding>
                         </View>
                     </RowCard>
-                    
+
                 </>
             }
         </View>

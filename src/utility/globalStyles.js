@@ -62,27 +62,34 @@ export default StyleSheet.create({
 		borderRadius: 2,
 	},
 	boxSearchContainer: {
-		width: "100%",
+		minWidth: "90%",
 		height: 40,
-		marginTop:8,
+		marginTop:0,
 		flexDirection: "row",
 		flex: 0,
 		borderColor: theme.colors.gray2,
 		paddingHorizontal: 10,
-		borderRadius: 2,
-		backgroundColor:"#F4F4F4"
+		borderRadius: 20,
+		backgroundColor:"#F4F4F4",
+
 
 	},
 	boxVwSearch: {
-		flex: 0.1,
+		flex: 0,
 		justifyContent: "center",
-		backgroundColor:"#F4F4F4"
-
+		flexDirection:'row',
+		backgroundColor:"#F4F4F4",
+		alignItems:'center',
+borderRadius:40,
 	},
 	boxTextInput: {
 		flex: 1,
 		fontSize: 18,
+		padding:5,
 		justifyContent: "center",
-		color:theme.colors.solidGray
+		color:theme.colors.solidGray,
+		borderRadius:20,
+		backgroundColor:"#F4F4F4",
+
 	},
 });

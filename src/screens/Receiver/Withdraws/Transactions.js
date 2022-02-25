@@ -262,6 +262,7 @@ const Transactions = ({
           return acc;
         }, {})
       );
+      console.log(JSON.stringify(sortedData),'transaction data')
       setTransactionsData(sortedData);
     }
   }, [data.transactions]);

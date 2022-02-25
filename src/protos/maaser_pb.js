@@ -1,15 +1,25 @@
+// source: maaser.proto
 /**
  * @fileoverview
  * @enhanceable
+ * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
+/* eslint-disable */
+// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global = Function('return this')();
+var global = (function() {
+  if (this) { return this; }
+  if (typeof window !== 'undefined') { return window; }
+  if (typeof global !== 'undefined') { return global; }
+  if (typeof self !== 'undefined') { return self; }
+  return Function('return this')();
+}.call(null));
 
 goog.exportSymbol('proto.brilltech.maaser.entities.AccountStatus', null, global);
 goog.exportSymbol('proto.brilltech.maaser.entities.AccountType', null, global);
@@ -41,7 +51,8 @@ proto.brilltech.maaser.entities.AccountType = {
   MAASER_USER: 1,
   DONOR_ACCOUNT: 2,
   RECEIVER_ACCOUNT: 3,
-  EMPLOYEE_ACCOUNT: 4
+  EMPLOYEE_ACCOUNT: 4,
+  MERCHANT_ACCOUNT: 5
 };
 
 /**

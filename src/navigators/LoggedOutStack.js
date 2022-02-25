@@ -9,11 +9,13 @@ import SignUp from "../screens/auth/SignUp/index";
 import ForgotPassword from "../screens/auth/ForgotPassword/index";
 import Verification from "../screens/auth/Verification/index";
 import CreateNewPassword from "../screens/auth/CreateNewPassword/index";
+import MerchantMainTab from "./MerchantMenu/MerchantMainTab";
+import LandingMainTab from "./LandingMenu/LandingMainTab";
 
 const AuthStack = createStackNavigator();
 export default LoggedOutStack = () => {
   return (
-      <AuthStack.Navigator initialRouteName="Login">
+      <AuthStack.Navigator initialRouteName="LandingMainTab">
          <AuthStack.Screen
           name="Welcome"
           options={{ headerShown: false }}
@@ -44,6 +46,12 @@ export default LoggedOutStack = () => {
           options={{ headerShown: true }}
           component={CreateNewPassword}
         />
+     
+       <AuthStack.Screen
+        name="LandingMainTab"
+        options={{ headerShown: false }}
+        component={LandingMainTab}
+      />
          
       </AuthStack.Navigator>
   );

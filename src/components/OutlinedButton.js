@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   outlinedStyles: {
     backgroundColor: theme.colors.white,
     height: '100%',
-    width: '100%',
+ 
     alignItems: "center",
     justifyContent: "center",
   },

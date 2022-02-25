@@ -12,15 +12,19 @@ export function* donationReceived({ payload }) {
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.DONATION_RECEIVED}/${payload}?medium=3&type=2`,
+			`${APIEndpoints.DONATION_RECEIVED}/${payload}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),
 			}
 		);
+		console.log(payload)
+
+console.log(response,'donation receive unserialized')
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log(res,'donation recieve serialized')
 		if (res.success) {
 			if (res.transactionsList == undefined) {
 				yield put(donationReceivedSuccess([]));

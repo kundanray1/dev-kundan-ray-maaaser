@@ -7,6 +7,7 @@ import ReceiverMainTab from "./ReceiverMenu/ReceiverMainTab";
 import DonateTabStack from "./DonorMenu/DonateTabStack";
 import CampaignTabStack from "./DonorMenu/CampaignTabStack";
 import SubCampaignTabStack from "./DonorMenu/SubCampaignTabStack";
+import MerchantMainTab from "./MerchantMenu/MerchantMainTab";
 
 //auth
 import LetsGetStartedDonor from "../screens/auth/LetsGetStartedDonor/index";
@@ -99,6 +100,7 @@ const LoggedInStack = ({ data }) => {
       routeName = "Change Password";
     }
   } else {
+    console.log(data.user.account, 'account type')
     if (data.user.account.isfirstlogin == false) {
       if (data.user.account.accounttype == 2) {
         routeName = "Lets Get Started Donor";
@@ -107,6 +109,8 @@ const LoggedInStack = ({ data }) => {
       }
     } else if (data.user.account.accounttype == 3) {
       routeName = "ReceiverMainTab";
+    } else if (data.user.account.accounttype == 5) {
+      routeName = "MerchantMainTab";
     } else {
       routeName = "DonorMainTab";
     }
@@ -114,317 +118,322 @@ const LoggedInStack = ({ data }) => {
 
   return (
     <Host>
-    <AuthStack.Navigator initialRouteName={routeName}>
-      <AuthStack.Screen
-        name="DonorMainTab"
-        options={{ headerShown: false }}
-        component={DonorMainTab}
-      />
-      <AuthStack.Screen
-        name="ReceiverMainTab"
-        options={{ headerShown: false }}
-        component={ReceiverMainTab}
-      />
-      <AuthStack.Screen
-        name="Load Fund"
-        options={{ headerShown: true }}
-        component={LoadFund}
-      />
-      <AuthStack.Screen
-        name="Lets Get Started Donor"
-        options={{ headerShown: false }}
-        component={LetsGetStartedDonor}
-      />
-      <AuthStack.Screen
-        name="Lets Get Started Receiver"
-        options={{ headerShown: false }}
-        component={LetsGetStartedReceiver}
-      />
-      <AuthStack.Screen
-        name="Upcoming Donations"
-        options={{ headerShown: true }}
-        component={UpcomingDonations}
-      />
-      <AuthStack.Screen
-        name="Donations Made"
-        options={{ headerShown: true }}
-        component={DonationsMade}
-      />
-      <AuthStack.Screen
-        name="Receivers"
-        options={{ headerShown: true }}
-        component={Receivers}
-      />
-      <AuthStack.Screen
-        name="Donate"
-        options={{ headerShown: true }}
-        component={DonateTabStack}
-      />
-      <AuthStack.Screen
-        name="Manual"
-        options={{ headerShown: true }}
-        component={Manual}
-      />
-      <AuthStack.Screen
-        name="Manual Donate Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={ManualDonateConfirmation}
-      />
-      <AuthStack.Screen
-        name="Donate Via Scan"
-        options={{ headerShown: true, title: "Donate" }}
-        component={DonateViaScan}
-      />
-      <AuthStack.Screen
-        name="Donate Via Scan Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={DonateViaScanConfirmation}
-      />
-      <AuthStack.Screen
-        name="ACH"
-        options={{ headerShown: true }}
-        component={ACH}
-      />
-      <AuthStack.Screen
-        name="ACH Load Fund"
-        options={{ headerShown: true }}
-        component={ACHLoadFund}
-      />
-      <AuthStack.Screen
-        name="ACH Load Fund Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={ACHLoadFundConfirmation}
-      />
-      <AuthStack.Screen
-        name="Card"
-        options={{ headerShown: true }}
-        component={Card}
-      />
-      <AuthStack.Screen
-        name="Card Load Fund"
-        options={{ headerShown: true }}
-        component={CardLoadFund}
-      />
-      <AuthStack.Screen
-        name="Card Load Fund Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={CardLoadFundConfirmation}
-      />
-      <AuthStack.Screen
-        name="Link New Card"
-        options={{ headerShown: true }}
-        component={LinkNewCard}
-      />
-      <AuthStack.Screen
-        name="Link New Account"
-        options={{ headerShown: true }}
-        component={LinkNewAccount}
-      />
-      <AuthStack.Screen
-        name="Link Schedule Donation"
-        options={{ headerShown: true, title: "Schedule Donation" }}
-        component={LinkScheduleDonation}
-      />
-      <AuthStack.Screen
-        name="Scan QR Code"
-        options={{ headerShown: true }}
-        component={ScanQRCodeTabStack}
-      />
-      <AuthStack.Screen
-        name="Details"
-        options={{ headerShown: true }}
-        component={ScheduleDonationReceiverDetail}
-      />
-      <AuthStack.Screen
-        name="Add New Member"
-        options={{ headerShown: true }}
-        component={AddMember}
-      />
-      <AuthStack.Screen
-        name="Members"
-        options={{ headerShown: true }}
-        component={Members}
-      />
-      <AuthStack.Screen
-        name="View Profile"
-        options={{ headerShown: false }}
-        component={ViewProfile}
-      />
-      <AuthStack.Screen
-        name="Edit Profile"
-        options={{ headerShown: false }}
-        component={EditProfile}
-      />
-      <AuthStack.Screen
-        name="Change Password"
-        options={{ headerShown: true }}
-        component={ChangePassword}
-      />
-      <AuthStack.Screen
-        name="Donation Received"
-        options={{ headerShown: true }}
-        component={DonationReceived}
-      />
-      <AuthStack.Screen
-        name="Donors"
-        options={{ headerShown: true }}
-        component={Donors}
-      />
-      <AuthStack.Screen
-        name="Linked Accounts"
-        options={{ headerShown: true }}
-        component={LinkedAccounts}
-      />
-      <AuthStack.Screen
-        name="Withdraw Fund"
-        options={{ headerShown: true }}
-        component={WithdrawFund}
-      />
-      <AuthStack.Screen
-        name="Withdraw Fund Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={WithdrawFundConfirmation}
-      />
-      <AuthStack.Screen
-        name="Receiver View Profile"
-        options={{ headerShown: false }}
-        component={ReceiverViewProfile}
-      />
-      <AuthStack.Screen
-        name="Receiver Edit Profile"
-        options={{ headerShown: false }}
-        component={ReceiverEditProfile}
-      />
-      <AuthStack.Screen
-        name="My QR Code"
-        options={{ headerShown: true }}
-        component={MyQRCode}
-      />
-      <AuthStack.Screen
-        name="Donation Details"
-        options={{ headerShown: true, title: "Details" }}
-        component={DonationDetails}
-      />
-      <AuthStack.Screen
-        name="Load Fund Details"
-        options={{ headerShown: true, title: "Details" }}
-        component={LoadFundDetails}
-      />
-      <AuthStack.Screen
-        name="Start a campaign"
-        options={{ headerShown: true }}
-        component={StartACampaign}
-      />
-      <AuthStack.Screen
-        name="New Community"
-        options={{ headerShown: true }}
-        component={StartACommunity}
-      />
-      <AuthStack.Screen
-        name="Community Details"
-        options={{ headerShown: true }}
-        component={CommunityDetails}
-      />
-      <AuthStack.Screen
-        name="Add Beneficiary"
-        options={{ headerShown: true }}
-        component={AddBeneficiary}
-      />
-      <AuthStack.Screen
-        name="Start a sub campaign"
-        options={{ headerShown: true }}
-        component={StartASubCampaign}
-      />
-      <AuthStack.Screen
-        name="Start a campaign second"
-        options={{ headerShown: true, title: "Start a campaign" }}
-        component={StartACampaignSecond}
-      />
-      <AuthStack.Screen
-        name="Start a campaign third"
-        options={{ headerShown: true, title: "Start a campaign" }}
-        component={StartACampaignThird}
-      />
-      <AuthStack.Screen
-        name="Start a campaign update"
-        options={{ headerShown: true, title: "Update Campaign" }}
-        component={StartACampaignUpdate}
-      />
-      <AuthStack.Screen
-        name="Start a campaign second update"
-        options={{ headerShown: true, title: "Update Campaign" }}
-        component={StartACampaignSecondUpdate}
-      />
-      <AuthStack.Screen
-        name="Start a campaign third update"
-        options={{ headerShown: true, title: "Update Campaign" }}
-        component={StartACampaignThirdUpdate}
-      />
-      <AuthStack.Screen
-        name="Campaign Details"
-        options={{ headerShown: true }}
-        component={CampaignTabStack}
-      />
-      <AuthStack.Screen
-        name="All Campaigns"
-        options={{ headerShown: true }}
-        component={AllCampaigns}
-      />
-      <AuthStack.Screen
-        name="Campaign QR Code"
-        options={{ headerShown: true }}
-        component={CampaignQRCode}
-      />
+      <AuthStack.Navigator initialRouteName={routeName}>
+        <AuthStack.Screen
+          name="DonorMainTab"
+          options={{ headerShown: false }}
+          component={DonorMainTab}
+        />
+        <AuthStack.Screen
+          name="ReceiverMainTab"
+          options={{ headerShown: false }}
+          component={ReceiverMainTab}
+        />
+        <AuthStack.Screen
+          name="MerchantMainTab"
+          options={{ headerShown: false }}
+          component={MerchantMainTab}
+        />
+        <AuthStack.Screen
+          name="Load Fund"
+          options={{ headerShown: true }}
+          component={LoadFund}
+        />
+        <AuthStack.Screen
+          name="Lets Get Started Donor"
+          options={{ headerShown: false }}
+          component={LetsGetStartedDonor}
+        />
+        <AuthStack.Screen
+          name="Lets Get Started Receiver"
+          options={{ headerShown: false }}
+          component={LetsGetStartedReceiver}
+        />
+        <AuthStack.Screen
+          name="Upcoming Donations"
+          options={{ headerShown: true }}
+          component={UpcomingDonations}
+        />
+        <AuthStack.Screen
+          name="Donations Made"
+          options={{ headerShown: true }}
+          component={DonationsMade}
+        />
+        <AuthStack.Screen
+          name="Receivers"
+          options={{ headerShown: true }}
+          component={Receivers}
+        />
+        <AuthStack.Screen
+          name="Donate"
+          options={{ headerShown: true }}
+          component={DonateTabStack}
+        />
+        <AuthStack.Screen
+          name="Manual"
+          options={{ headerShown: true }}
+          component={Manual}
+        />
+        <AuthStack.Screen
+          name="Manual Donate Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={ManualDonateConfirmation}
+        />
+        <AuthStack.Screen
+          name="Donate Via Scan"
+          options={{ headerShown: true, title: "Donate" }}
+          component={DonateViaScan}
+        />
+        <AuthStack.Screen
+          name="Donate Via Scan Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={DonateViaScanConfirmation}
+        />
+        <AuthStack.Screen
+          name="ACH"
+          options={{ headerShown: true }}
+          component={ACH}
+        />
+        <AuthStack.Screen
+          name="ACH Load Fund"
+          options={{ headerShown: true }}
+          component={ACHLoadFund}
+        />
+        <AuthStack.Screen
+          name="ACH Load Fund Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={ACHLoadFundConfirmation}
+        />
+        <AuthStack.Screen
+          name="Card"
+          options={{ headerShown: true }}
+          component={Card}
+        />
+        <AuthStack.Screen
+          name="Card Load Fund"
+          options={{ headerShown: true }}
+          component={CardLoadFund}
+        />
+        <AuthStack.Screen
+          name="Card Load Fund Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={CardLoadFundConfirmation}
+        />
+        <AuthStack.Screen
+          name="Link New Card"
+          options={{ headerShown: true }}
+          component={LinkNewCard}
+        />
+        <AuthStack.Screen
+          name="Link New Account"
+          options={{ headerShown: true }}
+          component={LinkNewAccount}
+        />
+        <AuthStack.Screen
+          name="Link Schedule Donation"
+          options={{ headerShown: true, title: "Schedule Donation" }}
+          component={LinkScheduleDonation}
+        />
+        <AuthStack.Screen
+          name="Scan QR Code"
+          options={{ headerShown: true }}
+          component={ScanQRCodeTabStack}
+        />
+        <AuthStack.Screen
+          name="Details"
+          options={{ headerShown: true }}
+          component={ScheduleDonationReceiverDetail}
+        />
+        <AuthStack.Screen
+          name="Add New Member"
+          options={{ headerShown: true }}
+          component={AddMember}
+        />
+        <AuthStack.Screen
+          name="Members"
+          options={{ headerShown: true }}
+          component={Members}
+        />
+        <AuthStack.Screen
+          name="View Profile"
+          options={{ headerShown: false }}
+          component={ViewProfile}
+        />
+        <AuthStack.Screen
+          name="Edit Profile"
+          options={{ headerShown: false }}
+          component={EditProfile}
+        />
+        <AuthStack.Screen
+          name="Change Password"
+          options={{ headerShown: true }}
+          component={ChangePassword}
+        />
+        <AuthStack.Screen
+          name="Donation Received"
+          options={{ headerShown: true }}
+          component={DonationReceived}
+        />
+        <AuthStack.Screen
+          name="Donors"
+          options={{ headerShown: true }}
+          component={Donors}
+        />
+        <AuthStack.Screen
+          name="Linked Accounts"
+          options={{ headerShown: true }}
+          component={LinkedAccounts}
+        />
+        <AuthStack.Screen
+          name="Withdraw Fund"
+          options={{ headerShown: true }}
+          component={WithdrawFund}
+        />
+        <AuthStack.Screen
+          name="Withdraw Fund Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={WithdrawFundConfirmation}
+        />
+        <AuthStack.Screen
+          name="Receiver View Profile"
+          options={{ headerShown: false }}
+          component={ReceiverViewProfile}
+        />
+        <AuthStack.Screen
+          name="Receiver Edit Profile"
+          options={{ headerShown: false }}
+          component={ReceiverEditProfile}
+        />
+        <AuthStack.Screen
+          name="My QR Code"
+          options={{ headerShown: true }}
+          component={MyQRCode}
+        />
+        <AuthStack.Screen
+          name="Donation Details"
+          options={{ headerShown: true, title: "Details" }}
+          component={DonationDetails}
+        />
+        <AuthStack.Screen
+          name="Load Fund Details"
+          options={{ headerShown: true, title: "Details" }}
+          component={LoadFundDetails}
+        />
+        <AuthStack.Screen
+          name="Start a campaign"
+          options={{ headerShown: true }}
+          component={StartACampaign}
+        />
+        <AuthStack.Screen
+          name="New Community"
+          options={{ headerShown: true }}
+          component={StartACommunity}
+        />
+        <AuthStack.Screen
+          name="Community Details"
+          options={{ headerShown: true }}
+          component={CommunityDetails}
+        />
+        <AuthStack.Screen
+          name="Add Beneficiary"
+          options={{ headerShown: true }}
+          component={AddBeneficiary}
+        />
+        <AuthStack.Screen
+          name="Start a sub campaign"
+          options={{ headerShown: true }}
+          component={StartASubCampaign}
+        />
+        <AuthStack.Screen
+          name="Start a campaign second"
+          options={{ headerShown: true, title: "Start a campaign" }}
+          component={StartACampaignSecond}
+        />
+        <AuthStack.Screen
+          name="Start a campaign third"
+          options={{ headerShown: true, title: "Start a campaign" }}
+          component={StartACampaignThird}
+        />
+        <AuthStack.Screen
+          name="Start a campaign update"
+          options={{ headerShown: true, title: "Update Campaign" }}
+          component={StartACampaignUpdate}
+        />
+        <AuthStack.Screen
+          name="Start a campaign second update"
+          options={{ headerShown: true, title: "Update Campaign" }}
+          component={StartACampaignSecondUpdate}
+        />
+        <AuthStack.Screen
+          name="Start a campaign third update"
+          options={{ headerShown: true, title: "Update Campaign" }}
+          component={StartACampaignThirdUpdate}
+        />
+        <AuthStack.Screen
+          name="Campaign Details"
+          options={{ headerShown: true }}
+          component={CampaignTabStack}
+        />
+        <AuthStack.Screen
+          name="All Campaigns"
+          options={{ headerShown: true }}
+          component={AllCampaigns}
+        />
+        <AuthStack.Screen
+          name="Campaign QR Code"
+          options={{ headerShown: true }}
+          component={CampaignQRCode}
+        />
 
-      <AuthStack.Screen
-        name="Sub Campaign QR Code"
-        options={{ headerShown: true }}
-        component={SubCampaignQRCode}
-      />
+        <AuthStack.Screen
+          name="Sub Campaign QR Code"
+          options={{ headerShown: true }}
+          component={SubCampaignQRCode}
+        />
 
-      <AuthStack.Screen
-        name="Sub Campaign Details"
-        options={{ headerShown: true }}
-        component={SubCampaignTabStack}
-      />
-      <AuthStack.Screen
-        name="Campaign Donate Now"
-        options={{ headerShown: true, title: "Donate Now" }}
-        component={CampaignDonateNow}
-      />
-      <AuthStack.Screen
-        name="Campaign Donate Now Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={CampaignDonateNowConfirmation}
-      />
-      <AuthStack.Screen
-        name="Sub Campaign Donate Now"
-        options={{ headerShown: true, title: "Donate Now" }}
-        component={SubCampaignDonateNow}
-      />
-      <AuthStack.Screen
-        name="Sub Campaign Donate Now Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={SubCampaignDonateNowConfirmation}
-      />
-      <AuthStack.Screen
-        name="Withdrawn Details"
-        options={{ headerShown: true, title: "Details" }}
-        component={WithdrawnDetails}
-      />
+        <AuthStack.Screen
+          name="Sub Campaign Details"
+          options={{ headerShown: true }}
+          component={SubCampaignTabStack}
+        />
+        <AuthStack.Screen
+          name="Campaign Donate Now"
+          options={{ headerShown: true, title: "Donate Now" }}
+          component={CampaignDonateNow}
+        />
+        <AuthStack.Screen
+          name="Campaign Donate Now Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={CampaignDonateNowConfirmation}
+        />
+        <AuthStack.Screen
+          name="Sub Campaign Donate Now"
+          options={{ headerShown: true, title: "Donate Now" }}
+          component={SubCampaignDonateNow}
+        />
+        <AuthStack.Screen
+          name="Sub Campaign Donate Now Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={SubCampaignDonateNowConfirmation}
+        />
+        <AuthStack.Screen
+          name="Withdrawn Details"
+          options={{ headerShown: true, title: "Details" }}
+          component={WithdrawnDetails}
+        />
 
-      <AuthStack.Screen
-        name="Donate From Receivers List"
-        options={{ headerShown: true, title: "Details" }}
-        component={DonateFromReceiversList}
-      />
-      <AuthStack.Screen
-        name="Donate From Receivers List Confirmation"
-        options={{ headerShown: true, title: "Confirmation" }}
-        component={DonateFromReceiversListConfirmation}
-      />
-    
-    </AuthStack.Navigator>
+        <AuthStack.Screen
+          name="Donate From Receivers List"
+          options={{ headerShown: true, title: "Details" }}
+          component={DonateFromReceiversList}
+        />
+        <AuthStack.Screen
+          name="Donate From Receivers List Confirmation"
+          options={{ headerShown: true, title: "Confirmation" }}
+          component={DonateFromReceiversListConfirmation}
+        />
+
+      </AuthStack.Navigator>
     </Host>
   );
 };

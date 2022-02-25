@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: theme.sizes.font,
     color: theme.colors.black,
   },
-  bold: { fontFamily: "sans-serif" },
+  bold: { fontFamily: "sans-serif"},
   light: { fontFamily: "sans-serif-light" },
   center: { textAlign: "center" },
   right: { textAlign: "right" },

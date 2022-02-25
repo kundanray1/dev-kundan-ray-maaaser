@@ -14,10 +14,12 @@ export function* receivers({ payload }) {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
+		console.log(response,'res')
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("receivers",res)
+	console.log(res,'response deserialized')
+
 		if (res.success) {
 			yield put(receiversSuccess(res));
 		} else {

@@ -88,6 +88,11 @@ import { receiverProfileReducer } from "./../../screens/Receiver/ReceiverProfile
 import { receiverViewProfileReducer } from "./../../screens/Receiver/ReceiverProfile/ReceiverViewProfile/reducer";
 import { receiverEditProfileReducer } from "./../../screens/Receiver/ReceiverProfile/ReceiverEditProfile/reducer";
 
+//merchant 
+import { moreReducerMerchant } from "./../../screens/Merchant/More/reducer";
+import { merchantDashboardReducer } from "../../screens/Merchant/Home/MerchantDashboard/reducer";
+import { withdrawsMerchantReducer } from "../../screens/Merchant/Withdraws/reducer";
+
 
 // add all the reducer, abd lets use this format of combineReducers so you can add more later if you need to.
 const appReducer = combineReducers({
@@ -181,11 +186,17 @@ const appReducer = combineReducers({
 	receiverProfile: receiverProfileReducer,
 	receiverEditProfile: receiverEditProfileReducer,
 	receiverViewProfile: receiverViewProfileReducer,
+
+
+	//merchantmore
+	merchantDashboard: merchantDashboardReducer,
+	moreMerchant: moreReducerMerchant,
+	withdrawsMerchant: withdrawsMerchantReducer,
 });
 
 const rootReducer = (state, action) => {
 	// when a logout action is dispatched it will reset redux state
-
+console.log(action,'in root reducer')
 	if (action.type === "USER_LOGGED_OUT") {
 		return appReducer(undefined, action);
 	}

@@ -56,7 +56,7 @@ export function* startASubCampaignEdit({ payload }) {
 		const res = base.CampaignBaseResponse.deserializeBinary(
 			response
 		).toObject();
-		console.log("startASubCampaignEdit",res);
+		// console.log("startASubCampaignEdit",res);
 		if (res.success) {
 			yield put(startASubCampaignEditSuccess(res));
 		} else {

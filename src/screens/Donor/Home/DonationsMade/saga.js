@@ -21,6 +21,7 @@ export function* donationsMade({ payload }) {
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+		console.log(res,'donations made serialized')
 		if (res.success) {
 			if (res.transactionsList == undefined) {
 				yield put(donationsMadeSuccess([]));

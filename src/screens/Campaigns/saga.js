@@ -9,10 +9,12 @@ import API from "./../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* campaigns({ payload }) {
+	console.log("checking payload:", payload)
+	
 	try {
 		const response = yield call(
 			requestProto,
-			`${APIEndpoints.CAMPAIGN_GET_BY_ACCOUNT_ID}/${payload}`,
+			`${APIEndpoints.CAMPAIGN_GET_BY_ACCOUNT_ID}`,
 			{
 				method: "GET",
 				headers: API.authProtoHeader(),

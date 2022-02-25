@@ -18,6 +18,8 @@ export function* profile({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
+
+			console.log(res);
 			if(res.loginaccount.employee!==undefined){
 			yield put(profileSuccess(res.loginaccount.employee));
 			}else{

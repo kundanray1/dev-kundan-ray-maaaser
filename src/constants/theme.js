@@ -29,7 +29,10 @@ const colors = {
   caption: "#B0BAC9",
   input: "#333333", // '#E0E7FF' 20%
   border: "#D6DDF6",
-
+  lightgreen:"#E2F4EF",
+  lightorange:"#FFEFE2",
+  lightpurple:"#4577FF",
+  graybackground:"#E7E7E7",
   schedulePendingBackground: "#D3FBF1",
   approvedBackground: "#D3FBF1",
   schedulingBackground: "#D3FBF1",
@@ -46,6 +49,7 @@ const colors = {
 
   card: "rgba(46,91,255,0.08)",
   shadow: "rgba(46,91,255,0.07)",
+  transparentblue:"#E1E9FF",
 };
 
 const sizes = {

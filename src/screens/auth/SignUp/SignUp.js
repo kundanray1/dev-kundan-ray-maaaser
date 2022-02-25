@@ -50,13 +50,13 @@ export default SignUp = ({
   const [countryCode, setCountryCode] = useState("");
   const [countryName, setCountryName] = useState("");
   const [countryCodeError, setCountryCodeError] = useState(false);
-
+  const { accountType } = route.params;
   const onSubmitSignUp = (values) => {
-     const { accountType } = route.params;
+    const { accountType } = route.params;
     const ACCOUNT_TYPE =
       accountType == "DONOR"
         ? MaaserProto.AccountType.DONOR_ACCOUNT
-        : MaaserProto.AccountType.RECEIVER_ACCOUNT;
+        : accountType == "MERCHANT" ? MaaserProto.AccountType.MERCHANT_ACCOUNT : MaaserProto.AccountType.RECEIVER_ACCOUNT;
     const CLIENT_TYPE =
       clientType == "Individual"
         ? AccountProto.ClientType.INDIVIDUAL_CLIENT
@@ -69,12 +69,12 @@ export default SignUp = ({
     accountData.setAccounttype(ACCOUNT_TYPE);
     clientData.setClienttype(CLIENT_TYPE);
     clientData.setAccount(accountData);
-    if(clientType==""){
+    if (clientType == ""&& accountType!=='MERCHANT') {
       setClientTypeError(true);
-    }else if(countryCode==""){
+    } else if (countryCode == "") {
       setCountryCodeError(true)
-    }else{
-        signUp(clientData);
+    } else {
+      signUp(clientData);
     }
   };
   useEffect(() => {
@@ -87,174 +87,174 @@ export default SignUp = ({
   }, [data]);
 
   return (
-    <KeyboardAwareScrollView  resetScrollToCoords={{ x: 0, y: 0 }} contentContainerStyle={{flex:0,marginTop:"15%",justifyContent:"center",alignItems:"center"}}>
-        <Image
+    <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} contentContainerStyle={{ flex: 0, marginTop: "15%", justifyContent: "center", alignItems: "center" }}>
+      <Image
         source={require("../../../assets/icons/logo.png")}
         style={{ height: 90, width: 90 }}
       />
-        <Text style={{ paddingVertical: 16, fontSize: 18, fontWeight: "700" }}>
-          Create your maaser account
-        </Text>
-        <Formik
-          initialValues={{
-            emailOrPhone: "",
-            password: "",
-            confirmPassword: "",
-          }}
-          onSubmit={(values) => {
-            onSubmitSignUp(values);
-          }}
-          validationSchema={RegisterValidationSchema}
-        >
-          {({
-            handleChange,
-            touched,
-            setFieldTouched,
-            handleSubmit,
-            values,
-            errors,
-          }) => (
+      <Text style={{ paddingVertical: 16, fontSize: 18, fontWeight: "700" }}>
+        Create your maaser account
+      </Text>
+      <Formik
+        initialValues={{
+          emailOrPhone: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        onSubmit={(values) => {
+          onSubmitSignUp(values);
+        }}
+        validationSchema={RegisterValidationSchema}
+      >
+        {({
+          handleChange,
+          touched,
+          setFieldTouched,
+          handleSubmit,
+          values,
+          errors,
+        }) => (
 
-            <Block style={{ flex: 0 }}>
-              <ClientType
-                clientType={clientType}
-                setClientType={setClientType}
-                setClientTypeError={setClientTypeError}
-              />
-              <ErrorMessage
-                error={"Account type is a required field"}
-                visible={clientTypeError}
-              />
-             
-              <Input
-                full
-                label="Email / Phone"
-                focus={emailOrPhoneFocus}
-                onChangeText={handleChange("emailOrPhone")}
-                onBlur={() => {
-                  setFieldTouched("emailOrPhone");
-                  setEmailOrPhoneFocus(false);
-                }}
-                onFocus={() => setEmailOrPhoneFocus(true)}
-                value={values.emailOrPhone}
-                style={{
-                  borderBottomColor: emailOrPhoneFocus
-                    ? theme.colors.primary2
-                    : touched.emailOrPhone && errors.emailOrPhone
-                    ? theme.colors.red
-                    : theme.colors.solidGray,
-                }}
-              />
+          <Block style={{ flex: 0 }}>
+   {   accountType!=='MERCHANT'&& <ClientType
+              clientType={clientType}
+              setClientType={setClientType}
+              setClientTypeError={setClientTypeError}
+            />}
 
-               <ErrorMessage
-                error={errors.emailOrPhone}
-                visible={touched.emailOrPhone}
-              />
-              
-              <CountryCode
-                countryCode={countryCode}
-                setCountryCode={setCountryCode}
-                countryName={countryName}
-                setCountryName={setCountryName}
-                setCountryCodeError={setCountryCodeError}
-              />
-               <ErrorMessage
-                error={"Country code is a required field"}
-                visible={countryCodeError}
-              />
-              <Input
-                full
-                password
-                label="Password"
-                focus={passwordFocus}
-                onChangeText={handleChange("password")}
-                onBlur={() => {
-                  setFieldTouched("password");
-                  setPasswordFocus(false);
-                }}
-                onFocus={() => {
-                  setPasswordFocus(true);
-                }}
-                value={values.password}
-                style={{
-                  borderBottomColor: passwordFocus
-                    ? theme.colors.primary2
-                    : touched.password && errors.password
+            <ErrorMessage
+              error={"Account type is a required field"}
+              visible={clientTypeError}
+            />
+            <Input
+              full
+              label="Email / Phone"
+              focus={emailOrPhoneFocus}
+              onChangeText={handleChange("emailOrPhone")}
+              onBlur={() => {
+                setFieldTouched("emailOrPhone");
+                setEmailOrPhoneFocus(false);
+              }}
+              onFocus={() => setEmailOrPhoneFocus(true)}
+              value={values.emailOrPhone}
+              style={{
+                borderBottomColor: emailOrPhoneFocus
+                  ? theme.colors.primary2
+                  : touched.emailOrPhone && errors.emailOrPhone
                     ? theme.colors.red
                     : theme.colors.solidGray,
-                }}
-              />
-              <ErrorMessage
-                error={errors.password}
-                visible={touched.password}
-              />
-              <Input
-                full
-                password
-                label="Confirm Password"
-                focus={confirmPasswordFocus}
-                onChangeText={handleChange("confirmPassword")}
-                onBlur={() => {
-                  setFieldTouched("confirmPassword");
-                  setConfirmPasswordFocus(false);
-                }}
-                onFocus={() => setConfirmPasswordFocus(true)}
-                value={values.confirmPassword}
-                style={{
-                  borderBottomColor: confirmPasswordFocus
-                    ? theme.colors.primary2
-                    : touched.confirmPassword && errors.confirmPassword
+              }}
+            />
+
+            <ErrorMessage
+              error={errors.emailOrPhone}
+              visible={touched.emailOrPhone}
+            />
+
+            <CountryCode
+              countryCode={countryCode}
+              setCountryCode={setCountryCode}
+              countryName={countryName}
+              setCountryName={setCountryName}
+              setCountryCodeError={setCountryCodeError}
+            />
+            <ErrorMessage
+              error={"Country code is a required field"}
+              visible={countryCodeError}
+            />
+            <Input
+              full
+              password
+              label="Password"
+              focus={passwordFocus}
+              onChangeText={handleChange("password")}
+              onBlur={() => {
+                setFieldTouched("password");
+                setPasswordFocus(false);
+              }}
+              onFocus={() => {
+                setPasswordFocus(true);
+              }}
+              value={values.password}
+              style={{
+                borderBottomColor: passwordFocus
+                  ? theme.colors.primary2
+                  : touched.password && errors.password
                     ? theme.colors.red
                     : theme.colors.solidGray,
-                }}
-              />
-              <ErrorMessage
-                error={errors.confirmPassword}
-                visible={touched.confirmPassword}
-              />
-              <Block style={{ flex: 0, paddingVertical: 16}}>
-                {
+              }}
+            />
+            <ErrorMessage
+              error={errors.password}
+              visible={touched.password}
+            />
+            <Input
+              full
+              password
+              label="Confirm Password"
+              focus={confirmPasswordFocus}
+              onChangeText={handleChange("confirmPassword")}
+              onBlur={() => {
+                setFieldTouched("confirmPassword");
+                setConfirmPasswordFocus(false);
+              }}
+              onFocus={() => setConfirmPasswordFocus(true)}
+              value={values.confirmPassword}
+              style={{
+                borderBottomColor: confirmPasswordFocus
+                  ? theme.colors.primary2
+                  : touched.confirmPassword && errors.confirmPassword
+                    ? theme.colors.red
+                    : theme.colors.solidGray,
+              }}
+            />
+            <ErrorMessage
+              error={errors.confirmPassword}
+              visible={touched.confirmPassword}
+            />
+            <Block style={{ flex: 0, paddingVertical: 16 }}>
+              {
                 !errors.emailOrPhone ||
-                !errors.confirmPassword ||
-                !errors.password 
-                ? (
-                  <Button full onPress={handleSubmit}>
-                    {data.isLoading ? (
-                      <>
-                        <CustomActivityIndicator
-                          isLoading={data.isLoading}
-                          label="Requesting..."
-                        />
+                  !errors.confirmPassword ||
+                  !errors.password
+                  ? (
+                    <Button full onPress={handleSubmit}>
+                      {data.isLoading ? (
+                        <>
+                          <CustomActivityIndicator
+                            isLoading={data.isLoading}
+                            label="Requesting..."
+                          />
+                          <Text button style={{ fontSize: 18 }}>
+                            Sign Up
+                          </Text>
+                        </>
+                      ) : (
                         <Text button style={{ fontSize: 18 }}>
                           Sign Up
                         </Text>
-                      </>
-                    ) : (
+                      )}
+                    </Button>
+                  ) : (
+                    <Button full>
                       <Text button style={{ fontSize: 18 }}>
                         Sign Up
                       </Text>
-                    )}
-                  </Button>
-                ) : (
-                  <Button full>
-                    <Text button style={{ fontSize: 18 }}>
-                      Sign Up
-                    </Text>
-                  </Button>
-                )}
-              </Block>
-
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                <Text h4 color={theme.colors.solidGray}>
-                  Already have an account?{" "}
-                  <Text h4 color={theme.colors.primary2}>
-                    Login
-                  </Text>
-                </Text>
-              </TouchableOpacity>
+                    </Button>
+                  )}
             </Block>
-          )}
-        </Formik>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text h4 color={theme.colors.solidGray}>
+                Already have an account?{" "}
+                <Text h4 color={theme.colors.primary2}>
+                  Login
+                </Text>
+              </Text>
+            </TouchableOpacity>
+          </Block>
+        )}
+      </Formik>
     </KeyboardAwareScrollView>
   );
 };

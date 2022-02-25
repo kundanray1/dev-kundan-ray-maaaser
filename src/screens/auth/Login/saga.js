@@ -47,10 +47,10 @@ export function* login({ payload }) {
 		}
 	} catch (e) {
 		yield put(loginFail(e));
-		showMessage({
-			message: "Error from server or check your credentials!",
-			type: "danger",
-		});
+		// showMessage({
+		// 	message: "Error from server or check your credentials!",
+		// 	type: "danger",
+		// });
 	}
 }
 

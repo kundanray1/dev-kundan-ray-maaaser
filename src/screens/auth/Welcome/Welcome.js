@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, View } from "react-native";
+import { CardText, ColCard, Row, RowCard, RowNoPadding, TextClick, WelcomeCard, welcomeCard } from "../../../utility/styledComponents.js";
 import {
   Button,
   OutlinedButton,
@@ -7,7 +8,9 @@ import {
   Text,
 } from "./../../../components/Index.js";
 import * as theme from "./../../../constants/theme.js";
-
+import DonorIconComponent from "../../../assets/icons/DonorIconComponent";
+import ReceiverIconComponent from "../../../assets/icons/ReceiverIconComponent";
+import MerchantIconComponent from "../../../assets/icons/MerchantIconComponent";
 export default Welcome = ({ navigation }) => {
   return (
     <Block>
@@ -15,7 +18,7 @@ export default Welcome = ({ navigation }) => {
         style={{
           alignItems: "center",
           justifyContent: "flex-end",
-          marginBottom:40,
+          marginBottom: 30,
         }}
       >
         <Image
@@ -23,10 +26,19 @@ export default Welcome = ({ navigation }) => {
           style={{ height: 110, width: 110 }}
         />
       </Block>
-
+      
       <Block center>
+      <Text style={{ paddingVertical: 10, fontSize: 18, fontWeight: "700" }}>
+          Sign Up
+        </Text>
+      
+    
         <Block middle>
-          <Button
+        <Text h4 color={theme.colors.solidGray} center>
+              Choose Account Type
+              </Text>
+    
+          {/* <OutlinedButton
             full
             onPress={() =>
               navigation.navigate("Sign Up", {
@@ -34,10 +46,72 @@ export default Welcome = ({ navigation }) => {
               })
             }
           >
-            <Text button style={{ fontSize: 18 }}>
+              <Text
+              outlinedButton
+              style={{ color: theme.colors.primary1, fontSize: 18 }}
+            >
               Sign Up as Donor
             </Text>
-          </Button>
+          </OutlinedButton>
+          <OutlinedButton
+            full
+            onPress={() =>
+              navigation.navigate("Sign Up", {
+                accountType: "RECEIVER",
+              })
+            }
+          >
+            <Text
+              outlinedButton
+              style={{ color: theme.colors.primary1, fontSize: 18 }}
+            >
+              Sign Up as Receiver
+            </Text>
+          </OutlinedButton>
+           */}
+          <RowNoPadding style={{ justifyContent: 'space-around',}}>
+            <RowCard style={{marginHorizontal:10}}>
+              <TouchableOpacity onPress={() =>
+              navigation.navigate("Sign Up", {
+                accountType: "DONOR",
+              })} style={{ backgroundColor: '#ffffff',paddingHorizontal:10,textAlign:'center'}}>
+                <WelcomeCard>
+                  <DonorIconComponent />
+                </WelcomeCard>
+                <TextClick style={{ color: theme.colors.green, textAlign: 'center' }}>
+                  Donor
+                </TextClick>
+              </TouchableOpacity>
+            </RowCard>
+            <RowCard  style={{marginHorizontal:10}}>
+              <TouchableOpacity onPress={() =>
+              navigation.navigate("Sign Up", {
+                accountType: "RECEIVER",
+              })
+            } style={{ backgroundColor: '#ffffff',paddingHorizontal:10 }}>
+                <WelcomeCard style={{ backgroundColor: theme.colors.lightorange }}>
+                  <ReceiverIconComponent />
+                </WelcomeCard>
+                <TextClick style={{ color: theme.colors.orange, textAlign: 'center' }}>
+                  Receiver
+                </TextClick>
+              </TouchableOpacity>
+            </RowCard>
+            <RowCard  style={{marginHorizontal:10}}>
+              <TouchableOpacity onPress={() =>
+              navigation.navigate("Sign Up", {
+                accountType: "MERCHANT",
+              })
+            }  style={{ backgroundColor: '#ffffff',paddingHorizontal:10 }}>
+                <WelcomeCard style={{ backgroundColor: theme.colors.transparentblue }}>
+                  <MerchantIconComponent />
+                </WelcomeCard>
+                <TextClick style={{ color: theme.colors.lightpurple, textAlign: 'center' }}>
+                  Merchant
+                </TextClick>
+              </TouchableOpacity>
+            </RowCard>
+          </RowNoPadding>
           <Block
             row
             center
@@ -61,25 +135,11 @@ export default Welcome = ({ navigation }) => {
             <Block style={{ height: 1, backgroundColor: theme.colors.black }} />
           </Block>
 
-          <OutlinedButton
-            full
-            onPress={() =>
-              navigation.navigate("Sign Up", {
-                accountType: "RECEIVER",
-              })
-            }
-          >
-            <Text
-              outlinedButton
-              style={{ color: theme.colors.primary1, fontSize: 18 }}
-            >
-              Sign Up as Receiver
-            </Text>
-          </OutlinedButton>
+
 
           <TouchableOpacity
             onPress={() => navigation.navigate("Login")}
-            style={{ paddingVertical: 15 }}
+            style={{ paddingVertical: 15,alignItems:'center'}}
           >
             <Text h4 color={theme.colors.solidGray}>
               Already have an account?{" "}

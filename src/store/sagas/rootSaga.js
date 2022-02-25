@@ -89,6 +89,11 @@ import receiverProfileSaga from "./../../screens/Receiver/ReceiverProfile/saga";
 import receiverViewProfileSaga from "./../../screens/Receiver/ReceiverProfile/ReceiverViewProfile/saga";
 import receiverEditProfileSaga from "./../../screens/Receiver/ReceiverProfile/ReceiverEditProfile/saga";
 
+
+//MerchantSagas
+import merchantLogoutSaga from "./../../screens/Merchant/More/saga";
+import merchantDashboardSaga from "./../../screens/Merchant/Home/MerchantDashboard/saga";
+import withdrawMerchantSaga from "./../../screens/Merchant/Withdraws/saga";
 export default function* rootSaga() {
 	yield all([
 		//auth
@@ -179,5 +184,10 @@ export default function* rootSaga() {
 		receiverProfileSaga(),
 		receiverViewProfileSaga(),
 		receiverEditProfileSaga(),
+
+		//MerchantSaga
+		merchantDashboardSaga(),
+		merchantLogoutSaga(),
+		withdrawMerchantSaga(),
 	]);
 }

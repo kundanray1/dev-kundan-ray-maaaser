@@ -20,9 +20,12 @@ export function* upcomingDonations({ payload }) {
 				headers: API.authProtoHeader(),
 			}
 		);
+		console.log(response,'upcoming response')
 		const res = base.PaymentBaseResponse.deserializeBinary(
 			response
 		).toObject();
+	
+	console.log(res,'response for upcoming transactions')
 		if (res.success) {
 			if (res.scheduletransactionsList == undefined) {
 				yield put(upcomingDonationsSuccess([]));

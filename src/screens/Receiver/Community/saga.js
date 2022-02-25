@@ -9,7 +9,7 @@ import API from "./../../../api/API";
 
 //serializing the payload into binary and submittin data to requestProto function with additional data
 export function* community({ payload }) {
-	console.log('community call started')
+	// console.log('community call started')
 	try {
 		
 		const response = yield call(requestProto, `${APIEndpoints.PROFILE}/${payload}`, {
@@ -20,7 +20,7 @@ export function* community({ payload }) {
 			response
 		).toObject();
 		if (res.success) {
-console.log('res success')
+// console.log('res success')
 			if(res.loginaccount.employee!==undefined){
 			yield put(communitySuccess(res.loginaccount.employee));
 			}else{

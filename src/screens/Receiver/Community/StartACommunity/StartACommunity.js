@@ -34,7 +34,7 @@ const StartACommunity = ({
     loginData,
 
 }) => {
-    console.log("data", data);
+    // console.log("data", data);
 
     const [titleFocus, setTitleFocus] = useState();
     const [raisingMoneyType, setRaisingMoneyType] = useState("");

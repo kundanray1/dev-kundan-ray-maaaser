@@ -14,9 +14,11 @@ export function* receiverProfile({ payload }) {
 			method: "GET",
 			headers: API.authProtoHeader(),
 		});
+
 		const res = base.AccountBaseResponse.deserializeBinary(
 			response
 		).toObject();
+
 		if (res.success) {
 
 			if(res.loginaccount.employee!==undefined){
